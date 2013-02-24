@@ -1,0 +1,42 @@
+<div ng-controller="SidebarController"
+     class="sidebar-ribbon">
+  <div class="corner-menu">
+    <a ng-click="popup.toggle('left-ribbon')">&#9776;</a>
+  </div>
+
+  <div ng-show="layout.show.canvas">
+    <div>
+      ORG
+    </div>
+    <div>
+      REPO
+    </div>
+    <div>
+      MODEL
+    </div>
+    <img class="license-icon"
+         src="images/7d015afc.CC-32x32.png"
+         ng-click="popup.toggle('license')" />
+    <img class="uservoice-icon"
+         src="images/2246c7a1.uservoice-32x32.png"
+         ng-click="popup.toggle('uservoice')" />
+  </div>
+
+  <div ng-hide="layout.show.canvas">
+    <div>
+      My models
+    </div>
+    <div>
+      Public models
+    </div>
+    <div>
+      Recent
+    </div>
+    <img class="license-icon"
+         src="images/4406cefb.CC-BY-SA-3.0-90x32.png"
+         ng-click="popup.toggle('license')" />
+    <img class="uservoice-icon"
+         src="images/97aeacd8.uservoice-32x98.png"
+         ng-click="popup.toggle('uservoice')" />
+  </div>
+</div>

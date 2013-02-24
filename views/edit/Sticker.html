@@ -1,0 +1,64 @@
+<div class="canvas-side-frame"
+     ng-class="{'edit-sticker': info.view.sticker}">
+  <div ng-controller="StickerEditorController"
+       class="postit-editor">
+    <div class="close-button"
+         ng-click="confirmCloseEditor()"
+         title="Click to Close Sticker Editor">
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <legend>
+          Sticker Editor
+        </legend>
+      </div>
+
+      <div ng-include="'views/edit/Guide.html'"></div>
+
+      <div class="row-fluid" ng-hide="editor.sticker == null">
+        <div class="span2">
+          <div class="block-icon app-icon-24 icon-{{editor.block.iconId}}">
+          </div>
+        </div>
+        <div class="span8">
+          {{editor.block.name}}
+        </div>
+        <!--div class="span2 block-initials" ng-show="canvas.showBlockInitials">
+          {{editor.block.initials}}
+        </div-->
+      </div>
+
+      <div ng-include="'views/edit/Fieldset.html'"></div>
+
+      <!-- Traditional editing form -->
+      <!--div class="row-fluid">
+        <form class="well form-vertical" style="background-color: #{{sticker.colorCode}}">
+          <fieldset>
+            <div class="control-group">
+              <label>Title</label>
+              <input type="text" placeholder="Sticker title"
+                value="{{sticker.title}}" />
+            </div>
+            <div class="control-group">
+              <label>Notes</label>
+              <textarea placeholder="Notes">{{sticker.notes}}</textarea>
+            </div>
+            <div class="control-group">
+              <label>Colour {{sticker.colorText}}</label>
+              <div ng-init="colors=['red','yellow','gray','blue','magenta','salmon','cyan','neutral','green']">
+                <div ng-repeat="color in colors" class="palette-color palette-color-{{color}}" ng-class="{chosen: (color == sticker.colorText.toLowerCase())}" ng-click="setColor(sticker, color)">
+                </div>
+              </div>
+            </div>
+            <div class="control-group">
+              <button type="submit" class="btn btn-primary">Update</button>
+              <button class="btn">Cancel</button>
+            </div>
+          </fieldset>
+        </form>
+      </div-->
+
+    </div>
+  </div>
+</div>

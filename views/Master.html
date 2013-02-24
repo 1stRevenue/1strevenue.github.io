@@ -1,0 +1,18 @@
+<div ng-controller="MasterController"
+     ng-class="{'ios-full-screen': layout.isFullScreen(), 'canvas-view': layout.show.canvas}"
+     first-revenue-buttons>
+  <!--div ng-include src="'views/LeftRibbon.html'"></div-->
+
+  <header ng-include src="'views/Header.html'"></header>
+
+  <div class='first-revenue'>
+    <div ng-view class='views'></div>
+  </div>
+
+  <!--footer ng-include src="'views/Footer.html'"></footer-->
+
+  <!--div ng-include src="'views/RightRibbon.html'"></div-->
+
+  <div ng-include src="'views/ModalDialogs.html'"></div>
+  <!--div ng-include src="'views/Pageguide.html'"></div-->
+</div>

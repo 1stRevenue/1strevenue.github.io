@@ -1,0 +1,79 @@
+<div class="row-fluid editor-buttons">
+  <div class="span4">
+    <div class="row-fluid">
+      <button id="Cancel"
+              ng-disabled="isCancelButtonDisabled()"
+              ng-hide="isCancelButtonDisabled()"
+              class="span12 btn btn-warning"
+              ng-click="confirmDiscardChanges()"
+              title="Discard sticker changes">
+        <i class="icon-remove icon-white"></i>
+        <br />
+        Cancel
+      </button>
+    </div>
+    <div class="row-fluid">
+      <button id="Close"
+              ng-disabled="isCloseButtonDisabled()"
+              ng-hide="isCloseButtonDisabled()"
+              class="span12 btn btn-success"
+              ng-click="confirmCloseEditor()"
+              title="Close editor">
+        <i class="icon-remove icon-white"></i>
+        <br />
+        Close
+      </button>
+    </div>
+    <div class="row-fluid">
+      <div class="span12 first-hidden-button"
+           ng-show="isCancelButtonDisabled() && isCloseButtonDisabled()">
+      </div>
+    </div>
+  </div>
+
+  <div class="span4">
+    <div class="row-fluid">
+      <button id="Delete"
+              ng-show="!isDeleteButtonHidden() && !isDeleteButtonDisabled()"
+              class="span12 btn btn-danger"
+              ng-click="confirmDeleteSticker()"
+              title="Delete sticker from the model">
+        <i class="icon-trash icon-white"></i>
+        <br />
+        Delete
+      </button>
+      <button id="DeleteNoRights"
+              ng-show="!isDeleteButtonHidden() && isDeleteButtonDisabled()"
+              class="span12 btn btn-warning disabled"
+              title="No rights to delete this sticker">
+        <i class="icon-trash icon-white"></i>
+        <br />
+        Delete
+      </button>
+    </div>
+    <div class="row-fluid">
+      <div class="span12"
+           ng-show="isDeleteButtonHidden()">
+      </div>
+    </div>
+  </div>
+
+  <div class="span4">
+    <div class="row-fluid">
+      <button id="Save"
+              ng-disabled="isSaveButtonDisabled()"
+              ng-hide="isSaveButtonDisabled()"
+              class="span12 btn btn-primary"
+              ng-click="saveSticker()"
+              title="Save sticker changes">
+        <i class="icon-ok icon-white"></i>
+        <br />
+        Save
+      </button>
+    </div>
+    <div class="row-fluid">
+      <div class="span12"
+           ng-show="isSaveButtonDisabled()"></div>
+    </div>
+  </div>
+</div>

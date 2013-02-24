@@ -1,0 +1,26 @@
+<div class="model-grid" title="">
+  <div class="model-grid-body">
+    <div class="container-fluid"
+         ng-hide="db.modelsLoaded">
+      <div class="row-fluid">
+        <div class="span12">Loading models from the 1st Revenue repository...</div>
+        <div>
+          <a href="http://rrrrrrrroll.tumblr.com/">
+            <img ng-src="{{rrrrImageLink}}" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid"
+         ng-show="db.modelsLoaded && db.modelCount() == 0">
+      <div class="row-fluid">
+        <div class="span12">No models found for current user in the 1st Revenue repository</div>
+      </div>
+    </div>
+
+    <div ng-include="'views/repo/ModelGrid.html'"></div>
+  </div>
+
+  <!--div ng-include="'views/repo/Tags.html'"></div-->
+</div>

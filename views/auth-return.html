@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>1st Revenue Authentication return</title>
+  </head>
+  <body>
+    <script>
+//      document.write(location);
+      // Determine 1st Revenue User Angular service
+      var angular = window.opener.angular;
+      var user = angular.injector().get('User');
+//      var user = window.opener.FirstRevenueApp.User;
+      // Call function in service with service context
+      user.authReturn.call(user, window.location.search);
+      window.close();
+    </script>
+  </body>
+</html>

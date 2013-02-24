@@ -1,0 +1,73 @@
+<!-- Content editable div's -->
+<fieldset class="well" ng-hide="editor.sticker == null"
+          style="background-color: #{{rainbow.brighten(editor.sticker.color.code)}};">
+  <legend ng-show="showLegend">E D I T I N G</legend>
+  <div class="row-fluid editor-sticker"
+       data-id="{{editor.sticker.id}}"
+       data-bmid="{{editor.sticker.bmId}}"
+       data-blockid="{{editor.sticker.blockId}}"
+       data-tid="{{editor.sticker.update.tId}}"
+       data-nid="{{editor.sticker.update.nId}}"
+       data-mode="{{editor.sticker.id == 0}}">
+    <div class="row-fluid">
+      <label>Title</label>
+      <h4 class="field-title"
+          ng-class="{modified: !editor.matchTitle(editor.sticker)}"
+          contenteditable="true"
+          ng-model="editor.sticker.title"
+          style="background-color: #{{rainbow.opaqueField(editor.sticker.color.code)}}">
+      </h4>
+    </div>
+
+    <div class="row-fluid">
+      <label>Notes</label>
+      <div class="field-notes"
+           ng-class="{modified: !editor.matchNotes(editor.sticker)}"
+           xx-ng-bind-html-unsafe="editor.sticker.notes"
+           contenteditable="true"
+           ng-model="editor.sticker.notes"
+           style="background-color: #{{rainbow.opaqueField(editor.sticker.color.code)}}">
+      </div>
+    </div>
+
+    <!-- jsFiddle for triangle: http://jsfiddle.net/mohsen/HTMcF/ 
+      
+      <div class="triangle">
+        <div class="rot"></div>
+      </div>​
+      .triangle {
+        position: relative;
+        width: 100px;
+        height: 60px;
+        border-bottom: 1px solid black;
+        border-radius: 12px;
+      }
+      .rot {
+        border-radius: 10px;
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+        width: 70px;
+        height: 70px;
+        -webkit-transform: rotate(45deg);
+        position: absolute;
+        left:15px;
+        top:23px;
+      }​
+    -->
+
+
+    <div class="row-fluid">
+      <label>Colour {{editor.sticker.color.text}}</label>
+      <div class="field-color"
+           ng-class="{modified: !editor.matchColor(editor.sticker)}">
+        <div ng-repeat="colorValue in editor.rainbow.colorCodeList()"
+             class="palette-color xpalette-color-{{colorValue.name}}"
+             style="background-color: #{{editor.rainbow.brighten(colorValue.code)}};"
+             ng-class="{chosen: isColorChosen(colorValue.name)}"
+             ng-click="editor.setColor(colorValue.name)">
+        </div>
+      </div>
+    </div>
+    <div ng-include="'views/edit/Buttons.html'"></div>
+  </div>
+</fieldset>

@@ -1,0 +1,26 @@
+<div class="canvas-top-frame"
+     ng-class="{'edit-user': info.view.user}">
+  <div ng-show="info.view.user">
+    <div class="close-button"
+         ng-click="info.toggle('user')">
+    </div>
+
+    <div class="user-grid container-fluid">
+      <div class="row-fluid">
+        <div class="span12 user-editor-entry">
+          <legend>Collaborators</legend>
+        </div>
+        <div class="span12 canvas-members">
+          <span class="invite-button">
+            <a>+</a>
+          </span>
+          <img ng-repeat="member in canvas.model.members"
+               class="member member-{{member.type}}"
+               ng-src="{{member.image}}"
+               title="{{member.name}}" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

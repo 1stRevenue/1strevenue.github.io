@@ -1,0 +1,27 @@
+<div class="member-grid" ng-controller="MembersController">
+  <div class="member-grid-body">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div ng-repeat="(memberId, member) in catalog.getMembers()">
+          <div class="span3 well canvas-link member">
+            <!--a ng-href="#member/{{member.id}}"-->
+              <img class="member-icon member-{{member.provider}}" ng-src="{{member.image}}" title="{{member.name}}" alt="{{member.name}}" />
+            <!--/a-->
+            <div class="model-count-wrap" xxxx-ng-mouseover="catalog.highlightModels(member)">
+              <span class="zurb general model-count">0</span>
+              <span class="model-count">{{catalog.modelCount(member)}}</span>
+            </div>
+            <div class="member-name" title="{{member.name}}">{{member.name}}</div>
+            <div class="member-title" title="{{catalog.getFullTitle(member)}}">{{catalog.getTitle(member)}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <div class="span12>">
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

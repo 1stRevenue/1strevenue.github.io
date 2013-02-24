@@ -1,0 +1,157 @@
+<div ng-controller="ContactController"
+     class="canvas-side-frame"
+     ng-class="{'edit-user': info.view.user, 'edit-contact': info.view.contact}">
+
+  <div class="contact-providers container-fluid">
+    <!--button class="close" ng-click="toggleEditor('user')">
+      &otimes;
+    </button-->
+
+    <h5 class="row-fluid">
+      Invite Canvas users from:
+    </h5>
+    <div class="row-fluid">
+      <div class="span4"
+           ng-class="{chosen: contactProvider == '1st Revenue'}"
+           ng-click="showContacts('1stRevenue')">
+        <img ng-src="images/08c59e89.1R-red-white-black.png"
+             style="height: 28px;"/><br/>
+        1st Revenue
+      </div>
+      <div class="span4"
+           ng-click="showContacts('podio')">
+        <!--img ng-src="images/podio-logo-48x48.png"
+             style="height: 28px;" /--><br/>
+        Podio
+      </div>
+      <div class="span4"
+           ng-click="showContacts('github')">
+        <img ng-src="images/038bc7e5.github-octocat.png"
+             style="height: 28px;" /><br/>
+        GitHub
+      </div>
+    </div>
+    <!--div class="row-fluid">
+      <div class="span4"
+           ng-click="showContacts('1stRevenue')">
+        1st Revenue
+      </div>
+      <div class="span4"
+           ng-click="showContacts('Podio')">
+        Podio
+      </div>
+      <div class="span4"
+           ng-click="showContacts('GitHub')">
+        GitHub
+      </div>
+   </div-->
+    <div class="row-fluid social-icons">
+      <div class="span3"
+           ng-click="showContacts('twitter')">
+        <span class="zurb social" style="color: darkgreen">e</span><br/>
+        Twitter
+      </div>
+      <div class="span3"
+           ng-click="showContacts('google')">
+        <span class="zurb social" style="color: red">l</span><br/>
+        Google+
+      </div>
+      <div class="span3"
+           ng-click="showContacts('facebook')">
+        <span class="zurb social" style="color: blue">d</span><br/>
+        Facebook
+      </div>
+      <div class="span3"
+           ng-click="showContacts('linkedin')">
+        <span class="zurb social" style="color: lightblue">g</span><br/>
+        LinkedIn
+      </div>
+    </div>
+    <!--div class="row-fluid">
+      <div class="span3">Twitter</div>
+      <div class="span3">Google+</div>
+      <div class="span3">Facebook</div>
+      <div class="span3">LinkedIn</div>
+    </div-->
+  </div>
+
+  <div ng-show="contactEditorActive">
+
+    <div class="contact-editor">
+      <!--button class="close" ng-click="toggleEditor('contact')">&times;</button-->
+      <div class="close-button"
+           ng-click="info.toggle('contact')">
+      </div>
+      <div class="contact-header container-fluid">
+        <div class="row-fluid">
+          <legend>Contact editor</legend>
+        </div>
+
+        <h4 class="row-fluid">
+          Contact provider: {{contactProvider}}
+        </h4>
+        <div class="row-fluid">
+          <button class="btn btn-primary"
+                  ng-click="addUsers()"
+                  ng-class="{disabled: contactCount() == 0}">
+            <i class="icon-plus icon-white"></i>
+            <span ng-hide="contactCount() == 0">
+              Invite {{contactCount()}} new user{{plural(contactCount())}}
+            </span>
+            <span ng-show="contactCount() == 0 && memberCount() > 0">
+              Choose users to add
+            </span>
+            <span ng-show="memberCount() == 0">No users to add</span>
+          </button>
+          <button class="btn btn-danger"
+                  ng-hide="contactCount() == 0"
+                  title="Remove all selections"
+                  ng-click="removeSelections()">
+            <i class="icon-remove icon-white"></i>
+          </button>
+        </div>
+      </div>
+      <div class="contact-list container-fluid">
+        <div ng-repeat="member in members"
+             ng-click="member.invite = !member.invite">
+          <div class="contact-edit-row row-fluid">
+            <div class="span1">
+              <span ng-show="member.invite" class="zurb general" style="color: darkred">f</span>
+              <span ng-hide="member.invite" class="zurb general" style="color: darkgreen">d</span>
+            </div>
+            <div class="span11"
+               ng-class="{'contact-selected': member.invite}">
+              <img ng-src="images/08c59e89.1R-red-white-black.png"
+                ng-show="contactProvider == '1st Revenue'"
+                style="height: 28px; margin: 2px;"/>
+              <img class="member member-{{member.type}}" ng-src="{{member.image}}" title="{{member.name}}" alt="{{member.name}}" />
+              {{member.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-show "false" ng-repeat="contact in contactList">
+        <div class="row-fluid">
+          <div class="span1"><input type="checkbox" /></div>
+          <div class="span11">{{contact}}</div>
+        </div>
+      </div>
+    </div>
+    <div ng-show="false">
+      <div class="row-fluid">
+        1st Revenue will ask to authorize access to current user's contact list on the chosen contact provider and display the list of retrieved contacts.
+      </div>
+      <div>
+        The other potential contact providers (if they have such option):
+      </div>
+      <div>
+        37signals, AngelList, Digg, Dropbox, Dwolla, Evernote,
+        Fitbit, Flickr, Force.com, Foursquare, Geoloqi, Goodreads,
+        Gowalla, Instagram, Justin.tv, Meetup, Netflix, Ohloh,
+        OpenStreetMap, picplz, Rdio, Readability, RunKeeper, SmugMug,
+        SoundCloud, TripIt, Tumblr, Vimeo, Windows Live, Yahoo!, Yammer
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="notif-list hanging-overlay"
+     ng-controller="NotifController"
+     ng-show="popup.notif && notif.count() > 0"
+     style="color: white">
+  <button style="float: right" ng-click="notif.clear()">
+    <i class="icon-remove"></i>
+  </button>
+  <h3>Notifications</h3>
+  <div class="container-fluid">
+    <div ng-repeat="item in notif.list"
+         class="row-fluid notif-item-{{item.type}}">
+      <div class="span1">
+        {{item.seq}}
+      </div>
+      <div class="span3">
+        <span>{{item.time | date:'yyyy-MM-dd HH:mm'}}</span>
+      </div>
+      <div class="span1">
+        <i class="icon-info icon-white"/></i>
+      </div>
+      <div class="span6">
+        {{item.text}}
+      </div>
+      <div class="span1 close"
+           ng-click="notif.remove(item.seq)">
+        &times;
+      </div>
+    </div>
+  </div>
+</div>

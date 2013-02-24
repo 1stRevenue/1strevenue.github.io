@@ -1,0 +1,75 @@
+<div ng-controller="HeaderController">
+  <div class="navbar navbar-inverse navbar-fixed-top corner-shadow">
+    <!--img class="canvas-icon pg-zoom"
+         style="background-color: lightgray;"
+         ng-src="zoomimages/Zoom-{{zoom.choice}}-transp.png"
+         ng-click="popup.toggle('zoom')"
+         ng-show="menu.selected == 'canvas'"
+         title="Select Zoom Level" /-->
+    <!--a href="/#/canvas/new"
+       ng-show="menu.selected == 'repo'">
+      <img class="canvas-icon pg-create-canvas"
+           ng-src="images/253a5a8a.BMG-Canvas-Plus2-Gray-62x38.png"
+           title="Create New Model" />
+    </a-->
+
+    <!--div class="connection-status">{{firebase.connStatus}}</div-->
+
+
+    <div class="navbar-inner">
+      <a href="http://1stRevenue.com/"
+         target="_blank">
+        <img class="company-logo"
+             title="Visit the home page of 1st Revenue"
+             ng-src="images/b1a68cba.1stRevenue.com-bright.png" />
+      </a>
+
+      <div class="pull-right"
+           ng-include="'views/header/Profile.html'"></div>
+
+      <div class="header-title">
+        <img class="header-model-icon"
+             ng-show="menu.selected == 'canvas'"
+             ng-src="{{canvas.model.icon}}" />
+        <div class="brand header-model-name"
+             ng-show="menu.title"
+             title="{{menu.title}}">
+          {{menu.title}}
+        </div>
+      </div>
+
+    </div>
+
+      <!--span class="corner-menu pull-left">
+        <a ng-click="popup.toggle('slider')">&#9776;</a>
+      </span-->
+      <!--img class="first-revenue-logo"
+           src="images/1R-red-white.png"
+           style="height: 38px;"
+           ng-click="popup.toggle('version')" /-->
+
+      <!--div class="brand pull-right"
+           ng-show="model"
+           style="float: right"
+           title="Current Business Model: {{canvas.model.name}}">
+        {{canvas.model.name}}
+      </div-->
+
+      <!--a href="javascript:UserVoice.showPopupWidget();"
+         title="Open feedback and support dialog (powered by UserVoice)">
+        <img class="first-revenue-feedback"
+             src="images/glyph/glyphicons_346_hand_left_white.png" />
+      </a-->
+
+      <!--div class="container header-buttons">
+
+        <div ng-include="'views/header/Menu.html'"></div>
+        <div ng-include="'views/header/Buttons.html'"></div>
+
+      </div-->
+  </div>
+
+  <div ng-include="'views/header/Version.html'"></div>
+  <div ng-include="'views/header/Zoom.html'"></div>
+  <div ng-include="'views/header/Notif.html'"></div>
+</div>

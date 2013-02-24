@@ -1,1 +1,260 @@
-1R
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="1st Revenue application">
+    <!--meta name="viewport" content="width=device-width, height=device-height" /-->
+    <!-- Display web page full screen in iOS Safari -->
+    <!-- Bookmark the page to home screen to make it active -->
+    <!-- http://stackoverflow.com/questions/3024434/ipad-webapp-full-screen-in-safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- http://www.viaboxxsystems.de/html-fullscreen-apps-for-the-ipad -->
+    <!--meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /--> <!-- Overlaps the top of app -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+    <link rel="apple-touch-icon" href="img/1R-red-white-57x57.png">
+    <!--link rel="apple-touch-icon" href="img/NetBMG-logo-iOS-57x57.png" /-->
+    <!--link rel="apple-touch-icon-precomposed" href="img/NetBMG-logo-iOS-57x57.png"/-->
+    
+    <!--link rel="apple-touch-icon" href="/images/lm57.png" />
+    <link rel="apple-touch-icon" href="/images/lm72.png"  sizes="72x72" />
+    <link rel="apple-touch-icon" href="/images/lm114.png" sizes="114x114" /-->
+
+<!-- startup image for web apps - iPad - landscape (748x1024) 
+     Note: iPad landscape startup image has to be exactly 748x1024 pixels (portrait, with contents rotated).-->
+    <link rel="apple-touch-startup-image" href="img/ipad-startup-landscape-loading-1R.jpg" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+
+    <!-- startup image for web apps - iPad - portrait (768x1004) -->
+    <link rel="apple-touch-startup-image" href="img/ipad-startup-portrait-loading-1R.jpg" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+
+    <!--link rel="apple-touch-startup-image" href="img/NetBMG-logo.png"  sizes="320x460"  media="(max-device-width: 480px) and not (-webkit-min-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/images/startup-iphone4.png" sizes="640x920"  media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image" href="/images/lmsplash1004.png"    sizes="768x1004" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)" />
+    <link rel="apple-touch-startup-image" href="/images/lmsplash748.png"     sizes="1024x748" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)" /-->
+
+    <!-- prevents browser contents to be dragged -->
+    <!-- http://stackoverflow.com/questions/6488722/safari-on-ios-window-dragging-and-styling-problem -->
+    <!--meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /-->
+    <meta name="viewport" content="width=device-width">
+    <title>1st Revenue</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <!--link rel="stylesheet" href="components/jquery.qtip/jquery.qtip.2012-04-28.min.css"/-->
+    <!--link rel="stylesheet" href="//cdn.jsdelivr.net/qtip2/2.0.1/basic/jquery.qtip.css" /-->
+    <link rel="stylesheet" href="//raw.github.com/Craga89/qTip2/master/dist/jquery.qtip.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/2.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/2.3.0/css/bootstrap-responsive.min.css">
+
+<!--[if lt IE 9]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+<![endif]-->	
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  </head>
+  <body ng-app="FirstRevenueApp">
+
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+      
+    <!--[if lt IE 9]>
+      <script src="scripts/vendor/es5-shim.min.js"></script>
+      <script src="scripts/vendor/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <!--div class="container" ng-view></div-->
+
+    <div ng-include="" src="'views/Master.html'"></div>
+
+    <script>
+      FirstRevenue = {}; // for underscore cookies
+    </script>
+
+    <!-- C D N -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.0.0/jquery.qtip.min.js"></script-->
+    <script src="//code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
+    <!--script src="//cdn.jsdelivr.net/qtip2/2.0.1/basic/jquery.qtip.js"></script-->
+    <script src="//raw.github.com/Craga89/qTip2/master/dist/jquery.qtip.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.1.3/angular-bootstrap.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+
+    <!-- B o o t s t r a p -->
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-affix.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-alert.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-button.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-carousel.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-collapse.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-dropdown.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-modal.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-popover.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-scrollspy.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-tab.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-tooltip.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-transition.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-typeahead.js"></script>
+
+    <script src="//mgcrea.github.com/angular-strap/js/angular-strap.js"></script>
+
+    <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script> <!-- For Gravatar hash calculation -->
+
+    <script src="//api.filepicker.io/v1/filepicker.js"></script>
+
+    <script src="//cdn.firebase.com/v0/firebase.js"></script>
+    <script src="//cdn.firebase.com/v0/firebase-auth-client.js"></script>
+    <script src="//www.firebase.com/js/libs/idle.js"></script>
+
+    <script src="//login.persona.org/include.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/1.2.4/es5-shim.min.js"></script>
+
+    <!--link rel="stylesheet" href="//cdn.jsdelivr.net/jquery.fileupload/7.2.1/bootstrap/css/jquery.fileupload-ui.css" />
+    <script src="//cdn.jsdelivr.net/jquery.fileupload/7.2.1/bootstrap/js/jquery.fileupload.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.fileupload/7.2.1/bootstrap/js/jquery.fileupload-fp.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.fileupload/7.2.1/bootstrap/js/jquery.fileupload-ui.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.fileupload/7.2.1/bootstrap/js/vendor/jquery.ui.widget.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.fileupload/7.2.1/bootstrap/js/jquery.iframe-transport.js"></script-->
+
+
+    <!-- https://www.firebase.com/tutorial/#example-presence -->
+    <!-- xbuild:js scripts/vendor.js -->
+    <!--script src="components/jquery/jquery.min.js"></script-->
+    <!--script src="components/jquery.qtip/jquery.qtip.2012-04-28.min.js"></script-->
+    <!--script src="scripts/vendor/jquery.browser.js"></script--> <!-- For qtip back compat -->
+    <!--script src="scripts/vendor/fileupload/jquery.ui.widget.js"></script>
+    <script src="scripts/vendor/fileupload/jquery.fileupload.js"></script>
+    <script src="scripts/vendor/fileupload/jquery.fileupload-fp.js"></script>
+    <script src="scripts/vendor/fileupload/jquery.fileupload-ui.js"></script-->
+    <!--script src="scripts/vendor/underscore.min.js"></script-->
+    <!--script src="scripts/vendor/angular.js"></script-->
+    <!--script src="scripts/vendor/angular-bootstrap.js"></script-->
+    <!-- xendbuild -->
+
+    <script src="scripts/scripts.js"></script>
+
+    <!-- xbuild:js scripts/plugins.js -->
+    <!--script src="scripts/vendor/bootstrap/bootstrap-affix.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-alert.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-dropdown.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-tooltip.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-modal.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-transition.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-button.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-popover.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-typeahead.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-carousel.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-scrollspy.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-collapse.js"></script>
+    <script src="scripts/vendor/bootstrap/bootstrap-tab.js"></script-->
+    <!-- xendbuild -->
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34841568-1']);
+      _gaq.push(['_setSiteSpeedSampleRate', 100]); // Collect data for 100% of all visitors
+      _gaq.push(['_setDomainName', document.location.hostname]);
+  //  _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+    <!-- Uservoice -->
+    <!--script type="text/javascript">
+      // UserVoice.com
+      var uvOptions = {};
+      (function() {
+        var uv = document.createElement('script');
+        uv.type = 'text/javascript';
+        uv.async = true;
+//        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/ZZeAanGP8m0CApq2PAnobA.js'; // UserVoice vertical left side widget
+      uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/wYQAQ3XhzAz76SwL6A1IRA.js'; // UserVoice vertical right side widget
+//        uv.src = ('https:' == document.location.protocol
+//            ? 'https://'
+//            : 'http://')
+//          + 'widget.uservoice.com/Ooo6QFbaHJtK9VTi4W0WrQ.js';
+          // 1st Revenue link
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(uv, s);
+      })();  
+    </script-->
+    <script type="text/javascript">
+      window.___gcfg = {lang: 'en'};
+      (function() {
+        var po = document.createElement("script");
+        po.type = "text/javascript";
+        po.async = true;
+        po.src = "https://apis.google.com/js/plusone.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+    <script>
+      // Twitter
+      !function(d,s,id) {
+        var js,fjs=d.getElementsByTagName(s)[0];
+        if(!d.getElementById(id)){
+          js=d.createElement(s);
+          js.id=id;
+          js.src="//platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js,fjs);
+        }
+      }(document,"script","twitter-wjs");
+    </script>    
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+      (function(c,a) {
+        var b,d,h,e;
+        b=c.createElement("script");
+        b.type="text/javascript";
+        b.async=!0;
+        b.src=("https:"===c.location.protocol?
+          "https:": "http:") +
+          '//api.mixpanel.com/site_media/js/api/mixpanel.2.js';
+        d=c.getElementsByTagName("script")[0];
+        d.parentNode.insertBefore(b,d);
+        a._i=[];
+        a.init=function(b,c,f) {
+          function d(a,b) {
+            var c=b.split(".");
+            2==c.length && (a=a[c[0]],b=c[1]);
+            a[b]=function() {
+              a.push([b].concat(Array.prototype.slice.call(arguments,0)))
+            }
+          }
+          var g=a;
+          "undefined"!==typeof f?
+            g=a[f]=[]:
+            f="mixpanel";
+          g.people=g.people||[];
+          h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.set people.increment".split(" ");
+          for(e=0;e<h.length;e++)
+            d(g,h[e]);
+          a._i.push([b,c,f])
+        };
+        a.__SV=1.1;
+        window.mixpanel=a
+      })(document,window.mixpanel||[]);
+
+//    mixpanel.init("c8207c82b18972932cc34758b69ae020"); // NetBMG
+      mixpanel.init("c91e977341204ecb043c3fdbe5a34a36"); // 1stRevenue
+    </script>
+    <!-- end Mixpanel -->
+  </body>
+</html>

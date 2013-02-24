@@ -1,0 +1,101 @@
+<div ng-include src="'views/entry/GuideRibbon.html'"></div>
+
+<div class="first-revenue-entry">
+  <div class="hero-unit"
+       ng-show="visible('welcome')">
+    <p style="float: right;">
+      <button ng-click="show('logon')"
+              class="btn btn-success">
+        <i class="icon-user icon-white"></i>
+        Log on
+      </button>
+      <br />
+      <br />
+      <button ng-click="show('signup')"
+              class="btn btn-primary">
+        <i class="icon-user icon-white"></i>
+        Sign up
+      </button>
+      <br />
+      <br />
+      <button ng-click="show('guest')"
+              class="btn btn-warning">
+        <i class="icon-user icon-white"></i>
+        Guest
+      </button>
+    </p>
+    <h1><span style="color: red">1st</span> Revenue</h1>
+    <h2>Business Model Generation</h2>
+    <p>Online tool for business model development and collaboration</p>
+  </div>
+
+  <div class="container-fluid"
+       ng-show="visible('logon') || visible('signup')">
+    <div class="row-fluid">
+      <div class="span1"></div>
+
+      <div class="span10">
+        <h2>Log on to the 1st Revenue</h2>
+
+        <div class="logon">
+          <h3 ng-hide="user.authFailed">
+            Searching and retrieving the previous session...
+          </h3>
+          <div ng-show="user.authFailed">
+
+            <div class="tabbable" ng-model="logonTabName">
+              <div class="tab-pane" title="How To" value="howto">
+                <div ng-include="'views/entry/HowTo.html'">
+                </div>
+              </div>
+              <div class="tab-pane" title="Persona" value="persona">
+                <div ng-include="'views/entry/Persona.html'">
+                </div>
+              </div>
+              <div class="tab-pane" title="Social" value="social">
+                <div ng-include="'views/entry/Social.html'">
+                </div>
+              </div>
+              <div class="tab-pane" title="Firebase" value="firebase">
+                <div ng-include="'views/entry/Firebase.html'">
+                </div>
+              </div>
+              <div class="tab-pane" title="Custom" value="custom">
+                <div ng-include="'views/entry/Custom.html'">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="span1"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid"
+       ng-show="visible('guest')">
+    <div class="row-fluid">
+      <div class="span1"></div>
+
+      <div class="span10">
+        <h2>Use the 1st Revenue as a guest</h2>
+
+        <div class="logon">
+          <h3 ng-hide="user.authFailed">
+            Anonymous access to public and demo models
+          </h3>
+          <div>
+            Guest users are allowed to use public and demo models only.
+            This function is not activated yet.
+          </div>
+        </div>
+      </div>
+
+      <div class="span1"></div>
+    </div>
+  </div>
+</div>
+
+<div ng-include src="'views/entry/PeerRibbon.html'"></div>

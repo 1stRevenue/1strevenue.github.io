@@ -1,0 +1,11 @@
+<!--a class="brand pull-left" href="#">{{menu.title}}</a-->
+
+<ul class="nav pull-left">
+  <li ng-repeat="branch in menu.visible"
+      ng-class="{active: branch == menu.selected}">
+    <a ng-href="#/{{menu.def[branch].route}}">
+      <i class="icon-{{menu.def[branch].icon}} icon-white"></i>
+      {{menu.def[branch].label}}
+    </a>
+  </li>
+</ul>    

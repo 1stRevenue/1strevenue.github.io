@@ -1,0 +1,61 @@
+<div class="canvas"
+     ng-class="{
+       'info-mode': info.infoMode(),
+       'edit-model': info.view.model,
+       'edit-sticker': info.view.sticker,
+       'edit-user': info.view.user,
+       'edit-contact': info.view.contact
+     }">
+
+  <!--div class="model-logotype"-->
+    <img class="model-logotype"
+         ng-src="{{canvas.model.icon}}"
+         ng-style="canvas.getLogoStyle()" />
+  <!--/div-->
+  <div ng-switch on="canvas.singleBlock">
+    <div ng-switch-when="null">
+      <div ng-repeat="block in canvas.model.blocks"
+           first-revenue-q-tip="{{block.paneClass}}"
+           first-revenue-edit="{{block.paneClass}}"
+           data-label="{{block.paneClass}}"
+           data-id="{{block.id}}"
+           class="pane {{block.paneClass}} {{canvas.getGridClass()}}"
+           ng-class="{'hover-pane': hovering}"
+           ng-mouseenter="hovering = true"
+           ng-mouseleave="hovering = false">
+        <div ng-include="'views/canvas/Block.html'"></div>
+      </div>
+    </div>
+    <div ng-switch-default>
+      <div ng-repeat="block in canvas.model.blocks"
+           data-label="{{block.paneClass}}"
+           data-id="{{block.id}}"
+           class="pane {{block.paneClass}} {{canvas.getGridClass()}}"
+           ng-click="canvas.switchBlock({icon: block.paneClass})">
+        <div ng-include="'views/canvas/Block.html'"></div>
+      </div>
+
+      <div ng-click="zoom.zoom(0)"
+           class="pane pane-small ALL">
+          <img ng-src="zoomimages/Zoom-0-transp.png" />
+      </div>  
+
+      <div ng-init="block = canvas.singleBlock"
+           first-revenue-q-tip="XXC"
+           first-revenue-edit="XXC"
+           data-label="{{block.paneClass}}"
+           data-id="{{block.id}}"
+           class="pane XXC {{canvas.getGridClass()}}">
+        <div ng-include="'views/canvas/Block.html'"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-include="'views/edit/Model.html'"></div>
+
+<div ng-include="'views/edit/Sticker.html'"></div>
+
+<div ng-include="'views/edit/User.html'"></div>
+
+<div ng-include="'views/edit/Contact.html'"></div>

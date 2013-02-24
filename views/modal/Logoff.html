@@ -1,0 +1,32 @@
+<!-- A dialog box that asks user permission to log off -->
+<ui-modal ng-model="modal.logoff"
+          data-backdrop="static"
+          class="fade">
+  <div class="modal-header">
+    <button class="close"
+            ng-click="modal.logoff = false">&times;</button>
+    <h3>Log off</h3>
+  </div>
+  <div class="modal-body">
+    <h4>You are about to log off from the 1st Revenue</h4>
+    <div>
+      Your current credentials will be cleared from the browser cookies.
+    </div>
+    <div>
+      Once logged off, you'll be asked to authenticate with Firebase before starting the next 1st Revenue session. Your sessions on other browsers or devices remain unaffected.
+    </div>
+    <div>
+       You may choose the same Firebase account for your next session of 1st Revenue.
+    </div>
+    <!--div>
+      If you need to authenticate with different Firebase credentials, select "My account" menu in Podio to Logout then restart 1st Revenue application. Grant access when asked and your new session will open.
+    </div-->
+    <h4>Do you want to log off?</h4>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger"
+            ng-click="logoff()">Log off</button>
+    <button class="btn btn-success"
+            ng-click="modal.logoff = false">Stay logged on</button>
+  </div>
+</ui-modal>

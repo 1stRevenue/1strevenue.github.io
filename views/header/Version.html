@@ -1,0 +1,55 @@
+<div class="first-revenue-version hanging-overlay"
+     ng-show="popup.version">
+  <h3>1st Revenue version {{env.version}}</h3>
+  <a href="https://twitter.com/NetBMG"
+     class="twitter-follow-button"
+     data-show-count="false">
+    Follow @NetBMG
+  </a>
+  <!--script>
+    // Twitter
+    !function(d,s,id) {
+      var js,fjs=d.getElementsByTagName(s)[0];
+      if(!d.getElementById(id)){
+        js=d.createElement(s);
+        js.id=id;
+        js.src="//platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js,fjs);
+      }
+    }(document,"script","twitter-wjs");
+  </script-->
+
+  <!-- Place this tag where you want the +1 button to render -->
+  <div>
+    <div class="g-plus"
+         data-href="https://plus.google.com/103829117658509660823?rel=publisher"
+         data-width="260"
+         data-height="69"
+         data-theme="dark">
+    </div>
+  </div>
+  <div style="width: 260px;">
+    <div class="g-plusone"
+         data-annotation="inline"
+         data-href="http://1stRevenue.com/">
+    </div>
+  </div>
+
+  <div class="pull-right notif-count"
+       ng-show="notif.count() > 0"
+       style="float: right"
+       title="{{notif.count()}} notifications"
+       ng-click="popup.toggle('notif')">
+    Notifications
+    <i class="icon-flag icon-white"/></i>
+    <span style="color: white">{{notif.count()}}</span>
+  </div>
+  <div>
+    <a href="https://mixpanel.com/f/partner"
+       target="_blank">
+      <img class="mixpanel-badge"
+           src="https://mixpanel.com/site_media/images/partner/badge_light.png"
+           alt="Mobile Analytics" />
+    </a>
+  </div>
+</div>

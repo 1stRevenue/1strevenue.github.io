@@ -1,0 +1,24 @@
+<!-- A dialog box that asks user permission to delete the current sticker -->
+<ui-modal ng-model="modal.del"
+          data-backdrop="static"
+          class="fade">
+  <div class="modal-header">
+    <button class="close"
+            ng-click="leaveSticker()">&times;</button>
+    <h3>Delete a sticker</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Sticker will be permanently deleted and cannot be recovered.</h4>
+    <div>
+      Title:
+      <strong>"{{modal.sticker.title}}"</strong>
+    </div>
+    <h4>Are you sure?</h4>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger"
+            ng-click="deleteSticker()">Delete</button>
+    <button class="btn btn-success"
+            ng-click="leaveSticker()">Leave</button>
+  </div>
+</ui-modal>

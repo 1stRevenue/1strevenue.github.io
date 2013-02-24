@@ -1,0 +1,47 @@
+<div class="model-grid-tags"
+     ng-controller="ModelTagController">
+
+  <h5>Click to filter by tag</h5>
+
+  <!--div class="model-tag-count">
+    <span class="label">all</span>
+    <span class="badge">{{modelCount}}</span>
+  </div-->
+  <div class="model-tag-count"
+       ng-click="catalog.tagFilter('*')"
+       title="Show all models">
+    <span class="badge"
+          ng-class="catalog.badgeColor('*')">{{catalog.getModelCount()}}</span>
+    <span class="label"
+          ng-class="catalog.labelColor('*')">ALL</span>
+  </div>
+
+  <!--div class="model-tag-count">
+    <span class="label">untagged</span>
+    <span class="badge">{{untaggedCount}}</span>
+  </div-->
+  <div class="model-tag-count"
+       ng-click="catalog.tagFilter()"
+       title="Show untagged models">
+    <span class="badge"
+          ng-class="catalog.badgeColor()">{{catalog.getUntaggedCount()}}</span>
+    <span class="label"
+          ng-class="catalog.labelColor()">untagged</span>
+  </div>
+
+  <!--div ng-repeat="tag in modelTags" class="model-tag-count">
+    <span class="label label-{{tag.type}}">{{tag.text}}</span>
+    <span class="badge badge-{{tag.type}}">{{tag.count}}</span>
+  </div-->
+  <div ng-repeat="(text, count) in catalog.getTagCloud()"
+       class="model-tag-count"
+       ng-click="catalog.tagFilter(text)"
+       title="Show models tagged with '{{text}}'">
+    <span class="badge" ng-class="catalog.badgeColor(text)">{{count}}</span>
+    <span class="label" ng-class="catalog.labelColor(text)">{{text}}</span>
+  </div>
+
+  <div>
+    <hr />
+  </div>
+</div>

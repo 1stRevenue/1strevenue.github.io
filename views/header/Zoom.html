@@ -1,0 +1,41 @@
+<div class="zoom-menu hanging-overlay"
+     ng-show="popup.zoom">
+  <h3>Zoom level</h3>
+  <div class="container-fluid">
+    <div ng-repeat="level in zoom.levels"
+         class="row-fluid zoom-item"
+          ng-click="zoom.zoom($index)">
+      <div class="span1 zoom-digit">
+        <span>{{$index}}</span>
+      </div>
+      <div class="span4 zoom-map">
+        <img ng-src="zoomimages/Zoom-{{$index}}-transp.png"
+             title="{{level.title}}" />
+        <!--img ng-src="images/Zoom-0-transp.png"
+             ng-show="$index == 0"
+             title="{{level.title}}" />
+        <img ng-src="images/Zoom-1-transp.png"
+             ng-show="$index == 1"
+             title="{{level.title}}" />
+        <img ng-src="images/Zoom-2-transp.png"
+             ng-show="$index == 2"
+             title="{{level.title}}" />
+        <img ng-src="images/Zoom-3-transp.png"
+             ng-show="$index == 3"
+             title="{{level.title}}" />
+        <img ng-src="images/Zoom-4-transp.png"
+             ng-show="$index == 4"
+             title="{{level.title}}" />
+        <img ng-src="images/Zoom-5-transp.png"
+             ng-show="$index == 5"
+             title="{{level.title}}" /-->
+        <!--a ng-href="#Zoom-{{level.label}}" ng-click="zoom($index)">
+          <img ng-src="images/Zoom-{{$index}}-transp.png" title="{{level.title}}" />
+        </a-->
+      </div>
+      <div class="span7">
+        {{level.title}}
+      </div>
+    </div>
+  </div>
+</div>

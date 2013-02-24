@@ -1,0 +1,49 @@
+<h3>
+  How to log on to 1st Revenue
+</h3>
+<div>
+  <p>
+    To identify users to the application and to the other users who collaborate on the same model, 1st Revenue provides a choice of authentication services. Select one of the tabs to log on with your preferred service.
+  </p>
+  <p>
+    1st Revenue uses only a few attributes from each user:
+    <ul>
+      <li>id - internal code within the database. Some services uses e-mail as user id</li>
+      <li>e-mail - needed to send invites for collaboration, confirm account settings, etc.</li>
+      <li>Full name or nickname - to recognize who's collaborating on a model</li>
+      <li>Photo or avatar image - used together with user's name or nockname</li>
+    </ul>
+  </p>
+  <p>
+    The quickest way to identify a user is too use social network credentials. If user is already connected with current browser to Facebook, Twitter, or Github, the authentication only asks to confirm the permissions for 1st Revenue. E-mail, name and photo will be retrieved from users' public profile on the chosen social network.
+  </p>
+  <p>
+    For users who would like to keep their social networks separate from 1st Revenue, we recommend Mozilla Persona combined with Gravatar. Persona provides the only authenticated attribute: user's e-mail address. Gravatar associates the same E-mail with user's name and photo or image.
+  </p>
+  <p>
+    1st Revenue also allows to use user's e-mail directly as id without involving any 3rd party authentication services. E-mail and password authentication is provided by our primary backend service, Firebase. Combine this service with Gravatar to associate user name and photo.
+  </p>
+  <p>
+    Finally, we are planning to add a few extra auhentication services through our custom authentication server. This would allow users to log on using their Google, LinkedIn, and other authentication providers.
+  </p>
+  <p>
+    <h4>Using Mozilla Persona</h4>
+    To confirm your identity with Mozilla Persona, click on the button "Log on with Persona" below. Persona opens a new window or a new tab and asks for user's e-mail. If such e-mail has not yet been registered with Persona, user is asked to choose a new password twice, then a verification message is sent to the specified e-mail account. User needs to open the message, click on the provided verification link and enter the chosen password once again. After the verification has been successful, Persona will remember user's credentials for the next 30 days.
+  </p>
+  <p>
+    <h4>Using E-mail and password</h4>
+    Sign-up to Firebase authentication with your e-mail and password. No other authentication providers will be involved.
+  </p>
+  <p>
+    <h4>Using Gravatar</h4>
+    To be recognizable during collaboration in 1st Revenue every user needs several additional attributes, such as user's full name or a nick name, profile photo, etc. Such attributes 1st Revenue can retrieve from an associated Gravatar account with the same E-mail address. Users can create new Gravatar accounts or modify the existing ones at
+    <a href="http://www.gravatar.com/"
+       target="_blank">
+      http://www.gravatar.com/
+    </a>
+  </p>
+  <p>
+    <h4>Using secondary identity on Google mail</h4>
+    I you are using Google Mail for your 1st Revenue identity but prefer to keep it separate from your other internet activities, Google allows to add a suffix to user name part with a "+" sign. For example, user with e-mail address <strong>darth.vader@gmail.com</strong> could register with Persona and Gravatar as <strong>darth.vader+BMG@gmail.com</strong> or <strong>darth.vader+1R@gmail.com</strong>. Google still delivers the verification messages to the original account, but the identity in Persona and Gravatar would be separate.
+  </p>
+<div>

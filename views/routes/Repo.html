@@ -1,0 +1,99 @@
+<div ng-include src="'views/repo/GuideRibbon.html'"></div>
+
+<div class="first-revenue-repo"
+     ng-controller="RepoController">
+  <!--div class="model-tabs-header">
+
+    <div class="hero-unit">
+      <h1><span style="color: red">1st</span> Revenue</h1>
+      <p style="float: right;">
+        <a href="#/canvas/new"
+           class="btn btn-primary2 btn-large">
+          <img ng-src="images/253a5a8a.BMG-Canvas-Plus2-Gray-62x38.png" />
+          Create new model
+        </a>
+      </p>
+      <h2>Business Model Generation</h2>
+      <p>Online tool for business model development and collaboration</p>
+    </div>
+
+  </div-->
+  <div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+
+        <div class="span2">
+          <span class="btn-group member-sort" ng-show="modelTabName=='models'">
+            <button class="btn"
+                    ng-class="{'btn-primary': catalog.sort=='name'}"
+                    ng-click="catalog.sortModels('name')"
+                    style="font-size: 24px; font-weight: bold; padding: 8px; margin-left: 25px;"
+                    title="Sort by name">{{catalog.nameSortOrder()}}</button>
+            <button class="btn"
+                    ng-class="{'btn-primary': catalog.sort == 'time'}"
+                    ng-click="catalog.sortModels('time')"
+                    style="padding: 2px;"
+                    title="Sort by time">
+              <!--img ng-src="icons/clock-32x32-sort{{catalog.timeSortIconSuffix()}}.png" /-->
+              <img ng-src="images/icons/83a83dbe.clock-32x32-sort.png"
+                   ng-show="!catalog.backInTime && catalog.sort != 'time'" />
+              <img ng-src="images/icons/946e24e3.clock-32x32-sort-white.png"
+                   ng-show="!catalog.backInTime && catalog.sort == 'time'" />
+              <img ng-src="images/icons/aad2c720.clock-32x32-sort-back.png"
+                   ng-show="catalog.backInTime && catalog.sort != 'time'" />
+              <img ng-src="images/icons/d9d62d0b.clock-32x32-sort-back-white.png"
+                   ng-show="catalog.backInTime && catalog.sort == 'time'" />
+            </button>
+            <!--button class="btn"
+                    ng-class="{'btn-primary': catalog.sort=='time'}"
+                    ng-click="catalog.sortModels('time')"
+                    title="Sort by time">
+              <i class="icon-time"
+                 ng-class="{'icon-white': catalog.sort=='time'}"></i>
+            </button-->
+            <!--button class="btn"
+                    ng-class="{'btn-primary': catalog.sort=='star'}"
+                    ng-click="catalog.sortModels('star')"
+                    title="Sort by rating">
+              <i class="icon-star"
+                 ng-class="{'icon-white': catalog.sort=='star'}"></i>
+            </button-->
+          </span>
+        </div>
+
+        <div ng-include="'views/repo/Models.html'">
+
+        <!--div class="span9">
+          <div class="tabbable"
+               ng-model="modelTabName">
+            <div class="tab-pane"
+                 title='{{db.modelCount()}} Models'
+                 value="models">
+              <div ng-include="'views/repo/Models.html'">
+              </div>
+            </div>
+            <div class="tab-pane"
+                 title='{{db.memberCount()}} Users'
+                 value="members">
+              <div ng-include="'views/repo/Members.html'">
+              </div>
+            </div>
+          </div>
+        </div-->
+
+        <!--div class="span1">
+          <span class="btn-group">
+            <button class="btn"
+                    ng-click="catalog.refreshModels()"
+                    title="Refresh model list">
+              <i class="icon-refresh"></i>
+            </button>
+          </span>
+        </div-->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-include src="'views/repo/PeerRibbon.html'"></div>

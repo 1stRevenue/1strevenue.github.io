@@ -1,0 +1,150 @@
+<div class="canvas-top-frame" ng-class="{'edit-model': info.view.model, 'edit-sticker': info.view.sticker}">
+  <div class="model-editor container-fluid">
+    <div class="row-fluid">
+      <div class="close-button"
+           ng-click="info.toggle('model')">
+      </div>
+      <fieldset class="span12 well model-editor-extensions"
+                ng-show="canvas.model">
+        <legend contenteditable="true"
+                ng-class="{modified: !matchModelTitle()}"
+                ng-model="canvas.model.fullName"
+                title="Click on the model name to edit it">
+        </legend>
+        <div class="container-fluid">
+          <div class="row-fluid">
+            <div class="span3">
+              <div>Tags</div>
+              <div class="field-tags"
+                   ng-class="{modified: !matchModelTags()}"
+                   xxx-contenteditable="true"
+                   xxx-ng-model="canvas.model.tags">
+              </div>
+            </div>
+            <div class="span3">
+              <div>Description</div>
+              <div class="field-descr"
+                   ng-class="{modified: !matchModelDescr()}"
+                   contenteditable="true"
+                   ng-model="canvas.model.label.descr">
+              </div>
+            </div>
+            <div class="span4">
+              <div>Elevator pitch</div>
+              <div class="field-pitch"
+                   ng-class="{modified: !matchModelPitch()}"
+                   contenteditable="true"
+                   ng-model="canvas.model.label.pitch">
+              </div>
+            </div>
+            <div class="span2">
+              <button id="Save"
+                      ng-disabled="isSaveButtonDisabled()"
+                      ng-hide="isSaveButtonDisabled()"
+                      class="btn btn-primary"
+                      style="width: 100%; margin-top: 10px;"
+                      ng-click="save()"
+                      title="Save">
+                <i class="icon-ok icon-white"></i>
+                <br />
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+
+      <!--form class="form-vertical">
+        <div class="span4 model-editor-extensions">
+          <legend>Model editor</legend>
+          <div class="container-fluid">
+            <div class="row-fluid">
+              <button class="span4 btn">Pivot<br />Business<br />Model</button>
+              <button class="span4 btn">Customer<br />Value<br />Canvas</button>
+              <button class="span4 btn">Customer<br />Value<br />Map</button>
+            </div>
+          </div>
+        </div-->
+
+        <!--div class="span5 model-editor-form">
+          <fieldset class="well">
+            <legend contenteditable="true"
+                    ng-model="lastModel.fullName">
+            </legend-->
+            <!--div class="control-group">
+              <label class="control-label" for="model-name">Model name</label>
+              <div class="controls">
+                <input type="text" id="model-name" class="input-medium" placeholder="Model name" value="{{lastModel.fullName}}"/>
+              </div>
+            </div-->
+            <!--div class="control-group"-->
+              <!--label class="control-label"
+                     for="model-descr">
+                Description
+              </label-->
+              <!--div class="controls"-->
+                <!--textarea class="input-medium"
+                          id="model-descr"
+                          placeholder="Description"
+                          style="width: 100%">
+                  {{lastModel.description}}
+                </textarea-->
+              <!--/div-->
+            <!--/div-->
+            <!--div class="control-group"-->
+              <!--label class="control-label"
+                     for="model-pitch">
+                Elevator pitch
+              </label-->
+              <!--div class="controls"-->
+                <!--textarea class="input-medium"
+                          id="model-descr"
+                          placeholder="Elevator pitch in 100 words"
+                          style="width: 100%">
+                  {{lastModel.pitch}}
+                </textarea-->
+              <!--/div-->
+            <!--/div-->
+
+        <!--/div>
+        <div class="span2">
+          <button id="Save"
+                  ng-disabled="isSaveButtonDisabled()"
+                  ng-hide="isSaveButtonDisabled()"
+                  class="btn btn-success"
+                  style="width: 100%; margin-top: 10px;"
+                  ng-click="save()"
+                  title="Save">
+            <i class="icon-ok icon-white"></i>
+            <br />
+            Save
+          </button>
+          <br />
+          <button id="Reset"
+                  ng-disabled="isResetButtonDisabled()"
+                  ng-hide="isResetButtonDisabled()"
+                  class="btn btn-warning"
+                  style="width: 100%; margin-top: 10px;"
+                  ng-click="reset()"
+                  title="reset">
+            <i class="icon-remove icon-white"></i>
+            <br />
+            Reset
+          </button>
+        </div>
+
+        <button class="span1 close" ng-click="toggleEditor('model')">
+          &otimes;
+        </button>
+
+      </form>
+
+    </div-->
+  </div>
+</div>
+
+<div class="canvas-side-frame" ng-class="{'edit-model': info.view.model}" ng-show="!info.view.sticker">
+  Some general information about the stickers on the Canvas
+</div>

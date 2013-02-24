@@ -1,0 +1,164 @@
+<div class="create-model">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span12">
+        <legend>Create New Model</legend>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <form class="well span6"
+            ng-submit="">
+        <fieldset>
+          <div class="control-group"
+               ng-class="{error: nameError}">
+            <label class="control-label"
+                   for="model-name">
+              <span ng-hide="pitchWordCount() > 100">Model name</span>
+              <span ng-show="pitchWordCount() > 100">Name of the novel</span>
+            </label>
+            <div class="controls">
+              <input type="text"
+                     autofocus
+                     id="model-name"
+                     class="input-xlarge"
+                     placeholder="Model name"
+                     ng-model="model.name" />
+              <p class="help-block"
+                 ng-show="name==''">Please specify the model name</p>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label"
+                   for="model-icon">Icon</label>
+            <button id="model-icon"
+                    ng-hide="model.icon"
+                    class="btn"
+                    ng-click="attachIcon()">
+              Attach model icon
+            </button>
+            <button id="model-icon"
+                    ng-show="model.icon"
+                    class="btn"
+                    ng-click="replaceIcon()">
+              Replace model icon
+            </button>
+            <img ng-src="{{model.icon}}" />
+            <button ng-show="model.icon"
+                    class="btn"
+                    ng-click="removeIcon()">
+              Remove model icon
+            </button>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label"
+                   for="model-descr">Description</label>
+            <div class="controls">
+              <textarea class="input-xlarge"
+                        id="model-descr"
+                        ng-model="model.descr"
+                        placeholder="Description">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label"
+                   for="model-pitch">Elevator pitch</label>
+            <div class="controls">
+              <textarea class="input-xlarge"
+                        id="model-pitch"
+                        ng-model="model.pitch"
+                        placeholder="Elevator pitch in 100 words">
+              </textarea>
+            </div>
+            <div class='pitch-remarks'>
+              <div ng-show="pitchWordCount() == 0">
+                Sum up unique aspects of your service or product in a way that excites others
+              </div>
+              <div ng-show="pitchWordCount() > 0"
+                   style="color: rgb({{pitchRed()}}, {{pitchGreen()}}, 0);">
+                {{pitchWordCount()}} words
+              </div>
+              <div>
+                <a href="http://www.alumni.hbs.edu/careers/pitch/"
+                   target="_blank">
+                  Elevator Pitch Builder
+                </a>
+                from Harvard Business School
+              </div>
+              <div>
+                <a href="http://www.businessweek.com/stories/2007-06-18/the-perfect-elevator-pitchbusinessweek-business-news-stock-market-and-financial-advice"
+                   target="_blank">
+                  The Perfect (Elevator) Pitch
+                </a>
+                by Aileen Pincus
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn"
+                      ng-click="cancel()">
+                Cancel
+              </button>
+              <button type="submit"
+                      class="btn btn-primary"
+                      ng-click="create()"
+                      ng-disabled="!model.name || model.name == ''">
+                Create model
+              </button>
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
+
+      <div class="span6">
+        <div>
+          Add existing 1st Revenue users
+        </div>
+        <div ng-repeat="user in db.users">
+          <input model="user.selected"
+                 type="checkbox" />
+          <img class="user-list-icon"
+               ng-src="{{user.image}}" />
+          <span ng-switch="user.provider"
+                alt="{{user.provider}}">
+            <img ng-switch-when="facebook"
+                 title="facebook"
+                 ng-src="../../images/favicons/facebook.png" />
+            <img ng-switch-when="twitter"
+                 title="twitter"
+                 ng-src="../../images/favicons/twitter.png" />
+            <img ng-switch-when="github"
+                 title="github"
+                 ng-src="../../images/favicons/github.png" />
+            <img ng-switch-when="persona"
+                 title="persona"
+                 ng-src="../../images/favicons/persona.png" />
+            <img ng-switch-when="firebase"
+                 title="firebase"
+                 ng-src="../../images/favicons/firebase.png" />
+          </span>
+          {{user.name}}
+          <button class="close" ng-click="">&times;</button>
+        </div>
+
+        <div>
+          Invite external members to join 1st Revenue and collaborate on the model
+        </div>
+        <!--div ng-repeat="user in db.users">
+          <input model="user.selected"
+                 type="checkbox" />
+          <img class="user-list-icon"
+               ng-src="{{user.image}}" />
+          {{user.name}}
+        </div-->
+      </div>
+
+    </div>
+  </div>
+</div>

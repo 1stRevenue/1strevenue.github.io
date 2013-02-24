@@ -1,0 +1,162 @@
+<div ng-controller="AdminController"
+     class="container-fluid"
+     ng-show="user.adminRole">
+  <div class="row-fluid">
+    <h2 class="span12">Administration</h2>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <h3 class="span12">Block 10</h3>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span1">Icon</div>
+      <div class="span2">App name</div>
+      <div class="span1">Widget</div>
+      <div class="span4">Description</div>
+      <div class="span4">Elevator pitch</div>
+    </div>
+
+    <div ng-repeat="model in repo.models">
+      <div class="row-fluid">
+        <div class="span1">
+          <img ng-src="{{model.label.icon.link}}" />
+        </div>
+        <div class="span2">{{model.name}}</div>
+        <div class="span1">
+          <div ng-show="model.widgets"
+               ng-repeat="widget in model.widgets">
+            <a ng-href="widget.data.url"
+               target="_blank">
+              <img ng-src="{{widget.data.image.thumbnail_link}}" />
+            </a>
+          </div>
+          <div ng-hide="model.widgets">
+            <button class="btn btn-primary"
+                    ng-click="getWidgets(model.space_id)">
+              Widgets
+            </button>
+          </div>
+        </div>
+        <div class="span4">{{model.label.descr}}</div>
+        <div class="span4">{{model.label.pitch}}</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="admin-contact-list container-fluid">
+    <div class="row-fluid">
+      <h3 class="span12">Contacts</h3>
+    </div>
+
+    <div ng-repeat="(key, list) in contacts">
+      <div class="row-fluid">
+        <h4 class="span12">Provider: {{key}}</h4>
+      </div>
+      <div class="row-fluid">
+        <div class="span1">Image</div>
+        <div class="span5">Name</div>
+        <div class="span6">E-mail</div>
+      </div>
+      <div ng-repeat="contact in list">
+        <div class="row-fluid">
+          <div class="span1">
+            <img class="admin-contact-thumb"
+                 style="height: 38px"
+                 ng-src="{{contact.image.link}}" />
+          </div>
+          <div class="span5">{{contact.name}}</div>
+          <div class="span6">{{contact.mail}}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="admin-hook-list container-fluid">
+    <div class="row-fluid">
+      <h3 class="span12">Hooks</h3>
+    </div>
+    <div class="row-fluid">
+      <button class="btn btn-primary"
+              ng-class="{disabled: hooks.countMarked() == 0}"
+              ng-click="hooks.removeMarked()">
+        Remove {{hooks.countMarked()}} marked hooks
+      </button>
+    </div>
+
+    <div ng-repeat="(spaceId, space) in hooks.spaceList">
+      <div class="row-fluid">
+        <h4 class="span2">Space: {{spaceId}}</h4>
+        <h4 class="span10">{{hooks.spaceNames[spaceId]}}</h4>
+      </div>
+      <div ng-repeat="(appId, app) in space">
+        <div class="row-fluid">
+          <h5 class="span1">App</h5>
+          <h5 class="span1"
+              ng-click="loadHooksForApp(spaceId, app.app_id)">
+            App:{{appId}}
+          </h5>
+          <h5 class="span10"
+              ng-click="loadHooksForApp(spaceId, app.app_id)">
+            {{app.config.name}}
+          </h5>
+        </div>
+        <div ng-repeat="(url, hookBox) in app.hooks">
+          <div class="row-fluid">
+            <div class="span3">
+              {{url}}
+            </div>
+            <div class="span3">
+              {{hookBox.name}}
+            </div>
+            <div class="span3">
+              {{hookBox.date}}
+            </div>
+            <div class="span3">
+              <div ng-repeat="hook in hookBox.type"
+                   ng-click="hooks.markHook(hook.hook_id)"
+                   class="hook-selector"
+                   ng-class="{'hook-marked':  hooks.checkMarked(hook.hook_id),
+                              'hook-deleted': hooks.checkDeleted(hook.hook_id)}">
+                {{hook.type}}={{hook.hook_id}} {{hook.status}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!--div class="admin-hook-list container-fluid">
+    <div class="row-fluid">
+      <h3 class="span12">Hooks</h3>
+    </div>
+
+    <div ng-repeat="(server, models) in hooks">
+      <div class="row-fluid">
+        <h4 class="span12">Server: {{server}}</h4>
+      </div>
+      <div ng-repeat="(model, entries) in models">
+        <div class="row-fluid">
+          <h4 class="span12">Model: {{model}}</h4>
+          <div ng-repeat="(entry, apps) in entries">
+            <div class="row-fluid">
+              <h4 class="span12">Entry: {{entry}}</h4>
+              <div class="row-fluid">
+                <div class="span1" ng-repeat="app in apps">
+                  <div>{{app}}"</div>
+                </div>
+              </div> 
+            </div> 
+          </div> 
+        </div>
+      </div>
+    </div>
+
+  </div-->
+
+</div>

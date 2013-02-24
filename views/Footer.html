@@ -1,0 +1,41 @@
+<div ng-controller="FooterController">
+  <div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="navbar-inner">
+      <img class="license-icon"
+           src="images/35987e13.CC-BY-SA-3.0-88x31.png"
+           ng-click="popup.toggle('license')" />
+
+      <!--a href="http://1stRevenue.com/"
+         target="_blank">
+        <img class="company-logo"
+             title="Visit the home page of 1st Revenue"
+             ng-src="images/b1a68cba.1stRevenue.com-bright.png" />
+      </a-->
+
+      <!--div class="connection-status">{{getConnStatus()}}</div-->
+
+      <!--a href="https://mixpanel.com/f/partner"
+         target="_blank">
+        <img class="mixpanel-badge"
+             src="https://mixpanel.com/site_media/images/partner/badge_light.png"
+             alt="Mobile Analytics" />
+      </a-->
+
+<!--span>st_drag={{st_drag}}</span-->
+
+      <span ng-include="'views/footer/Palette.html'"></span>
+
+      <span ng-include="'views/footer/Members.html'"></span>
+      <span ng-include="'views/footer/Profile.html'"></span>
+
+    </div>
+  </div>
+
+  <div ng-include="'views/footer/License.html'"></div>
+
+  <div class="member-data hanging-overlay"
+       ng-show="popup.member">
+    Member data
+  </div>
+  <!--span class="color-value-slider"></span-->
+</div>
