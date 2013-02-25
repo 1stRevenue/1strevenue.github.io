@@ -2,23 +2,23 @@
 
 <div class="first-revenue-entry">
   <div class="hero-unit"
-       ng-show="visible('welcome')">
+       ng-show="ribbon.guide.current('welcome')">
     <p style="float: right;">
-      <button ng-click="show('logon')"
+      <button ng-click="ribbon.guide.show('logon')"
               class="btn btn-success">
         <i class="icon-user icon-white"></i>
         Log on
       </button>
       <br />
       <br />
-      <button ng-click="show('signup')"
+      <button ng-click="ribbon.guide.show('signup')"
               class="btn btn-primary">
         <i class="icon-user icon-white"></i>
         Sign up
       </button>
       <br />
       <br />
-      <button ng-click="show('guest')"
+      <button ng-click="ribbon.guide.show('guest')"
               class="btn btn-warning">
         <i class="icon-user icon-white"></i>
         Guest
@@ -30,7 +30,7 @@
   </div>
 
   <div class="container-fluid"
-       ng-show="visible('logon') || visible('signup')">
+       ng-show="ribbon.guide.current('logon') || ribbon.guide.current('signup')">
     <div class="row-fluid">
       <div class="span1"></div>
 
@@ -75,7 +75,7 @@
   </div>
 
   <div class="container-fluid"
-       ng-show="visible('guest')">
+       ng-show="ribbon.guide.current('guest')">
     <div class="row-fluid">
       <div class="span1"></div>
 
