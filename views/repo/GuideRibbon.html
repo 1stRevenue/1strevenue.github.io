@@ -2,28 +2,28 @@
      class="guide-ribbon">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div ng-click="guide.show('my')"
-       ng-class="{'ribbon-item-current': guide.current('my')}"
+  <div ng-click="ribbon.guide.show('my')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('my')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
+    <i class="icon-th icon-2x"></i>
     My models
   </div>
-  <div ng-click="guide.show('public')"
-       ng-class="{'ribbon-item-current': guide.current('public')}"
+  <div ng-click="ribbon.guide.show('public')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('public')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
+    <i class="icon-tx icon-2x"></i>
     Public models
   </div>
-  <div ng-click="guide.show('recent')"
-       ng-class="{'ribbon-item-current': guide.current('recent')}"
+  <div ng-click="ribbon.guide.show('recent')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('recent')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
+    <i class="icon-tx icon-2x"></i>
     Recently viewed
   </div>
-  <div ng-click="guide.show('all')"
-       ng-class="{'ribbon-item-current': guide.current('all')}"
+  <div ng-click="ribbon.guide.show('all')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('all')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
+    <i class="icon-tx icon-2x"></i>
     All models
   </div>
 

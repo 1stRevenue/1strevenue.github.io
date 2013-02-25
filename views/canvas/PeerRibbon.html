@@ -3,7 +3,7 @@
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
   <div class="user-count">
-    {{userCount()}}
+    {{ribbon.peerCount()}}
   </div>
 
   <div class="add-new-member">
@@ -12,14 +12,11 @@
 
   <!--div ng-repeat="dbuser in db.users"
        ng-show="dbuser.id != user.account.id"-->
-  <div ng-repeat="dbuser in db.users">
-    <img ng-src="{{dbuser.image}}" />
+  <div ng-repeat="userKey in canvas.model.members"
+       class="ribbon-item"
+       ng-class="{'ribbon-item-current': ribbon.isMyself(userKey)}">
+    <img ng-src="{{db.users[userKey].image}}"
+         title="{{db.users[userKey].name}}" />
   </div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
-  <img src="images/06dd3e96.signal-green.png"
-       class="signal-icon"
-       ng-show="firebase.connected" />
-  <img src="images/9b1398fb.signal-red.png"
-       class="signal-icon"
-       ng-hide="firebase.connected" />
 </div>

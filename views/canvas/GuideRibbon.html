@@ -2,23 +2,45 @@
      class="guide-ribbon">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div ng-click="guide.show('my')"
-       ng-class="{'ribbon-item-current': guide.current('my')}"
+  <!--div ng-click="ribbon.guide.show('org')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('org')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
-    Org
+    <i class="icon-circle-blank icon-2x"></i>
+    <span ng-show="ribbon.guide.wide">
+      Org
+    </span>
   </div>
-  <div ng-click="guide.show('public')"
-       ng-class="{'ribbon-item-current': guide.current('public')}"
+  <div ng-click="ribbon.guide.show('repo')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('repo')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
-    Repo
+    <i class="icon-folder-open icon-2x"></i>
+    <span ng-show="ribbon.guide.wide">
+      Repo
+    </span>
+  </div-->
+  <div class="ribbon-item">
+    <a href="#/repo">
+      <i class="icon-folder-open icon-2x"></i>
+    </a>
+    <span ng-show="ribbon.guide.wide">
+      Repo
+    </span>
   </div>
-  <div ng-click="guide.show('recent')"
-       ng-class="{'ribbon-item-current': guide.current('recent')}"
+  <div ng-click="ribbon.guide.show('model')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('model')}"
        class="ribbon-item">
-    <i class="icon-user"></i>
-    Model
+    <i class="icon-list-alt icon-2x"></i>
+    <span ng-show="ribbon.guide.wide">
+      Model
+    </span>
+  </div>
+  <div ng-click="ribbon.guide.show('canvas')"
+       ng-class="{'ribbon-item-current': ribbon.guide.current('canvas')}"
+       class="ribbon-item">
+    <i class="icon-th icon-2x"></i>
+    <span ng-show="ribbon.guide.wide">
+      Model
+    </span>
   </div>
 
   <div ng-include src="'views/ribbon/License.html'"></div>
