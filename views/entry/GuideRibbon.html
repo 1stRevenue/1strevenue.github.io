@@ -1,32 +1,32 @@
-<div ng-controller="MenuRibbonController"
+<div ng-controller="RibbonController"
      class="guide-ribbon">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
-  <div>
-    <div ng-click="guide.show('welcome')"
-         ng-class="{'ribbon-item-current': guide.current('welcome')}"
-         class="ribbon-item">
-      <i class="icon-user"></i>
-      Welcome
-    </div>
-    <div ng-click="guide.show('logon')"
-         ng-class="{'ribbon-item-current': guide.current('logon')}"
-         class="ribbon-item">
-      <i class="icon-user"></i>
-      Log on
-    </div>
-    <div ng-click="guide.show('signup')"
-         ng-class="{'ribbon-item-current': guide.current('signup')}"
-         class="ribbon-item">
-      <i class="icon-user"></i>
-      Sign up
-    </div>
-    <div ng-click="guide.show('guest')"
-         ng-class="{'ribbon-item-current': guide.current('guest')}"
-         class="ribbon-item">
-      <i class="icon-user"></i>
-      Guest access
-    </div>
+
+  <div ng-click="guide.show('welcome')"
+       ng-class="{'ribbon-item-current': guide.current('welcome')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Welcome
   </div>
+  <div ng-click="guide.show('logon')"
+       ng-class="{'ribbon-item-current': guide.current('logon')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Log on
+  </div>
+  <div ng-click="guide.show('signup')"
+       ng-class="{'ribbon-item-current': guide.current('signup')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Sign up
+  </div>
+  <div ng-click="guide.show('guest')"
+       ng-class="{'ribbon-item-current': guide.current('guest')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Guest access
+  </div>
+
   <div ng-include src="'views/ribbon/License.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

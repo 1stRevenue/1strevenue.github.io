@@ -1,8 +1,6 @@
-<div ng-controller="CollabController"
-     class="collaboration-ribbon">
-  <div class="corner-menu">
-    <a ng-click="popup.toggle('right-ribbon')">&#9776;</a>
-  </div>
+<div ng-controller="RibbonController"
+     class="peer-ribbon">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
 
   <div class="user-count">
     {{userCount()}}
@@ -17,10 +15,5 @@
   <div ng-repeat="dbuser in db.users">
     <img ng-src="{{dbuser.image}}" />
   </div>
-  <img src="images/06dd3e96.signal-green.png"
-       class="signal-icon"
-       ng-show="firebase.connected" />
-  <img src="images/9b1398fb.signal-red.png"
-       class="signal-icon"
-       ng-hide="firebase.connected" />
+  <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

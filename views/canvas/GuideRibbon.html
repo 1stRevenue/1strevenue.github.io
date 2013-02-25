@@ -1,32 +1,26 @@
-<div ng-controller="MenuRibbonController"
-     class="menu-ribbon">
-  <div class="corner-menu">
-    <a ng-click="popup.toggle('menu-ribbon')">&#9776;</a>
+<div ng-controller="RibbonController"
+     class="guide-ribbon">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
+
+  <div ng-click="guide.show('my')"
+       ng-class="{'ribbon-item-current': guide.current('my')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Org
   </div>
-  <div>
-    <div ng-click="show('my')"
-         ng-class="{'ribbon-menu-current': visible('my')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      Org
-    </div>
-    <div ng-click="show('public')"
-         ng-class="{'ribbon-menu-current': visible('public')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      Repo
-    </div>
-    <div ng-click="show('recent')"
-         ng-class="{'ribbon-menu-current': visible('recent')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      Model
-    </div>
-    <img class="license-icon"
-         src="images/7d015afc.CC-32x32.png"
-         ng-click="popup.toggle('license')" />
-    <img class="uservoice-icon"
-         src="images/2246c7a1.uservoice-32x32.png"
-         ng-click="popup.toggle('uservoice')" />
+  <div ng-click="guide.show('public')"
+       ng-class="{'ribbon-item-current': guide.current('public')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Repo
   </div>
+  <div ng-click="guide.show('recent')"
+       ng-class="{'ribbon-item-current': guide.current('recent')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Model
+  </div>
+
+  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

@@ -1,34 +1,32 @@
-<div ng-controller="MenuRibbonController"
-     class="menu-ribbon">
-  <div class="corner-menu">
-    <a ng-click="popup.toggle('menu-ribbon')">&#9776;</a>
+<div ng-controller="RibbonController"
+     class="guide-ribbon">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
+
+  <div ng-click="guide.show('my')"
+       ng-class="{'ribbon-item-current': guide.current('my')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    My models
   </div>
-  <div>
-    <div ng-click="show('my')"
-         ng-class="{'ribbon-menu-current': visible('my')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      My models
-    </div>
-    <div ng-click="show('public')"
-         ng-class="{'ribbon-menu-current': visible('public')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      Public models
-    </div>
-    <div ng-click="show('recent')"
-         ng-class="{'ribbon-menu-current': visible('recent')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      Recently viewed
-    </div>
-    <div ng-click="show('all')"
-         ng-class="{'ribbon-menu-current': visible('all')}"
-         class="ribbon-menu">
-      <i class="icon-user"></i>
-      All models
-    </div>
-    <div ng-include src="'views/ribbon/License.html'"></div>
-    <div ng-include src="'views/ribbon/Uservoice.html'"></div>
+  <div ng-click="guide.show('public')"
+       ng-class="{'ribbon-item-current': guide.current('public')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Public models
   </div>
+  <div ng-click="guide.show('recent')"
+       ng-class="{'ribbon-item-current': guide.current('recent')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    Recently viewed
+  </div>
+  <div ng-click="guide.show('all')"
+       ng-class="{'ribbon-item-current': guide.current('all')}"
+       class="ribbon-item">
+    <i class="icon-user"></i>
+    All models
+  </div>
+
+  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>
