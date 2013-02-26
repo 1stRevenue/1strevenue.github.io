@@ -1,29 +1,38 @@
 <div ng-controller="RibbonController"
-     class="guide-ribbon">
+     class="guide-ribbon"
+     ng-init="ribbon = layout.guide"
+     ng-class="{'wide-ribbon': layout.guide.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div ng-click="ribbon.guide.show('my')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('my')}"
+  <div>
+    <div class="add-new-model">
+      <div class="add-new-model-icon"></div>
+    </div>
+    New model
+  </div>
+
+  <div ng-click="layout.setView('my')"
+       ng-class="{'ribbon-item-current': layout.isView('my')}"
        class="ribbon-item">
-    <i class="icon-th icon-2x"></i>
+    <i class="icon-list-alt icon-2x"></i>
     My models
   </div>
-  <div ng-click="ribbon.guide.show('public')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('public')}"
+  <div ng-click="layout.setView('public')"
+       ng-class="{'ribbon-item-current': layout.isView('public')}"
        class="ribbon-item">
-    <i class="icon-tx icon-2x"></i>
+    <i class="icon-list-alt icon-2x"></i>
     Public models
   </div>
-  <div ng-click="ribbon.guide.show('recent')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('recent')}"
+  <div ng-click="layout.setView('recent')"
+       ng-class="{'ribbon-item-current': layout.isView('recent')}"
        class="ribbon-item">
-    <i class="icon-tx icon-2x"></i>
+    <i class="icon-list-alt icon-2x"></i>
     Recently viewed
   </div>
-  <div ng-click="ribbon.guide.show('all')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('all')}"
+  <div ng-click="layout.setView('all')"
+       ng-class="{'ribbon-item-current': layout.isView('all')}"
        class="ribbon-item">
-    <i class="icon-tx icon-2x"></i>
+    <i class="icon-list-alt icon-2x"></i>
     All models
   </div>
 

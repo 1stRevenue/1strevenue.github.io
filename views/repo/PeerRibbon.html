@@ -1,22 +1,24 @@
 <div ng-controller="RibbonController"
-     class="peer-ribbon">
+     class="peer-ribbon"
+     ng-init="ribbon = layout.peer"
+     ng-class="{'wide-ribbon': layout.peer.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div class="user-count">
-    {{ribbon.peerCount()}}
+  <div class="peer-count">
+    {{db.peerCount()}}
   </div>
 
-  <div class="add-new-member">
-    <div class="add-new-member-icon"></div>
+  <div class="add-new-peer">
+    <div class="add-new-peer-icon"></div>
   </div>
 
   <!--div ng-repeat="dbuser in db.users"
        ng-show="dbuser.id != user.account.id"-->
-  <div ng-repeat="(userKey, user) in db.users"
+  <div ng-repeat="(peerKey, peer) in db.users"
        class="ribbon-item"
-       ng-class="{'ribbon-item-current': ribbon.isMyself(userKey)}">
-    <img ng-src="{{user.image}}"
-         title="{{user.name" />
+       ng-class="{'ribbon-item-current': user.isMyself(peerKey)}">
+    <img ng-src="{{peer.account.image}}"
+         title="{{peer.account.name" />
   </div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

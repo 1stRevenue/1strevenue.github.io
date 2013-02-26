@@ -1,13 +1,15 @@
 <div ng-controller="RibbonController"
-     class="peer-ribbon">
+     class="peer-ribbon"
+     ng-init="ribbon = layout.peer"
+     ng-class="{'wide-ribbon': layout.peer.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div class="user-count">
-    {{ribbon.peerCount()}}
+  <div class="peer-count">
+    0
   </div>
 
-  <div class="add-new-member">
-    <div class="add-new-member-icon"></div>
+  <div class="add-new-peer">
+    <div class="add-new-peer-icon"></div>
   </div>
 
   <div ng-include src="'views/ribbon/Signal.html'"></div>

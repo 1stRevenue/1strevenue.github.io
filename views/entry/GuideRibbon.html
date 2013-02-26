@@ -1,27 +1,29 @@
 <div ng-controller="RibbonController"
-     class="guide-ribbon">
+     class="guide-ribbon"
+     ng-init="ribbon = layout.guide"
+     ng-class="{'wide-ribbon': layout.guide.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div ng-click="ribbon.guide.show('welcome')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('welcome')}"
+  <div ng-click="layout.setView('welcome')"
+       ng-class="{'ribbon-item-current': layout.isView('welcome')}"
        class="ribbon-item">
     <i class="icon-user icon-2x"></i>
     Welcome
   </div>
-  <div ng-click="ribbon.guide.show('logon')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('logon')}"
+  <div ng-click="layout.setView('logon')"
+       ng-class="{'ribbon-item-current': layout.isView('logon')}"
        class="ribbon-item">
     <i class="icon-user icon-2x"></i>
     Log on
   </div>
-  <div ng-click="ribbon.guide.show('signup')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('signup')}"
+  <div ng-click="layout.setView('signup')"
+       ng-class="{'ribbon-item-current': layout.isView('signup')}"
        class="ribbon-item">
     <i class="icon-user icon-2x"></i>
     Sign up
   </div>
-  <div ng-click="ribbon.guide.show('guest')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('guest')}"
+  <div ng-click="layout.setView('guest')"
+       ng-class="{'ribbon-item-current': layout.isView('guest')}"
        class="ribbon-item">
     <i class="icon-user icon-2x"></i>
     Guest access

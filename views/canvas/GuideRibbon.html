@@ -1,45 +1,31 @@
 <div ng-controller="RibbonController"
-     class="guide-ribbon">
+     class="guide-ribbon"
+     ng-init="ribbon = layout.guide"
+     ng-class="{'wide-ribbon': layout.guide.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <!--div ng-click="ribbon.guide.show('org')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('org')}"
-       class="ribbon-item">
-    <i class="icon-circle-blank icon-2x"></i>
-    <span ng-show="ribbon.guide.wide">
-      Org
-    </span>
-  </div>
-  <div ng-click="ribbon.guide.show('repo')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('repo')}"
-       class="ribbon-item">
-    <i class="icon-folder-open icon-2x"></i>
-    <span ng-show="ribbon.guide.wide">
-      Repo
-    </span>
-  </div-->
   <div class="ribbon-item">
     <a href="#/repo">
       <i class="icon-folder-open icon-2x"></i>
     </a>
-    <span ng-show="ribbon.guide.wide">
+    <span ng-show="ribbon.wide">
       Repo
     </span>
   </div>
-  <div ng-click="ribbon.guide.show('model')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('model')}"
+  <div ng-click="layout.setView('model')"
+       ng-class="{'ribbon-item-current': layout.isView('model')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    <span ng-show="ribbon.guide.wide">
+    <span ng-show="ribbon.wide">
       Model
     </span>
   </div>
-  <div ng-click="ribbon.guide.show('canvas')"
-       ng-class="{'ribbon-item-current': ribbon.guide.current('canvas')}"
+  <div ng-click="layout.setView('canvas')"
+       ng-class="{'ribbon-item-current': layout.isView('canvas')}"
        class="ribbon-item">
     <i class="icon-th icon-2x"></i>
-    <span ng-show="ribbon.guide.wide">
-      Model
+    <span ng-show="ribbon.wide">
+      Canvas
     </span>
   </div>
 
