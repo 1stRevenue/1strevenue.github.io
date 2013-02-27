@@ -1,0 +1,44 @@
+<div class="container-fluid"
+     ng-show="layout.isView('logon') || layout.isView('signup')">
+  <div class="row-fluid">
+    <div class="span1"></div>
+
+    <div class="span10">
+      <h2>Log on to the 1st Revenue</h2>
+
+      <div class="logon">
+        <h3 ng-hide="user.authFailed">
+          Searching and retrieving the previous session...
+        </h3>
+        <div ng-show="user.authFailed">
+
+          <div class="tabbable" ng-model="logonTabName">
+            <div class="tab-pane" title="How To" value="howto">
+              <div ng-include="'views/entry/HowTo.html'">
+              </div>
+            </div>
+            <div class="tab-pane" title="Persona" value="persona">
+              <div ng-include="'views/entry/Persona.html'">
+              </div>
+            </div>
+            <div class="tab-pane" title="Social" value="social">
+              <div ng-include="'views/entry/Social.html'">
+              </div>
+            </div>
+            <div class="tab-pane" title="Firebase" value="firebase">
+              <div ng-include="'views/entry/Firebase.html'">
+              </div>
+            </div>
+            <div class="tab-pane" title="Custom" value="custom">
+              <div ng-include="'views/entry/Custom.html'">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="span1"></div>
+  </div>
+</div>

@@ -1,4 +1,6 @@
-<div class="create-model">
+<div ng-controller="NewModelController"
+     class="create-model"
+     ng-show="layout.isView('new')">
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span12">
@@ -9,6 +11,33 @@
       <form class="well span6"
             ng-submit="">
         <fieldset>
+          <div class="control-group"
+               ng-show="model.repo">
+            <label>Organisation</label>
+            <div class="controls">
+              {{model.repo.org}}
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label"
+                   for="repo-name">Repository</label>
+            <div class="controls">
+              <select id="repo-name"
+                      ng-model="model.repo"
+                      ng-options="r.repo group by r.org for r in repoList">
+              </select>
+              <!--select id="repo-name">
+                <optgroup ng-repeat="org in db.orgs"
+                          label="{{org.id}}">
+                  <option ng-repeat="repo in db.orgs[org.id].repos"
+                          value="{{org.id + '/' + repo.id}}">{{repo.id}}</option-
+                </optgroup>
+              </select-->
+              <p class="help-block"
+                 ng-show="name==''">Please choose the repository</p>
+            </div>
+          </div>
+
           <div class="control-group"
                ng-class="{error: nameError}">
             <label class="control-label"
@@ -33,19 +62,20 @@
                    for="model-icon">Icon</label>
             <button id="model-icon"
                     ng-hide="model.icon"
-                    class="btn"
+                    class="btn btn-success"
                     ng-click="attachIcon()">
               Attach model icon
             </button>
             <button id="model-icon"
                     ng-show="model.icon"
-                    class="btn"
+                    class="btn btn-warning"
                     ng-click="replaceIcon()">
               Replace model icon
             </button>
-            <img ng-src="{{model.icon}}" />
+            <img ng-src="{{model.icon}}"
+                 class="new-model-icon" />
             <button ng-show="model.icon"
-                    class="btn"
+                    class="btn btn-danger"
                     ng-click="removeIcon()">
               Remove model icon
             </button>
@@ -124,26 +154,26 @@
           <input model="user.selected"
                  type="checkbox" />
           <img class="user-list-icon"
-               ng-src="{{user.image}}" />
-          <span ng-switch="user.provider"
-                alt="{{user.provider}}">
+               ng-src="{{user.account.image}}" />
+          <span ng-switch="user.account.provider"
+                alt="{{user.account.provider}}">
             <img ng-switch-when="facebook"
                  title="facebook"
-                 ng-src="../../images/favicons/facebook.png" />
+                 ng-src="images/favicons/d1d1f241.facebook.png" />
             <img ng-switch-when="twitter"
                  title="twitter"
-                 ng-src="../../images/favicons/twitter.png" />
+                 ng-src="images/favicons/5d51cc2f.twitter.png" />
             <img ng-switch-when="github"
                  title="github"
-                 ng-src="../../images/favicons/github.png" />
+                 ng-src="images/favicons/83a60b7b.github.png" />
             <img ng-switch-when="persona"
                  title="persona"
-                 ng-src="../../images/favicons/persona.png" />
+                 ng-src="images/favicons/0121a343.persona.png" />
             <img ng-switch-when="firebase"
                  title="firebase"
-                 ng-src="../../images/favicons/firebase.png" />
+                 ng-src="images/favicons/733ecf03.firebase.png" />
           </span>
-          {{user.name}}
+          {{user.account.name}}
           <button class="close" ng-click="">&times;</button>
         </div>
 

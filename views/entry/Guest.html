@@ -1,0 +1,22 @@
+<div class="container-fluid"
+     ng-show="layout.isView('guest')">
+  <div class="row-fluid">
+    <div class="span1"></div>
+
+    <div class="span10">
+      <h2>Use the 1st Revenue as a guest</h2>
+
+      <div class="logon">
+        <h3 ng-hide="user.authFailed">
+          Anonymous access to public and demo models
+        </h3>
+        <div>
+          Guest users are allowed to use public and demo models only.
+          This function is not activated yet.
+        </div>
+      </div>
+    </div>
+
+    <div class="span1"></div>
+  </div>
+</div>

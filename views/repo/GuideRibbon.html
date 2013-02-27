@@ -4,7 +4,9 @@
      ng-class="{'wide-ribbon': layout.guide.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div>
+  <div ng-click="layout.setView('new')"
+       ng-class="{'ribbon-item-current': layout.isView('new')}"
+       class="ribbon-item">
     <div class="add-new-model">
       <div class="add-new-model-icon"></div>
     </div>

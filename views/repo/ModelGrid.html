@@ -1,11 +1,11 @@
 <div class="container-fluid"
      ng-controller="ModelsController">
   <div class="row-fluid">
-    <div ng-repeat="model in catalog.getModels()"
+    <div ng-repeat="model in catalog.getModels(layout.view)"
          ng-show="catalog.filterMatch(model.tags)">
       <div class="span2 well canvas-link model"
            title="{{model.name}}">
-        <a ng-href="#canvas/{{model.id}}">
+        <a ng-href="#/canvas/{{model.orgId}}/{{model.repoId}}/{{model.id}}">
           <img class="model-icon"
                ng-hide="model.icon == null"
                ng-src="{{model.icon}}"
