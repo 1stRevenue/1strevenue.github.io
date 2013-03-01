@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>1st Revenue Singly redirect return</title>
+    <script src="../scripts/vendor/winchan.js"></script>
+  </head>
+  <body>
+    <script>
+      var wc = WinChan.onOpen(function(origin, r, cb) {
+        var loc = window.location;
+        var lochash = loc.hash.substr(1);
+        var firebase = lochash.substr(lochash.indexOf('firebase='))
+          .split('&')[0]
+          .split('=')[1];
+        var access_token = lochash.substr(lochash.indexOf('access_token='))
+          .split('&')[0]
+          .split('=')[1];
+        var account = lochash.substr(lochash.indexOf('account='))
+          .split('&')[0]
+          .split('=')[1];
+
+        cb({
+          hash: window.location.hash,
+          firebase: firebase,
+          access_token: access_token,
+          account: account
+        });
+        window.close();
+      });
+    </script>
+  </body>
+</html>

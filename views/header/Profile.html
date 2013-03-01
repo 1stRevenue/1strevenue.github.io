@@ -4,6 +4,9 @@
       <img class="user-icon"
            ng-show="user.image"
            ng-src="{{user.image}}" />
+      <img class="user-icon"
+           ng-hide="user.image"
+           ng-src="images/bbf82395.light_avatar_small.png" />
     </div>
 
     <div class="pull-right">
@@ -13,12 +16,17 @@
           <a class="dropdown-toggle"
              data-toggle="dropdown"
              href="#user-menu">
-            <span class="caret"></span>
-            <div class="user-name">
+            <div class="user-name"
+                 ng-show="user.account.name">
               {{user.account.name}}
             </div>
+            <div class="user-name"
+                 ng-hide="user.account.name">
+              Singly: {{user.account.id}}
+            </div>
+            <span class="caret"></span>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu pull-right">
             <li>
               <div class="header-menu-line"
                    ontouchstart="$(this).trigger('click')"
@@ -61,15 +69,19 @@
       <img ng-switch-when="github"
            class="provider-icon"
            title="Github"
-           ng-src="images/favicons/83a60b7b.github.png" />
+           ng-src="images/favicons/1764740e.github_inverted.png" />
       <img ng-switch-when="persona"
            class="provider-icon"
            title="Persona"
-           ng-src="images/favicons/0121a343.persona.png" />
+           ng-src="images/favicons/fff40799.persona_inverted.png" />
       <img ng-switch-when="password"
            class="provider-icon"
            title="Firebase"
            ng-src="images/favicons/733ecf03.firebase.png" />
+      <img ng-switch-when="singly"
+           class="provider-icon"
+           title="Singly"
+           ng-src="images/favicons/087e701a.singly.png" />
     </span>
   </div>
 </div>

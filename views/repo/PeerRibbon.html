@@ -18,7 +18,11 @@
        class="ribbon-item"
        ng-class="{'ribbon-item-current': user.isMyself(peerKey)}">
     <img ng-src="{{peer.account.image}}"
-         title="{{peer.account.name" />
+         ng-show="peer.account.image"
+         title="{{peer.account.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         ng-hide="peer.account.image"
+         title="{{peer.account.id}}" />
   </div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

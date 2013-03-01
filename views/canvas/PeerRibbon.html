@@ -18,7 +18,11 @@
        class="ribbon-item"
        ng-class="{'ribbon-item-current': user.isMyself(userKey)}">
     <img ng-src="{{db.users[userKey].account.image}}"
+         ng-show="db.users[userKey].account.image"
          title="{{db.users[userKey].account.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         ng-hide="db.users[userKey].account.image"
+         title="{{db.users[userKey].account.id}}" />
   </div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

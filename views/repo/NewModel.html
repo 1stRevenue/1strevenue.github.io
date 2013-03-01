@@ -26,13 +26,6 @@
                       ng-model="model.repo"
                       ng-options="r.repo group by r.org for r in repoList">
               </select>
-              <!--select id="repo-name">
-                <optgroup ng-repeat="org in db.orgs"
-                          label="{{org.id}}">
-                  <option ng-repeat="repo in db.orgs[org.id].repos"
-                          value="{{org.id + '/' + repo.id}}">{{repo.id}}</option-
-                </optgroup>
-              </select-->
               <p class="help-block"
                  ng-show="name==''">Please choose the repository</p>
             </div>

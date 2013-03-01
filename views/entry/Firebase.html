@@ -54,9 +54,10 @@
   <div class="row-fluid">
     <div class="span4"></div>
     <div class="span8">
-      <button class="btn btn-primary"
+      <button class="btn btn-success"
               ng-hide="signup"
               ng-click="auth.launchPasswordAuth()">
+        <i class="icon-envelope"></i>
         Logon
       </button>
       <button class="btn btn-primary"
@@ -64,17 +65,17 @@
               ng-click="auth.signupPasswordAuth()">
         Sign up
       </button>
-      <button class="btn btn-primary"
+      <button class="btn btn-warning"
               ng-hide="signup || changePassword"
               ng-click="changePassword = true">
         Change password
       </button>
-      <button class="btn btn-primary"
+      <button class="btn btn-warning"
               ng-show="changePassword"
               ng-click="auth.changePassword();changePassword = false;">
         Confirm password
       </button>
-      <button class="btn btn-primary"
+      <button class="btn"
               ng-show="changePassword"
               ng-click="changePassword = false">
         Cancel
