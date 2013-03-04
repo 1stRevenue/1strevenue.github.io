@@ -28,13 +28,13 @@
         ng-controller="StickerController"
         class="st-item">
 
-      <div first-revenue-edit
-           first-revenue-drag
+      <div zzz-first-revenue-edit
+           zzz-first-revenue-drag
            class="st-grad xxxx-corner-shadow"
            ng-class="{pulsate: sticker.id == editor.sticker.id, 'st-abs': canvas.getAbs(sticker), 'st-rel': !canvas.getAbs(sticker)}"
            data-id="{{sticker.id}}"
            data-cypherid="{{sticker.position.cypherId}}"
-           zzz-bs-popover="{title: sticker.title, content: sticker.notes}"
+           open-tip="{{updateOpenTip()}}"
            style="{{canvas.getPosition(sticker)}}">
 
         <div class="st-pop"
