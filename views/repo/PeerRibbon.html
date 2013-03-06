@@ -4,25 +4,12 @@
      ng-class="{'wide-ribbon': layout.peer.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div class="peer-count">
-    {{db.peerCount()}}
+  <div ng-switch="layout.view">
+    <div ng-switch-when="new"
+         ng-include src="'views/repo/NewModelPeers.html'"></div>
+    <div ng-switch-default
+         ng-include src="'views/repo/RepoPeers.html'"></div>
   </div>
 
-  <div class="add-new-peer">
-    <div class="add-new-peer-icon"></div>
-  </div>
-
-  <!--div ng-repeat="dbuser in db.users"
-       ng-show="dbuser.id != user.account.id"-->
-  <div ng-repeat="(peerKey, peer) in db.users"
-       class="ribbon-item"
-       ng-class="{'ribbon-item-current': user.isMyself(peerKey)}">
-    <img ng-src="{{peer.account.image}}"
-         ng-show="peer.account.image"
-         title="{{peer.account.name}}" />
-    <img ng-src="images/bbf82395.light_avatar_small.png"
-         ng-hide="peer.account.image"
-         title="{{peer.account.id}}" />
-  </div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

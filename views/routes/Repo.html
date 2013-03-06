@@ -1,12 +1,15 @@
 <div ng-include src="'views/repo/GuideRibbon.html'"></div>
 
-<div class="first-revenue-repo"
+<div ng-switch="layout.view">
+  <div ng-switch-when="new"
+       class="first-revenue-new-model"
+     ng-controller="NewModelController">
+    <div ng-include="'views/repo/NewModel.html'"></div>
+  </div>
+  <div ng-switch-default
+       class="first-revenue-repo"
      ng-controller="RepoController">
-  <div ng-switch="layout.view">
-    <div ng-switch-when="new"
-         ng-include="'views/repo/NewModel.html'"></div>
-    <div ng-switch-default
-         ng-include="'views/repo/Models.html'"></div>
+    <div ng-include="'views/repo/Models.html'"></div>
   </div>
 </div>
 
