@@ -1,0 +1,62 @@
+<h2>Invite</h2>
+<div>
+  One of your {{service}} contacts sent you an invite to join
+  <strong>1stRevenue.com</strong>
+</div>
+<div>The invite code is {{inviteId}}</div>
+<!--div>Session found: {{me.sessionFound}}</div-->
+<div ng-show="!invite.completed"
+     ng-switch="me.sessionFound">
+  <div ng-switch-when="true">
+    <div>There's a previous 1st Revenue session for this browser</div>
+    <div>
+      with the following account:
+      {{user.lastUser.provider}}-{{user.lastUser.id}}
+      ({{user.lastUser.name}})
+    </div>
+    <div>
+      Choose to abandon the session and accept the new invite or
+      ignore the invite and continue with the previous session
+    </div>
+    <div>
+      <button class="btn btn-danger"
+              ng-show="service"
+              ng-click="invite.ignoreInvite(service)">
+        Ignore invite
+      </button>
+      <button class="btn btn-primary"
+              ng-show="service"
+              ng-click="invite.acceptInvite(service)">
+        Accept invite
+      </button>
+    </div>
+  </div>
+  <div ng-switch-when="false">
+    <button class="btn btn-success"
+            ng-show="service"
+            ng-click="invite.acceptInvite(service)">
+      Accept invite
+    </button>
+  </div>
+</div>
+
+<div ng-show="!invite.inviteValue">
+  The invite with the given code does not exist anymore
+</div>
+
+<div ng-show="invite.completed">
+  Invite has been completed
+</div>
+
+<div ng-show="invite.error">
+  <div class="alert alert-error alert-block">
+    {{invite.error}}
+  </div>
+  Ignore the invite and create your independent account
+  <div>
+    <button class="btn btn-primary"
+            ng-click="createAccount()">
+      Create 1st Revenue account
+    </button>
+  </div>
+</div>

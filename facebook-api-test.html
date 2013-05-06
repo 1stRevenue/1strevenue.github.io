@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Facebook API Test</title>
+  </head>
+  <body>
+    <div id="fb-root">
+      <div class="fb-login-button"
+           data-show-faces="true"
+           data-width="800"
+           data-max-rows="3"
+           data-size="xlarge">
+      </div>
+    </div>
+    <!--div class="fb-login-button"-->
+
+<!--
+show-faces - specifies whether to show faces underneath the Login button.
+width - the width of the plugin in pixels. Default width: 200px.
+max-rows - the maximum number of rows of profile pictures to display. Default value: 1.
+scope - a comma separated list of extended permissions. By default the Login button prompts users for their public information. If your application needs to access other parts of the user's profile that may be private, your application can request extended permissions. A complete list of extended permissions can be found here.
+registration-url - registration page url. If the user has not registered for your site, they will be redirected to the URL you specify in the registration-url parameter.
+size - Different sized buttons: small, medium, large, xlarge (default: medium).
+-->
+    <script>
+      window.fbAsyncInit = function() {
+        // init the FB JS SDK
+        FB.init({
+          appId      : '456109224430372',                        // App ID from the app dashboard
+          channelUrl : '//prototype.1strevenue.com/1stRevenue/facebook-channel.html', // Channel file for x-domain comms
+          status     : true,                                 // Check Facebook Login status
+          cookie: true,
+          xfbml      : true                                  // Look for social plugins on the page
+        });
+
+        // Additional initialization code such as adding Event Listeners goes here
+      };
+
+      // Load the SDK asynchronously
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+  </body>
+</html>

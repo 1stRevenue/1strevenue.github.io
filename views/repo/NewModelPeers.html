@@ -1,5 +1,5 @@
 <div class="peer-count">
-  {{db.peerCount()}}
+  {{me.peerCount()}}
 </div>
 
 <!--div class="add-new-peer">
@@ -7,55 +7,50 @@
 </div-->
 
 <!--div ng-repeat="dbuser in db.users"
-     ng-show="dbuser.id != user.account.id"-->
+     ng-show="dbuser.id != user.profile.id"-->
 <!--div ng-repeat="(peerKey, peer) in db.users"
      class="ribbon-item"
      ng-class="{'ribbon-item-current': user.isMyself(peerKey)}">
-  <img ng-src="{{peer.account.image}}"
-       ng-show="peer.account.image"
-       title="{{peer.account.name}}" />
+  <img ng-src="{{peer.profile.image}}"
+       ng-show="peer.profile.image"
+       title="{{peer.profile.name}}" />
   <img ng-src="images/bbf82395.light_avatar_small.png"
-       ng-hide="peer.account.image"
-       title="{{peer.account.id}}" />
+       ng-hide="peer.profile.image"
+       title="{{peer.profile.id}}" />
 </div-->
 
 <div class="new-model-users">
   <div>
     Existing users
   </div>
-  <div ng-repeat="(userKey, dbUser) in db.users"
-       ng-class="{'user-selected': dbUser.selected || user.isMyself(userKey)}"
-       ng-click="dbUser.selected = !dbUser.selected"
+  <div ng-repeat="contact in me.getContacts()"
+       ng-class="{'user-selected': me.wasContactSelected(contact)}"
+       ng-click="me.toggleContact(contact)"
        class="ribbon-item">
     <!--input type="checkbox"
            class="peer-checkbox"
            model="dbUser.selected" /-->
     <span class="provider-icon peer-provider"
-          ng-switch="dbUser.account.provider"
-          alt="{{dbUser.account.provider}}">
-      <img ng-switch-when="facebook"
-           title="facebook"
-           ng-src="images/favicons/d1d1f241.facebook.png" />
-      <img ng-switch-when="twitter"
-           title="twitter"
-           ng-src="images/favicons/5d51cc2f.twitter.png" />
-      <img ng-switch-when="github"
-           title="github"
-           ng-src="images/favicons/83a60b7b.github.png" />
-      <img ng-switch-when="persona"
-           title="persona"
-           ng-src="images/favicons/0121a343.persona.png" />
-      <img ng-switch-when="firebase"
-           title="firebase"
-           ng-src="images/favicons/733ecf03.firebase.png" />
+          alt="{{contact.service}}">
+      <img title="{{contact.service}}"
+           src="{{favicon.getUrl(contact.service)}}" />
     </span>
-    <span class="user-account-name">{{dbUser.account.name}}</span>
-    <img class="user-icon"
-         ng-src="{{dbUser.account.image}}" />
+    <span class="user-profile-name">{{contact.name}}</span>
+    <img ng-src="{{contact.image}}"
+         class="user-icon"
+         ng-show="contact.image"
+         title="{{contact.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         class="user-icon"
+         ng-hide="contact.image"
+         title="{{contact.id}}" />
   </div>
 
   <div>
-    Invite new users
+    <button class="btn btn-primary"
+            ng-click="me.inviteUsers()">
+      Invite more users
+    </button>
   </div>
   <!--div ng-repeat="user in db.users">
     <input model="user.selected"

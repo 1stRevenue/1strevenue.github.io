@@ -9,14 +9,14 @@
     <script>
       var wc = WinChan.onOpen(function(origin, r, cb) {
         var loc = window.location;
-        var lochash = loc.hash.substr(1);
-        var firebase = lochash.substr(lochash.indexOf('firebase='))
+        var locHash = loc.hash.substr(1);
+        var firebase = locHash.substr(locHash.indexOf('firebase='))
           .split('&')[0]
           .split('=')[1];
-        var access_token = lochash.substr(lochash.indexOf('access_token='))
+        var access_token = locHash.substr(locHash.indexOf('access_token='))
           .split('&')[0]
           .split('=')[1];
-        var account = lochash.substr(lochash.indexOf('account='))
+        var account = locHash.substr(locHash.indexOf('account='))
           .split('&')[0]
           .split('=')[1];
 

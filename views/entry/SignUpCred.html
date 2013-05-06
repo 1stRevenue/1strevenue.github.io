@@ -1,0 +1,41 @@
+<div ng-repeat="(key, cred) in user.getCredentials()"
+     class="well signup-attached">
+  <div class="clearfix">
+    <img ng-src="{{cred.profile.image}}"
+         class="pull-right user-icon" />
+    <div>
+      <button class="btn btn-small disabled"
+              ng-show="getProv(key).icon">
+        <i class="icon-{{getProv(key).icon}}"></i>
+      </button>
+      {{getProv(key).title}}
+    </div>
+    <div ng-show="cred.profile.name">
+      <small>Name: </small>
+      {{cred.profile.name}}
+    </div>
+    <div ng-show="cred.profile.email">
+      <small>E-mail: </small>
+      {{cred.profile.email}}
+    </div>
+  </div>
+  <div class="clearfix">
+    <button class="btn btn-small btn-warning"
+            ng-click="user.detach(key)">
+      <i class="icon-chevron-left"></i>
+      Detach
+    </button>
+    <button class="btn btn-small btn-primary pull-right"
+            ng-hide="user.isPrimary(cred)"
+            ng-click="user.setPrimary(cred)">
+      <i class="icon-ok"></i>
+      Set as primary
+    </button>
+    <button class="btn btn-small disabled pull-right"
+            ng-show="user.isPrimary(cred)"
+            ng-click="user.setPrimary(cred)">
+      <i class="icon-ok"></i>
+      Primary account
+    </button>
+  </div>
+</div>

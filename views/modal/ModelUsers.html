@@ -1,0 +1,122 @@
+<ui-modal ng-model="modal.users"
+          data-backdrop="static"
+          class="fade first-revenue-users">
+  <div class="modal-header model-users-header">
+    <button class="close"
+            ng-click="modal.users=false">&times;</button>
+    <h3>Model collaborators</h3>
+  </div>
+  <div ng-switch="modal.users">
+    <!-- switch on modal.users is needed to postpone loading of UserController -->
+    <div ng-switch-when="true"
+         ng-controller="UserController"
+         class="zzz-modal-body container-fluid">
+      <div class="model-users-body">
+        <h4>
+          <img ng-src="{{canvas.model.fields.image}}"
+               class=""/>
+          {{canvas.model.fields.name}}
+        </h4>
+      </div>
+      <div class="model-users-favorites"
+           ng-hide="favoriteCount">
+        No favorite partners available
+      </div>
+      <div class="model-users-favorites"
+           ng-show="favoriteCount">
+        <label class="control-label">Select from favorite partners</label>
+        <div ng-repeat="(key, favorite) in getFavorites()"
+             zzz-ng-class="{'user-selected': me.wasContactSelected(contact)}"
+             ng-click="toggleFavorite(f)"
+             class="model-users-row">
+          <!--input type="checkbox"
+                 class="peer-checkbox"
+                 model="dbUser.selected" /-->
+          <span class="provider-icon peer-provider"
+                alt="{{favorite.service}}">
+            <img title="{{favorite.service}}"
+                 src="{{favicon.getUrl(favorite.service)}}" />
+          </span>
+          <span class="user-profile-name">{{favorite.name}}</span>
+          <img ng-src="{{favorite.image}}"
+               class="user-icon"
+               ng-show="favorite.image"
+               title="{{favorite.name}}" />
+          <img ng-src="images/bbf82395.light_avatar_small.png"
+               class="user-icon"
+               ng-hide="favorite.image"
+               title="{{favorite.id}}" />
+          <span class="user-selection-icon"
+              ng-click="addPeer(key, favorite)">
+            <i class="icon-chevron-right icon-2x"></i>
+          </span>
+        </div>
+      </div>
+      <div class="model-users-peers well">
+        <label class="control-label">Selected peers</label>
+        <div ng-repeat="(key, peer) in getPeers()"
+             zzz-ng-class="{'user-selected': me.wasContactSelected(contact)}"
+             class="model-users-row">
+          <!--input type="checkbox"
+                 class="peer-checkbox"
+                 model="dbUser.selected" /-->
+          <span class="user-selection-icon"
+                ng-hide="me.userId===key"
+                ng-click="removePeer(key, peer)">
+            <i class="icon-chevron-left icon-2x"></i>
+          </span>
+          <span class="provider-icon peer-provider"
+                alt="{{peer.service}}">
+            <img title="{{peer.service}}"
+                 src="{{favicon.getUrl(peer.service)}}" />
+          </span>
+          <span class="user-profile-name">{{peer.name}}</span>
+          <img ng-src="{{peer.image}}"
+               class="user-icon"
+               ng-show="peer.image"
+               title="{{peer.name}}" />
+          <img ng-src="images/bbf82395.light_avatar_small.png"
+               class="user-icon"
+               ng-hide="peer.image"
+               title="{{peer.id}}" />
+        </div>
+        <label class="control-label">Pending invites</label>
+        <div ng-repeat="(inviteId, invite) in getInvites()"
+             zzz-ng-class="{'user-selected': me.wasContactSelected(contact)}"
+             class="model-users-row">
+          <!--input type="checkbox"
+                 class="peer-checkbox"
+                 model="dbUser.selected" /-->
+          <span class="user-selection-icon"
+                ng-click="removeInvite(inviteId, invite)">
+            <i class="icon-chevron-left icon-2x"></i>
+          </span>
+          <span class="provider-icon peer-provider"
+                alt="{{invite.service}}">
+            <img title="{{invite.service}}"
+                 src="{{favicon.getUrl(invite.service)}}" />
+          </span>
+          <span class="user-profile-name">{{invite.name}}</span>
+          <img ng-src="{{invite.image}}"
+               class="user-icon"
+               ng-show="invite.image"
+               title="{{invite.name}}" />
+          <img ng-src="images/bbf82395.light_avatar_small.png"
+               class="user-icon"
+               ng-hide="invite.image"
+               title="{{invite.id}}" />
+          <button class="btn btn-small btn-primary model-users-invite"
+                  ng-show="isInviteAllowed(inviteId)"
+                  ng-click="sendInvite(inviteId, invite)">
+            Invite
+          </button>
+          <button class="btn btn-small model-users-invite"
+                  ng-show="wasInviteSent(inviteId)"
+                  ng-disabled="true">
+            Invited
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ui-modal>

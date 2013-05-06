@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>1st Revenue Facebook redirect return</title>
+    <script src="../scripts/vendor/winchan/winchan.js"></script>
+  </head>
+  <body>
+    <script>
+      var wc = WinChan.onOpen(function(origin, r, cb) {
+        var loc = window.location;
+        var search = loc.search;
+        var response = {loc: loc};
+        if (search === '?success=1') {
+          response.success = true;
+        }
+        else {
+          response.cancel = true;
+        }
+        cb(response);
+        window.close();
+      });
+    </script>
+  </body>
+</html>

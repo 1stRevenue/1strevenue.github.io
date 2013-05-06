@@ -4,12 +4,21 @@
      ng-class="{'wide-ribbon': layout.guide.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div ng-click="layout.setView('new')"
+  <div ng-click="routeTo('people')"
+       zzz-ng-click="layout.setView('contacts')"
+       ng-class="{'ribbon-item-current': layout.isView('contacts')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    Manage contacts
+  </div>
+  <div ng-click="modal.model=true"
+       zzz-ng-click="layout.setView('new')"
        ng-class="{'ribbon-item-current': layout.isView('new')}"
        class="ribbon-item">
-    <div class="add-new-model">
+    <i class="icon-plus icon-2x"></i>
+    <!--div class="add-new-model">
       <div class="add-new-model-icon"></div>
-    </div>
+    </div-->
     New model
   </div>
 
@@ -26,10 +35,10 @@
     Public models
   </div>
   <div ng-click="layout.setView('recent')"
-       ng-class="{'ribbon-item-current': layout.isView('recent')}"
+       ng-class="{'ribbon-item-current': layout.isView('shared')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    Recently viewed
+    Shared with me
   </div>
   <div ng-click="layout.setView('all')"
        ng-class="{'ribbon-item-current': layout.isView('all')}"

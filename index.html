@@ -16,7 +16,7 @@
     <!--meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /--> <!-- Overlaps the top of app -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
-    <link rel="apple-touch-icon" href="img/1R-red-white-57x57.png">
+    <link rel="apple-touch-icon" href="images/apple/9d34dff8.1R-red-white-57x57.png">
     <!--link rel="apple-touch-icon" href="img/NetBMG-logo-iOS-57x57.png" /-->
     <!--link rel="apple-touch-icon-precomposed" href="img/NetBMG-logo-iOS-57x57.png"/-->
     
@@ -26,10 +26,10 @@
 
 <!-- startup image for web apps - iPad - landscape (748x1024) 
      Note: iPad landscape startup image has to be exactly 748x1024 pixels (portrait, with contents rotated).-->
-    <link rel="apple-touch-startup-image" href="img/ipad-startup-landscape-loading-1R.jpg" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+    <link rel="apple-touch-startup-image" href="images/apple/3241b64b.ipad-startup-landscape-loading-1R.jpg" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
 
     <!-- startup image for web apps - iPad - portrait (768x1004) -->
-    <link rel="apple-touch-startup-image" href="img/ipad-startup-portrait-loading-1R.jpg" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+    <link rel="apple-touch-startup-image" href="images/apple/8b203336.ipad-startup-portrait-loading-1R.jpg" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 
     <!--link rel="apple-touch-startup-image" href="img/NetBMG-logo.png"  sizes="320x460"  media="(max-device-width: 480px) and not (-webkit-min-device-pixel-ratio: 2)" />
     <link rel="apple-touch-startup-image" href="/images/startup-iphone4.png" sizes="640x920"  media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" />
@@ -38,35 +38,47 @@
 
     <!-- prevents browser contents to be dragged -->
     <!-- http://stackoverflow.com/questions/6488722/safari-on-ios-window-dragging-and-styling-problem -->
-    <!--meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /-->
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Don't use the following for 1stRevenue -->
+    <!--meta name="viewport" content="width=device-width"/-->
+
     <title>1st Revenue</title>
     <!--link rel="stylesheet" href="components/jquery.qtip/jquery.qtip.2012-04-28.min.css"/-->
     <!--link rel="stylesheet" href="//cdn.jsdelivr.net/qtip2/2.0.1/basic/jquery.qtip.css" /-->
-    <link rel="stylesheet" href="//raw.github.com/Craga89/qTip2/master/dist/jquery.qtip.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/2.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/2.3.0/css/bootstrap-responsive.min.css">
+    <!--link rel="stylesheet" href="//raw.github.com/Craga89/qTip2/master/dist/jquery.qtip.min.css" /-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/2.3.1/css/bootstrap.min.css">
+    <!--link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/2.3.1/css/bootstrap-responsive.min.css"/-->
 
     <!--link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/3.0.2/css/font-awesome.css"/-->
 
-    <link rel="stylesheet" href="styles/ac3ca5ca.main.css">
+    <link rel="stylesheet" href="styles/aeb15520.main.css">
 
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/1.2.4/es5-shim.min.js"></script-->
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script-->
 <!--[if lt IE 9]>
-<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-<![endif]-->	
+    <script src="//cdn.jsdelivr.net/es5.shim/2.0.5/es5-shim.min.js"></script>
+    <script src="//cdn.jsdelivr.net/json3/3.2.4/json3.min.js"></script>
+    <script src="//ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+<![endif]-->
 
+  <!--[if gt IE 6]>
+    <script>
+      if (typeof console === "undefined"){
+        console={};
+        console.log = function(){
+          return;
+        }
+      }
+    </script>
+  <![endif]-->
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script-->
+    <script src="//cdn.jsdelivr.net/modernizr/2.6.2/modernizr.min.js"></script>
   </head>
   <body ng-app="FirstRevenueApp">
 
     <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
-      
-    <!--[if lt IE 9]>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/1.2.4/es5-shim.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/json3/3.2.4/json3.min.js"></script>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
 
     <div ng-include="" src="'views/Master.html'"></div>
@@ -76,37 +88,54 @@
     </script>
 
     <!-- C D N -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+    <!-- j Q u e r y -->
+    <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script-->
+    <!--script src="//code.jquery.com/jquery-migrate-1.1.1.min.js"></script-->
+    <!--script src="//cdn.jsdelivr.net/jquery/1.9.1/jquery-1.9.1.min.js"></script-->
+    <!--script src="//cdn.jsdelivr.net/jquery/2.0.0/jquery-2.0.0.min.js"></script-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.migrate/1.1.1/jquery-migrate.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/qtip2/2.0.1/jquery.qtip.js"></script>
     <!--script src="//raw.github.com/Craga89/qTip2/master/dist/jquery.qtip.js"></script-->
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular.min.js"></script>
-    <script src="//code.angularjs.org/1.1.3/angular-bootstrap.min.js"></script>
-    <script src="//code.angularjs.org/1.1.3/angular-resource.min.js"></script>
+    <!-- A n g u l a r J S -->
+    <!--script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.3/angular.js"></script-->
+    <script src="//code.angularjs.org/1.1.3/angular.js"></script>
+    <script src="//code.angularjs.org/1.1.3/angular-bootstrap.js"></script>
+    <script src="//code.angularjs.org/1.1.3/angular-resource.js"></script>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <!-- U n d e r s c o r e J S / L o D a s h -->
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script-->
+    <script src="//cdn.jsdelivr.net/underscorejs/1.4.4/underscore-min.js"></script>
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/1.1.1/lodash.min.js"></script-->
+    <!--script src="//cdn.jsdelivr.net/lodash/1.0.1/lodash.min.js"></script-->
 
     <!-- B o o t s t r a p -->
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap.min.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-affix.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-alert.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-button.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-carousel.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-collapse.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-dropdown.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-modal.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-popover.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-scrollspy.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-tab.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-tooltip.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-transition.js"></script>
-    <script src="//cdn.jsdelivr.net/bootstrap/2.3.0/js/bootstrap-typeahead.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-affix.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-alert.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-button.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-carousel.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-collapse.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-dropdown.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-modal.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-popover.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-scrollspy.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-tab.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-tooltip.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-transition.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/2.3.1/js/bootstrap-typeahead.js"></script>
 
     <script src="//mgcrea.github.com/angular-strap/js/angular-strap.js"></script>
 
-    <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script> <!-- For Gravatar hash calculation -->
+    <!-- C r y p t o - j s -->
+    <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script> <!-- For Gravatar hash calculation -->
+    <script src="//crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+    <!--script type="text/javascript"
+            src="//raw.github.com/scintill/crypto-js/3.x/src/md5.js"></script--> <!-- For Gravatar hash calculation -->
+    <!--script type="text/javascript"
+            src="//raw.github.com/scintill/crypto-js/3.x/src/enc-base64.js"></script-->
 
     <script src="//api.filepicker.io/v1/filepicker.js"></script>
 
@@ -116,15 +145,93 @@
 
     <script src="//login.persona.org/include.js"></script>
 
-    <script src="scripts/05bec9fa.main.js"></script>
+    <script src="config.js"></script>
 
-    <script src="scripts/03830f20.vendor.js"></script>
+    <script src="scripts/a6cba250.main.js"></script>
+
+    <script src="scripts/baf14b75.vendor.js"></script>
 
     <!--script src="scripts/vendor/jwt-simple.js"></script-->
 
+    <script type="text/javascript">
+      window.___gcfg = {lang: 'en'};
+      (function() {
+        var po = document.createElement("script");
+        po.type = "text/javascript";
+        po.async = true;
+//        po.src = "https://apis.google.com/js/plusone.js";
+        po.src = "//apis.google.com/js/plusone.js";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+
+    <script type="text/javascript">
+      // Twitter
+      !function(d,s,id) {
+        var js,fjs=d.getElementsByTagName(s)[0];
+        if(!d.getElementById(id)){
+          js=d.createElement(s);
+          js.id=id;
+          js.src="//platform.twitter.com/widgets.js";
+          fjs.parentNode.insertBefore(js,fjs);
+        }
+      }(document,"script","twitter-wjs");
+    </script>
+
+    <!-- Segment.io -->
+    <!-- Minified version of Analytics.js -->
+    <!-- Modify settings at https://segment.io/1strevenue-dev/integrations -->
+    <script type="text/javascript">
+      var analytics=analytics||[];analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);var r=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}},i=["identify","track","trackLink","trackForm","trackClick","trackSubmit","pageview","ab","alias","ready"];for(var s=0;s<i.length;s++)analytics[i[s]]=r(i[s])};
+      //      analytics.load("aonhwj5uet"); // 1strevenue
+      analytics.load("ww4f8po3lo"); // 1strevenue-dev
+    </script>
+
+    <!-- Non-minified version of Analytics.js -->
+    <!--script type="text/javascript">
+      // Create a queue, but don't obliterate an existing one!
+      var analytics = analytics || [];
+
+      // Define a method that will asynchronously load analytics.js from our CDN.
+      analytics.load = function(apiKey) {
+
+        // Create an async script element for analytics.js.
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = ('https:' === document.location.protocol ? 'https://' : 'http://') +
+            'd2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/' + apiKey + '/analytics.min.js';
+
+        // Find the first script element on the page and insert our script next to it.
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+
+        // Define a factory that generates wrapper methods to push arrays of
+        // arguments onto our `analytics` queue, where the first element of the arrays
+        // is always the name of the analytics.js method itself (eg. `track`).
+        var methodFactory = function (type) {
+          return function () {
+            analytics.push([type].concat(Array.prototype.slice.call(arguments, 0)));
+          };
+        };
+
+        // Loop through analytics.js' methods and generate a wrapper method for each.
+        var methods = ['identify', 'track', 'trackLink', 'trackForm', 'trackClick',
+          'trackSubmit', 'pageview', 'ab', 'alias', 'ready'];
+        for (var i = 0; i < methods.length; i++) {
+          analytics[methods[i]] = methodFactory(methods[i]);
+        }
+      };
+
+      // Load analytics.js with your API key, which will automatically load all of the
+      // analytics integrations you've turned on for your account. Boosh!
+      analytics.load('aonhwj5uet');
+    </script-->
 
     <!-- Google Analytics -->
-    <script type="text/javascript">
+    <!-- Delegated to Analytics.js -->
+    <!--script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-34841568-1']);
       _gaq.push(['_setSiteSpeedSampleRate', 100]); // Collect data for 100% of all visitors
@@ -137,9 +244,10 @@
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    </script>
+    </script-->
 
     <!-- Uservoice -->
+    <!-- Delegated to Analytics.js -->
     <!--script type="text/javascript">
       // UserVoice.com
       var uvOptions = {};
@@ -158,31 +266,10 @@
         s.parentNode.insertBefore(uv, s);
       })();  
     </script-->
-    <script type="text/javascript">
-      window.___gcfg = {lang: 'en'};
-      (function() {
-        var po = document.createElement("script");
-        po.type = "text/javascript";
-        po.async = true;
-        po.src = "https://apis.google.com/js/plusone.js";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(po, s);
-      })();
-    </script>
-    <script>
-      // Twitter
-      !function(d,s,id) {
-        var js,fjs=d.getElementsByTagName(s)[0];
-        if(!d.getElementById(id)){
-          js=d.createElement(s);
-          js.id=id;
-          js.src="//platform.twitter.com/widgets.js";
-          fjs.parentNode.insertBefore(js,fjs);
-        }
-      }(document,"script","twitter-wjs");
-    </script>    
+
     <!-- start Mixpanel -->
-    <script type="text/javascript">
+    <!-- Delegated to Analytics.js -->
+    <!--script type="text/javascript">
       (function(c,a) {
         var b,d,h,e;
         b=c.createElement("script");
@@ -218,7 +305,11 @@
 
 //    mixpanel.init("c8207c82b18972932cc34758b69ae020"); // NetBMG
       mixpanel.init("c91e977341204ecb043c3fdbe5a34a36"); // 1stRevenue
-    </script>
+    </script-->
     <!-- end Mixpanel -->
+
+    <!-- WEINRE - Web Inspector Remote script -->
+    <!--script src="http://192.168.3.254:8081/target/target-script-min.js"></script-->
+    <!--script src="https://trigger.io/catalyst/target/target-script-min.js#7372E95A-26A5-4F3C-94B3-D7BCB0D79443"></script-->
   </body>
 </html>

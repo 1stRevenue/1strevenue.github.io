@@ -1,0 +1,44 @@
+<div class="well well-large signup-profile">
+  <div class="clearfix">
+    <img ng-src="{{user.record.profile.image}}"
+         ng-show="user.record.profile.image"
+         class="pull-right user-icon" />
+    <div>
+      <button ng-repeat="key in user.getCredentialKeys()"
+              class="btn btn-small disabled"
+              ng-show="getProv(key).icon">
+        <i class="icon-{{getProv(key).icon}}"></i>
+      </button>
+    </div>
+    <div ng-show="user.record.profile.name">
+      <small>Name: </small>
+      {{user.record.profile.name}}
+    </div>
+    <div ng-show="user.record.profile.email">
+      <small>E-mail: </small>
+      {{user.record.profile.email}}
+    </div>
+  </div>
+  <div class="clearfix">
+    <button class="btn btn-primary disabled pull-right"
+            ng-show="user.record.profile.ready"
+            ng-click="signUp.modify()">
+      <i class="icon-edit"></i>
+      Modify
+    </button>
+    <!--button class="btn btn-warning disabled"
+            ng-hide="signUp.account.ready">
+      <i class="icon-plus"></i>
+      Sign Up
+    </button-->
+    <div ng-hide="user.record.profile.ready">
+      Attach one or more accounts to build your 1st Revenue profile
+    </div>
+    <button class="btn btn-success"
+            ng-show="user.record.profile.ready"
+            ng-click="signUp.signUp()">
+      <i class="icon-plus"></i>
+      Sign Up
+    </button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="first-revenue-contacts"
+     ng-controller="ContactController">
+  <button class="btn btn-large btn-success"
+          ng-disabled="false"
+          ng-click="saveContacts()">
+    Save contacts
+  </button>
+  <button class="btn btn-large btn-success"
+          ng-disabled="false"
+          ng-click="setAccount(null)">
+    All accounts
+  </button>
+  <button ng-repeat="(key, account) in getAccounts()"
+          class="btn btn-large btn-success"
+          ng-disabled="false"
+          ng-click="setAccount(key)">
+    {{account.profile.service}}
+  </button>
+  <!--div ng-repeat='contact in getContacts()'
+       class="container-fluid">
+    <div class="row-fluid">
+      <img class="span2 user-icon"
+           ng-src="{{contact.image}}">
+      <div class="span4">
+        {{contact.name}}
+      </div>
+      <div class="span3">
+        {{contact.service}}
+      </div>
+      <div class="span3">
+        {{contact.id}}
+      </div>
+    </div>
+  </div-->
+  <table class="contact-table table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Service</th>
+        <th>ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat='contact in getContacts()'>
+        <td class="contact-image">
+          <img class="user-icon"
+               ng-src="{{contact.image}}">
+        </td>
+        <td>
+          {{contact.name}}
+        </td>
+        <td>
+          {{contact.service}}
+        </td>
+        <td>
+          {{contact.id}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

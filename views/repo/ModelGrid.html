@@ -1,35 +1,36 @@
 <div class="container-fluid"
      ng-controller="ModelsController">
   <div class="row-fluid">
-    <div ng-repeat="model in catalog.getModels(layout.view)"
-         ng-show="catalog.filterMatch(model.tags)">
+    <div ng-repeat="modelId in catalog.getModels(layout.view)"
+         zzz-ng-show="catalog.filterMatch(model.tags)">
       <div class="span2 well canvas-link model"
-           title="{{model.name}}">
-        <a ng-href="#/canvas/{{model.orgId}}/{{model.repoId}}/{{model.id}}">
+           ng-class="{'model-public': catalog.isPublic(modelId)}"
+           title="{{getModel(modelId).fields.name}}">
+        <a ng-href="#/canvas/{{modelId}}">
           <img class="model-icon"
-               ng-hide="model.icon == null"
-               ng-src="{{model.icon}}"
-               title="Open model {{model.name}} for editing
+               ng-hide="getModel(modelId).fields.icon == null"
+               ng-src="{{getModel(modelId).fields.icon}}"
+               title="Open model {{getModel(modelId).fields.name}} for editing
                
-               {{model.label.pitch}}" />
+               {{getModel(modelId).fields.pitch}}" />
           <img class="model-icon"
-               ng-show="model.icon == null"
-               ng-src="images/2309bece.Canvas-Marker-62x38.png"
-               title="Open model {{model.name}} for editing
+               ng-show="getModel(modelId).fields.icon == null"
+               src="images/2309bece.Canvas-Marker-62x38.png"
+               title="Open model {{getModel(modelId).fields.name}} for editing
                
-               {{model.label.pitch}}" />
+               {{getModel(modelId).fields.pitch}}" />
         </a>
         <span class="model-rating-wrap">
           <span class="zurb general model-rating-high">ccc</span><span class="zurb general model-rating-low">cc</span>
         </span>
         <span class="model-count-wrap"
-              xxx-ng-mouseover="catalog.highlightMembers(model)">
+              xxx-ng-mouseover="catalog.highlightMembers(getModel(modelId))">
           <span class="zurb social member-count">x</span>
-          <span class="member-count">{{catalog.getMemberCount(model)}}</span>
+          <span class="member-count">{{catalog.getMemberCount(getModel(modelId))}}</span>
         </span>
-        <div class="model-name">{{model.name}}</div>
+        <div class="model-name">{{getModel(modelId).fields.name}}</div>
         <div style="clear: both;">
-          <span ng-repeat="tag in model.tags">
+          <span ng-repeat="tag in getModel(modelId).tags">
             <span class="label"
                   ng-class="catalog.labelColor(tag.text)">{{tag.text}}</span>
           </span>

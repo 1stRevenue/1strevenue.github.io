@@ -1,5 +1,5 @@
 <div ng-controller="NewModelController"
-     class="create-model"
+     class="first-revenue-new-model create-model"
      ng-show="layout.isView('new')">
   <form ng-submit="">
     <fieldset class="well">
@@ -16,14 +16,14 @@
                  id="model-name"
                  class="input-xlarge"
                  placeholder="Model name"
-                 ng-model="model.name" />
+                 ng-model="model.fields.name" />
           <span style="color: red">*</span>
           <p class="help-block"
              ng-show="name==''">Please specify the model name</p>
         </div>
       </div>
 
-      <div class="control-group">
+      <!--div class="control-group">
         <label class="control-label"
                for="repo-name">
           <span ng-show="model.repo">
@@ -42,31 +42,7 @@
           <p class="help-block"
              ng-show="name==''">Please choose the repository</p>
         </div>
-      </div>
-
-      <div class="control-group">
-        <label class="control-label"
-               for="model-icon">Icon</label>
-        <button id="model-icon"
-                ng-hide="model.icon"
-                class="btn btn-success"
-                ng-click="attachIcon()">
-          Attach model icon
-        </button>
-        <button id="model-icon"
-                ng-show="model.icon"
-                class="btn btn-warning"
-                ng-click="replaceIcon()">
-          Replace model icon
-        </button>
-        <img ng-src="{{model.icon}}"
-             class="new-model-icon" />
-        <button ng-show="model.icon"
-                class="btn btn-danger"
-                ng-click="removeIcon()">
-          Remove model icon
-        </button>
-      </div>
+      </div-->
 
       <div class="control-group">
         <label class="control-label"
@@ -74,7 +50,7 @@
         <div class="controls">
           <textarea class="input-xlarge"
                     id="model-descr"
-                    ng-model="model.descr"
+                    ng-model="model.fields.descr"
                     placeholder="Description">
           </textarea>
         </div>
@@ -86,7 +62,7 @@
         <div class="controls">
           <textarea class="input-xlarge"
                     id="model-pitch"
-                    ng-model="model.pitch"
+                    ng-model="model.fields.pitch"
                     placeholder="Elevator pitch in 100 words">
           </textarea>
         </div>
@@ -116,18 +92,45 @@
       </div>
 
       <div class="control-group">
+        <label class="control-label"
+               ng-hide="model.fields.icon"
+               for="attach-model-icon">Icon</label>
+        <button id="attach-model-icon"
+                ng-hide="model.fields.icon"
+                class="btn btn-success"
+                ng-click="attachIcon()">
+          Attach model icon
+        </button>
+        <label class="control-label"
+               ng-show="model.fields.icon"
+               for="attach-model-icon">Icon</label>
+        <button id="replace-model-icon"
+                ng-show="model.fields.icon"
+                class="btn btn-warning btn-small"
+                ng-click="replaceIcon()">
+          Replace model icon
+        </button>
+        <img ng-src="{{model.fields.icon}}"
+             class="new-model-icon" />
+        <button ng-show="model.fields.icon"
+                class="btn btn-danger btn-small"
+                ng-click="removeIcon()">
+          Remove model icon
+        </button>
+      </div>
+
+      <div class="control-group">
         <label class="control-label">Users</label>
         <div class="controls">
-          <span ng-repeat="(userKey, dbUser) in db.users"
-                ng-show="dbUser.selected || user.isMyself(userKey)">
-            <img ng-src="{{dbUser.account.image}}"
+          <span ng-repeat="user in me.currentModel.users">
+            <img ng-src="{{user.image}}"
                  class="user-icon"
-                 ng-show="dbUser.account.image"
-                 title="{{dbUser.account.name}}" />
+                 ng-show="user.image"
+                 title="{{user.name}}" />
             <img ng-src="images/bbf82395.light_avatar_small.png"
                  class="user-icon"
-                 ng-hide="dbUser.account.image"
-                 title="{{dbUser.account.id}}" />            
+                 ng-hide="user.image"
+                 title="{{user.name}}" />
           </span>
         </div>
         <div class='pitch-remarks'>
@@ -144,10 +147,15 @@
           <button type="submit"
                   class="btn btn-primary"
                   ng-click="create()"
-                  ng-disabled="!model.name || model.name == ''">
+                  ng-disabled="!model.fields.name || model.fields.name == ''">
             Create model
           </button>
         </div>
+      </div>
+
+      <div>
+        <span style="color: red">*</span>
+        Model name should be specified
       </div>
 
     </fieldset>

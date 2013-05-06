@@ -1,0 +1,35 @@
+<div class="first-revenue-contacts"
+     ng-controller="ContactController">
+  <!--button class="btn btn-large btn-success"
+          ng-disabled="false"
+          ng-click="saveContacts()">
+    Save changes
+  </button-->
+  <table class="contact-table table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Service</th>
+        <th>ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="contact in getContacts('gcontacts')">
+        <td class="contact-image">
+          <img class="user-icon"
+               ng-src="{{contact.image}}">
+        </td>
+        <td>
+          {{contact.name}}
+        </td>
+        <td>
+          {{contact.service}}
+        </td>
+        <td>
+          {{contact.id}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,21 +1,21 @@
 <!-- Content editable div's -->
 <fieldset class="well" ng-hide="editor.sticker == null"
-          style="background-color: #{{rainbow.brighten(editor.sticker.color.code)}};">
+          style="background-color: #{{rainbow.brighten(editor.sticker.color)}};">
   <legend ng-show="showLegend">E D I T I N G</legend>
   <div class="row-fluid editor-sticker"
-       data-id="{{editor.sticker.id}}"
+       data-id="{{editor.stickerId}}"
        data-bmid="{{editor.sticker.bmId}}"
        data-blockid="{{editor.sticker.blockId}}"
        data-tid="{{editor.sticker.update.tId}}"
        data-nid="{{editor.sticker.update.nId}}"
-       data-mode="{{editor.sticker.id == 0}}">
+       data-mode="{{editor.stickerId == 0}}">
     <div class="row-fluid">
       <label>Title</label>
       <h4 class="field-title"
           ng-class="{modified: !editor.matchTitle(editor.sticker)}"
           contenteditable="true"
           ng-model="editor.sticker.title"
-          style="background-color: #{{rainbow.opaqueField(editor.sticker.color.code)}}">
+          style="background-color: #{{rainbow.opaqueField(editor.sticker.color)}}">
       </h4>
     </div>
 
@@ -26,12 +26,12 @@
            xx-ng-bind-html-unsafe="editor.sticker.notes"
            contenteditable="true"
            ng-model="editor.sticker.notes"
-           style="background-color: #{{rainbow.opaqueField(editor.sticker.color.code)}}">
+           style="background-color: #{{rainbow.opaqueField(editor.sticker.color)}}">
       </div>
     </div>
 
-    <!-- jsFiddle for triangle: http://jsfiddle.net/mohsen/HTMcF/ 
-      
+    <!-- jsFiddle for triangle: http://jsfiddle.net/mohsen/HTMcF/
+
       <div class="triangle">
         <div class="rot"></div>
       </div>​
@@ -57,14 +57,14 @@
 
 
     <div class="row-fluid">
-      <label>Colour {{editor.sticker.color.text}}</label>
+      <label>Colour {{editor.sticker.color}}</label>
       <div class="field-color"
            ng-class="{modified: !editor.matchColor(editor.sticker)}">
-        <div ng-repeat="colorValue in editor.rainbow.colorCodeList()"
-             class="palette-color xpalette-color-{{colorValue.name}}"
-             style="background-color: #{{editor.rainbow.brighten(colorValue.code)}};"
-             ng-class="{chosen: isColorChosen(colorValue.name)}"
-             ng-click="editor.setColor(colorValue.name)">
+        <div ng-repeat="(colorName, colorData) in editor.rainbow.colorMap"
+             class="palette-color xpalette-color-{{colorName}}"
+             style="background-color: #{{editor.rainbow.brighten(colorName)}};"
+             ng-class="{chosen: isColorChosen(colorName)}"
+             ng-click="editor.setColor(colorName)">
         </div>
       </div>
     </div>

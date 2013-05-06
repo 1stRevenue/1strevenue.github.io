@@ -1,0 +1,66 @@
+<div class="first-revenue-contacts"
+     ng-controller="ContactController">
+  <button class="btn btn-large btn-success"
+          ng-disabled="false"
+          ng-click="social.fetchAccount(me.user, 'linkedin')">
+    Load LinkedIn contacts
+  </button>
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <table class="contact-table table table-hover">
+        <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Name</th>
+          <th>Service</th>
+          <th>ID</th>
+          <th>Flags</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="contact in getContacts('linkedin')"
+            ng-class="{'partner-contact': contact.partner, 'favorite-contact': contact.favorite}">
+          <td>
+            <input type="checkbox"
+                   ng-model="contact.favorite" />
+          </td>
+          <td class="contact-image">
+            <img class="user-icon"
+                 ng-src="{{contact.image}}">
+          </td>
+          <td>
+            {{contact.name}}
+          </td>
+          <td>
+            {{contact.service}}
+          </td>
+          <td>
+            {{contact.id}}
+          </td>
+          <td>
+            <button class="btn btn-small btn-primary"
+                    ng-show="contact.favorite && hasNoInvitation(contact)"
+                    ng-click="invite(contact)">
+              Invite
+            </button>
+            <button class="btn btn-small"
+                    ng-disabled="true"
+                    ng-show="hasBeenInvited(contact)">
+              Invited
+            </button>
+            <img src="images/08c59e89.1R-red-white-black.png"
+                 ng-show="isUser(contact)"
+                 class="contact-1r" />
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="6">{{getContactCount('linkedin')}} contacts found</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

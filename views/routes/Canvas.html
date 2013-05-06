@@ -1,7 +1,20 @@
 <div ng-include src="'views/canvas/GuideRibbon.html'"></div>
 
-<div ng-class="{'canvas-editor': info.infoMode()}">
-  <div ng-include src="'views/canvas/Layout.html'"></div>
+
+<div class="first-revenue-people">
+  <div ng-switch="layout.view">
+    <!--div ng-switch-when="zzz-model"
+         ng-include="'views/canvas/Model.html'">
+    </div--->
+    <div ng-switch-when="canvas"
+         ng-class="{'canvas-editor': layout.editor.sticker}"
+         ng-include="'views/canvas/Layout.html'">
+    </div>
+  </div>
 </div>
+
+<!--div ng-class="{'canvas-editor': info.infoMode()}">
+  <div ng-include src="'views/canvas/Layout.html'"></div>
+</div-->
 
 <div ng-include src="'views/canvas/PeerRibbon.html'"></div>

@@ -3,8 +3,11 @@
 <div class="first-revenue-entry">
   <div ng-include src="'views/entry/Welcome.html'"></div>
 
-  <div ng-include src="'views/entry/Logon.html'"></div>
-  <div ng-include src="'views/entry/Guest.html'"></div>
+  <div ng-switch="layout.view">
+    <div ng-switch-when="logon"  ng-include="'views/entry/Logon.html'"></div>
+    <div ng-switch-when="signup" ng-include="'views/entry/SignUp.html'"></div>
+    <div ng-switch-when="guest"  ng-include="'views/entry/Guest.html'"></div>
+  </div>
 </div>
 
 <div ng-include src="'views/entry/PeerRibbon.html'"></div>

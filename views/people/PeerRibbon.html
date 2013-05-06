@@ -1,0 +1,12 @@
+<div ng-controller="RibbonController"
+     class="peer-ribbon"
+     ng-init="ribbon = layout.peer"
+     ng-class="{'wide-ribbon': layout.peer.wide}">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
+
+  <div ng-switch="layout.view">
+    <div ng-include src="'views/people/PeoplePeers.html'"></div>
+  </div>
+
+  <div ng-include src="'views/ribbon/Signal.html'"></div>
+</div>

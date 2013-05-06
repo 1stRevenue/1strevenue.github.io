@@ -4,7 +4,8 @@
      ng-class="{'wide-ribbon': layout.peer.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div class="peer-count">
+  <div class="peer-count"
+       ng-click="modal.users=true">
     {{canvas.peerCount()}}
   </div>
 
@@ -14,16 +15,17 @@
 
   <!--div ng-repeat="dbuser in db.users"
        ng-show="dbuser.id != user.account.id"-->
-  <div ng-repeat="userKey in canvas.model.members"
+  <div ng-repeat="(userId, userValue) in canvas.model.users"
        class="ribbon-item"
-       ng-class="{'ribbon-item-current': user.isMyself(userKey)}">
-    <img ng-src="{{db.users[userKey].account.image}}"
-         ng-show="db.users[userKey].account.image"
-         title="{{db.users[userKey].account.name}}" />
+       ng-class="{'ribbon-item-current': user.isMyself(userId)}">
+    <img ng-src="{{af.peers[userId].image}}"
+         class="user-icon"
+         ng-show="af.peers[userId].image"
+         title="{{af.peers[userId].name}}" />
     <img ng-src="images/bbf82395.light_avatar_small.png"
          class="user-icon"
-         ng-hide="db.users[userKey].account.image"
-         title="{{db.users[userKey].account.id}}" />
+         ng-hide="af.peers[userId].image"
+         title="{{af.peers[userId].name}}" />
   </div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

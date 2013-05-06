@@ -1,25 +1,25 @@
 <div class="canvas"
      ng-class="{
        'info-mode': info.infoMode(),
-       'edit-model': info.view.model,
-       'edit-sticker': info.view.sticker,
-       'edit-user': info.view.user,
-       'edit-contact': info.view.contact
+       'edit-model': layout.editor.model,
+       'edit-sticker': layout.editor.sticker,
+       'edit-user': layout.editor.user,
+       'edit-contact': layout.editor.contact
      }">
 
   <!--div class="model-logotype"-->
-    <img class="model-logotype"
-         ng-src="{{canvas.model.icon}}"
-         ng-style="canvas.getLogoStyle()" />
+  <img class="model-logotype"
+       ng-src="{{canvas.model.fields.icon}}"
+       ng-style="canvas.getLogoStyle()" />
   <!--/div-->
   <div ng-switch on="canvas.singleBlock">
     <div ng-switch-when="null">
-      <div ng-repeat="block in canvas.model.blocks"
-           zzz-first-revenue-open-tip="{{block.paneClass}}"
-           first-revenue-edit="{{block.paneClass}}"
-           data-label="{{block.paneClass}}"
-           data-id="{{block.id}}"
-           class="pane {{block.paneClass}} {{canvas.getGridClass()}}"
+      <div ng-repeat="(blockId, block) in getBlocks()"
+           zzz-first-revenue-open-tip="{{blockId}}"
+           first-revenue-edit="{{blockId}}"
+           data-label="{{blockId}}"
+           data-id="{{blockId}}"
+           class="pane {{blockId}} {{canvas.getGridClass()}}"
            ng-class="{'hover-pane': hovering}"
            ng-mouseenter="hovering = true"
            ng-mouseleave="hovering = false">
@@ -27,11 +27,11 @@
       </div>
     </div>
     <div ng-switch-default>
-      <div ng-repeat="block in canvas.model.blocks"
-           data-label="{{block.paneClass}}"
-           data-id="{{block.id}}"
-           class="pane {{block.paneClass}} {{canvas.getGridClass()}}"
-           ng-click="canvas.switchBlock({icon: block.paneClass})">
+      <div ng-repeat="(block, blockId in getBlocks()"
+           data-label="{{blockId}}"
+           data-id="{{blockId}}"
+           class="pane {{blockId}} {{canvas.getGridClass()}}"
+           ng-click="canvas.switchBlock({icon: blockId})">
         <div ng-include="'views/canvas/Block.html'"></div>
       </div>
 
@@ -40,19 +40,19 @@
           <img ng-src="images/zoom/c0da7e3a.Zoom-0-transp.png" />
       </div>  
 
-      <div ng-init="block = canvas.singleBlock"
+      <!--div ng-init="block = canvas.singleBlock"
            first-revenue-open-tip="XXC"
            first-revenue-edit="XXC"
            data-label="{{block.paneClass}}"
            data-id="{{block.id}}"
            class="pane XXC {{canvas.getGridClass()}}">
         <div ng-include="'views/canvas/Block.html'"></div>
-      </div>
+      </div-->
     </div>
   </div>
 </div>
 
-<div ng-include="'views/edit/Model.html'"></div>
+<!--div ng-include="'views/edit/Model.html'"></div-->
 
 <div ng-include="'views/edit/Sticker.html'"></div>
 

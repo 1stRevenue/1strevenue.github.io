@@ -1,0 +1,89 @@
+<table class="contact-table table table-hover">
+  <thead>
+  <tr>
+    <td colspan="6">
+      <p>
+        <button class="btn btn-success pull-right"
+                ng-click="social.fetchAccount(me, 'facebook')">
+          Refresh Facebook contacts
+        </button>
+                <span ng-show="getContactCount('facebook')">
+                  {{getContactCount('facebook')}} Facebook contacts
+                </span>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p ng-show="getRefreshTime('facebook')"
+         title="{{getRefreshTime('facebook')}}">
+        Last seen {{getRefreshLatency('facebook')}}
+      </p>
+    </td>
+  </tr>
+  <tr class="partner-contact">
+    <td colspan="6"
+        ng-show="getPartnerCount('facebook') > 0">
+      <p>
+        <button class="btn btn-primary pull-right"
+                ng-show="needSavePartners()"
+                ng-click="savePartners('facebook')">
+          Save changes
+        </button>
+        {{getPartnerCount('facebook')}} partners
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>Name</th>
+    <th>Service</th>
+    <th>ID</th>
+    <th>Flags</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, partner) in account.contacts.partners"
+      class="partner-contact"
+      ng-class="{'favorite-contact': partner.favorite}">
+      <td>
+        <input type="checkbox"
+               ng-model="partner.favorite" />
+      </td>
+      <td class="contact-image">
+        <img class="user-icon"
+             ng-src="{{partner.image}}">
+      </td>
+      <td>
+        {{partner.name}}
+      </td>
+      <td>
+       facebook
+      </td>
+      <td>
+        {{key}}
+      </td>
+      <td>
+        <!--button class="btn btn-small btn-primary"
+                ng-show="contact.favorite && hasNoInvitation(contact)"
+                ng-click="invite(contact)">
+          Invite
+        </button>
+        <button class="btn btn-small"
+                ng-disabled="true"
+                ng-show="hasBeenInvited(contact)">
+          Invited
+        </button>
+        <img src="images/08c59e89.1R-red-white-black.png"
+             ng-show="isUser(contact)"
+             class="contact-1r" /-->
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th colspan="6">{{getContactCount('facebook')}} contacts found</th>
+  </tr>
+  </tfoot>
+</table>

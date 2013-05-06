@@ -1,0 +1,35 @@
+<div ng-include src="'views/people/GuideRibbon.html'"></div>
+
+<div class="first-revenue-people">
+  <div ng-switch="layout.view">
+    <div ng-switch-when="partners"
+         ng-include="'views/people/Partners.html'">
+    </div>
+    <div ng-switch-when="facebook"
+         ng-include="'views/people/Facebook.html'">
+    </div>
+    <div ng-switch-when="linkedin"
+         ng-include="'views/people/LinkedIn.html'">
+    </div>
+    <div ng-switch-when="gplus"
+         ng-include="'views/people/GPlus.html'">
+    </div>
+    <div ng-switch-when="gcontacts"
+         ng-include="'views/people/GContacts.html'">
+    </div>
+    <div ng-switch-when="invited"
+         ng-include="'views/people/Invited.html'">
+    </div>
+    <div ng-switch-when="public"
+         ng-include="'views/people/Public.html'">
+    </div>
+    <div ng-switch-when="all"
+         ng-include="'views/people/All.html'">
+    </div>
+    <div ng-switch-default
+         ng-include="'views/people/All.html'">
+    </div>
+  </div>
+</div>
+
+<div ng-include src="'views/people/PeerRibbon.html'"></div>

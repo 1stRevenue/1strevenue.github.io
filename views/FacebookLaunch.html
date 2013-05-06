@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>1st Revenue Facebook redirect</title>
+    <script src="../scripts/vendor/winchan/winchan.js"></script>
+  </head>
+  <body>
+    <script>
+      var facebookURL = 'https://www.facebook.com/dialog/send';
+
+      var wc = WinChan.onOpen(function(origin, r, cb) {
+        var params = r;
+        var url = facebookURL;
+        var sep = '?';
+        for (var param in params) {
+          url += sep + param + '=' + encodeURIComponent(params[param]);
+          sep = '&';
+        }
+
+        wc.detach();
+        window.location = url;
+      });
+    </script>
+  </body>
+</html>

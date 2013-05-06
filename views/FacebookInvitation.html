@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Invitation to join the 1st Revenue</title>
+    <meta name="description" content="Join 1stRevenue.com and collaborate with us on business modeling.
+      Use your Facebook account to sign to the application.
+      The original sender of the invitation will be notified when you log on to the 1st Revenue.">
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      .logotype {
+        float: left;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img src="../images/391607e1.1R-RW-black-250x250.png"
+           class="logotype" />
+      <h1>Invitation to join the 1st Revenue</h1>
+      <h3>
+        Join 1stRevenue.com and collaborate with us on business modeling.
+        Use your Facebook account to sign to the application.
+        The original sender of the invitation will be notified when you log on to the 1st Revenue.
+      </h3>
+    </div>
+    <script>
+      var h = window.location.href;
+      var s = window.location.search;
+
+      var sl1 = h.lastIndexOf('/');
+      var h1 = h.substr(0, sl1);
+      var sl2 = h1.lastIndexOf('/');
+      var h2 = h.substr(0, sl2);
+
+      var invite = s.substr(s.indexOf('invite='))
+          .split('&')[0]
+          .split('=')[1];
+
+      // Launch 1st Revenue app
+      window.location = h2 + '/#/invite/' + invite;
+    </script>
+  </body>
+</html>

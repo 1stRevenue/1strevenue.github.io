@@ -24,27 +24,27 @@
 <ul class="{{canvas.getStyle()}} pane-sticker">
   <div class="stickynotes">
 
-    <li ng-repeat="sticker in block.stickers"
+    <li ng-repeat="(stickerId, sticker) in getStickers(blockId)"
         ng-controller="StickerController"
         class="st-item">
 
-      <div zzz-first-revenue-edit
-           zzz-first-revenue-drag
-           class="st-grad xxxx-corner-shadow"
-           ng-class="{pulsate: sticker.id == editor.sticker.id, 'st-abs': canvas.getAbs(sticker), 'st-rel': !canvas.getAbs(sticker)}"
-           data-id="{{sticker.id}}"
+      <div first-revenue-edit
+           first-revenue-drag
+           class="st-grad zzz-corner-shadow"
+           ng-class="{pulsate: stickerId == editor.sticker.id, 'st-abs': canvas.getAbs(sticker), 'st-rel': !canvas.getAbs(sticker)}"
+           data-id="{{stickerId}}"
            data-cypherid="{{sticker.position.cypherId}}"
            open-tip="{{updateOpenTip()}}"
            style="{{canvas.getPosition(sticker)}}">
 
         <div class="st-pop"
-             data-color="{{sticker.color.text}}"
-             style="background-color: #{{rainbow.brighten(sticker.color.code)}}">
+             data-color="{{sticker.color}}"
+             style="background-color: #{{rainbow.brighten(sticker.color)}}">
 
-          <h2 class="st-head"
+          <h4 class="st-head"
               ng-bind-html-unsafe="sticker.title">
             {{sticker.title}}
-          </h2>
+          </h4>
 
           <div class="st-notes"
                ng-bind-html-unsafe="sticker.notes">
@@ -54,13 +54,12 @@
         </div>
 
         <button class="btn btn-primary btn-edit-sticker"
-                ng-click="editor.showSticker(db.models[sticker.modelId], sticker.block, sticker.id)"
+                ng-click="editor.showSticker(canvas.model, sticker.block, stickerId)"
                 title="Edit Sticker">
           <i class="icon-edit icon-white"></i>
         </button>
 
-        <button class="btn btn-delete-sticker"
-                ng-class="{'btn-danger': isDeleteAllowed(), 'btn-warning': !isDeleteAllowed()}"
+        <button class="btn btn-danger btn-delete-sticker"
                 ng-click="openDeleteStickerDialog()"
                 title="{{titleOfDeleteButton()}}">
           <i class="icon-trash icon-white"></i>

@@ -1,0 +1,89 @@
+<table class="contact-table table table-hover">
+  <thead>
+  <tr>
+    <td colspan="6">
+      <p>
+        <button class="btn btn-success pull-right"
+                ng-click="social.fetchAccount(me, 'linkedin')">
+          Refresh LinkedIn contacts
+        </button>
+                <span ng-show="getContactCount('linkedin')">
+                  {{getContactCount('linkedin')}} LinkedIn contacts
+                </span>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p ng-show="getRefreshTime('linkedin')"
+         title="{{getRefreshTime('linkedin')}}">
+        Last seen {{getRefreshLatency('linkedin')}}
+      </p>
+    </td>
+  </tr>
+  <tr class="partner-contact">
+    <td colspan="6"
+        ng-show="getPartnerCount('linkedin') > 0">
+      <p>
+        <button class="btn btn-primary pull-right"
+                ng-show="needSavePartners()"
+                ng-click="savePartners('linkedin')">
+          Save changes
+        </button>
+        {{getPartnerCount('linkedin')}} partners
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>Name</th>
+    <th>Service</th>
+    <th>ID</th>
+    <th>Flags</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, partner) in account.contacts.partners"
+      class="partner-contact"
+      ng-class="{'favorite-contact': partner.favorite}">
+      <td>
+        <input type="checkbox"
+               ng-model="partner.favorite" />
+      </td>
+      <td class="contact-image">
+        <img class="user-icon"
+             ng-src="{{partner.image}}">
+      </td>
+      <td>
+        {{partner.name}}
+      </td>
+      <td>
+       linkedin
+      </td>
+      <td>
+        {{key}}
+      </td>
+      <td>
+        <!--button class="btn btn-small btn-primary"
+                ng-show="contact.favorite && hasNoInvitation(contact)"
+                ng-click="invite(contact)">
+          Invite
+        </button>
+        <button class="btn btn-small"
+                ng-disabled="true"
+                ng-show="hasBeenInvited(contact)">
+          Invited
+        </button>
+        <img src="images/08c59e89.1R-red-white-black.png"
+             ng-show="isUser(contact)"
+             class="contact-1r" /-->
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th colspan="6">{{getContactCount('linkedin')}} contacts found</th>
+  </tr>
+  </tfoot>
+</table>

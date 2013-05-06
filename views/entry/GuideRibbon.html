@@ -6,27 +6,48 @@
 
   <div ng-click="layout.setView('welcome')"
        ng-class="{'ribbon-item-current': layout.isView('welcome')}"
-       class="ribbon-item">
+       class="ribbon-item intro-entry"
+       data-intro="Welcome page for 1st Revenue"
+       data-position="right"
+       data-step="1">
     <i class="icon-user icon-2x"></i>
     Welcome
   </div>
   <div ng-click="layout.setView('logon')"
        ng-class="{'ribbon-item-current': layout.isView('logon')}"
-       class="ribbon-item">
+       class="ribbon-item intro-entry"
+       data-intro="Sign in if you already have an account on 1st Revenue"
+       data-position="right"
+       data-step="2">
     <i class="icon-user icon-2x"></i>
-    Log on
+    Sign in
   </div>
   <div ng-click="layout.setView('signup')"
        ng-class="{'ribbon-item-current': layout.isView('signup')}"
-       class="ribbon-item">
+       class="ribbon-item intro-entry"
+       data-intro="Create or modify an account on 1st Revenue"
+       data-position="right"
+       data-step="3">
     <i class="icon-user icon-2x"></i>
-    Sign up
+    Register
   </div>
   <div ng-click="layout.setView('guest')"
        ng-class="{'ribbon-item-current': layout.isView('guest')}"
-       class="ribbon-item">
+       class="ribbon-item intro-entry"
+       data-intro="Guest access is planned but not implemented yet"
+       data-position="right"
+       data-step="4">
     <i class="icon-user icon-2x"></i>
     Guest access
+  </div>
+  <div zzz-ng-click="introJs('.intro-entry').start()"
+       ng-click="$('.guide-ribbon').chardinJs('start')"
+       class="ribbon-item intro-entry"
+       data-intro="Help"
+       data-position="right"
+       data-step="5">
+    <i class="icon-help icon-2x"></i>
+    Explain
   </div>
 
   <div ng-include src="'views/ribbon/License.html'"></div>

@@ -1,0 +1,64 @@
+<div class="first-revenue-contacts"
+     ng-controller="ContactController">
+  <!--button class="btn btn-large btn-success"
+          ng-disabled="false"
+          ng-click="saveContacts()">
+    Save changes
+  </button-->
+  <table class="contact-table table table-striped table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Service</th>
+        <th>ID</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="(key, partner) in getPartners()"
+          class="partner-contact"
+          ng-class="{'favorite-contact': partner.favorite}">
+        <td>
+          <input type="checkbox"
+                 ng-model="partner.favorite" />
+        </td>
+        <td class="contact-image">
+          <img class="user-icon"
+               ng-src="{{partner.image}}">
+        </td>
+        <td>
+          {{partner.name}}
+        </td>
+        <td>
+          {{partner.service}}
+        </td>
+        <td>
+          {{key}}
+        </td>
+        <td>
+          <button class="btn btn-small btn-primary"
+                  ng-show="partner.favorite && hasNoInvitation(partner)"
+                  ng-click="invite(key, partner)">
+            Invite
+          </button>
+          <button class="btn btn-small"
+                  ng-disabled="true"
+                  ng-show="hasBeenInvited(partner)">
+            Invited
+          </button>
+          <img src="images/08c59e89.1R-red-white-black.png"
+               ng-show="isUser(partner)"
+               class="contact-1r" />
+        </td>
+      </tr>
+      <tr>
+        <th colspan="6">{{getFavoriteCount()}} favorites</th>
+      </tr>
+      <tr>
+        <th colspan="6">{{getPartnerCount()}} partners</th>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+<div class="first-revenue-contacts"
+     ng-controller="ContactController"
+     ng-init="init('facebook')">
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <div ng-switch="social.loaded.facebook">
+        <div ng-switch-when="true"
+             ng-include="'views/people/FacebookLoaded.html'">
+        </div>
+        <div ng-switch-default
+             ng-include="'views/people/FacebookUnloaded.html'">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

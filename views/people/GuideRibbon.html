@@ -1,0 +1,78 @@
+<div ng-controller="RibbonController"
+     class="guide-ribbon"
+     ng-init="ribbon = layout.guide"
+     ng-class="{'wide-ribbon': layout.guide.wide}">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
+
+  <div ng-click="routeTo('repo')"
+       zzz-ng-click="layout.setView('contacts')"
+       class="ribbon-item">
+    <i class="icon-list-alt icon-2x"></i>
+    Manage models
+  </div>
+
+  <div ng-click="layout.setView('partners')"
+       ng-class="{'ribbon-item-current': layout.isView('partners')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    Partners
+  </div>
+
+  <div ng-repeat="account in me.af.user.accounts"
+       ng-click="social.account = account; layout.setView(account.profile.service)"
+       ng-class="{'ribbon-item-current': layout.isView(account.profile.service)}"
+       class="ribbon-item">
+    <i class="icon-{{account.profile.service}} icon-2x"></i>
+    {{account.profile.service}}
+  </div>
+
+
+
+  <!--div ng-click="layout.setView('facebook')"
+       ng-class="{'ribbon-item-current': layout.isView('facebook')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    Facebook
+  </div>
+  <div ng-click="layout.setView('linkedin')"
+       ng-class="{'ribbon-item-current': layout.isView('linkedin')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    LinkedIn
+  </div>
+  <div ng-click="layout.setView('gplus')"
+       ng-class="{'ribbon-item-current': layout.isView('gplus')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    Google+
+  </div>
+  <div ng-click="layout.setView('gmail')"
+       ng-class="{'ribbon-item-current': layout.isView('gmail')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    GMail
+  </div-->
+
+
+  <div ng-click="layout.setView('invited')"
+       ng-class="{'ribbon-item-current': layout.isView('invited')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    Invited
+  </div>
+  <div ng-click="layout.setView('public')"
+       ng-class="{'ribbon-item-current': layout.isView('public')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    Public
+  </div>
+  <!--div ng-click="layout.setView('all')"
+       ng-class="{'ribbon-item-current': layout.isView('all')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    All
+  </div-->
+
+  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/Uservoice.html'"></div>
+</div>
