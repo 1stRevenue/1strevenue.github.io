@@ -4435,50 +4435,46 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$timeout',
   function (e, t) {
-    var o = 'Facebook', n = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=700,height=375', i = {
-        100000846188241: 'Dalia',
-        555252129: 'Terje',
-        100000518746672: 'Edmundas'
-      }, r = '100000518746672', s = '456109224430372', l = 'https://graph.facebook.com/me/friends?fields=name,username,picture,email&access_token=:token', a = {
+    var o = 'Facebook', n = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=700,height=375', i = 'https://graph.facebook.com/me/friends?fields=name,username,picture,email&access_token=:token', r = {
         me: null,
         account: null,
         afAccount: null,
         total: 0,
         friends: null,
-        sendMessage: function (e, l) {
+        sendMessage: function (e, i) {
           console.log('Facebook sendMessage contact=', e);
-          var a = window.location.origin || window.location.protocol + '//' + window.location.host, c = a + window.location.pathname + 'views/', u = c + 'FacebookRedirect.html', d = c + 'FacebookInvitation.html', f = !!i[e.serviceId], p = f ? e.serviceId : r, h = {
-              app_id: s,
-              redirect_uri: u,
+          var r = window.location.origin || window.location.protocol + '//' + window.location.host, s = r + window.location.pathname + 'views/', l = s + 'FacebookRedirect.html', a = s + 'FacebookInvitation.html', c = e.serviceId, u = {
+              app_id: CONFIG_1ST_REVENUE.facebookClientId,
+              redirect_uri: l,
               display: 'page',
-              to: p,
-              link: d + '?invite=' + e.invite
+              to: c,
+              link: a + '?invite=' + e.invite
             };
           WinChan.open({
-            url: c + 'FacebookLaunch.html',
-            relay_url: c + 'WinChanRelay.html',
+            url: s + 'FacebookLaunch.html',
+            relay_url: s + 'WinChanRelay.html',
             window_features: n,
-            params: h
+            params: u
           }, function (e, n) {
             t(function () {
-              console.log(o, 'sendMessage', 'error=', e, 'response=', n), e ? console.log(o, 'sendMessage', 'error=', e) : (console.log(o, 'sendMessage', 'response=', n), n.success ? l(null, !0) : l(null, !1));
+              console.log(o, 'sendMessage', 'error=', e, 'response=', n), e ? console.log(o, 'sendMessage', 'error=', e) : (console.log(o, 'sendMessage', 'response=', n), n.success ? i(null, !0) : i(null, !1));
             });
           });
         },
         getFriends: function (t, o, n) {
-          a.me = t, a.account = o, a.afAccount = t.af.user.accounts[o.profile.key], console.log('Facebook getFriends token=', n);
-          var i = e(l, { token: n });
-          a.friends = i.get(a.processFriends, a.queryError);
+          r.me = t, r.account = o, r.afAccount = t.af.user.accounts[o.profile.key], console.log('Facebook getFriends token=', n);
+          var s = e(i, { token: n });
+          r.friends = s.get(r.processFriends, r.queryError);
         },
         processFriends: function (e) {
-          console.log('Facebook processFriends friends=', e), a.me.social.contacts.facebook = a.me.social.contacts.facebook || {}, t(function () {
-            a.total = 0, a.afAccount.contacts = a.afAccount.contacts || { refreshed: Date.now() }, _.each(e.data, a.processFriend), a.afAccount.contacts.refreshed = Date.now(), a.afAccount.contacts.total = a.total, a.me.social.loaded.facebook = !0;
+          console.log('Facebook processFriends friends=', e), r.me.social.contacts.facebook = r.me.social.contacts.facebook || {}, t(function () {
+            r.total = 0, r.afAccount.contacts = r.afAccount.contacts || { refreshed: Date.now() }, _.each(e.data, r.processFriend), r.afAccount.contacts.refreshed = Date.now(), r.afAccount.contacts.total = r.total, r.me.social.loaded.facebook = !0;
           });
         },
         processFriend: function (e) {
-          console.log('Facebook processFriend friend=', e), console.log('Facebook processFriend profile.key=', a.account.profile.key, 'afAccount=', a.afAccount);
-          var t = a.afAccount.contacts.partners, o = a.me.social.contacts.facebook[e.id] = {
-              profileKey: a.account.profile.key,
+          console.log('Facebook processFriend friend=', e), console.log('Facebook processFriend profile.key=', r.account.profile.key, 'afAccount=', r.afAccount);
+          var t = r.afAccount.contacts.partners, o = r.me.social.contacts.facebook[e.id] = {
+              profileKey: r.account.profile.key,
               provider: 'facebook',
               service: 'facebook',
               id: e.id,
@@ -4487,13 +4483,13 @@ FirstRevenueApp.controller('AdminController', [
               username: e.username,
               image: e.picture.data.url || null
             };
-          t && t[e.id] && (o.partner = t[e.id]), console.log('Facebook processFriend c=', o), a.total += 1;
+          t && t[e.id] && (o.partner = t[e.id]), console.log('Facebook processFriend c=', o), r.total += 1;
         },
         queryError: function (e) {
           console.log('Facebook queryError error=', e);
         }
       };
-    return a;
+    return r;
   }
 ]), FirstRevenueApp.factory('GContacts', [
   '$resource',
@@ -4562,27 +4558,13 @@ FirstRevenueApp.controller('AdminController', [
         total: 0,
         people: null,
         token: null,
-        createButton: function (e) {
-          var t = {
-              contenturl: 'https://prototype.1strevenue.com/1stRevenue/invite',
-              contentdeeplinkid: '/1stRevenue/invite',
-              clientid: '1010606663349.apps.googleusercontent.com',
-              cookiepolicy: 'single_host_origin',
-              prefilltext: 'Join 1st Revenue',
-              calltoactionlabel: 'INVITE',
-              calltoactionurl: 'https://prototype.1strevenue.com/1stRevenue/invite',
-              calltoactiondeeplinkid: '/1stRevenue/invite',
-              recipients: e.serviceId
-            };
-          gapi.interactivepost.render('partner_' + e.serviceId, t), console.log(n, 'createButton partner=', e, 'options=', t);
-        },
         getPeople: function (t, o, n) {
           l.me = t, l.account = o, l.afAccount = t.af.user.accounts[o.profile.key], l.token = n;
           var r = e(i, { token: n });
           l.profile = r.get(l.processProfile, l.requestError);
         },
         processProfile: function (e) {
-          console.log('GPlus processProfile profile=', e), t({
+          console.log(n, 'processProfile profile=', e), t({
             method: 'GET',
             url: r,
             params: { key: CONFIG_1ST_REVENUE.gplusAPIKey },
@@ -4632,13 +4614,7 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$timeout',
   function (e, t) {
-    var o = {
-        qptylQNe7G: 'Edmundas',
-        Q6nBa_Bne3: 'Terje',
-        '8iFZEGMoTs': 'Vaidotas',
-        vucFlC0LUt: 'API Tester',
-        TjG_va1VAw: 'Revenue Maestro'
-      }, n = 'qptylQNe7G', i = 'https://api.singly.com/proxy/linkedin/people/~/connections?format=json&access_token=:token&scope=r_network', r = 'https://api.singly.com/proxy/linkedin/people/~/mailbox?format=json&access_token=:token&scope=w_messages', s = {
+    var o = 'https://api.singly.com/proxy/linkedin/people/~/connections?format=json&access_token=:token&scope=r_network', n = 'https://api.singly.com/proxy/linkedin/people/~/mailbox?format=json&access_token=:token&scope=w_messages', i = {
         me: null,
         account: null,
         afAccount: null,
@@ -4646,41 +4622,41 @@ FirstRevenueApp.controller('AdminController', [
         friends: null,
         token: null,
         msg: null,
-        sendMessage: function (t, i, l) {
-          s.token = i, console.log('LinkedIn sendMessage token=', i);
-          var a = window.location.origin || window.location.protocol + '//' + window.location.host, c = a + window.location.pathname + '#invite/', u = e(r, { token: i }), d = !!o[t.serviceId], f = d ? t.serviceId : n, p = new u({
-              recipients: { values: [{ person: { _path: '/people/' + f } }] },
+        sendMessage: function (t, o, r) {
+          i.token = o, console.log('LinkedIn sendMessage token=', o);
+          var s = window.location.origin || window.location.protocol + '//' + window.location.host, l = s + window.location.pathname + '#invite/', a = e(n, { token: o }), c = t.serviceId, u = new a({
+              recipients: { values: [{ person: { _path: '/people/' + c } }] },
               subject: 'Join 1stRevenue.com',
-              body: 'Join 1stRevenue.com and collaborate with us on business modeling. Use your LinkedIn account to sign to the application. The original sender of the invitation will be notified when you log on to the 1st Revenue. Create your account at ' + c + t.invite
-            }), h = l || s.processMessage;
-          p.$save(h, s.requestError);
+              body: 'Join 1stRevenue.com and collaborate with us on business modeling. Use your LinkedIn account to sign to the application. The original sender of the invitation will be notified when you log on to the 1st Revenue. Create your account at ' + l + t.invite
+            }), d = r || i.processMessage;
+          u.$save(d, i.requestError);
         },
         processMessage: function (e) {
           console.log('LinkedIn processMessage msgResponse=', e);
         },
-        getFriends: function (t, o, n, r) {
-          s.me = t, s.account = o, s.afAccount = t.af.user.accounts[o.profile.key], s.token = n, console.log('LinkedIn getFriends token=', n);
-          var l = e(i, { token: n }), a = r || s.processFriends;
-          s.friends = l.get(a, s.requestError);
+        getFriends: function (t, n, r, s) {
+          i.me = t, i.account = n, i.afAccount = t.af.user.accounts[n.profile.key], i.token = r, console.log('LinkedIn getFriends token=', r);
+          var l = e(o, { token: r }), a = s || i.processFriends;
+          i.friends = l.get(a, i.requestError);
         },
         processFriends: function (e) {
-          console.log('LinkedIn processFriends friends=', e), s.me.social.contacts.linkedin = s.me.social.contacts.linkedin || {}, t(function () {
-            s.total = 0, s.afAccount.contacts = s.afAccount.contacts || { refreshed: Date.now() }, _.each(e.values, s.processFriend), s.afAccount.contacts.refreshed = Date.now(), s.afAccount.contacts.total = s.total, s.me.social.loaded.linkedin = !0;
+          console.log('LinkedIn processFriends friends=', e), i.me.social.contacts.linkedin = i.me.social.contacts.linkedin || {}, t(function () {
+            i.total = 0, i.afAccount.contacts = i.afAccount.contacts || { refreshed: Date.now() }, _.each(e.values, i.processFriend), i.afAccount.contacts.refreshed = Date.now(), i.afAccount.contacts.total = i.total, i.me.social.loaded.linkedin = !0;
           });
         },
         processFriend: function (e) {
           if (console.log('LinkedIn processFriend friend=', e), 'private' !== e.id) {
-            var t = s.afAccount.contacts.partners, o = s.me.social.contacts.linkedin[e.id] = {
-                profileKey: s.account.profile.key,
+            var t = i.afAccount.contacts.partners, o = i.me.social.contacts.linkedin[e.id] = {
+                profileKey: i.account.profile.key,
                 provider: 'singly',
                 service: 'linkedin',
-                id: s.account.profile.id,
+                id: i.account.profile.id,
                 serviceId: e.id,
                 name: e.firstName + ' ' + e.lastName,
                 username: null,
                 image: e.pictureUrl || null
               };
-            t && t[e.id] && (o.partner = t[e.id]), console.log('LinkedIn processFriend c=', o), s.total += 1;
+            t && t[e.id] && (o.partner = t[e.id]), console.log('LinkedIn processFriend c=', o), i.total += 1;
           }
         },
         processProfile: function (e) {
@@ -4690,7 +4666,7 @@ FirstRevenueApp.controller('AdminController', [
           console.log('LinkedIn requestError error=', e);
         }
       };
-    return s;
+    return i;
   }
 ]), FirstRevenueApp.factory('Twitter', [
   '$resource',
