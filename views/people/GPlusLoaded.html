@@ -66,23 +66,7 @@
         {{contact.serviceId}}
       </td>
       <td>
-        <button
-            class="g-interactivepost"
-            data-contenturl="https://prototype.1strevenue.com/1stRevenue/invite"
-            data-contentdeeplinkid="/1stRevenue/invite"
-            data-clientid="1010606663349.apps.googleusercontent.com"
-            data-cookiepolicy="single_host_origin"
-            data-prefilltext="Join 1st Revenue"
-            data-calltoactionlabel="INVITE"
-            data-calltoactionurl="https://prototype.1strevenue.com/1stRevenue/invite"
-            data-calltoactiondeeplinkid="/invite">
-          Invite to 1st Revenue
-        </button>
-        <!--button class="btn btn-small btn-primary"
-                ng-show="contact.favorite && hasNoInvitation(contact)"
-                ng-click="invite(contact)">
-          Invite
-        </button-->
+        <div gplus-invite></div>
         <button class="btn btn-small"
                 ng-disabled="true"
                 ng-show="hasBeenInvited(contact)">
