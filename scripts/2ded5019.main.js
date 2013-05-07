@@ -867,10 +867,32 @@ FirstRevenueApp.controller('AdminController', [
   '$scope',
   '$location',
   function (e, t) {
-    console.log('--- Ribbon controller loaded'), angular.extend(e, {
+    var o = 'RibbonController';
+    console.log(o, 'loaded');
+    var n = {
+        gplus: {
+          icon: 'google-plus',
+          label: 'Google+'
+        },
+        gmail: {
+          icon: 'envelope',
+          label: 'Gmail'
+        },
+        facebook: { label: 'Facebook' },
+        linkedin: { label: 'LinkedIn' }
+      };
+    angular.extend(e, {
       ribbon: e.layout.guide,
       routeTo: function (e) {
         t.path('/' + e);
+      },
+      getSocialIconName: function (e) {
+        var t = e.profile.service, o = n[t];
+        return 'icon-' + (o && o.icon || t);
+      },
+      getSocialLabel: function (e) {
+        var t = e.profile.service, o = n[t];
+        return o && o.label || t;
       }
     });
   }
@@ -1448,7 +1470,28 @@ FirstRevenueApp.controller('AdminController', [
       });
     };
   }
-]), FirstRevenueApp.directive('openTip', [
+]), FirstRevenueApp.directive('gplusInvite', [function () {
+    var e = 'gplusInvite';
+    return {
+      restrict: 'EAC',
+      replace: !0,
+      templateUrl: 'views/people/GPlusInviteButton.html',
+      link: function (t, o) {
+        var n = {
+            contenturl: 'http://prototype.1strevenue.com/1stRevenue/#/invite',
+            contentdeeplinkid: '/1stRevenue/#/invite',
+            clientid: '1010606663349.apps.googleusercontent.com',
+            cookiepolicy: 'http://1strevenue.com',
+            prefilltext: 'Join 1stRevenue.com and collaborate with us on business modeling. Use your Google+ account to sign to the application. The original sender of the invitation will be notified when you log on to the 1st Revenue. Create your account at the Join link below:',
+            calltoactionlabel: 'JOIN',
+            calltoactionurl: 'http://prototype.1strevenue.com/1stRevenue/#/invite',
+            calltoactiondeeplinkid: '/1stRevenue/#/invite',
+            recipients: t.key
+          }, i = o[0];
+        gapi.interactivepost.render(i, n), console.log(e, 'createButton partner=', t.partner, 'options=', n, 'element=', o, 'button=', i);
+      }
+    };
+  }]), FirstRevenueApp.directive('openTip', [
   '$window',
   '$timeout',
   'Rainbow',
@@ -3957,7 +4000,7 @@ FirstRevenueApp.controller('AdminController', [
         findAccount: function (e) {
           return _.find(f.af.user.accounts, function (t) {
             return t.profile.service === e;
-          });
+          }) || {};
         }
       };
     return f;
@@ -4365,13 +4408,19 @@ FirstRevenueApp.controller('AdminController', [
             'facebook' === e.profile.provider ? o.getFriends(u.me, e, d) : 'twitter' === e.profile.provider && n.getFriends(u.me, e, d);
         },
         invite: function (e, t) {
+          var n = u.findAccount(e.service);
           switch (e.service) {
           case 'facebook':
             o.sendMessage(e, t);
             break;
           case 'linkedin':
-            var n = u.findAccount(e.service);
             i.sendMessage(e, n.authentic.token, t);
+            break;
+          case 'gplus':
+            r.sendMessage(e, n.authentic.token, t);
+            break;
+          default:
+            console.log(l, 'invite do not have sendMessage function for service=', e.service);
           }
         },
         findAccount: function (e) {
@@ -4506,30 +4555,46 @@ FirstRevenueApp.controller('AdminController', [
   '$http',
   '$timeout',
   function (e, t, o) {
-    var n = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', i = 'https://www.googleapis.com/plus/v1/people/me', r = 'https://www.googleapis.com/plus/v1/people/me/people/visible', s = 'AIzaSyCK1R0dAHePEk8BPn932dDAE6COB_oNBPc', l = {
-        user: null,
+    var n = 'GPlus', i = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', r = 'https://www.googleapis.com/plus/v1/people/me', s = 'https://www.googleapis.com/plus/v1/people/me/people/visible', l = {
+        me: null,
         account: null,
+        afAccount: null,
+        total: 0,
         people: null,
         token: null,
-        getPeople: function (t, o, i) {
-          l.user = t, l.account = o, l.token = i;
-          var r = e(n, { token: i });
+        createButton: function (e) {
+          var t = {
+              contenturl: 'https://prototype.1strevenue.com/1stRevenue/invite',
+              contentdeeplinkid: '/1stRevenue/invite',
+              clientid: '1010606663349.apps.googleusercontent.com',
+              cookiepolicy: 'single_host_origin',
+              prefilltext: 'Join 1st Revenue',
+              calltoactionlabel: 'INVITE',
+              calltoactionurl: 'https://prototype.1strevenue.com/1stRevenue/invite',
+              calltoactiondeeplinkid: '/1stRevenue/invite',
+              recipients: e.serviceId
+            };
+          gapi.interactivepost.render('partner_' + e.serviceId, t), console.log(n, 'createButton partner=', e, 'options=', t);
+        },
+        getPeople: function (t, o, n) {
+          l.me = t, l.account = o, l.afAccount = t.af.user.accounts[o.profile.key], l.token = n;
+          var r = e(i, { token: n });
           l.profile = r.get(l.processProfile, l.requestError);
         },
         processProfile: function (e) {
           console.log('GPlus processProfile profile=', e), t({
             method: 'GET',
-            url: i,
-            params: { key: s },
+            url: r,
+            params: { key: CONFIG_1ST_REVENUE.gplusAPIKey },
             headers: { Authorization: 'Bearer ' + e.auth.accessToken }
-          }).success(l.processGPlusProfile).error(l.requestError), l.bearerToken = e.auth.accessToken, l.sendPeopleRequest();
+          }).success(l.processGPlusProfile).error(l.requestError), l.total = 0, l.afAccount.contacts = l.afAccount.contacts || { refreshed: Date.now() }, l.bearerToken = e.auth.accessToken, l.sendPeopleRequest();
         },
         sendPeopleRequest: function (e) {
           t({
             method: 'GET',
-            url: r,
+            url: s,
             params: {
-              key: s,
+              key: CONFIG_1ST_REVENUE.gplusAPIKey,
               pageToken: e || null
             },
             headers: { Authorization: 'Bearer ' + l.bearerToken }
@@ -4539,14 +4604,15 @@ FirstRevenueApp.controller('AdminController', [
           console.log('GPlus processGPlusProfile gprofile=', e);
         },
         processGPlusPeople: function (e) {
-          console.log('GPlus processGPlusPeople people=', e), o(function () {
-            l.account.contacts.total = 0, _.each(e.items, l.processPerson), e.nextPageToken && l.sendPeopleRequest(e.nextPageToken), l.account.contacts.refreshed = Date.now();
+          console.log('GPlus processGPlusPeople people=', e), l.me.social.contacts.gplus = l.me.social.contacts.gplus || {}, o(function () {
+            _.each(e.items, l.processPerson), e.nextPageToken ? l.sendPeopleRequest(e.nextPageToken) : (l.afAccount.contacts.refreshed = Date.now(), l.afAccount.contacts.total = l.total, l.me.social.loaded.gplus = !0);
           });
         },
         processPerson: function (e) {
           console.log('GPlus processPerson person=', e);
-          var t = {
+          var t = l.afAccount.contacts.partners, o = l.me.social.contacts.gplus[e.id] = {
               profileKey: l.account.profile.key,
+              provider: 'singly',
               service: 'gplus',
               type: e.objectType,
               name: e.displayName,
@@ -4554,7 +4620,7 @@ FirstRevenueApp.controller('AdminController', [
               id: e.id,
               serviceId: e.id
             };
-          l.user.gridContacts.push(t), l.account.contacts.total += 1, console.log('GPlus processPerson c=', t);
+          t && t[e.id] && (o.partner = t[e.id]), l.total += 1, console.log('GPlus processPerson c=', o);
         },
         requestError: function (e) {
           console.log('GPlus requestError error=', e);

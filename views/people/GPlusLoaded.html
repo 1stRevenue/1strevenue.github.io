@@ -1,0 +1,102 @@
+<table class="contact-table table table-hover">
+  <thead>
+  <tr>
+    <td colspan="6">
+      <p>
+        <button class="btn btn-success pull-right"
+                ng-click="social.fetchAccount(me, 'gplus')">
+          Refresh Google+ contacts
+        </button>
+                <span ng-show="getContactCount('gplus')">
+                  {{getContactCount('gplus')}} Google+ contacts
+                </span>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p ng-show="getRefreshTime('gplus')"
+         title="{{getRefreshTime('gplus')}}">
+        Last seen {{getRefreshLatency('gplus')}}
+      </p>
+    </td>
+  </tr>
+  <tr class="partner-contact">
+    <td colspan="6"
+        ng-show="getPartnerCount('gplus') > 0">
+      <p>
+        <button class="btn btn-primary pull-right"
+                ng-show="needSavePartners()"
+                ng-click="savePartners('gplus')">
+          Save changes
+        </button>
+        {{getPartnerCount('gplus')}} partners
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>Name</th>
+    <th>Service</th>
+    <th>ID</th>
+    <th>Flags</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="contact in social.contacts.gplus"
+      ng-class="{'partner-contact': isPartner(contact), 'favorite-contact': isFavorite(contact)}">
+      <td>
+        <input type="checkbox"
+               ng-checked="isFavorite(contact)"
+               ng-click="toggleFavorite(contact)"
+               zzz-ng-model="contact.partner.favorite" />
+      </td>
+      <td class="contact-image">
+        <img class="user-icon"
+             ng-src="{{contact.image}}">
+      </td>
+      <td>
+        {{contact.name}}
+      </td>
+      <td>
+        {{contact.service}}
+      </td>
+      <td>
+        {{contact.serviceId}}
+      </td>
+      <td>
+        <button
+            class="g-interactivepost"
+            data-contenturl="https://prototype.1strevenue.com/1stRevenue/invite"
+            data-contentdeeplinkid="/1stRevenue/invite"
+            data-clientid="1010606663349.apps.googleusercontent.com"
+            data-cookiepolicy="single_host_origin"
+            data-prefilltext="Join 1st Revenue"
+            data-calltoactionlabel="INVITE"
+            data-calltoactionurl="https://prototype.1strevenue.com/1stRevenue/invite"
+            data-calltoactiondeeplinkid="/invite">
+          Invite to 1st Revenue
+        </button>
+        <!--button class="btn btn-small btn-primary"
+                ng-show="contact.favorite && hasNoInvitation(contact)"
+                ng-click="invite(contact)">
+          Invite
+        </button-->
+        <button class="btn btn-small"
+                ng-disabled="true"
+                ng-show="hasBeenInvited(contact)">
+          Invited
+        </button>
+        <img src="images/08c59e89.1R-red-white-black.png"
+             ng-show="isUser(contact)"
+             class="contact-1r" />
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="6">{{getContactCount('gplus')}} contacts found</th>
+    </tr>
+  </tfoot>
+</table>

@@ -1,0 +1,85 @@
+<table class="contact-table table table-hover">
+  <thead>
+  <tr>
+    <td colspan="6">
+      <p>
+        <button class="btn btn-success pull-right"
+                ng-click="social.fetchAccount(me, 'gplus')">
+          Refresh Google+ contacts
+        </button>
+                <span ng-show="getContactCount('gplus')">
+                  {{getContactCount('gplus')}} Google+ contacts
+                </span>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="6">
+      <p ng-show="getRefreshTime('gplus')"
+         title="{{getRefreshTime('gplus')}}">
+        Last seen {{getRefreshLatency('gplus')}}
+      </p>
+    </td>
+  </tr>
+  <tr class="partner-contact">
+    <td colspan="6"
+        ng-show="getPartnerCount('gplus') > 0">
+      <p>
+        <button class="btn btn-primary pull-right"
+                ng-show="needSavePartners()"
+                ng-click="savePartners('gplus')">
+          Save changes
+        </button>
+        {{getPartnerCount('gplus')}} partners
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th>Name</th>
+    <th>Service</th>
+    <th>ID</th>
+    <th>Flags</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="(key, partner) in account.contacts.partners"
+      class="partner-contact"
+      ng-class="{'favorite-contact': partner.favorite}">
+      <td>
+        <input type="checkbox"
+               ng-model="partner.favorite" />
+      </td>
+      <td class="contact-image">
+        <img class="user-icon"
+             ng-src="{{partner.image}}">
+      </td>
+      <td>
+        {{partner.name}}
+      </td>
+      <td>
+       gplus
+      </td>
+      <td>
+        {{key}}
+      </td>
+      <td>
+        <div gplus-invite></div>
+        <!--button class="btn btn-small"
+                ng-disabled="true"
+                ng-show="hasBeenInvited(contact)">
+          Invited
+        </button>
+        <img src="images/08c59e89.1R-red-white-black.png"
+             ng-show="isUser(contact)"
+             class="contact-1r" /-->
+      </td>
+    </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <th colspan="6">{{getContactCount('gplus')}} contacts found</th>
+  </tr>
+  </tfoot>
+</table>

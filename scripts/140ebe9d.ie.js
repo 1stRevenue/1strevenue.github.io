@@ -1056,10 +1056,10 @@ var log4javascript = function () {
               p += S >= 3 ? g(t[k], S, S) : v(k + 1, S);
               break;
             case l:
-              var x = k > 0, T = x ? '-' : '+', I = Math.abs(k), A = '' + Math.floor(I / 60);
+              var x = k > 0, I = x ? '-' : '+', T = Math.abs(k), A = '' + Math.floor(T / 60);
               A = h(A, 2);
-              var M = '' + I % 60;
-              M = h(M, 2), p += T + A + M;
+              var M = '' + T % 60;
+              M = h(M, 2), p += I + A + M;
             }
           }
           f = f.substr(d.index + d[0].length);

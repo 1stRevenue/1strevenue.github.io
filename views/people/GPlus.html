@@ -1,35 +1,16 @@
 <div class="first-revenue-contacts"
-     ng-controller="ContactController">
-  <!--button class="btn btn-large btn-success"
-          ng-disabled="false"
-          ng-click="saveContacts()">
-    Save changes
-  </button-->
-  <table class="contact-table table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Service</th>
-        <th>ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="contact in getContacts('gplus')">
-        <td class="contact-image">
-          <img class="user-icon"
-               ng-src="{{contact.image}}">
-        </td>
-        <td>
-          {{contact.name}}
-        </td>
-        <td>
-          {{contact.service}}
-        </td>
-        <td>
-          {{contact.id}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+     ng-controller="ContactController"
+     ng-init="init('gplus')">
+  <div class="table-wrapper">
+    <div class="table-scroll">
+      <div ng-switch="social.loaded.gplus">
+        <div ng-switch-when="true"
+             ng-include="'views/people/GPlusLoaded.html'">
+        </div>
+        <div ng-switch-default
+             ng-include="'views/people/GPlusUnloaded.html'">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

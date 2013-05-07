@@ -22,8 +22,8 @@
        ng-click="social.account = account; layout.setView(account.profile.service)"
        ng-class="{'ribbon-item-current': layout.isView(account.profile.service)}"
        class="ribbon-item">
-    <i class="icon-{{account.profile.service}} icon-2x"></i>
-    {{account.profile.service}}
+    <i class="{{getSocialIconName(account)}} icon-2x"></i>
+    {{getSocialLabel(account)}}
   </div>
 
 
