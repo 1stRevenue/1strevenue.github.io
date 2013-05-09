@@ -110,7 +110,7 @@ FirstRevenueApp.controller('AdminController', [
   'Rainbow',
   function (e, t, o, n, i, r) {
     var s = 'CanvasController';
-    console.log(s, 'route invoked db=', e.db, '$route=', t);
+    console.log(s, 'route invoked $route=', t);
     var l = t.current.params.modelId, a = {
         KP: {
           iconId: 106,
@@ -2227,12 +2227,12 @@ FirstRevenueApp.controller('AdminController', [
           }), o.promise;
         },
         inviteMatch: function (e) {
-          var t = u.inviteValue, o = e;
-          return 'singly' === o.provider ? o.service === t.service && o.services[o.service].id === t.id : o.provider === t.service && o.id === t.id;
+          var t = u.inviteValue;
+          return 'singly' === e.provider ? e.service === t.service && e.services[e.service].id === t.id : e.provider === t.service && e.id === t.id;
         },
         inviteExisting: function (e) {
           var t = n.defer();
-          if (console.log(l, 'inviteExisting', 'value=', e.mapValue, 'ivUser=', e), e.value) {
+          if (console.log(l, 'inviteExisting', 'mapValue=', e.mapValue, 'ivUser=', e), e.mapValue) {
             console.log(l, 'inviteExisting', 'found usermap for user', e.provider + '/' + e.id, 'value=', e.mapValue);
             var o = u.fb.rootRef.child('users').child(e.mapValue);
             o.once('value', function (o) {
