@@ -58,7 +58,7 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
     'RrrrRrrr',
     function (e, t, o, n, i) {
       console.log('app.run set up $routeChangeStart $on event watcher'), e.deferredLaunch = o.defer(), e.$on('$routeChangeStart', function (t, o, r) {
-        i.launching = !1, console.log('app.run $routeChangeStart current=', r, 'next=', o, 'User=', n), !n.authenticated && o.$route.controller && 'InviteController' !== o.$route.controller && 'EntryController' !== o.$route.controller && (o.$route.resolve = o.$route.resolve || {}, o.$route.resolve.Launch = o.$route.resolve.Launch = function () {
+        i.launching = !1, console.log('app.run $routeChangeStart current=', r, 'next=', o, 'User=', n), !n.authenticated && o.$$route.controller && 'InviteController' !== o.$$route.controller && 'EntryController' !== o.$$route.controller && (o.$$route.resolve = o.$$route.resolve || {}, o.$$route.resolve.Launch = o.$$route.resolve.Launch = function () {
           return e.deferredLaunch.promise;
         });
       });
@@ -240,7 +240,7 @@ FirstRevenueApp.controller('AdminController', [
       getSocialPartners: function (t) {
         console.log(i, 'getSocialPartners service=', t);
         var o = {}, n = e.account;
-        return console.log(i, 'getSocialPartners account=', n), e.account.contacts && _.each(e.account.contacts.partners, function (e, t) {
+        return console.log(i, 'getSocialPartners account=', n), e.account && e.account.contacts && _.each(e.account.contacts.partners, function (e, t) {
           o[t] = {
             provider: n.profile.provider,
             service: n.profile.service,
@@ -255,11 +255,7 @@ FirstRevenueApp.controller('AdminController', [
         return console.log(i, 'getContacts service=', t), o.loaded[t] ? o.contacts[t] : e.getSocialPartners(t);
       },
       getSocialPartnerIds: function (t) {
-        console.log(i, 'getSocialPartnerIds service=', t);
-        var o = [], n = e.account;
-        return console.log(i, 'getSocialPartnerIds account=', n), e.account.contacts && _.each(e.account.contacts.partners, function (e, t) {
-          o.push(t);
-        }), console.log(i, 'getSocialPartners contactIds=', o), o;
+        return console.log(i, 'getSocialPartnerIds service=', t), e.account.contacts ? _.keys(e.account.contacts.partners) : [];
       },
       getContactIds: function (t) {
         return console.log(i, 'getContactIds service=', t), o.loaded[t] ? o.contacts[t] : e.getSocialPartnerIds(t);
@@ -866,10 +862,11 @@ FirstRevenueApp.controller('AdminController', [
 ]), FirstRevenueApp.controller('RibbonController', [
   '$scope',
   '$location',
-  function (e, t) {
-    var o = 'RibbonController';
-    console.log(o, 'loaded');
-    var n = {
+  '$window',
+  function (e, t, o) {
+    var n = 'RibbonController';
+    console.log(n, 'loaded');
+    var i = {
         gplus: {
           icon: 'google-plus',
           label: 'Google+'
@@ -887,14 +884,29 @@ FirstRevenueApp.controller('AdminController', [
         t.path('/' + e);
       },
       getSocialIconName: function (e) {
-        var t = e.profile.service, o = n[t];
+        var t = e.profile.service, o = i[t];
         return 'icon-' + (o && o.icon || t);
       },
       getSocialLabel: function (e) {
-        var t = e.profile.service, o = n[t];
+        var t = e.profile.service, o = i[t];
         return o && o.label || t;
+      },
+      getModelUserIds: function () {
+        return _.keys(e.canvas.model.users || {});
+      },
+      uservoiceShowClassicWidget: function () {
+        o.UserVoice.push([
+          'showLightbox',
+          'classic_widget',
+          {
+            mode: 'feedback',
+            primary_color: '#cc6d00',
+            link_color: '#007dbf',
+            forum_id: 161241
+          }
+        ]);
       }
-    });
+    }), o.UserVoice = o.UserVoice || [];
   }
 ]), FirstRevenueApp.controller('SignUpController', [
   '$scope',
@@ -1853,130 +1865,131 @@ FirstRevenueApp.controller('AdminController', [
   '$rootScope',
   '$timeout',
   '$location',
+  '$window',
   'FirebaseEvents',
   'Myself',
   'Layout',
   'Notif',
   'Database',
   'User',
-  function (e, t, o, n, i, r, s, l, a) {
-    var c = 'Firebase';
-    console.log(c, 'service launched');
-    var u = {
+  function (e, t, o, n, i, r, s, l, a, c) {
+    var u = 'Firebase';
+    console.log(u, 'service launched');
+    var d = {
         endpoint: CONFIG_1ST_REVENUE.firebaseEndpoint,
         nowRemote: null,
         rootRef: null,
         authClient: null,
-        fbe: n,
-        user: a,
+        fbe: i,
+        user: c,
         connected: !1,
         connStatus: 'Offline',
-        db: l,
+        db: a,
         init: function () {
-          u.rootRef = new Firebase(u.endpoint), Firebase.enableLogging(!0), console.log(c, 'init fb.rootRef=', u.rootRef), u.fbe.init(u, u.rootRef);
+          d.rootRef = new Firebase(d.endpoint), Firebase.enableLogging(!0), console.log(u, 'init fb.rootRef=', d.rootRef), d.fbe.init(d, d.rootRef);
         },
         retrieveSession: function () {
-          a.authFailed || (u.authClient = new FirebaseAuthClient(u.rootRef, u.verifySession));
+          c.authFailed || (d.authClient = new FirebaseAuthClient(d.rootRef, d.verifySession));
         },
         resumeSession: function () {
-          a.authFailed || (u.authClient = new FirebaseAuthClient(u.rootRef, u.generalAuth));
+          c.authFailed || (d.authClient = new FirebaseAuthClient(d.rootRef, d.generalAuth));
         },
         verifySession: function (e, t) {
-          console.log(c, 'verifySession error=', e, 'fbUser=', t);
+          console.log(u, 'verifySession error=', e, 'fbUser=', t);
           var n = !1;
-          e ? console.log(c, 'verifySession Firebase returned an error=', e) : t ? (console.log(c, 'verifySession Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), n = !0) : console.log(c, 'verifySession Firebase auth returned null fbUser=', t, '$location=', o), n && a.setLastUser(t), i.processInvite(n);
+          e ? console.log(u, 'verifySession Firebase returned an error=', e) : t ? (console.log(u, 'verifySession Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), n = !0) : console.log(u, 'verifySession Firebase auth returned null fbUser=', t, '$location=', o), n && c.setLastUser(t), r.processInvite(n);
         },
         clearSession: function () {
           FirebaseAuthClient.prototype.clearSession();
         },
         setAdmin: function (e) {
-          a.adminRole = e;
+          c.adminRole = e;
         },
         loadCanvasORM: function (e, t, o) {
-          var n = u.rootRef.child('orgs').child(e).child('repos').child(t).child('models').child(o);
-          i.openModel(n);
+          var n = d.rootRef.child('orgs').child(e).child('repos').child(t).child('models').child(o);
+          r.openModel(n);
         },
         loadCanvas: function (e) {
-          var t = u.rootRef.child('models').child(e);
-          i.openModel(t);
+          var t = d.rootRef.child('models').child(e);
+          r.openModel(t);
         },
         generalAuth: function (e, t) {
-          if (console.log(c, 'generalAuth error=', e, 'fbUser=', t), a.clearLastUser(), e)
-            console.log(c, 'generalAuth Firebase returned an error=', e), u.authFailed(e);
+          if (console.log(u, 'generalAuth error=', e, 'fbUser=', t), c.clearLastUser(), e)
+            console.log(u, 'generalAuth Firebase returned an error=', e), d.authFailed(e);
           else if (t) {
-            if (console.log(c, 'generalAuth Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), a.setLastUser(t), t.sessionKey)
+            if (console.log(u, 'generalAuth Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), c.setLastUser(t), t.sessionKey)
               FirebaseAuthClient.prototype.saveSession(t.firebaseAuthToken, t), delete t.sessionKey;
             else {
               var n = FirebaseAuthClient.prototype.readCookie('firebaseSessionKey');
-              console.log(c, 'sessionKey from cookie firebaseSessionKey=', n), t.firebaseSessionKey = n;
+              console.log(u, 'sessionKey from cookie firebaseSessionKey=', n), t.firebaseSessionKey = n;
             }
-            var i = u.rootRef.child('usermap'), r = i.child(t.provider).child(t.id);
+            var i = d.rootRef.child('usermap'), r = i.child(t.provider).child(t.id);
             r.once('value', function (e) {
-              console.log(c, 'generalAuth', 'mapUserRef once value=', e.val()), u.checkUserMap(e.val(), t, r);
+              console.log(u, 'generalAuth', 'mapUserRef once value=', e.val()), d.checkUserMap(e.val(), t, r);
             });
           } else
-            console.log(c, 'generalAuth Firebase auth returned null fbUser=', t, '$location=', o), u.authFailed();
+            console.log(u, 'generalAuth Firebase auth returned null fbUser=', t, '$location=', o), d.authFailed();
         },
         checkUserMap: function (e, t, o) {
           if (e) {
-            var n = u.rootRef.child('users').child(e);
+            var n = d.rootRef.child('users').child(e);
             n.once('value', function (n) {
               var i = n.val();
-              console.log(c, 'checkUserMap', 'userRef once urValue=', i), i ? (console.log(c, 'checkUserMap', 'userRef urValue=', i), a.retrieveUserRecord(i), u.openSession(e, t)) : (console.log(c, 'checkUserMap', 'Remove orphan from user map: fbUser=', t), o.remove(function () {
-                console.log(c, 'checkUserMap', 'Orphan removed from user map: fbUser=', t), u.authFailed({
+              console.log(u, 'checkUserMap', 'userRef once urValue=', i), i ? (console.log(u, 'checkUserMap', 'userRef urValue=', i), c.retrieveUserRecord(i), d.openSession(e, t)) : (console.log(u, 'checkUserMap', 'Remove orphan from user map: fbUser=', t), o.remove(function () {
+                console.log(u, 'checkUserMap', 'Orphan removed from user map: fbUser=', t), d.authFailed({
                   code: 'USER_UNKNOWN',
                   message: 'User ' + t.name + ' (' + t.provider + '-' + t.id + ') not found in Firebase'
                 });
               }));
             });
           } else
-            console.log(c, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), u.clearSession(), console.log(c, 'checkUserMap', 'Firebase session cleared'), u.authFailed({
+            console.log(u, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), d.clearSession(), console.log(u, 'checkUserMap', 'Firebase session cleared'), d.authFailed({
               code: 'USER_UNKNOWN',
               message: 'User ' + (t.name ? t.name : '') + ' (' + t.provider + '-' + t.id + ') not found in Firebase'
             });
         },
         authFailed: function (e) {
-          console.log(c, 'authFailed error=', e), a.authError(e), t(function () {
-            o.url('/entry');
+          console.log(u, 'authFailed error=', e), c.authError(e), t(function () {
+            '/entry' === o.$$url ? o.url('/entry?reload=' + Date.now()) : o.url('/entry');
           });
         },
         openSession: function (t, o, n) {
-          console.log(c, 'openSession userId=', t, 'fbUser=', o), a.confirmUser(t), i.wakeup(u.rootRef, t, n), console.log(c, 'openSession resolving launch promise'), e.deferredLaunch.resolve(), analytics.identify(t, {
+          console.log(u, 'openSession userId=', t, 'fbUser=', o), c.confirmUser(t), r.wakeup(d.rootRef, t, n), console.log(u, 'openSession resolving launch promise'), e.deferredLaunch.resolve(), analytics.identify(t, {
             id: o.id,
             provider: o.provider,
             name: o.name
           });
         },
         log: function (e) {
-          var t = new Date(), o = t.getUTCFullYear(), n = t.getUTCMonth(), i = t.getUTCDate(), r = t.getUTCHours(), s = u.rootRef.child('log').child(o).child(n).child(i).child(r);
-          e.time = t.getTime(), e.timeISO = t.toISOString(), e.user = a.provider + '-' + a.id, s.push(e);
+          var t = new Date(), o = t.getUTCFullYear(), n = t.getUTCMonth(), i = t.getUTCDate(), r = t.getUTCHours(), s = d.rootRef.child('log').child(o).child(n).child(i).child(r);
+          e.time = t.getTime(), e.timeISO = t.toISOString(), e.user = c.provider + '-' + c.id, s.push(e);
         },
         createModel: function (e) {
-          console.log(c, 'createModel model=', e);
-          var t = u.rootRef.child('models'), o = t.push(), n = o.name(), i = {
+          console.log(u, 'createModel model=', e);
+          var t = d.rootRef.child('models'), o = t.push(), n = o.name(), i = {
               fields: angular.copy(e.fields),
               users: {}
             };
-          _.each(u.db.users, function (e, t) {
+          _.each(d.db.users, function (e, t) {
             e.selected && (i.users[t] = !0);
-          }), i.users[a.userId] = !0, console.log(c, 'createModel modelUpdate=', i), o.set(i, function (t, o) {
-            if (console.log(c, 'createModel model created', 'modelUpdate=', i, 'model=', e, 'error=', t, 'dummy=', o), e.saved = !t, u.log({
+          }), i.users[c.userId] = !0, console.log(u, 'createModel modelUpdate=', i), o.set(i, function (t, o) {
+            if (console.log(u, 'createModel model created', 'modelUpdate=', i, 'model=', e, 'error=', t, 'dummy=', o), e.saved = !t, d.log({
                 op: t ? 'createModel-error' : 'createModel',
                 error: t,
                 path: '/models/' + n,
                 model: i
               }), !t) {
-              var r = u.rootRef.child('users').child(a.userId).child('models').child(n);
+              var r = d.rootRef.child('users').child(c.userId).child('models').child(n);
               r.set(!0, function (e, t) {
-                console.log(c, 'createModel model reference stored to user', 'error=', e, 'dummy=', t);
+                console.log(u, 'createModel model reference stored to user', 'error=', e, 'dummy=', t);
               });
             }
           });
         },
         saveSticker: function (e) {
-          var t = u.getStickerPath(e);
-          console.log(c, 'saveSticker stPath=', t, 'st=', e);
-          var o = u.rootRef.child(t);
+          var t = d.getStickerPath(e);
+          console.log(u, 'saveSticker stPath=', t, 'st=', e);
+          var o = d.rootRef.child(t);
           e.notes = e.notes || '';
           var n = {
               title: e.title,
@@ -1984,7 +1997,7 @@ FirstRevenueApp.controller('AdminController', [
               color: e.color.name
             };
           e.position && (e.position.x && (n.x = e.position.x), e.position.y && (n.y = e.position.y)), o.update(n, function (o, i) {
-            console.log(c, 'saveSticker sticker saved stPath=', t, 'stUpdate=', n, 'st=', e, 'error=', o, 'dummy=', i), e.saved = !o, u.log({
+            console.log(u, 'saveSticker sticker saved stPath=', t, 'stUpdate=', n, 'st=', e, 'error=', o, 'dummy=', i), e.saved = !o, d.log({
               op: 'saveSticker',
               path: t,
               sticker: n
@@ -1992,9 +2005,9 @@ FirstRevenueApp.controller('AdminController', [
           });
         },
         createSticker: function (e) {
-          var t = u.getModelPath(e);
-          console.log(c, 'createSticker modelPath=', t, 'st=', e);
-          var o = u.rootRef.child(t + '/stickers'), n = o.push();
+          var t = d.getModelPath(e);
+          console.log(u, 'createSticker modelPath=', t, 'st=', e);
+          var o = d.rootRef.child(t + '/stickers'), n = o.push();
           e.notes = e.notes || '';
           var i = {
               title: e.title,
@@ -2002,8 +2015,8 @@ FirstRevenueApp.controller('AdminController', [
               block: e.block,
               color: e.color.name
             };
-          e.position && (e.position.x && (i.x = e.position.x), e.position.y && (i.y = e.position.y)), console.log(c, 'createSticker sticker before set modelPath=', t, 'stUpdate=', i), n.set(i, function (o, r) {
-            console.log(c, 'createSticker sticker created modelPath=', t, 'stUpdate=', i, 'st=', e, 'error=', o, 'dummy=', r), e.saved = !o, u.log({
+          e.position && (e.position.x && (i.x = e.position.x), e.position.y && (i.y = e.position.y)), console.log(u, 'createSticker sticker before set modelPath=', t, 'stUpdate=', i), n.set(i, function (o, r) {
+            console.log(u, 'createSticker sticker created modelPath=', t, 'stUpdate=', i, 'st=', e, 'error=', o, 'dummy=', r), e.saved = !o, d.log({
               op: 'saveSticker',
               path: t + '/stickers/' + n.name(),
               sticker: i
@@ -2023,7 +2036,7 @@ FirstRevenueApp.controller('AdminController', [
           return '/orgs/' + e.id;
         }
       };
-    return u;
+    return d;
   }
 ]), FirstRevenueApp.factory('FullScreen', [
   '$window',
@@ -2527,7 +2540,7 @@ FirstRevenueApp.controller('AdminController', [
         },
         getModels: function (e) {
           var t = [];
-          return _.each(o.af.user.models, function (n, r) {
+          return _.each(o.af.models, function (n, r) {
             var s = o.af.models[r];
             if (s) {
               var l = i.isPublic(r);

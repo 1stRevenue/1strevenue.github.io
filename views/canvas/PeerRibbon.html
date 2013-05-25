@@ -13,9 +13,9 @@
     <div class="add-new-peer-icon"></div>
   </div>
 
-  <!--div ng-repeat="dbuser in db.users"
-       ng-show="dbuser.id != user.account.id"-->
-  <div ng-repeat="(userId, userValue) in canvas.model.users"
+  <!-- The following expr may work to avoid repetition of 'true' -->
+  <!--div ng-repeat="(userId, userValue) in canvas.model.users track by userId"    -->
+  <div ng-repeat="userId in getModelUserIds()"
        class="ribbon-item"
        ng-class="{'ribbon-item-current': user.isMyself(userId)}">
     <img ng-src="{{af.peers[userId].image}}"
