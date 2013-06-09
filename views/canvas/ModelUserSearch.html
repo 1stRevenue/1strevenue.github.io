@@ -1,0 +1,54 @@
+<input type="submit"
+       style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+<input type="text"
+       id="user-typeahead"
+       class="input-xlarge search-query"
+       placeholder="Add users"
+       ng-model="tah.userTypeAhead"
+       first-revenue-typeahead="tah.dataset"
+       data-selection="tahSelection" />
+<div class="search-header">
+  Search partners
+</div>
+<div ng-repeat="account in sync.user.accounts"
+     class="model-editor-service-load">
+  <input type="checkbox"
+         ng-click="refreshPartnerDataset(account)"
+         ng-model="tah.partners[account.profile.service]" />
+  <span first-revenue-service-icon="account.profile.service"></span>
+  <span>{{_.size(account.contacts.partners)}} {{account.profile.service}} partners</span>
+</div>
+
+<div class="search-header">
+  Search social friends
+</div>
+<div ng-repeat="account in sync.user.accounts"
+     class="model-editor-service-load">
+  <input type="checkbox"
+         ng-click="refreshFriendDataset(account)"
+         ng-class="{'hidden-button': !social.loaded[account.profile.service]}"
+         ng-disabled="!social.loaded[account.profile.service]"
+         ng-model="tah.social[account.profile.service]" />
+  <span first-revenue-service-icon="account.profile.service"></span>
+
+  <button class="btn btn-small btn-primary"
+          ng-click="loadAccount(account)"
+          ng-hide="social.loaded[account.profile.service]">
+    Load {{account.contacts.total}} friends
+  </button>
+  <span class="latency-note"
+        ng-hide="social.loaded[account.profile.service]">
+    Seen {{getRefreshLatency(account.contacts.refreshed)}}
+  </span>
+
+  <button class="btn btn-small"
+          ng-disabled="true"
+          ng-click="refreshAccount(account)"
+          ng-show="social.loaded[account.profile.service]">
+    Loaded {{account.contacts.total}} friends
+  </button>
+  <span class="latency-note"
+        ng-show="social.loaded[account.profile.service]">
+    {{getRefreshLatency(account.contacts.refreshed)}}
+  </span>
+</div>

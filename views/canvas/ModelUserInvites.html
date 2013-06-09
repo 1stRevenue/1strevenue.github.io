@@ -1,0 +1,28 @@
+<div class="user-list-header">Invites</div>
+<div ng-repeat="(inviteId, inviteValue) in canvas.model.invites track by inviteId"
+     class="user-list-item">
+  <button class="btn btn-small delete-button"
+        ng-click="deleteInvite(inviteId)">
+    &times;
+  </button>
+  <span first-revenue-service-icon="sync.invites[inviteId].service"></span>
+  <img ng-src="{{sync.invites[inviteId].image}}"
+       class="user-icon"
+       ng-show="sync.invites[inviteId].image"
+       title="{{sync.invites[inviteId].name}}" />
+  <img ng-src="images/bbf82395.light_avatar_small.png"
+       class="user-icon"
+       ng-hide="sync.invites[inviteId].image"
+       title="{{sync.invites[inviteId].name}}" />
+  {{sync.invites[inviteId].name}}
+  <button class="btn btn-success btn-small invite-button"
+          ng-click="social.updateInvite(inviteId)"
+          ng-show="sync.invites[inviteId].status=='created'">
+    Invite
+  </button>
+  <button class="btn btn-small invite-button"
+          ng-disabled="true"
+          ng-show="sync.invites[inviteId].status=='sent'">
+    Invited
+  </button>
+</div>

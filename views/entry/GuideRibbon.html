@@ -11,36 +11,39 @@
        data-position="right"
        data-step="1">
     <i class="icon-user icon-2x"></i>
-    Welcome
+    <span ng-show="layout.guide.wide">Welcome</span>
   </div>
   <div ng-click="layout.setView('logon')"
        ng-class="{'ribbon-item-current': layout.isView('logon')}"
        class="ribbon-item intro-entry"
+       style="color: green; background-image: linear-gradient(to right,rgb(150, 170, 150),rgb(255, 255, 255)); background-repeat: repeat-y;"
        data-intro="Sign in if you already have an account on 1st Revenue"
        data-position="right"
        data-step="2">
     <i class="icon-user icon-2x"></i>
-    Sign in
+    <span ng-show="layout.guide.wide">Sign in</span>
   </div>
   <div ng-click="layout.setView('signup')"
        ng-class="{'ribbon-item-current': layout.isView('signup')}"
        class="ribbon-item intro-entry"
+       style="color: blue; background-image: linear-gradient(to right,rgb(200, 200, 255),rgb(255, 255, 255)); background-repeat: repeat-y;"
        data-intro="Create or modify an account on 1st Revenue"
        data-position="right"
        data-step="3">
     <i class="icon-user icon-2x"></i>
-    Register
+    <span ng-show="layout.guide.wide">Register</span>
   </div>
   <div ng-click="layout.setView('guest')"
        ng-class="{'ribbon-item-current': layout.isView('guest')}"
        class="ribbon-item intro-entry"
+       style="color: #E80; background-image: linear-gradient(to right,rgb(244, 192, 128),rgb(255, 255, 255)); background-repeat: repeat-y;"
        data-intro="Guest access is planned but not implemented yet"
        data-position="right"
        data-step="4">
     <i class="icon-user icon-2x"></i>
-    Guest access
+    <span ng-show="layout.guide.wide">Guest access</span>
   </div>
-  <div zzz-ng-click="introJs('.intro-entry').start()"
+  <!--div zzz-ng-click="introJs('.intro-entry').start()"
        ng-click="$('.guide-ribbon').chardinJs('start')"
        class="ribbon-item intro-entry"
        data-intro="Help"
@@ -48,8 +51,8 @@
        data-step="5">
     <i class="icon-help icon-2x"></i>
     Explain
-  </div>
+  </div-->
 
-  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

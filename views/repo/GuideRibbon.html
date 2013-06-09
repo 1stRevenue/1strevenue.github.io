@@ -9,44 +9,56 @@
        ng-class="{'ribbon-item-current': layout.isView('contacts')}"
        class="ribbon-item">
     <i class="icon-user icon-2x"></i>
-    Manage contacts
+    <span ng-show="layout.guide.wide">
+      Manage contacts
+    </span>
   </div>
-  <div ng-click="modal.model=true"
-       zzz-ng-click="layout.setView('new')"
+  <div zzz-ng-click="modal.model=true; modal.newModel=true"
+       ng-click="layout.lastRepoView = layout.view; layout.setView('new')"
        ng-class="{'ribbon-item-current': layout.isView('new')}"
        class="ribbon-item">
     <i class="icon-plus icon-2x"></i>
     <!--div class="add-new-model">
       <div class="add-new-model-icon"></div>
     </div-->
-    New model
+    <span ng-show="layout.guide.wide">
+    </span>
+      New model
   </div>
 
   <div ng-click="layout.setView('my')"
        ng-class="{'ribbon-item-current': layout.isView('my')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    My models
+    <span ng-show="layout.guide.wide">
+      My models
+    </span>
   </div>
   <div ng-click="layout.setView('public')"
        ng-class="{'ribbon-item-current': layout.isView('public')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    Public models
+    <span ng-show="layout.guide.wide">
+      Public models
+    </span>
   </div>
   <div ng-click="layout.setView('recent')"
        ng-class="{'ribbon-item-current': layout.isView('shared')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    Shared with me
+    <span ng-show="layout.guide.wide">
+      Shared with me
+    </span>
   </div>
   <div ng-click="layout.setView('all')"
        ng-class="{'ribbon-item-current': layout.isView('all')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    All models
+    <span ng-show="layout.guide.wide">
+      All models
+    </span>
   </div>
 
-  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

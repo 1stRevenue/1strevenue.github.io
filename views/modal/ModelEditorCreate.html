@@ -1,0 +1,39 @@
+<div class="modal-editor-form">
+  <fieldset class="model-editor-fields container-fluid">
+    <div class="row-fluid">
+      <div class="control-group span6"
+           ng-class="{error: nameError}">
+        <label class="control-label"
+               for="new-model-name">
+          <span>Model name</span>
+          <span style="color: red">*</span>
+        </label>
+        <div class="controls">
+          <input type="text"
+                 autofocus
+                 id="new-model-name"
+                 class="input-xlarge"
+                 placeholder="Model name"
+                 ng-model="newModelName" />
+          <p class="help-block"
+             ng-show="newModelName.trim()==''">Please specify the model name</p>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid"
+         ng-show="modal.newModel">
+      <div class="span12">
+        <button type="submit"
+                class="btn btn-primary pull-right"
+                ng-click="createModel(newModelName)"
+                ng-disabled="!newModelName || newModelName.trim() == ''">
+          <span>Create model</span>
+        </button>
+        <button class="btn"
+                ng-click="cancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </fieldset>
+</div>

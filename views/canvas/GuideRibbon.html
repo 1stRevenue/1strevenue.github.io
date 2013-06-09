@@ -7,28 +7,49 @@
   <div class="ribbon-item">
     <a href="#/repo">
       <i class="icon-folder-open icon-2x"></i>
+      <span ng-show="layout.guide.wide">
+        Repo
+      </span>
     </a>
-    <span ng-show="ribbon.wide">
-      Repo
-    </span>
   </div>
-  <div ng-click="modal.model=true"
-       zzz-ng-class="{'ribbon-item-current': modal.model}"
+  <!--div ng-click="modal.model=true;modal.newModel=false;"
+        ng-class="{'ribbon-item-current': modal.model}"
+        class="ribbon-item" -->
+  <div ng-click="layout.setView('model'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('model')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
-    <span ng-show="ribbon.wide">
-      Model
+    <span ng-show="layout.guide.wide">
+      Edit model
     </span>
   </div>
-  <div ng-click="layout.setView('canvas'); modal.model=false"
-       ng-class="{'ribbon-item-current': layout.isView('canvas') || modal.model, 'ribbon-item-dark': layout.editor.sticker}"
+  <div ng-click="layout.setView('users'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-hide="layout.isView('canvas')"
+       ng-class="{'ribbon-item-current': layout.isView('users')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Model users
+    </span>
+  </div>
+  <!--div ng-click="layout.setView('friends'); layout.guide.wide = true; layout.peer.wide = true;"
+       ng-hide="layout.isView('canvas')"
+       ng-class="{'ribbon-item-current': layout.isView('friends')}"
+       class="ribbon-item">
+    <i class="icon-cloud icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Social friends
+    </span>
+  </div-->
+  <div ng-click="layout.setView('canvas'); layout.guide.wide = false; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('canvas'), 'ribbon-item-dark': layout.editor.sticker}"
        class="ribbon-item">
     <i class="icon-th icon-2x"></i>
-    <span ng-show="ribbon.wide">
+    <span ng-show="layout.guide.wide">
       Canvas
     </span>
   </div>
 
-  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

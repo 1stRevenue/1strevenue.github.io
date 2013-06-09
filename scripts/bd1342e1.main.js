@@ -17,14 +17,13 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
     'ngResource',
     'bootstrap',
     '$strap.directives',
-    'firebase',
-    'ngGrid'
+    'firebase'
   ]).config([
     '$httpProvider',
     '$routeProvider',
     '$rootScopeProvider',
     function (e, t) {
-      t.when('/', {
+      delete e.defaults.headers.common['X-Requested-With'], t.when('/', {
         templateUrl: 'views/routes/Repo.html',
         controller: 'RepoController'
       }).when('/entry', {
@@ -54,11 +53,11 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
     '$rootScope',
     '$location',
     '$q',
-    'User',
+    'Myself',
     'RrrrRrrr',
     function (e, t, o, n, i) {
       console.log('app.run set up $routeChangeStart $on event watcher'), e.deferredLaunch = o.defer(), e.$on('$routeChangeStart', function (t, o, r) {
-        i.launching = !1, console.log('app.run $routeChangeStart current=', r, 'next=', o, 'User=', n), !n.authenticated && o.$$route.controller && 'InviteController' !== o.$$route.controller && 'EntryController' !== o.$$route.controller && (o.$$route.resolve = o.$$route.resolve || {}, o.$$route.resolve.Launch = o.$$route.resolve.Launch = function () {
+        i.launching = !1, console.log('app.run $routeChangeStart current=', r, 'next=', o, 'Myself=', n), !n.authenticated && o.$$route.controller && 'InviteController' !== o.$$route.controller && 'EntryController' !== o.$$route.controller && (o.$$route.resolve = o.$$route.resolve || {}, o.$$route.resolve.Launch = o.$$route.resolve.Launch = function () {
           return e.deferredLaunch.promise;
         });
       });
@@ -111,7 +110,7 @@ FirstRevenueApp.controller('AdminController', [
   function (e, t, o, n, i, r) {
     var s = 'CanvasController';
     console.log(s, 'route invoked $route=', t);
-    var l = t.current.params.modelId, a = {
+    var a = t.current.params.modelId, l = {
         KP: {
           iconId: 106,
           initials: 'KP',
@@ -165,18 +164,18 @@ FirstRevenueApp.controller('AdminController', [
       blocks: null,
       stickers: null,
       getBlocks: function () {
-        return a;
+        return l;
       },
       getStickers: function (t) {
-        var o = {}, n = e.canvas.modelId;
-        return _.each(e.af.models[n].stickers, function (e, n) {
+        var o = {}, n = e.canvas.modelId, i = e.me.sync.models[n];
+        return i && i.stickers && _.each(e.me.sync.models[n].stickers, function (e, n) {
           e.block === t && (o[n] = e);
         }), o;
       },
       getSticker: function (t) {
-        return e.af.models[l].stickers[t];
+        return e.me.sync.models[a].stickers[t];
       }
-    }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.canvas.modelId = l, e.canvas.model = e.me.af.models[l] || null, e.canvas.model && (e.menu.title = e.canvas.model.fields ? e.canvas.model.fields.name : null, l !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', l), e.canvas.lastModelId = l)));
+    }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.layout.qrCode = !1, e.canvas.modelId = a, e.canvas.model = e.me.sync.models[a] || null, e.canvas.model && (e.menu.title = e.canvas.model.fields ? e.canvas.model.fields.name : null, a !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', a), e.canvas.lastModelId = a)));
   }
 ]), FirstRevenueApp.controller('ContactController', [
   '$scope',
@@ -195,7 +194,7 @@ FirstRevenueApp.controller('AdminController', [
       timeStamp: null,
       social: o,
       init: function (t) {
-        e.service = t, e.account = _.find(r.af.user.accounts, function (e) {
+        e.service = t, e.account = _.find(r.sync.user.accounts, function (e) {
           return e.profile.service === t;
         });
       },
@@ -209,7 +208,7 @@ FirstRevenueApp.controller('AdminController', [
       },
       getPartners: function () {
         var e = {};
-        return _.each(r.af.user.accounts, function (t) {
+        return _.each(r.sync.user.accounts, function (t) {
           t.contacts && _.each(t.contacts.partners, function (o, n) {
             o.service = t.profile.service, e[n] = o;
           });
@@ -229,7 +228,7 @@ FirstRevenueApp.controller('AdminController', [
       },
       toggleFavorite: function (t) {
         if (console.log(i, 'toggleFavorite contact=', t), !t.partner) {
-          var o = e.me.af.user.accounts[t.profileKey].contacts;
+          var o = e.me.sync.user.accounts[t.profileKey].contacts;
           o.partners || (o.partners = {}), o.partners[t.serviceId] || (o.partners[t.serviceId] = {
             name: t.name,
             image: t.image
@@ -281,8 +280,8 @@ FirstRevenueApp.controller('AdminController', [
           t(function () {
             e.timeStamp = Date.now();
           }, 1000);
-          var l = Math.round((Date.now() - i) / 1000);
-          1 > l ? s = 'just now' : 60 > l ? s = l + ' second' + e.numberEnding(l) + ' ago' : 3600 > l ? (l = Math.round(l / 60), s = l + ' minute' + e.numberEnding(l) + ' ago') : 86400 > l ? (l = Math.round(l / 60 / 60), s = l + ' hour' + e.numberEnding(l) + ' ago') : (l = Math.round(l / 60 / 60 / 24), s = l + ' day' + e.numberEnding(l) + ' ago');
+          var a = Math.round((Date.now() - i) / 1000);
+          1 > a ? s = 'just now' : 60 > a ? s = a + ' second' + e.numberEnding(a) + ' ago' : 3600 > a ? (a = Math.round(a / 60), s = a + ' minute' + e.numberEnding(a) + ' ago') : 86400 > a ? (a = Math.round(a / 60 / 60), s = a + ' hour' + e.numberEnding(a) + ' ago') : (a = Math.round(a / 60 / 60 / 24), s = a + ' day' + e.numberEnding(a) + ' ago');
         } else
           s = 'never';
         return s;
@@ -296,65 +295,13 @@ FirstRevenueApp.controller('AdminController', [
       hasNoInvitation: function (e) {
         return !e.inviteSent && !e.account;
       },
-      invite: function (t, n) {
-        console.log(i, 'invite key=', t, 'partner=', n);
-        var s = r.userRef.child('invites').push();
-        s.set({
-          service: n.service,
-          id: t
-        }), n.invite = s.name();
-        var l = {
-            service: n.service,
-            id: t,
-            status: 'created',
-            creator: r.userId
-          }, a = r.rootRef.child('invites').child(n.invite);
-        a.set(l, function (t) {
-          e.inviteCallback(t, n, 'created');
-        }), o.invite(n, function (t) {
-          t && (console.log(i, 'invite sent partner=', n), a.update({ status: 'sent' }, function (t) {
-            e.inviteCallback(t, n, 'sent');
-          }));
-        });
-      },
-      inviteCallback: function (e, t, o) {
-        e ? (console.log(i, 'invite global status cannot be set to', o, 'error=', e), t.inviteFailed = !0) : (console.log(i, 'invite global status set to', o), 'created' === o && (t.inviteCreated = !0), 'sent' === o && (t.inviteSent = !0));
+      invite: function (e, t) {
+        o.createInvite(e, t);
       },
       isUser: function (e) {
         return !!e.account;
       }
     }), e.layout.guide.wide = !0, e.layout.peer.wide = !1;
-  }
-]), FirstRevenueApp.controller('FooterController', [
-  '$scope',
-  'Modal',
-  'Popup',
-  'Zoom',
-  'Model',
-  function (e, t, o, n, i) {
-    angular.extend(e, {
-      modal: t,
-      popup: o,
-      model: i,
-      filteredModelId: null,
-      members: null,
-      filterMembers: function () {
-        var t = [], o = 0, n = this.canvas.model.members;
-        for (var i in n) {
-          var r = e.db.users[n[i]];
-          if (t.push({
-              type: r.provider,
-              name: r.name,
-              image: r.image
-            }), ++o >= 10)
-            break;
-        }
-        return this.filteredModelId = this.canvas.modelId, console.log('filterMembers footerMembers=', t), t;
-      },
-      getMembers: function () {
-        return this.canvas.modelId !== this.filteredModelId && (this.members = null), this.members = this.members || this.filterMembers(), this.members;
-      }
-    });
   }
 ]), FirstRevenueApp.controller('HeaderController', [
   '$scope',
@@ -472,51 +419,46 @@ FirstRevenueApp.controller('AdminController', [
   '$location',
   '$route',
   '$routeParams',
-  'angularFire',
+  'Sync',
   'Layout',
   'Menu',
   'Notif',
   'Firebase',
-  'Database',
-  'User',
   'Canvas',
   'Myself',
   'Favicon',
   'RrrrRrrr',
-  function (e, t, o, n, i, r, s, l, a, c, u, d, f, p, h) {
-    var g = 'MasterController';
-    console.log(g, 'launched'), angular.extend(e, {
+  function (e, t, o, n, i, r, s, a, l, c, u, d, p) {
+    var h = 'MasterController';
+    console.log(h, 'launched'), e.$root._ = window._, angular.extend(e, {
       layout: r,
       menu: s,
-      notif: l,
-      firebase: a,
-      db: c,
-      canvas: d,
-      me: f,
-      af: {
-        user: {},
-        models: {},
-        peers: {},
-        invites: {}
-      },
-      user: u,
-      favicon: p,
+      notif: a,
+      firebase: l,
+      canvas: c,
+      me: u,
+      sync: i,
+      favicon: d,
       ribbon: {
         peerCount: function () {
           return 0;
         }
       },
-      rrrr: h,
-      rrrrImageLink: h.getImageLink(),
+      rrrr: p,
+      rrrrImageLink: p.getImageLink(),
       logoff: function () {
         e.user.logoff(), e.me.logoff();
       },
-      afCallback: function (t, o) {
-        return console.log(g, 'afCallback name=', o), i(t, e, o, {});
+      getLatency: function (e, t) {
+        var o = Math.round((t - e) / 1000), n = '';
+        return 1 > o ? n = 'just now' : 60 > o ? n = o + 's ago' : 3600 > o ? (o = Math.round(o / 60), n = o + ' min ago') : 86400 > o ? (o = Math.round(o / 60 / 60), n = o + 'h ago') : (o = Math.round(o / 60 / 60 / 24), n = new Date(+e).toISOString().substr(0, 10)), n;
+      },
+      numberEnding: function (e) {
+        return 1 === e ? '' : 's';
       }
-    }), f.init(t.path(), e.af, e.afCallback), e.layout.reset(), e.user.authenticated = !1, e.menu.title = '1st Revenue', e.firebase.init(), console.log('MasterController Firebase init() done', '$location.hash=', t.hash(), '$location.path=', t.path(), '$routeParams=', n);
-    var v = '/invite/';
-    t.path().substring(0, v.length) === v ? (e.firebase.retrieveSession(), console.log('MasterController Firebase retrieveSession() done $location.path()=', t.path())) : (e.firebase.resumeSession(), console.log('MasterController Firebase resumeSession() done $location.path()=', t.path())), e.notif.add({ text: '1st Revenue started' }), analytics.track('App launch');
+    }), e.layout.reset(), e.me.authenticated = !1, e.menu.title = '1st Revenue', l.init(), i.init(e), u.init(t.path());
+    var f = '/invite/';
+    t.path().substring(0, f.length) === f ? (e.firebase.retrieveSession(), console.log(h, 'Firebase retrieveSession() done $location.path()=', t.path())) : (e.firebase.resumeSession(), console.log(h, 'Firebase resumeSession() done $location.path()=', t.path())), e.notif.add({ text: '1st Revenue started' }), analytics.track('App launch');
   }
 ]), FirstRevenueApp.controller('MembersController', [
   '$scope',
@@ -534,8 +476,9 @@ FirstRevenueApp.controller('AdminController', [
     console.log(i, 'Launched'), _.extend(e, {
       modal: o,
       editor: n,
+      modelName: null,
       logoff: function () {
-        this.modal.logoff = !1, e.user.authenticated = !1, e.user.authFailed = !0, e.firebase.rootRef.unauth(), FirebaseAuthClient.prototype.clearSession(), e.user.logoff(), e.me.logoff(), t.url('/entry');
+        this.modal.logoff = !1, e.me.authenticated = !1, e.me.authFailed = !0, e.firebase.rootRef.unauth(), FirebaseAuthClient.prototype.clearSession(), e.me.logoff(), t.url('/entry');
       },
       deleteCookie: function (e) {
         document.cookie = e + '="";-1; path=/';
@@ -547,7 +490,7 @@ FirstRevenueApp.controller('AdminController', [
         this.modal.dis = !1, e.layout.tooltips = !0;
       },
       deleteSticker: function () {
-        console.log(i, 'deleteSticker'), delete e.me.af.models[e.canvas.modelId].stickers[this.modal.stickerId], this.modal.stickerId = null, this.modal.sticker = null, e.layout.editor.sticker = !1, this.modal.del = !1, e.layout.tooltips = !0;
+        console.log(i, 'deleteSticker'), delete e.me.sync.models[e.canvas.modelId].stickers[this.modal.stickerId], this.modal.stickerId = null, this.modal.sticker = null, e.layout.editor.sticker = !1, this.modal.del = !1, e.layout.tooltips = !0;
       },
       leaveSticker: function () {
         this.modal.del = !1, e.layout.tooltips = !0;
@@ -560,70 +503,126 @@ FirstRevenueApp.controller('AdminController', [
 ]), FirstRevenueApp.controller('ModelController', [
   '$scope',
   '$location',
-  'TModel',
-  function (e, t, o) {
-    var n = 'ModelController';
-    console.log(n, 'started'), e.menu.visible = [
-      'home',
-      'repo',
-      'create'
-    ], e.menu.modelTitle = e.menu.title, e.menu.selected = 'create';
-    var i = {
-        repo: null,
-        fields: {
-          name: null,
-          icon: null,
-          descr: null,
-          pitch: null
-        },
-        users: {}
-      }, r = e.canvas.model || angular.copy(i);
+  '$timeout',
+  'Social',
+  function (e, t, o, n) {
+    var i = 'ModelController';
+    console.log(i, 'started');
+    var r = {
+        facebook: 'Facebook',
+        linkedin: 'LinkedIn',
+        gplus: 'Google+',
+        gmail: 'Gmail'
+      };
     angular.extend(e, {
+      social: n,
       repoList: [],
       fpFile: null,
-      model: r,
-      userPanel: !1,
+      newModelName: '',
+      model: { editorTab: 0 },
+      tah: {
+        userTypeAhead: null,
+        dataset: null,
+        social: {},
+        partners: {}
+      },
       nameError: !1,
-      save: function () {
-        if (console.log(n, 'save name=', e.model.fields.name, 'descr=', r.fields.descr, 'pitch=', e.model.fields.pitch), '' === e.model.fields.name)
-          e.nameError = !0;
-        else {
-          e.nameError = !1, e.model.fields.descr && '' === e.model.fields.descr.trim() && (e.model.fields.descr = null), e.model.fields.pitch && '' === e.model.fields.pitch.trim() && (e.model.fields.pitch = null);
-          var t = {
-              orgId: null,
-              id: null
-            }, i = new o(t, 0, e.model);
-          console.log(n, 'Firebase.createModel newModel=', i), e.firebase.createModel(i), this.showModels();
+      emptyDataset: {
+        name: 'empty',
+        count: 0,
+        template: e.template,
+        header: '<div class="tt-header">No users found</div>',
+        local: []
+      },
+      tahSubmit: function () {
+        console.log(i, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), e.tahSelection(e.tah.selectedDatum), e.tah.userTypeAhead = '', $('#user-typeahead').val('');
+      },
+      deleteInvite: function (t) {
+        delete e.canvas.model.invites[t], delete e.sync.user.invites[t];
+      },
+      tahSelection: function (t) {
+        if (console.log(i, 'tahSelection data=', t), t) {
+          var o = e.me.rootRef.child('invitemap').child(t.service).child(t.serviceId);
+          o.once('value', function (n) {
+            if (null === n.val())
+              e.createModelInvite(t, o, t.account);
+            else {
+              var r = n.val(), s = e.me.rootRef.child('invite').child(r), a = s.child('models').child(e.canvas.modelId);
+              a.set(!0, function (o) {
+                console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', o), e.updateModelInvite(t, r);
+              });
+            }
+          });
         }
       },
-      getRepos: function () {
-        var t = this.repoList = [];
-        return _.each(e.db.orgs, function (e, o) {
-          _.each(e.repos, function (e, n) {
-            t.push({
-              org: o,
-              repo: n
+      createModelInvite: function (t, o, n) {
+        console.log(i, 'createModelInvite data=', t);
+        var r = {
+            creator: e.me.userId,
+            service: t.service,
+            serviceId: t.serviceId,
+            name: t.name,
+            image: t.image,
+            status: 'created',
+            models: {}
+          };
+        r.models[e.canvas.modelId] = !0;
+        var s = e.me.rootRef.child('invites'), a = s.push().name();
+        console.log(i, 'createModelInvite inviteId=', a), s.child(a).set(r, function (s) {
+          s ? console.log(i, 'failed to create an invite=', r, 'err=', s) : o.set(a, function () {
+            e.updateModelInvite(t, a);
+            var o = n.contacts.partners = n.contacts.partners || {};
+            o[t.serviceId] || (o[t.serviceId] = {
+              name: t.name,
+              image: t.image,
+              favorite: !0
             });
           });
-        }), this.model.repo = t[0], t;
+        });
+      },
+      updateModelInvite: function (t, n) {
+        console.log(i, 'updateModelInvite data=', t), o(function () {
+          e.canvas.model.invites = e.canvas.model.invites || {}, e.canvas.model.invites[n] = !0, e.sync.user.invites = e.sync.user.invites || {}, e.sync.user.invites[n] = !0;
+        });
+      },
+      getRefreshLatency: function (t) {
+        return e.timeStamp = Date.now(), t ? e.getLatency(t, e.timeStamp) : '';
+      },
+      getRepos: function () {
+        var e = this.repoList = [];
+        return e;
+      },
+      createModel: function (o) {
+        console.log(i, 'createModel name=', o), '' === o ? e.nameError = !0 : (e.nameError = !1, e.menu.title = o, console.log(i, 'calling Firebase.createModel newModelName=', o), e.newModelId = e.firebase.createModel(o, function () {
+          console.log(i, 'model create callback newModelId=', e.newModelId), e.modal.newModel = !1, e.modal.modelForm = 'Fields', e.canvas.modelId = e.newModelId, e.canvas.model = e.sync.models[e.newModelId], t.path('/canvas/' + e.newModelId);
+        }));
       },
       cancel: function () {
-        e.fpFile && (console.log(n, 'cancel removing fpFile=', e.fpFile), filepicker.remove(e.fpFile)), this.showModels(), e.modal.model = !1;
+        t.path('/repo');
+      },
+      cancelOld: function () {
+        e.fpFile && (console.log(i, 'cancel removing fpFile=', e.fpFile), filepicker.remove(e.fpFile)), this.showModels(), e.modal.model = !1;
+      },
+      'delete': function () {
+        console.log(i, 'model delete remove model ref from user modelId=', e.canvas.modelId), delete e.sync.user.models[e.canvas.modelId], console.log(i, 'model delete set model to null modelId=', e.canvas.modelId), e.sync.models[e.canvas.modelId] = null, console.log(i, 'model delete done models[id]=', e.sync.models[e.canvas.modelId]), e.modal.model = !1, t.path('/repo');
+      },
+      finish: function () {
+        e.menu.title = e.canvas.model.fields.name, e.modal.model = !1;
       },
       showModels: function () {
         e.fpFile = null, t.path('/repo');
       },
       pitchWordCount: function () {
-        var t = e.model.fields.pitch ? e.model.fields.pitch : '';
+        var t = e.canvas.model.fields.pitch ? e.canvas.model.fields.pitch : '';
         return '' === t ? 0 : t.split(/\s+/).length;
       },
       pitchRed: function () {
-        var e = this.pitchWordCount(), t = Math.min(100, e), o = Math.round(255 * t / 100);
-        return o;
+        var e = this.pitchWordCount(), t = Math.min(100, e);
+        return Math.round(255 * t / 100);
       },
       pitchGreen: function () {
-        var e = this.pitchWordCount(), t = Math.min(100, e), o = 160 - Math.round(160 * t / 100);
-        return o;
+        var e = this.pitchWordCount(), t = Math.min(100, e);
+        return 160 - Math.round(160 * t / 100);
       },
       addUser: function () {
       },
@@ -634,61 +633,95 @@ FirstRevenueApp.controller('AdminController', [
         this.removeIcon(), this.fpicker();
       },
       removeIcon: function () {
-        filepicker.remove(e.fpFile), e.fpFile = null, e.model.fields.icon = null;
+        filepicker.remove(e.fpFile), e.fpFile = null, e.canvas.model.fields.icon = null;
       },
       fpicker: function () {
-        return filepicker.setKey('AX9K9qRo5ToaVAz4GjVLAz'), filepicker.pickAndStore({ maxSize: 1048576 }, { location: 'S3' }, function (t) {
-          console.log(n, 'filepicker', t), e.fpFile = t, e.model.fields.icon = t[0].url, e.$apply();
+        return filepicker.setKey(CONFIG_1ST_REVENUE.filepickerKey), filepicker.pickAndStore({ maxSize: 1048576 }, { location: 'S3' }, function (t) {
+          console.log(i, 'filepicker', t), e.fpFile = t, e.canvas.model.fields.icon = t[0].url, e.$apply();
         }, function (e) {
-          console.log(n, 'filepicker error', '' + e);
+          console.log(i, 'filepicker error', '' + e);
         }), !1;
+      },
+      getUserTypeahead: function () {
+        var t = [];
+        return _.each(e.sync.user.accounts, function (e) {
+          e.contacts && _.each(e.contacts.partners, function (o, n) {
+            var i = {
+                provider: e.profile.provider,
+                service: e.profile.service,
+                serviceId: n,
+                name: o.name,
+                value: o.name,
+                tokens: o.name.split(' '),
+                image: o.image
+              };
+            t.push(i);
+          });
+        }), t;
+      },
+      header: function (e) {
+        return console.log(i, 'header data=', e), '<div class="tt-header">' + e.name + ' partners (' + e.count + ')</div';
+      },
+      template: function (e) {
+        return '<img src="' + e.image + '" />' + '<div class="tt-name">' + e.name + '</div>' + '<div class="tt-user-id">' + e.serviceId + '</div>';
+      },
+      preparePartnerMarks: function () {
+        _.each(e.sync.user.accounts, function (t) {
+          e.tah.partners[t.profile.service] = !0;
+        });
+      },
+      createDataset: function (t, o, n) {
+        var s = r[n.profile.service] || 'Unknown', a = {
+            name: n.profile.service + '-' + t,
+            count: n.contacts.total,
+            template: e.template,
+            header: '<div class="tt-header">' + s + ' ' + t + ' (' + _.size(o) + ')</div>',
+            local: o
+          };
+        return console.log(i, 'buildDatasets ' + t + ' dataset=', a), a;
+      },
+      buildDatasetItem: function (e) {
+        return function (t, o) {
+          var n = {
+              account: e,
+              provider: e.profile.provider,
+              service: e.profile.service,
+              serviceId: o,
+              name: t.name,
+              value: t.name,
+              tokens: t.name.split(' '),
+              image: t.image
+            };
+          return console.log(i, 'buildDatasets partners partnerData=', t, 'key=', o, 'partner=', n), n;
+        };
+      },
+      buildDatasets: function () {
+        console.log(i, 'buildDatasets');
+        var t = [];
+        _.each(e.sync.user.accounts, function (o) {
+          if (console.log(i, 'buildDatasets account=', o), o.contacts) {
+            if (o.contacts.partners = o.contacts.partners || {}, e.tah.partners[o.profile.service]) {
+              var n = _.map(o.contacts.partners, e.buildDatasetItem(o));
+              _.size(n) > 0 && t.push(e.createDataset('partners', n, o));
+            }
+            if (e.social.loaded[o.profile.service] && e.tah.social[o.profile.service]) {
+              var r = _.map(e.social.contacts[o.profile.service], e.buildDatasetItem(o)), s = _.filter(r, function (e) {
+                  return !o.contacts.partners[e.serviceId];
+                });
+              _.size(s) > 0 && t.push(e.createDataset('friends', s, o));
+            }
+          }
+        }), 0 === _.size(t) && t.push(e.emptyDataset), o(function () {
+          console.log(i, 'buildDatasets tah.dataset=', t), e.tah.dataset = t;
+        });
+      },
+      loadAccount: function (t) {
+        e.social.fetchAccount(e.me, t.profile.service), e.tah.social[t.profile.service] = !0;
+      },
+      refreshAccount: function (t) {
+        e.social.fetchAccount(e.me, t.profile.service);
       }
-    }), e.repoList = e.getRepos();
-  }
-]), FirstRevenueApp.controller('ModelEditorController', [
-  '$scope',
-  'ModelEditor',
-  'StickerEditor',
-  'Info',
-  'Modal',
-  function (e, t, o, n, i) {
-    console.log('---- ModelEditorController');
-    var r = t, s = o;
-    angular.extend(e, {
-      editor: t,
-      confirmCloseEditor: function () {
-        this.confirmDiscardChanges();
-      },
-      confirmDiscardChanges: function () {
-        r.wasModelModified() ? (i.dis = !0, e.layout.tooltips = !1) : (r.discardEmptySticker(), n.hide('sticker'));
-      },
-      discardModelChanges: function () {
-        i.dis = !1, e.layout.tooltips = !0, r.discardChanges(), r.sticker = null, n.hide('sticker');
-      },
-      keepModelChanges: function () {
-        i.dis = !1, e.layout.tooltips = !0;
-      },
-      createModel: function () {
-        s.matchTitle() ? (i.dup = !0, e.layout.tooltips = !1) : (s.sticker.id = 0, s.saveSticker());
-      },
-      saveModel: function () {
-        s.saveSticker();
-      },
-      isCancelButtonDisabled: function () {
-        return !s.wasStickerModified();
-      },
-      isCloseButtonDisabled: function () {
-        return s.wasStickerModified();
-      },
-      isNewButtonDisabled: function () {
-        return !this.isStickerNew() && this.matchTitle(s.sticker);
-      },
-      isSaveButtonDisabled: function () {
-        return !s.wasStickerModified();
-      }
-    }), e.$watch(n.view.model, function (t) {
-      t && null === e.editor.model;
-    });
+    }), e.menu.selected = 'canvas', e.social.me = e.me, e.preparePartnerMarks(), e.buildDatasets(), e.$watch('sync.user.accounts', e.buildDatasets, !0), e.$watch('social.contacts', e.buildDatasets, !0);
   }
 ]), FirstRevenueApp.controller('ModelsController', [
   '$scope',
@@ -699,10 +732,10 @@ FirstRevenueApp.controller('AdminController', [
       catalog: t,
       zoom: o,
       isPublic: function (t) {
-        return !!e.me.af.public.models[t];
+        return !!e.me.sync.public.models[t];
       },
       getModel: function (t) {
-        return e.me.af.models[t];
+        return e.me.sync.models[t];
       }
     }), e.menu.title = '1st Revenue Repository', e.menu.selected = 'repo', e.menu.visible = [
       'home',
@@ -729,88 +762,20 @@ FirstRevenueApp.controller('AdminController', [
 ]), FirstRevenueApp.controller('NewModelController', [
   '$scope',
   '$location',
-  'TModel',
-  function (e, t, o) {
-    e.layout.peer.wide = !0, e.menu.visible = [
-      'home',
-      'repo',
-      'create'
-    ], e.menu.title = 'Create Model', e.menu.selected = 'create', console.log('---- NewModelController'), console.log('Canvas New Model route invoked');
-    var n = e.me.currentModel = {
-        repo: null,
-        fields: {
-          name: null,
-          icon: null,
-          descr: null,
-          pitch: null
-        },
-        users: {}
-      };
-    angular.extend(e, {
-      repoList: [],
-      fpFile: null,
-      model: n,
+  function (e, t) {
+    var o = 'NewModelController';
+    e.layout.peer.wide = !0, e.menu.title = 'Create Model', e.menu.selected = 'create', console.log(o, 'launched'), angular.extend(e, {
+      newModel: {},
       nameError: !1,
-      create: function () {
-        if (console.log('NewModelController create name=', e.model.fields.name, 'descr=', n.fields.descr, 'pitch=', e.model.fields.pitch), '' === e.model.fields.name)
-          e.nameError = !0;
-        else {
-          e.nameError = !1, e.model.fields.descr && '' === e.model.fields.descr.trim() && (e.model.fields.descr = null), e.model.fields.pitch && '' === e.model.fields.pitch.trim() && (e.model.fields.pitch = null);
-          var t = {
-              orgId: null,
-              id: null
-            }, i = new o(t, 0, e.model);
-          console.log('NewModelController Firebase.createModel newModel=', i), e.firebase.createModel(i), this.showModels();
-        }
-      },
-      getRepos: function () {
-        var t = this.repoList = [];
-        return _.each(e.db.orgs, function (e, o) {
-          _.each(e.repos, function (e, n) {
-            t.push({
-              org: o,
-              repo: n
-            });
-          });
-        }), this.model.repo = t[0], t;
+      createModel: function (n) {
+        console.log(o, 'createModel name=', n), '' === n ? e.nameError = !0 : (e.nameError = !1, e.menu.title = n, console.log(o, 'calling Firebase.createModel newModelName=', n), e.newModel.id = e.firebase.createModel(n, function () {
+          console.log(o, 'model create callback newModelId=', e.newModel.id), e.canvas.modelId = e.newModel.id, e.canvas.model = e.sync.models[e.newModel.id], t.path('/canvas/' + e.newModel.id);
+        }));
       },
       cancel: function () {
-        e.fpFile && (console.log('NewModelController cancel removing fpFile=', e.fpFile), filepicker.remove(e.fpFile)), this.showModels();
-      },
-      showModels: function () {
-        e.fpFile = null, t.path('/repo');
-      },
-      pitchWordCount: function () {
-        var t = e.model.fields.pitch ? e.model.fields.pitch : '';
-        return '' === t ? 0 : t.split(/\s+/).length;
-      },
-      pitchRed: function () {
-        var e = this.pitchWordCount(), t = Math.min(100, e), o = Math.round(255 * t / 100);
-        return o;
-      },
-      pitchGreen: function () {
-        var e = this.pitchWordCount(), t = Math.min(100, e), o = 160 - Math.round(160 * t / 100);
-        return o;
-      },
-      addUser: function () {
-      },
-      attachIcon: function () {
-        this.fpicker();
-      },
-      replaceIcon: function () {
-        this.removeIcon(), this.fpicker();
-      },
-      removeIcon: function () {
-        filepicker.remove(e.fpFile), e.fpFile = null, e.model.fields.icon = null;
-      },
-      fpicker: function () {
-        return filepicker.setKey('ARtFoYGQjQGzQlEpvkSr7z'), filepicker.pickAndStore({ maxSize: 1048576 }, { location: 'S3' }, function (t) {
-          console.log('filepicker', t), e.fpFile = t, e.model.fields.icon = t[0].url, e.$apply();
-        }, function (e) {
-          console.log('filepicker error', '' + e);
-        }), !1;
+        e.layout.setView(e.layout.lastRepoView);
       }
-    }), e.repoList = e.getRepos();
+    });
   }
 ]), FirstRevenueApp.controller('NotifController', [
   '$scope',
@@ -892,19 +857,19 @@ FirstRevenueApp.controller('AdminController', [
         return o && o.label || t;
       },
       getModelUserIds: function () {
-        return _.keys(e.canvas.model.users || {});
+        return _.keys(e.canvas.model && e.canvas.model.users || {});
       },
-      uservoiceShowClassicWidget: function () {
-        o.UserVoice.push([
-          'showLightbox',
-          'classic_widget',
-          {
-            mode: 'feedback',
-            primary_color: '#cc6d00',
-            link_color: '#007dbf',
-            forum_id: 161241
-          }
-        ]);
+      toggleQRCode: function () {
+        if (e.layout.qrCode = !e.layout.qrCode, e.layout.qrCode) {
+          var t = o.location.origin || o.location.protocol + '//' + o.location.host, n = t + o.location.pathname, i = n + '#/canvas' + e.canvas.modelId, r = new JSQR(), s = new r.Code();
+          s.encodeMode = s.ENCODE_MODE.UTF8_SIGNATURE, s.version = 7, s.errorCorrection = s.ERROR_CORRECTION.Q;
+          var a = new r.Input();
+          a.dataType = a.DATA_TYPE.URL, a.data = { url: i };
+          var l = new r.Matrix(a, s);
+          l.scale = 7;
+          var c = document.createElement('canvas');
+          c.setAttribute('width', l.pixelWidth), c.setAttribute('height', l.pixelWidth), c.getContext('2d').fillStyle = 'rgb(0,0,0)', l.draw(c, 0, 0), $('#qrcode').empty(), $('#qrcode').append(c);
+        }
       }
     }), o.UserVoice = o.UserVoice || [];
   }
@@ -917,8 +882,8 @@ FirstRevenueApp.controller('AdminController', [
   'SignUp',
   'User',
   'Invite',
-  function (e, t, o, n, i, r, s, l) {
-    var a = 'SignUpController';
+  function (e, t, o, n, i, r, s, a) {
+    var l = 'SignUpController';
     console.log('SignUpController invoked SignUp=', r), angular.extend(e, {
       signUp: r,
       service: null,
@@ -936,13 +901,13 @@ FirstRevenueApp.controller('AdminController', [
         return r.providers[s.credentials[e].profile.service];
       },
       openAuth: function () {
-        console.log(a, 'openAuth direct call'), l.acceptInvite(e.service);
+        console.log(l, 'openAuth direct call'), a.acceptInvite(e.service);
       },
       initInvite: function () {
         var t = o.current.params.inviteId;
-        t && (console.log(a, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
+        t && (console.log(l, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
           n(function () {
-            e.service = t.val(), console.log(a, 'service=', e.service);
+            e.service = t.val(), console.log(l, 'service=', e.service);
           });
         }, function (e) {
           console.log('Invite error=', e);
@@ -967,7 +932,7 @@ FirstRevenueApp.controller('AdminController', [
       timeStamp: null,
       social: o,
       init: function (t) {
-        e.service = t, e.account = _.find(r.af.user.accounts, function (e) {
+        e.service = t, e.account = _.find(r.sync.user.accounts, function (e) {
           return e.profile.service === t;
         });
       },
@@ -984,7 +949,7 @@ FirstRevenueApp.controller('AdminController', [
       },
       toggleFavorite: function (t) {
         if (console.log(i, 'toggleFavorite contact=', t), !t.partner) {
-          var o = e.me.af.user.accounts[t.profileKey].contacts;
+          var o = e.me.sync.user.accounts[t.profileKey].contacts;
           o.partners || (o.partners = {}), o.partners[t.id] || (o.partners[t.id] = {
             name: t.name,
             image: t.image
@@ -994,7 +959,7 @@ FirstRevenueApp.controller('AdminController', [
       },
       getSocialPartners: function (e) {
         console.log(i, 'getSocialPartners service=', e);
-        var t = {}, o = _.find(r.af.user.accounts, function (t) {
+        var t = {}, o = _.find(r.sync.user.accounts, function (t) {
             return t.profile.service === e;
           });
         return console.log(i, 'getSocialPartners account=', o), _.each(o.contacts.partners, function (e, n) {
@@ -1027,14 +992,9 @@ FirstRevenueApp.controller('AdminController', [
       },
       getRefreshLatency: function (o) {
         var n = r.findAccount(o).contacts.refreshed;
-        t(function () {
+        return t(function () {
           e.timeStamp = Date.now();
-        }, 1000);
-        var i = Math.round((e.timeStamp - n) / 1000), s = '';
-        return 1 > i ? s = 'just now' : 60 > i ? s = i + ' second' + e.numberEnding(i) + ' ago' : 3600 > i ? (i = Math.round(i / 60), s = i + ' minute' + e.numberEnding(i) + ' ago') : 86400 > i ? (i = Math.round(i / 60 / 60), s = i + ' hour' + e.numberEnding(i) + ' ago') : (i = Math.round(i / 60 / 60 / 24), s = i + ' day' + e.numberEnding(i) + ' ago'), s;
-      },
-      numberEnding: function (e) {
-        return 1 === e ? '' : 's';
+        }, 1000), e.getLatency(n, e.timeStamp);
       },
       hasBeenInvited: function (e) {
         return !!e.inviteSent;
@@ -1049,16 +1009,16 @@ FirstRevenueApp.controller('AdminController', [
           service: n.service,
           id: t
         }), n.invite = s.name();
-        var l = {
+        var a = {
             service: n.service,
             id: t,
             status: 'created',
             creator: r.userId
-          }, a = r.rootRef.child('invites').child(n.invite);
-        a.set(l, function (t) {
+          }, l = r.rootRef.child('invites').child(n.invite);
+        l.set(a, function (t) {
           e.inviteCallback(t, n, 'created');
         }), o.invite(n, function (t) {
-          t && (console.log(i, 'invite sent partner=', n), a.update({ status: 'sent' }, function (t) {
+          t && (console.log(i, 'invite sent partner=', n), l.update({ status: 'sent' }, function (t) {
             e.inviteCallback(t, n, 'sent');
           }));
         });
@@ -1173,7 +1133,7 @@ FirstRevenueApp.controller('AdminController', [
       invites: {},
       inviteRecords: {},
       getFavorites: function () {
-        return e.favorites = {}, _.each(i.af.user.accounts, function (t) {
+        return e.favorites = {}, _.each(i.sync.user.accounts, function (t) {
           t.contacts && _.each(t.contacts.partners, function (o, i) {
             if (o.favorite) {
               var r = t.contacts.service + '-' + i;
@@ -1184,19 +1144,19 @@ FirstRevenueApp.controller('AdminController', [
       },
       getPeers: function () {
         return e.peers = {}, e.peerAccounts = {}, _.each(r.users, function (t, o) {
-          var n = e.peers[o] = i.af.peers[o];
+          var n = e.peers[o] = i.sync.peers[o];
           e.peerAccounts[n.service + '-' + n.serviceId] = o;
         }), console.log(n, 'getPeers peers=', e.peers), e.peers;
       },
       getInvites: function () {
         return e.invites = {}, console.log(n, 'getInvites model.invites=', r.invites), _.each(r.invites, function (t, o) {
           console.log(n, 'getInvites inviteId=', o);
-          var r = i.af.invites[o];
+          var r = i.sync.invites[o];
           if (r) {
             var s = e.getPartner(r);
             if (console.log(n, 'getInvites found partner=', s), s) {
-              var l = r.service + '-' + r.id;
-              e.inviteRecords[l] = o, e.invites[o] = s;
+              var a = r.service + '-' + r.id;
+              e.inviteRecords[a] = o, e.invites[o] = s;
             }
           }
         }), console.log(n, 'getInvites invites=', e.invites), e.invites;
@@ -1204,7 +1164,7 @@ FirstRevenueApp.controller('AdminController', [
       getPartner: function (e) {
         console.log(n, 'getPartner inviteRec=', e);
         var t = null;
-        return _.find(i.af.user.accounts, function (o) {
+        return _.find(i.sync.user.accounts, function (o) {
           return console.log(n, 'getPartner find accounts account=', o), o.contacts && _.find(o.contacts.partners, function (o, i) {
             return console.log(n, 'getPartner find partners partner=', o), o.service === e.service && i === e.id ? (t = o, console.log(n, 'getPartner find partners found partner=', o), !0) : void 0;
           }), t ? (console.log(n, 'getPartner find partners found partnerRec=', t), !0) : void 0;
@@ -1214,38 +1174,38 @@ FirstRevenueApp.controller('AdminController', [
         console.log(n, 'addPeer key=', t, 'favorite=', o);
         var r = o.userId;
         if (r)
-          e.af.models[s].users[r] = !0;
+          i.af.models[s].users[r] = !0;
         else {
-          var l = {
+          var a = {
               creator: i.userId,
               service: o.service,
               id: t.split('-')[1],
               status: 'created'
-            }, a = i.rootRef.child('invites').push(), c = a.name();
-          a.set(l, function (t) {
+            }, l = i.rootRef.child('invites').push(), c = l.name();
+          l.set(a, function (t) {
             if (console.log(n, 'addPeer invite set completed error=', t), t)
               console.log(n, 'addPeer invite set error=', t);
             else {
-              var o = 'af.invites[\'' + c + '\']';
+              var o = 'sync.invites[\'' + c + '\']';
               console.log(n, 'addPeer invite set inviteKey=', o);
-              var r = i.rootRef.child('invites').child(c), a = i.afCallback && i.afCallback(r, o);
-              a && a.then(function (e) {
+              var r = i.rootRef.child('invites').child(c), l = i.syncCallback && i.syncCallback(r, o);
+              l && l.then(function (e) {
                 console.log(n, 'addPeer invitePromise resolved afInvite=', e), 'accepted' === e.status && console.log(n, 'afPeer invitePromise accepted afInvite=', e);
               });
             }
-            e.af.models[s].invites = e.af.models[s].invites || {}, e.af.models[s].invites[c] = !0, e.invites[c] = l;
+            e.sync.models[s].invites = e.af.models[s].invites || {}, e.sync.models[s].invites[c] = !0, e.invites[c] = a;
           });
         }
       },
       removePeer: function (t, o) {
         console.log(n, 'removePeer key=', t, 'peer=', o);
         var r = o.service + '-' + o.serviceId;
-        t !== i.userId && (delete e.peerAccounts[r], delete e.peers[t], delete e.af.models[s].users[t], delete e.canvas.model.users[t]);
+        t !== i.userId && (delete e.peerAccounts[r], delete e.peers[t], delete e.sync.models[s].users[t], delete e.canvas.model.users[t]);
       },
       removeInvite: function (t, o) {
         console.log(n, 'removeInvite inviteId=', t, 'invite=', o), _.each(e.inviteRecords, function (o, n) {
           o === t && delete e.inviteRecords[n];
-        }), delete e.af.models[s].invites[t], delete e.invites[t], i.af.invites[t] = null;
+        }), delete e.sync.models[s].invites[t], delete e.invites[t], i.sync.invites[t] = null;
       },
       sendInvite: function (t, r) {
         o.me = i;
@@ -1253,20 +1213,20 @@ FirstRevenueApp.controller('AdminController', [
         _.each(e.inviteRecords, function (e, o) {
           e === t && (s = o.split('-')[1]);
         });
-        var l = i.af.invites[t];
-        l.model, e.isInviteAllowed(t) && (s && o.invite({
+        var a = i.sync.invites[t];
+        a.model, e.isInviteAllowed(t) && (s && o.invite({
           service: r.service,
           serviceId: s,
           invite: t
         }, function (e) {
-          i.af.invites[t].status = 'sent', console.log(n, 'sendInvite callback response=', e, 'status=', l.status);
-        }), i.af.invites[t].status = 'submitted', console.log(n, 'sendInvite status=', l.status));
+          i.sync.invites[t].status = 'sent', console.log(n, 'sendInvite callback response=', e, 'status=', a.status);
+        }), i.sync.invites[t].status = 'submitted', console.log(n, 'sendInvite status=', a.status));
       },
       isInviteAllowed: function (e) {
-        return 'created' === i.af.invites[e].status;
+        return 'created' === i.sync.invites[e].status;
       },
       wasInviteSent: function (e) {
-        return 'sent' === i.af.invites[e].status;
+        return 'sent' === i.sync.invites[e].status;
       }
     }), e.getPeers(), e.getInvites(), e.getFavorites();
   }
@@ -1310,20 +1270,20 @@ FirstRevenueApp.controller('AdminController', [
   function (e, t) {
     return console.log('first-revenue-buttons'), function (o, n) {
       n.on('click.first-revenue-buttons', '.st-grad button', function (n) {
-        var i = $(this).offsetParent(), r = i.attr('data-pane'), s = i.attr('data-block'), l = i.attr('data-sticker');
-        console.log('first-revenue-buttons pane=', r, 'blockId=', s, 'stickerId=', l), n.stopPropagation();
-        var a = e.model.blocks;
-        $('.pulsate').removeClass('pulsate'), _.each(a, function (e) {
+        var i = $(this).offsetParent(), r = i.attr('data-pane'), s = i.attr('data-block'), a = i.attr('data-sticker');
+        console.log('first-revenue-buttons pane=', r, 'blockId=', s, 'stickerId=', a), n.stopPropagation();
+        var l = e.model.blocks;
+        $('.pulsate').removeClass('pulsate'), _.each(l, function (e) {
           e.stickers[0] && delete e.stickers[0];
         });
-        var c = a[s], u = c.stickers[l], d = $(this).attr('title');
+        var c = l[s], u = c.stickers[a], d = $(this).attr('title');
         if ('Delete' === d)
-          window.confirm('Delete sticker ' + l + '\n' + u.title + '?');
+          window.confirm('Delete sticker ' + a + '\n' + u.title + '?');
         else if ('Edit' === d) {
-          for (var f = 0; Opentip.tips > f; f++)
-            Opentip.tips[f].hide();
-          var p = $('.st-grad[data-id=' + l + ']');
-          p.addClass('pulsate'), t.showSticker(e.model, c, l), console.log('first-revenue-buttons sticker=', u);
+          for (var p = 0; Opentip.tips > p; p++)
+            Opentip.tips[p].hide();
+          var h = $('.st-grad[data-id=' + a + ']');
+          h.addClass('pulsate'), t.showSticker(e.model, c, a), console.log('first-revenue-buttons sticker=', u);
         }
         o.$root.$apply();
       });
@@ -1350,25 +1310,25 @@ FirstRevenueApp.controller('AdminController', [
           },
           dragged: function (t) {
             e.$root.draggingActive = !0, e.layout.tooltips = !1, o.opop.addClass('drag-area'), o.st.addClass('st-dragged'), o.st.removeClass('st-show-buttons'), o.st.trigger('dragActive');
-            var n = o.op.offset(), i = t.pageX - n.left, r = t.pageY - n.top, s = o.stl + (i - o.cl), l = o.stt + (r - o.ct);
-            return s = Math.max(0, s), l = Math.max(0, l), s = Math.min(o.opop.width() - o.st.width(), s), l = Math.min(o.op.height(), l), o.st.css({
+            var n = o.op.offset(), i = t.pageX - n.left, r = t.pageY - n.top, s = o.stl + (i - o.cl), a = o.stt + (r - o.ct);
+            return s = Math.max(0, s), a = Math.max(0, a), s = Math.min(o.opop.width() - o.st.width(), s), a = Math.min(o.op.height(), a), o.st.css({
               position: 'absolute',
               left: s,
-              top: l
+              top: a
             }), !1;
           },
           dropped: function () {
             return e.$root.draggingActive = !1, e.layout.tooltips = !0, o.opop.removeClass('drag-area'), o.st.removeClass('st-dragged'), o.opop.unbind('mousemove', o.dragged), $(window).unbind('mouseup', o.dropped), (!o.touchHandled || o.touchMoved) && o.savePosition(), !1;
           },
           savePosition: function () {
-            var t = o.st.offset(), n = o.st.width(), i = o.opop.width() - n, r = o.op.height(), s = 0 === i ? 0 : 100 * (t.left - o.opop.offset().left) / i, l = 0 === r ? 0 : 100 * (t.top - o.op.offset().top) / r, a = Math.max(0, Math.min(Math.round(100 * s) / 100, 100)), c = Math.max(0, Math.min(Math.round(100 * l) / 100, 100));
-            console.log('first-revenue-drag xPerc=', a, 'yPerc=', c, 'sticker=', e.sticker), o.st.css({
+            var t = o.st.offset(), n = o.st.width(), i = o.opop.width() - n, r = o.op.height(), s = 0 === i ? 0 : 100 * (t.left - o.opop.offset().left) / i, a = 0 === r ? 0 : 100 * (t.top - o.op.offset().top) / r, l = Math.max(0, Math.min(Math.round(100 * s) / 100, 100)), c = Math.max(0, Math.min(Math.round(100 * a) / 100, 100));
+            console.log('first-revenue-drag xPerc=', l, 'yPerc=', c, 'sticker=', e.sticker), o.st.css({
               position: 'absolute',
               top: c + '%',
-              left: a + '%'
+              left: l + '%'
             });
             var u = e.getSticker(e.stickerId);
-            u.x = a, u.y = c, e.$apply();
+            u.x = l, u.y = c, e.$apply();
           },
           touchStart: function (e) {
             o.touchHandled || (o.touchHandled = !0, o.touchMoved = !1, o.simulateMouseEvent(e, 'mousedown'));
@@ -1408,19 +1368,19 @@ FirstRevenueApp.controller('AdminController', [
     return console.log(o, 'loaded'), function (n, i, r) {
       var s = function (r, s) {
         r.stopPropagation(), console.log(o, 'scope=', n, 'linkElement=', i, '$this=', s);
-        var l = e.model, a = 0, c = s;
+        var a = e.model, l = 0, c = s;
         if ($('.pulsate').removeClass('pulsate'), s.hasClass('pane')) {
           var u = n.canvas.modelId, d = n.me.rootRef.child('models').child(u);
-          a = d.child('stickers').push().name(), console.log(o, 'create sticker stickerId=', a), n.af.models[u].stickers = n.af.models[u].stickers || {}, n.af.models[u].stickers[a] = {
+          l = d.child('stickers').push().name(), console.log(o, 'create sticker stickerId=', l), n.sync.models[u].stickers = n.sync.models[u].stickers || {}, n.sync.models[u].stickers[l] = {
             title: '',
             notes: '',
             color: 'yellow',
             block: c.attr('data-id')
           };
         } else
-          c = s.offsetParent().offsetParent(), a = s.attr('data-id'), console.log(o, 'existing sticker stickerId=', a), s.addClass('pulsate');
-        var f = c.attr('data-id');
-        t.showSticker(l, f, a), console.log(o, 'editor.sticker=', t.sticker), n.$apply();
+          c = s.offsetParent().offsetParent(), l = s.attr('data-id'), console.log(o, 'existing sticker stickerId=', l), s.addClass('pulsate');
+        var p = c.attr('data-id');
+        t.showSticker(a, p, l), console.log(o, 'editor.sticker=', t.sticker), n.$apply();
       };
       i.on('dblclick.st-edit', function (t) {
         var o = $(this), n = r.firstRevenueEdit;
@@ -1472,14 +1432,110 @@ FirstRevenueApp.controller('AdminController', [
         }), $('.st-show-buttons').removeClass('st-show-buttons'), $(e).addClass('st-show-buttons'), t.top ? (o.removeClass('btn-edit-bottom'), o.addClass('btn-edit-top'), n.removeClass('btn-delete-bottom'), n.addClass('btn-delete-top')) : (o.removeClass('btn-edit-top'), o.addClass('btn-edit-bottom'), n.removeClass('btn-delete-top'), n.addClass('btn-delete-bottom')), t.left ? (o.removeClass('btn-edit-right'), o.addClass('btn-edit-left'), n.removeClass('btn-delete-right'), n.addClass('btn-delete-left')) : (o.removeClass('btn-edit-left'), o.addClass('btn-edit-right'), n.removeClass('btn-delete-left'), n.addClass('btn-delete-right'));
       };
     return function (e, r, s) {
-      r.on('mouseenter.open-tips click.open-tips', '.st-grad', function (l) {
-        var a = s.firstRevenueOpenTip;
+      r.on('mouseenter.open-tips click.open-tips', '.st-grad', function (a) {
+        var l = s.firstRevenueOpenTip;
         if (e.layout.tooltips) {
-          console.log('first-revenue-open-tip linkElement=', r, 'this=', this, 'label=', a, 'event=', l);
-          var c = o(l), u = t(c), d = $.trim($(this).find('.st-pop').text());
+          console.log('first-revenue-open-tip linkElement=', r, 'this=', this, 'label=', l, 'event=', a);
+          var c = o(a), u = t(c), d = $.trim($(this).find('.st-pop').text());
           console.log('tooltips stickerText=[' + d + '], quadrant=', u), d.length > 0 && n(this, u, c), i(this, u), e.hovering = !0, e.$root.$apply();
         }
       });
+    };
+  }
+]), FirstRevenueApp.directive('firstRevenueTypeahead', [
+  '$timeout',
+  '$parse',
+  function (e, t) {
+    var o = 'firstRevenueTypeahead', n = [
+        'search-query',
+        'input-mini',
+        'input-small',
+        'input-medium',
+        'input-large',
+        'input-xlarge',
+        'input-xxlarge'
+      ], i = function (e) {
+        for (var t in n) {
+          var o = n[t];
+          e.hasClass(o) && e.prev().addClass(o);
+        }
+      };
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (e, n, r) {
+        var s = t(r.ngModel), a = s(e);
+        e.$watch(r.ngModel, function (e, t) {
+          e !== t && (a = e), console.log(o, '$watch modelValue=', a);
+        });
+        var l = t(r.firstRevenueTypeahead)(e);
+        console.log(o, 'dataset=', l), n.typeahead(l), i(n), e.$watch(r.firstRevenueTypeahead, function (e, s, a) {
+          l = t(r.firstRevenueTypeahead)(a), console.log(o, '$watch tah.dataset=', l), n.typeahead('destroy'), n.typeahead(l), i(n);
+        }, !0), n.on('typeahead:selected typeahead:autocompleted', function (t, n) {
+          console.log(o, 'event $e=', t, 'data=', n), e.tah.selectedDatum = n;
+        });
+      }
+    };
+  }
+]), FirstRevenueApp.directive('firstRevenueBsTypeahead', [
+  '$timeout',
+  '$parse',
+  function (e, t) {
+    var o = 'firstRevenueBsTypeahead';
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (e, n, i, r) {
+        var s = t(i.bsTypeahead), a = s(e);
+        e.$watch(i.firstRevenueBsTypeahead, function (e, t) {
+          e !== t && (a = e);
+        }), n.attr('data-provide', 'typeahead'), n.typeahead({
+          source: function () {
+            return angular.isFunction(a) ? a.apply(null, arguments) : a;
+          },
+          minLength: i.minLength || 1,
+          items: i.items,
+          matcher: function (e) {
+            return ~e.name.toLowerCase().indexOf(this.query.toLowerCase());
+          },
+          updater: function (t) {
+            return console.log(o, 'updater value=', t), r && e.$apply(function () {
+              r.$setViewValue(t);
+            }), e.$emit('typeahead-updated', t), t;
+          },
+          highlighter: function (e) {
+            console.log(o, 'highlighter item=', e);
+            var t = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&'), n = e.name.replace(RegExp('(' + t + ')', 'ig'), function (e, t) {
+                return '<strong>' + t + '</strong>';
+              });
+            return '<p>' + n + '</p>';
+          }
+        });
+        var l = n.data('typeahead');
+        l.lookup = function () {
+          var e;
+          return this.query = this.$element.val() || '', this.query.length < this.options.minLength ? this.shown ? this.hide() : this : (e = $.isFunction(this.source) ? this.source(this.query, $.proxy(this.process, this)) : this.source, e ? this.process(e) : this);
+        }, i.matchAll && (l.matcher = function () {
+          return !0;
+        }), '0' === i.minLength && setTimeout(function () {
+          n.on('focus', function () {
+            0 === n.val().length && setTimeout(n.typeahead.bind(n, 'lookup'), 200);
+          });
+        });
+      }
+    };
+  }
+]), FirstRevenueApp.directive('firstRevenueServiceIcon', [
+  '$timeout',
+  '$parse',
+  function (e, t) {
+    var o = 'firstRevenueServiceIcon';
+    return {
+      restrict: 'A',
+      templateUrl: 'views/ServiceIconSwitch.html',
+      link: function (e, n, i) {
+        e.service = t(i.firstRevenueServiceIcon)(e), console.log(o, 'link elm=', n, 'service=', e.service);
+      }
     };
   }
 ]), FirstRevenueApp.directive('gplusInvite', [function () {
@@ -1509,9 +1565,9 @@ FirstRevenueApp.controller('AdminController', [
   'Rainbow',
   function (e, t, o) {
     var n = function (t) {
-        var o = $(t), n = o.offset(), i = n.left + t.context.clientWidth / 2, r = n.top + t.context.clientHeight / 2, s = e.innerWidth / 2 > i, l = e.innerHeight / 2 > r;
+        var o = $(t), n = o.offset(), i = n.left + t.context.clientWidth / 2, r = n.top + t.context.clientHeight / 2, s = e.innerWidth / 2 > i, a = e.innerHeight / 2 > r;
         return {
-          top: l,
+          top: a,
           left: s
         };
       }, i = function (e) {
@@ -1520,7 +1576,7 @@ FirstRevenueApp.controller('AdminController', [
         var r = n(e), s = [
             (r.left ? -1 : 1) * $(e).width() / 2,
             (r.top ? -1 : 1) * $(e).height() / 2
-          ], l = {
+          ], a = {
             tipJoint: i(r),
             background: t,
             borderWidth: 0,
@@ -1538,26 +1594,26 @@ FirstRevenueApp.controller('AdminController', [
               'trigger'
             ]
           };
-        return new Opentip(e, e.find('.st-pop').html(), l);
+        return new Opentip(e, e.find('.st-pop').html(), a);
       }, s = function (e, t) {
         var o = $(e).find('.btn-edit-sticker'), n = $(e).find('.btn-delete-sticker');
         $(e).on('mouseleave', function () {
           $(e).removeClass('st-show-buttons'), o.removeClass('btn-edit-bottom'), o.removeClass('btn-edit-top'), o.removeClass('btn-edit-right'), o.removeClass('btn-edit-left'), n.removeClass('btn-delete-bottom'), n.removeClass('btn-delete-top'), n.removeClass('btn-delete-right'), n.removeClass('btn-edit-left');
         }), $('.st-show-buttons').removeClass('st-show-buttons'), $(e).addClass('st-show-buttons'), t.top ? (o.removeClass('btn-edit-bottom'), o.addClass('btn-edit-top'), n.removeClass('btn-delete-bottom'), n.addClass('btn-delete-top')) : (o.removeClass('btn-edit-top'), o.addClass('btn-edit-bottom'), n.removeClass('btn-delete-top'), n.addClass('btn-delete-bottom')), t.left ? (o.removeClass('btn-edit-right'), o.addClass('btn-edit-left'), n.removeClass('btn-delete-right'), n.addClass('btn-delete-left')) : (o.removeClass('btn-edit-left'), o.addClass('btn-edit-right'), n.removeClass('btn-delete-left'), n.addClass('btn-delete-right'));
-      }, l = function (e, t, i, l) {
+      }, a = function (e, t, i, a) {
         t.on(i + '.open-tips', function () {
           var i = $(t).data();
           console.log('openTip linkElement.on', 'data=', i);
-          var a = i.opentips, c = o.opaqueField(e.sticker.color), u = null;
-          for (var d in a) {
-            var f = a[d];
-            f.setContent(t.find('.st-pop').html()), f.options.background = c, f.redraw = !0, f.options.showOn === l && (u = f);
+          var l = i.opentips, c = o.opaqueField(e.sticker.color), u = null;
+          for (var d in l) {
+            var p = l[d];
+            p.setContent(t.find('.st-pop').html()), p.options.background = c, p.redraw = !0, p.options.showOn === a && (u = p);
           }
-          u || (u = r(t, c, l), u.prepareToShow()), s(this, n(t));
+          u || (u = r(t, c, a), u.prepareToShow()), s(this, n(t));
         });
       };
     return function (e, t) {
-      l(e, t, 'mouseenter', 'mouseover'), l(e, t, 'click', 'click');
+      a(e, t, 'mouseenter', 'mouseover'), a(e, t, 'click', 'click');
     };
   }
 ]), FirstRevenueApp.factory('Auth', [
@@ -1566,11 +1622,11 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$q',
   'Firebase',
-  'User',
+  'Myself',
   'Singly',
   function (e, t, o, n, i, r, s) {
-    var l = 'Auth';
-    return console.log(l, 'service launched'), {
+    var a = 'Auth';
+    return console.log(a, 'service launched'), {
       deferred: null,
       rememberMe: !0,
       launchLogon: function (e, t) {
@@ -1600,9 +1656,9 @@ FirstRevenueApp.controller('AdminController', [
       },
       signupPasswordAuth: function () {
         console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), i.authClient.createUser(r.email, r.password, function (e, t) {
-          console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), e ? console.log('Auth.signupPasswordAuth error=', e) : (console.log('Auth.signupPasswordAuth success user id=', t.id, 'email', t.email), i.authClient.login('password', {
-            email: t.email,
-            password: t.password,
+          console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), e ? console.log('Auth.signupPasswordAuth error=', e) : (console.log('Auth.signupPasswordAuth success user id=', t.id, 'email', r.email), i.authClient.login('password', {
+            email: r.email,
+            password: r.password,
             rememberMe: !0
           }));
         });
@@ -1808,7 +1864,7 @@ FirstRevenueApp.controller('AdminController', [
           n.view = 'free' === n.view ? 'grid' : 'free';
         },
         peerCount: function () {
-          return _.size(n.model.users);
+          return n.model ? _.size(n.model.users) : 0;
         },
         getStyle: function () {
           return 'st-list-style4';
@@ -1827,11 +1883,7 @@ FirstRevenueApp.controller('AdminController', [
           return 'free' === n.view && e && e.x && e.y || !1;
         },
         getPosition: function (e) {
-          if (n.getAbs(e)) {
-            var t = 'left: ' + e.x + '%; top: ' + e.y + '%;';
-            return t;
-          }
-          return '';
+          return n.getAbs(e) ? 'left: ' + e.x + '%; top: ' + e.y + '%;' : '';
         },
         switchBlock: function (e) {
           console.log(o, 'switchBlock pane=', e, 'this.model.blocks=', n.model.blocks), n.singleBlock = _.find(n.model.blocks, function (t) {
@@ -1866,130 +1918,115 @@ FirstRevenueApp.controller('AdminController', [
   '$timeout',
   '$location',
   '$window',
-  'FirebaseEvents',
   'Myself',
   'Layout',
   'Notif',
-  'Database',
-  'User',
-  function (e, t, o, n, i, r, s, l, a, c) {
-    var u = 'Firebase';
-    console.log(u, 'service launched');
-    var d = {
+  function (e, t, o, n, i, r, s) {
+    var a = 'Firebase';
+    console.log(a, 'service launched');
+    var l = {
         endpoint: CONFIG_1ST_REVENUE.firebaseEndpoint,
         nowRemote: null,
         rootRef: null,
         authClient: null,
-        fbe: i,
-        user: c,
         connected: !1,
         connStatus: 'Offline',
-        db: a,
+        notif: s,
         init: function () {
-          d.rootRef = new Firebase(d.endpoint), Firebase.enableLogging(!0), console.log(u, 'init fb.rootRef=', d.rootRef), d.fbe.init(d, d.rootRef);
+          l.rootRef = new Firebase(l.endpoint), Firebase.enableLogging(!0), console.log(a, 'init fb.rootRef=', l.rootRef);
         },
         retrieveSession: function () {
-          c.authFailed || (d.authClient = new FirebaseAuthClient(d.rootRef, d.verifySession));
+          i.authFailed || (l.authClient = new FirebaseAuthClient(l.rootRef, l.verifySession));
         },
         resumeSession: function () {
-          c.authFailed || (d.authClient = new FirebaseAuthClient(d.rootRef, d.generalAuth));
+          i.authFailed || (l.authClient = new FirebaseAuthClient(l.rootRef, l.generalAuth));
         },
         verifySession: function (e, t) {
-          console.log(u, 'verifySession error=', e, 'fbUser=', t);
+          console.log(a, 'verifySession error=', e, 'fbUser=', t);
           var n = !1;
-          e ? console.log(u, 'verifySession Firebase returned an error=', e) : t ? (console.log(u, 'verifySession Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), n = !0) : console.log(u, 'verifySession Firebase auth returned null fbUser=', t, '$location=', o), n && c.setLastUser(t), r.processInvite(n);
+          e ? console.log(a, 'verifySession Firebase returned an error=', e) : t ? (console.log(a, 'verifySession Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), n = !0) : console.log(a, 'verifySession Firebase auth returned null fbUser=', t, '$location=', o), n && i.mp.setLastUser(t), i.processInvite(n);
         },
         clearSession: function () {
           FirebaseAuthClient.prototype.clearSession();
         },
         setAdmin: function (e) {
-          c.adminRole = e;
-        },
-        loadCanvasORM: function (e, t, o) {
-          var n = d.rootRef.child('orgs').child(e).child('repos').child(t).child('models').child(o);
-          r.openModel(n);
-        },
-        loadCanvas: function (e) {
-          var t = d.rootRef.child('models').child(e);
-          r.openModel(t);
+          i.adminRole = e;
         },
         generalAuth: function (e, t) {
-          if (console.log(u, 'generalAuth error=', e, 'fbUser=', t), c.clearLastUser(), e)
-            console.log(u, 'generalAuth Firebase returned an error=', e), d.authFailed(e);
+          if (console.log(a, 'generalAuth error=', e, 'fbUser=', t), i.mp.clearLastUser(), e)
+            console.log(a, 'generalAuth Firebase returned an error=', e), l.authFailed(e);
           else if (t) {
-            if (console.log(u, 'generalAuth Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), c.setLastUser(t), t.sessionKey)
+            if (console.log(a, 'generalAuth Firebase auth success fbUser=', t, 'sessionKey=', t.sessionKey), i.mp.setLastUser(t), t.sessionKey)
               FirebaseAuthClient.prototype.saveSession(t.firebaseAuthToken, t), delete t.sessionKey;
             else {
               var n = FirebaseAuthClient.prototype.readCookie('firebaseSessionKey');
-              console.log(u, 'sessionKey from cookie firebaseSessionKey=', n), t.firebaseSessionKey = n;
+              console.log(a, 'sessionKey from cookie firebaseSessionKey=', n), t.firebaseSessionKey = n;
             }
-            var i = d.rootRef.child('usermap'), r = i.child(t.provider).child(t.id);
-            r.once('value', function (e) {
-              console.log(u, 'generalAuth', 'mapUserRef once value=', e.val()), d.checkUserMap(e.val(), t, r);
+            var r = l.rootRef.child('usermap'), s = r.child(t.provider).child(t.id);
+            s.once('value', function (e) {
+              console.log(a, 'generalAuth', 'mapUserRef once value=', e.val()), l.checkUserMap(e.val(), t, s);
             });
           } else
-            console.log(u, 'generalAuth Firebase auth returned null fbUser=', t, '$location=', o), d.authFailed();
+            console.log(a, 'generalAuth Firebase auth returned null fbUser=', t, '$location=', o), l.authFailed();
         },
         checkUserMap: function (e, t, o) {
           if (e) {
-            var n = d.rootRef.child('users').child(e);
+            var n = l.rootRef.child('users').child(e);
             n.once('value', function (n) {
               var i = n.val();
-              console.log(u, 'checkUserMap', 'userRef once urValue=', i), i ? (console.log(u, 'checkUserMap', 'userRef urValue=', i), c.retrieveUserRecord(i), d.openSession(e, t)) : (console.log(u, 'checkUserMap', 'Remove orphan from user map: fbUser=', t), o.remove(function () {
-                console.log(u, 'checkUserMap', 'Orphan removed from user map: fbUser=', t), d.authFailed({
+              console.log(a, 'checkUserMap', 'userRef once urValue=', i), i ? (console.log(a, 'checkUserMap', 'userRef urValue=', i), l.openSession(e, t)) : (console.log(a, 'checkUserMap', 'Remove orphan from user map: fbUser=', t), o.remove(function () {
+                console.log(a, 'checkUserMap', 'Orphan removed from user map: fbUser=', t), l.authFailed({
                   code: 'USER_UNKNOWN',
                   message: 'User ' + t.name + ' (' + t.provider + '-' + t.id + ') not found in Firebase'
                 });
               }));
             });
           } else
-            console.log(u, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), d.clearSession(), console.log(u, 'checkUserMap', 'Firebase session cleared'), d.authFailed({
+            console.log(a, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), l.clearSession(), console.log(a, 'checkUserMap', 'Firebase session cleared'), l.authFailed({
               code: 'USER_UNKNOWN',
               message: 'User ' + (t.name ? t.name : '') + ' (' + t.provider + '-' + t.id + ') not found in Firebase'
             });
         },
         authFailed: function (e) {
-          console.log(u, 'authFailed error=', e), c.authError(e), t(function () {
-            '/entry' === o.$$url ? o.url('/entry?reload=' + Date.now()) : o.url('/entry');
+          console.log(a, 'authFailed error=', e), i.authError(e), t(function () {
+            '/entry' === o.$$url ? r.setView('logon') : o.url('/entry');
           });
         },
         openSession: function (t, o, n) {
-          console.log(u, 'openSession userId=', t, 'fbUser=', o), c.confirmUser(t), r.wakeup(d.rootRef, t, n), console.log(u, 'openSession resolving launch promise'), e.deferredLaunch.resolve(), analytics.identify(t, {
+          console.log(a, 'openSession userId=', t, 'fbUser=', o), i.wakeup(l.rootRef, t, n), console.log(a, 'openSession resolving launch promise'), e.deferredLaunch.resolve(), analytics.identify(t, {
             id: o.id,
             provider: o.provider,
             name: o.name
           });
         },
         log: function (e) {
-          var t = new Date(), o = t.getUTCFullYear(), n = t.getUTCMonth(), i = t.getUTCDate(), r = t.getUTCHours(), s = d.rootRef.child('log').child(o).child(n).child(i).child(r);
-          e.time = t.getTime(), e.timeISO = t.toISOString(), e.user = c.provider + '-' + c.id, s.push(e);
+          var t = new Date(), o = t.getUTCFullYear(), n = t.getUTCMonth(), r = t.getUTCDate(), s = t.getUTCHours(), a = l.rootRef.child('log').child(o).child(n).child(r).child(s);
+          e.time = t.getTime(), e.timeISO = t.toISOString(), e.user = i.provider + '-' + i.providerId, a.push(e);
         },
-        createModel: function (e) {
-          console.log(u, 'createModel model=', e);
-          var t = d.rootRef.child('models'), o = t.push(), n = o.name(), i = {
-              fields: angular.copy(e.fields),
+        createModel: function (e, o) {
+          console.log(a, 'createModel modelName=', e);
+          var n = l.rootRef.child('models'), r = n.push(), s = r.name(), c = {
+              fields: { name: e },
               users: {}
             };
-          _.each(d.db.users, function (e, t) {
-            e.selected && (i.users[t] = !0);
-          }), i.users[c.userId] = !0, console.log(u, 'createModel modelUpdate=', i), o.set(i, function (t, o) {
-            if (console.log(u, 'createModel model created', 'modelUpdate=', i, 'model=', e, 'error=', t, 'dummy=', o), e.saved = !t, d.log({
-                op: t ? 'createModel-error' : 'createModel',
-                error: t,
-                path: '/models/' + n,
-                model: i
-              }), !t) {
-              var r = d.rootRef.child('users').child(c.userId).child('models').child(n);
-              r.set(!0, function (e, t) {
-                console.log(u, 'createModel model reference stored to user', 'error=', e, 'dummy=', t);
-              });
-            }
-          });
+          return c.users[i.userId] = !0, console.log(a, 'createModel modelUpdate=', c), i.sync.models[s] = {
+            fields: {},
+            users: {}
+          }, r.set(c, function (n, r) {
+            console.log(a, 'createModel model created', 'modelUpdate=', c, 'modelName=', e, 'error=', n, 'dummy=', r), l.log({
+              op: n ? 'createModel-error' : 'createModel',
+              error: n,
+              path: '/models/' + s,
+              model: c
+            }), n || (i.sync.user.models = i.sync.user.models || {}, i.sync.user.models[s] = !0, t(function () {
+              o();
+            }));
+          }), s;
         },
         saveSticker: function (e) {
-          var t = d.getStickerPath(e);
-          console.log(u, 'saveSticker stPath=', t, 'st=', e);
-          var o = d.rootRef.child(t);
+          var t = l.getStickerPath(e);
+          console.log(a, 'saveSticker stPath=', t, 'st=', e);
+          var o = l.rootRef.child(t);
           e.notes = e.notes || '';
           var n = {
               title: e.title,
@@ -1997,7 +2034,7 @@ FirstRevenueApp.controller('AdminController', [
               color: e.color.name
             };
           e.position && (e.position.x && (n.x = e.position.x), e.position.y && (n.y = e.position.y)), o.update(n, function (o, i) {
-            console.log(u, 'saveSticker sticker saved stPath=', t, 'stUpdate=', n, 'st=', e, 'error=', o, 'dummy=', i), e.saved = !o, d.log({
+            console.log(a, 'saveSticker sticker saved stPath=', t, 'stUpdate=', n, 'st=', e, 'error=', o, 'dummy=', i), e.saved = !o, l.log({
               op: 'saveSticker',
               path: t,
               sticker: n
@@ -2005,9 +2042,9 @@ FirstRevenueApp.controller('AdminController', [
           });
         },
         createSticker: function (e) {
-          var t = d.getModelPath(e);
-          console.log(u, 'createSticker modelPath=', t, 'st=', e);
-          var o = d.rootRef.child(t + '/stickers'), n = o.push();
+          var t = l.getModelPath(e);
+          console.log(a, 'createSticker modelPath=', t, 'st=', e);
+          var o = l.rootRef.child(t + '/stickers'), n = o.push();
           e.notes = e.notes || '';
           var i = {
               title: e.title,
@@ -2015,8 +2052,8 @@ FirstRevenueApp.controller('AdminController', [
               block: e.block,
               color: e.color.name
             };
-          e.position && (e.position.x && (i.x = e.position.x), e.position.y && (i.y = e.position.y)), console.log(u, 'createSticker sticker before set modelPath=', t, 'stUpdate=', i), n.set(i, function (o, r) {
-            console.log(u, 'createSticker sticker created modelPath=', t, 'stUpdate=', i, 'st=', e, 'error=', o, 'dummy=', r), e.saved = !o, d.log({
+          e.position && (e.position.x && (i.x = e.position.x), e.position.y && (i.y = e.position.y)), console.log(a, 'createSticker sticker before set modelPath=', t, 'stUpdate=', i), n.set(i, function (o, r) {
+            console.log(a, 'createSticker sticker created modelPath=', t, 'stUpdate=', i, 'st=', e, 'error=', o, 'dummy=', r), e.saved = !o, l.log({
               op: 'saveSticker',
               path: t + '/stickers/' + n.name(),
               sticker: i
@@ -2036,13 +2073,14 @@ FirstRevenueApp.controller('AdminController', [
           return '/orgs/' + e.id;
         }
       };
-    return d;
+    return l;
   }
 ]), FirstRevenueApp.factory('FullScreen', [
   '$window',
   'Notif',
   function (e, t) {
-    return {
+    var o = 'FullScreen';
+    return console.log(o, 'service launched'), {
       fullScreenActive: !1,
       isFullScreen: function () {
         return e.navigator.standalone;
@@ -2112,11 +2150,11 @@ FirstRevenueApp.controller('AdminController', [
   '$q',
   'Firebase',
   'Auth',
-  'User',
+  'Myself',
   function (e, t, o, n, i, r, s) {
-    var l = 'Invite';
-    console.log(l, 'Service launched');
-    var a = [
+    var a = 'Invite';
+    console.log(a, 'Service launched');
+    var l = [
         'facebook',
         'twitter',
         'github'
@@ -2161,42 +2199,41 @@ FirstRevenueApp.controller('AdminController', [
           }
         },
         userId: null,
-        userRecord: s.record,
         res: t,
         inviteId: null,
         inviteValue: null,
         setInvite: function (e, t) {
-          u.inviteId = e, u.inviteValue = t;
+          console.log(a, 'setInvite id=', e, 'value=', t), u.inviteId = e, u.inviteValue = t;
         },
         ignoreInvite: function () {
-          i.generalAuth(null, s.getLastUser());
+          console.log(a, 'ignoreInvite'), i.generalAuth(null, s.getLastUser());
         },
         abandonSession: function () {
-          i.authClient.clearSession(), i.rootRef.unauth();
+          console.log(a, 'abandonSession'), i.authClient.clearSession(), i.rootRef.unauth();
         },
         acceptInvite: function (e) {
-          console.log(l, 'acceptInvite', 'service=', e), u.abandonSession(), u.authenticateInvite(e).then(u.inviteAuthenticated).then(u.inviteAuthorized).then(u.inviteExisting).then(u.userFetched).then(u.processInvite).then(u.doneInvite).then(u.createNewUser).then(u.saveSession).then(u.inviteModel).then(u.attachModelToUser).then(u.finishInvite, u.inviteFailed);
+          console.log(a, 'acceptInvite', 'service=', e), u.abandonSession(), u.authenticateInvite(e).then(u.inviteAuthenticated).then(u.inviteAuthorized).then(u.inviteExisting).then(u.userFetched).then(u.processInvite).then(u.doneInvite).then(u.createNewUser).then(u.updateInviteRecord).then(u.saveSession).then(u.inviteModels).then(u.attachModelsToUser).then(u.finishInvite, u.inviteFailed);
         },
         rejectResolve: function (t, o, n, i) {
           if (t) {
             var r = i || t;
-            console.log(l, 'rejectResolve', 'rejecting error=', r), o.reject(r);
+            console.log(a, 'rejectResolve', 'rejecting error=', r), o.reject(r);
           } else
-            'function' == typeof n ? (console.log(l, 'rejectResolve', 'calling success'), n()) : (console.log(l, 'rejectResolve', 'resolving success=', n), e(function () {
+            'function' == typeof n ? (console.log(a, 'rejectResolve', 'calling success'), n()) : (console.log(a, 'rejectResolve', 'resolving success=', n), e(function () {
               o.resolve(n);
             }));
         },
         authenticateInvite: function (e) {
           var t = n.defer();
-          if (_.contains(a, e)) {
+          if (_.contains(l, e)) {
             var o = u.providers[e].scope, i = { rememberMe: !0 };
-            o && (i.scope = o), console.log(l, 'authenticateInvite', 'Firebase service scope=', o, 'options=', i), u.fb.authClient.launchAuthWindow(e, i, function (e, o, n) {
+            o && (i.scope = o), console.log(a, 'authenticateInvite', 'Firebase service scope=', o, 'options=', i), u.fb.authClient.launchAuthWindow(e, i, function (e, o, n) {
               u.rejectResolve(e, t, function () {
                 n.firebaseAuthToken = o, u.cbInvite(t, n);
               });
             });
           } else
-            _.contains(c, e) && (console.log(l, 'authenticateInvite', 'Singly service'), console.log(l, 'authenticateInvite', '$timeout call Auth.launchSinglyAuth'), r.launchSinglyAuth(e, function (e, o) {
+            _.contains(c, e) && (console.log(a, 'authenticateInvite', 'Singly service'), console.log(a, 'authenticateInvite', '$timeout call Auth.launchSinglyAuth'), r.launchSinglyAuth(e, function (e, o) {
               u.rejectResolve(e, t, function () {
                 u.cbInvite(t, o);
               });
@@ -2204,9 +2241,9 @@ FirstRevenueApp.controller('AdminController', [
           return t.promise;
         },
         cbInvite: function (t, o) {
-          console.log(l, 'cbInvite', 'Invite=', u, 'user=', o), o ? (console.log(l, 'cbInvite', 'resolving ivUser=', o), e(function () {
+          console.log(a, 'cbInvite', 'Invite=', u, 'user=', o), o ? (console.log(a, 'cbInvite', 'resolving ivUser=', o), e(function () {
             t.resolve(o);
-          })) : (console.log(l, 'cbInvite', 'null user'), s.authFailed = !0, t.reject('Authentication failed'));
+          })) : (console.log(a, 'cbInvite', 'null user'), s.authFailed = !0, t.reject('Authentication failed'));
         },
         inviteAuthenticated: function (e) {
           var t = n.defer();
@@ -2220,124 +2257,134 @@ FirstRevenueApp.controller('AdminController', [
             u.inviteMatch(e) ? s.authFailed = !1 : t.reject('The invite was addressed to another user.');
             break;
           case 'accepted':
-            u.inviteMatch(e) ? (console.log(l, 'inviteAuthenticated', 'invite already accepted by yourself'), s.authFailed = !1) : t.reject('The invite was already accepted, it was addressed to another user.');
+            u.inviteMatch(e) ? (console.log(a, 'inviteAuthenticated', 'invite already accepted by yourself'), s.authFailed = !1) : t.reject('The invite was already accepted, it was addressed to another user.');
             break;
           default:
             t.reject('App error. Unknown invite status=', o);
           }
-          return s.authFailed || (console.log(l, 'inviteAuthenticated', 'sessionKey=', e.sessionKey), e.firebaseSessionKey = e.sessionKey || null, u.fb.rootRef.auth(e.firebaseAuthToken, function (o) {
+          return s.authFailed || (console.log(a, 'inviteAuthenticated', 'sessionKey=', e.sessionKey), e.firebaseSessionKey = e.sessionKey || null, u.fb.rootRef.auth(e.firebaseAuthToken, function (o) {
             u.rejectResolve(o, t, e);
           })), t.promise;
         },
         inviteAuthorized: function (t) {
           var o = n.defer();
-          console.log(l, 'inviteAuthorized', 'ivUser=', t);
+          console.log(a, 'inviteAuthorized', 'ivUser=', t);
           var i = u.fb.rootRef.child('usermap'), r = i.child(t.provider).child(t.id);
           return r.once('value', function (n) {
-            console.log(l, 'inviteAuthorized', 'mapUserRef once value=', n.val()), t.mapValue = n.val(), e(function () {
+            console.log(a, 'inviteAuthorized', 'mapUserRef once value=', n.val()), t.mapValue = n.val(), e(function () {
               o.resolve(t);
             });
           }), o.promise;
         },
         inviteMatch: function (e) {
           var t = u.inviteValue;
-          return 'singly' === e.provider ? e.service === t.service && e.services[e.service].id === t.id : e.provider === t.service && e.id === t.id;
+          return 'singly' === e.provider ? e.service === t.service && e.services[e.service].id === t.serviceId : e.provider === t.service && e.id === t.serviceId;
         },
         inviteExisting: function (e) {
           var t = n.defer();
-          if (console.log(l, 'inviteExisting', 'mapValue=', e.mapValue, 'ivUser=', e), e.mapValue) {
-            console.log(l, 'inviteExisting', 'found usermap for user', e.provider + '/' + e.id, 'value=', e.mapValue);
+          if (console.log(a, 'inviteExisting', 'mapValue=', e.mapValue, 'ivUser=', e), e.mapValue) {
+            console.log(a, 'inviteExisting', 'found usermap for user', e.provider + '/' + e.id, 'value=', e.mapValue);
             var o = u.fb.rootRef.child('users').child(e.mapValue);
             o.once('value', function (o) {
               var n = o.val();
-              console.log(l, 'inviteExisting', 'userRecordRef once value userRecord=', n), e.record = n, t.resolve(e);
+              console.log(a, 'inviteExisting', 'userRecordRef once value userRecord=', n), e.record = n, t.resolve(e);
             }, function (e) {
-              console.log(l, 'inviteExisting', 'userRecordRef once value error=', e), t.reject(e);
+              console.log(a, 'inviteExisting', 'userRecordRef once value error=', e), t.reject(e);
             });
           } else
             t.resolve(e);
           return t.promise;
         },
         userFetched: function (t) {
-          console.log(l, 'userFetched', 'ivUser=', t);
+          console.log(a, 'userFetched', 'ivUser=', t);
           var o = n.defer(), i = t.record;
           return i ? (u.inviteRef.update({
             status: 'accepted',
             profile: i.profile
           }, function (e) {
-            e ? o.reject(e) : console.log(l, 'userFetched invite profile stored');
+            e ? o.reject(e) : console.log(a, 'userFetched invite profile stored');
           }), e(function () {
-            s.retrieveUserRecord(i);
+            s.mp.retrieveUserRecord(i);
           })) : u.createInvitedUser(o, t), o.promise;
         },
         createInvitedUser: function (e, t) {
-          if (console.log(l, 'createInvitedUser', 'ivUser=', t), t) {
-            var o = s.storeInviteCredentials(t);
+          if (console.log(a, 'createInvitedUser', 'ivUser=', t), t) {
+            var o = s.mp.storeInviteCredentials(t);
             u.mapRef = u.fb.rootRef.child('usermap'), u.accRef = u.fb.rootRef.child('users'), u.recRef = u.accRef.push(), u.userId = u.recRef.name(), u.fbUser = t, e.resolve(o);
           }
         },
         processInvite: function (e) {
           var t = n.defer();
-          console.log(l, 'doneInvite cred=', e), u.primaryToken = e.token;
+          console.log(a, 'doneInvite cred=', e), u.primaryToken = e.token;
           var o = e.profile;
-          s.storeAccount(o, e);
+          s.mp.storeAccount(o, e);
           var i = u.mapRef.child(o.provider).child(o.id);
-          return console.log(l, 'processInvite', 'profile.provider=', o.provider, 'profile.id=', o.id), u.fb.rootRef.auth(e.token, function (o) {
-            o ? (console.log(l, 'processInvite', 'user map set auth failed error=', o), t.reject(o)) : i && (console.log(l, 'processInvite', 'setUserMap mapUserRef found, userId=', u.userId), i.set(u.userId, function (o) {
+          return console.log(a, 'processInvite', 'profile.provider=', o.provider, 'profile.id=', o.id), u.fb.rootRef.auth(e.token, function (o) {
+            o ? (console.log(a, 'processInvite', 'user map set auth failed error=', o), t.reject(o)) : i && (console.log(a, 'processInvite', 'setUserMap mapUserRef found, userId=', u.userId), i.set(u.userId, function (o) {
               u.rejectResolve(o, t, e);
             }));
           }), t.promise;
         },
         doneInvite: function (e) {
           var t = n.defer();
-          console.log(l, 'doneInvite cred=', e), u.primaryToken = e.token;
+          console.log(a, 'doneInvite cred=', e), u.primaryToken = e.token;
           var o = e.profile;
-          return s.storeAccount(o, e), u.primaryToken && u.fb.rootRef.auth(u.primaryToken, function (o) {
-            console.log(l, 'createNewUser user account set error=', o, 'cred=', e), u.rejectResolve(o, t, e);
+          return s.mp.storeAccount(o, e), u.primaryToken && u.fb.rootRef.auth(u.primaryToken, function (o) {
+            console.log(a, 'createNewUser user account set error=', o, 'cred=', e), u.rejectResolve(o, t, e);
           }), t.promise;
         },
         createNewUser: function (e) {
           var t = n.defer();
-          return s.record.inviteId = u.inviteId, u.recRef.set(s.record, function (o) {
-            console.log(l, 'createNewUser user account set error=', o, 'cred=', e), u.rejectResolve(o, t, e);
+          return s.mp.user.inviteId = u.inviteId, u.recRef.set(s.mp.user, function (o) {
+            console.log(a, 'createNewUser user account set error=', o, 'cred=', e), u.rejectResolve(o, t, e);
+          }), t.promise;
+        },
+        updateInviteRecord: function (e) {
+          console.log(a, 'updateInviteRecord cred=', e);
+          var t = n.defer(), o = {
+              status: 'accepted',
+              userId: u.userId
+            };
+          return console.log(a, 'saveSession inviteUpdate=', o, 'cred=', e), u.inviteRef.update(o, function (o) {
+            console.log(a, 'saveSession invite profile stored error=', o), u.rejectResolve(o, t, e);
           }), t.promise;
         },
         saveSession: function (e) {
           var t = n.defer();
-          u.inviteRef.update({
-            status: 'accepted',
-            userId: u.userId,
-            profile: e.profile
-          }, function (e) {
-            console.log(l, 'saveSession invite profile stored error=', e), t.reject(e);
-          }), console.log(l, 'saveSession user account record created');
-          var o = s.record.primary, i = s.record.accounts[o].authentic;
-          if ('singly' === i.provider)
-            console.log(l, 'saveSession provider singly authUser=', i);
-          else if (console.log(l, 'saveSession openSession authUser=', i), u.fb.authClient.saveSession(u.primaryToken, i), s.authenticated = !0, u.inviteValue.modelId) {
-            var r = u.fb.rootRef.child('models').child(u.inviteValue.modelId);
-            t.resolve(r);
-          } else
-            t.resolve(null);
-          return t.promise;
+          console.log(a, 'saveSession cred=', e), console.log(a, 'saveSession user account record created');
+          var o = s.mp.user.primary, i = s.mp.user.accounts[o].authentic;
+          return 'singly' === i.provider ? console.log(a, 'saveSession provider singly authUser=', i) : (console.log(a, 'saveSession openSession authUser=', i), u.fb.authClient.saveSession(u.primaryToken, i), s.authenticated = !0, u.inviteValue.models ? console.log(a, 'saveSession models=', u.inviteValue.models) : console.log(a, 'saveSession no models'), t.resolve(e)), console.log(a, 'saveSession returning promise=', t.promise), t.promise;
         },
-        inviteModel: function (e) {
-          var t = n.defer();
-          return e ? e.child('users').child(u.userId).set(!0, function (o) {
-            u.rejectResolve(o, t, e.name());
-          }) : t.resolve(null), t.promise;
+        inviteModels: function (e) {
+          console.log(a, 'inviteModels cred=', e);
+          var t = _.keys(u.inviteValue.models || {});
+          console.log(a, 'inviteModels modelIds=', t);
+          var o = [];
+          return _.each(t, function (e) {
+            console.log(a, 'inviteModels modelId=', e);
+            var t = u.fb.rootRef.child('models').child(e), i = n.defer();
+            o.push(i.promise), t.child('users').child(u.userId).set(!0, function (o) {
+              console.log(a, 'inviteModels user userId=', u.userId, 'added to model modelId=', e), u.rejectResolve(o, i, t.name());
+            });
+          }), n.all(o);
         },
-        attachModelToUser: function (e) {
+        attachModelsToUser: function (e) {
           var t = n.defer();
-          return console.log(l, 'attachModelToUser modelId=', e), e ? u.recRef.child('models').child(e).set(!0, function (o) {
-            u.rejectResolve(o, t, e);
-          }) : t.resolve(), t.promise;
+          console.log(a, 'attachModelsToUser modelIds=', e);
+          var o = {};
+          return _.each(e, function (n) {
+            o[n] = !0, u.recRef.child('models').update(o, function (o) {
+              u.rejectResolve(o, t, e);
+            });
+          }), t.promise;
         },
         finishInvite: function (e) {
-          console.log(l, 'finishInvite'), u.completed = !0, u.modelId = e, i.openSession(u.userId, u.fbUser, e);
+          console.log(a, 'finishInvite modelIds=', e), u.completed = !0;
+          var t = null;
+          1 === _.size(e) && (t = e[0], u.modelId = t), o.path('/repo'), i.openSession(u.userId, u.fbUser);
         },
         inviteFailed: function (t) {
-          console.log(l, 'inviteFailed error=', t), e(function () {
+          console.log(a, 'inviteFailed error=', t), e(function () {
             u.error = t;
           });
         }
@@ -2354,8 +2401,8 @@ FirstRevenueApp.controller('AdminController', [
           throw Error('Not enough or too many segments');
         var n = o[0], i = o[1], r = o[2];
         console.log(e, 'decodeJWT', 'headerSeg=', n, 'payloadSeg=', i, 'signatureSeg=', r);
-        var s = this.base64urldecode(n), l = this.base64urldecode(i), a = this.base64urldecode(r);
-        return console.log(e, 'decodeJWT', 'header=', s, 'payload=', l, 'signature=', a), s + '\n' + l + '\n' + a;
+        var s = this.base64urldecode(n), a = this.base64urldecode(i), l = this.base64urldecode(r);
+        return console.log(e, 'decodeJWT', 'header=', s, 'payload=', a, 'signature=', l), s + '\n' + a + '\n' + l;
       },
       base64urldecode: function (e) {
         var t = e;
@@ -2398,6 +2445,7 @@ FirstRevenueApp.controller('AdminController', [
       },
       tooltips: !0,
       profile: !0,
+      qrCode: !1,
       guide: { wide: !0 },
       peer: { wide: !0 },
       editor: {
@@ -2439,11 +2487,9 @@ FirstRevenueApp.controller('AdminController', [
         return e.title ? e.title[0] : '';
       },
       getFullTitle: function (e) {
-        var t = '';
-        if (e.title)
-          for (var o in e.title)
-            t += e.title[o] + '\n';
-        return t;
+        return _.reduce(e.title || [], function (e, t) {
+          return (e ? e + '\n' : '') + t;
+        });
       },
       modelCount: function (e) {
         return e.models ? _.size(e.models) : 0;
@@ -2504,7 +2550,8 @@ FirstRevenueApp.controller('AdminController', [
         del: !1,
         delNoRights: !1,
         model: !1,
-        users: !1,
+        modelNew: !1,
+        modelEditorTab: 0,
         stickerId: null,
         sticker: null,
         contact: null,
@@ -2529,30 +2576,45 @@ FirstRevenueApp.controller('AdminController', [
         refreshModels: function () {
         },
         isPublic: function (e) {
-          return !!(o.af.public && o.af.public.models && o.af.public.models[e]);
+          return !!(o.sync.public && o.sync.public.models && o.sync.public.models[e]);
         },
         getModelsNew3: function (e) {
           var t = {};
-          return _.each(o.af.models, function (o, n) {
+          return _.each(o.sync.models, function (o, n) {
             var r = i.isPublic(n);
             ('all' === e || 'public' === e && r || 'my' === e && !r) && (o.id = n, t[n] = o);
           }), this.sortModelList(t);
         },
         getModels: function (e) {
           var t = [];
-          return _.each(o.af.models, function (n, r) {
-            var s = o.af.models[r];
-            if (s) {
+          return _.each(o.sync.models, function (n, r) {
+            var s = o.sync.models[r], a = s;
+            if (a.id = r, s) {
               var l = i.isPublic(r);
-              ('all' === e || 'public' === e && l || 'my' === e && !l) && t.push(r);
-            } else
-              o.af.models[r] = o.af.models[r] || {}, o.loadModel(r, !1), t.push(r);
+              ('all' === e || 'public' === e && l || 'my' === e && !l) && t.push(a);
+            }
+          }), this.sortModelList(t);
+        },
+        getModelIdList: function (e) {
+          var t = [];
+          return _.each(o.sync.models, function (n, r) {
+            var s = o.sync.models[r];
+            if (s && s.fields) {
+              var a = i.isPublic(r);
+              ('all' === e || 'public' === e && a || 'my' === e && !a) && t.push(r);
+            }
           }), this.sortModelIdList(t);
+        },
+        getFields: function (e) {
+          return o.sync.models[e].fields;
+        },
+        getTags: function (e) {
+          return o.sync.models[e].tags;
         },
         sortModelIdList: function (e) {
           var t = e;
           return 'name' === this.sort && (t = _.sortBy(e, function (e) {
-            return o.af.models[e].fields.name;
+            return o.sync.models[e].fields.name;
           }), this.ascending || t.reverse()), 'time' === this.sort && (t = _.sortBy(e, function (e) {
             return e;
           }), this.backInTime && t.reverse()), t;
@@ -2562,7 +2624,7 @@ FirstRevenueApp.controller('AdminController', [
           return 'name' === this.sort && (t = _.sortBy(e, function (e) {
             return e.fields.name;
           }), this.ascending || t.reverse()), 'time' === this.sort && (t = _.sortBy(e, function (e) {
-            return e.label;
+            return e.id;
           }), this.backInTime && t.reverse()), t;
         },
         nameSortOrder: function () {
@@ -2572,10 +2634,11 @@ FirstRevenueApp.controller('AdminController', [
           return (this.backInTime ? '-back' : '') + ('time' === this.sort ? '-white' : '');
         },
         getMemberCount: function (e) {
-          return e.members ? _.size(e.members) : 0;
+          var t = o.sync.models[e];
+          return t.users ? _.size(t.users) : 0;
         },
         highlightMembers: function (e) {
-          console.log(n, 'highlightMembers model=', e, 'event=', event), $(event.target).parent().children().css('color', 'darkred');
+          console.log(n, 'highlightMembers modelId=', e, 'event=', event);
         },
         getAllTags: function () {
           var t = [];
@@ -2598,19 +2661,19 @@ FirstRevenueApp.controller('AdminController', [
           return e === this.tag ? 'label-success' : 'label-info';
         },
         filterMatch: function (e) {
-          var o = t.tag, n = !1;
-          if (o)
-            if ('*' === o)
-              n = !0;
+          var o = i.getTags(e), n = t.tag, r = !1;
+          if (n)
+            if ('*' === n)
+              r = !0;
             else {
-              var i = _.find(e, function (e) {
-                  return e.text === o;
+              var s = _.find(o, function (e) {
+                  return e.text === n;
                 });
-              n = !!i;
+              r = !!s;
             }
           else
-            n = 0 === e.length;
-          return n;
+            r = 0 === o.length;
+          return r;
         }
       };
     return i;
@@ -2633,7 +2696,7 @@ FirstRevenueApp.controller('AdminController', [
         });
       }
     };
-  }]), console.log('notif.modServices=', FirstRevenueApp), FirstRevenueApp.factory('Notif', [
+  }]), FirstRevenueApp.factory('Notif', [
   'Popup',
   function (e) {
     var t = 'Notif';
@@ -2703,13 +2766,13 @@ FirstRevenueApp.controller('AdminController', [
         return '#' + this.hexify(e.r) + this.hexify(e.g) + this.hexify(e.b);
       },
       rgb2hsv: function (e, t) {
-        var o = e.r / 255, n = e.g / 255, i = e.b / 255, r = Math.min(o, n, i), s = Math.max(o, n, i), l = s - r;
-        if (t.v = s, 0 === l)
+        var o = e.r / 255, n = e.g / 255, i = e.b / 255, r = Math.min(o, n, i), s = Math.max(o, n, i), a = s - r;
+        if (t.v = s, 0 === a)
           t.h = 0, t.s = 0;
         else {
-          t.s = l / s;
-          var a = ((s - o) / 6 + l / 2) / l, c = ((s - n) / 6 + l / 2) / l, u = ((s - i) / 6 + l / 2) / l;
-          o === s ? t.h = u - c : n === s ? t.h = 1 / 3 + a - u : i === s && (t.h = 2 / 3 + c - a), 0 > t.h && (t.h += 1), t.h > 1 && (t.h -= 1);
+          t.s = a / s;
+          var l = ((s - o) / 6 + a / 2) / a, c = ((s - n) / 6 + a / 2) / a, u = ((s - i) / 6 + a / 2) / a;
+          o === s ? t.h = u - c : n === s ? t.h = 1 / 3 + l - u : i === s && (t.h = 2 / 3 + c - l), 0 > t.h && (t.h += 1), t.h > 1 && (t.h -= 1);
         }
         t.h *= 360, t.s *= 100, t.v *= 100;
       },
@@ -2718,8 +2781,8 @@ FirstRevenueApp.controller('AdminController', [
         if (0 === n)
           t.r = 255 * i, t.g = 255 * i, t.b = 255 * i;
         else {
-          var r, s, l, a = 6 * o, c = Math.floor(a), u = i * (1 - n), d = i * (1 - n * (a - c)), f = i * (1 - n * (1 - (a - c)));
-          0 === c ? (r = i, s = f, l = u) : 1 === c ? (r = d, s = i, l = u) : 2 === c ? (r = u, s = i, l = f) : 3 === c ? (r = u, s = d, l = i) : 4 === c ? (r = f, s = u, l = i) : (r = i, s = u, l = d), t.r = 255 * r, t.g = 255 * s, t.b = 255 * l;
+          var r, s, a, l = 6 * o, c = Math.floor(l), u = i * (1 - n), d = i * (1 - n * (l - c)), p = i * (1 - n * (1 - (l - c)));
+          0 === c ? (r = i, s = p, a = u) : 1 === c ? (r = d, s = i, a = u) : 2 === c ? (r = u, s = i, a = p) : 3 === c ? (r = u, s = d, a = i) : 4 === c ? (r = p, s = u, a = i) : (r = i, s = u, a = d), t.r = 255 * r, t.g = 255 * s, t.b = 255 * a;
         }
       }
     };
@@ -2914,12 +2977,12 @@ FirstRevenueApp.controller('AdminController', [
   '$location',
   'Firebase',
   'Auth',
-  'User',
+  'Myself',
   '$q',
   function (e, t, o, n, i, r, s) {
-    var l = 'SignUpPromises';
-    console.log(l, 'Service launched');
-    var a = [
+    var a = 'SignUpPromises';
+    console.log(a, 'Service launched');
+    var l = [
         'facebook',
         'twitter',
         'github'
@@ -2929,7 +2992,7 @@ FirstRevenueApp.controller('AdminController', [
         'gplus',
         'gmail',
         'gcontacts'
-      ], u = {
+      ], u = r.mp, d = {
         deferred: null,
         fb: n,
         fbAuthClient: null,
@@ -2964,148 +3027,149 @@ FirstRevenueApp.controller('AdminController', [
           }
         },
         userId: null,
-        userRecord: r.record,
         res: t,
         init: function () {
-          console.log(l, 'init'), u.fb.clearSession(), u.fbAuthClient = new FirebaseAuthClient(u.fb.rootRef, u.cbVerify);
-          var e = r.getLastUser();
-          e && (console.log(l, 'init attaching the last user firebaseSessionKey=', e.firebaseSessionKey), u.cbVerify(null, e));
+          console.log(a, 'init'), d.fb.clearSession(), d.fbAuthClient = new FirebaseAuthClient(d.fb.rootRef, d.cbVerify);
+          var e = u.getLastUser();
+          e && (console.log(a, 'init attaching the last user firebaseSessionKey=', e.firebaseSessionKey), d.cbVerify(null, e));
         },
         attach: function (e, t, o) {
-          console.log(l, 'attach service=', e);
-          var n = r.credentials[e];
+          console.log(a, 'attach service=', e);
+          var n = u.credentials[e];
           if (n && n.detached)
-            console.log(l, 'attach re-attach service=', e), n.detached = !1;
-          else if (r.isSameUser(e))
-            console.log(l, 'attach same user found for service=', e), u.cbVerify(null, r.getLastUser());
+            console.log(a, 'attach re-attach service=', e), n.detached = !1;
+          else if (u.isSameUser(e))
+            console.log(a, 'attach same user found for service=', e), d.cbVerify(null, u.getLastUser());
           else if ('persona' === e)
-            u.personaLogin();
+            d.personaLogin();
           else if ('password' === e)
-            u.sendAuthRequest('/auth/firebase', {
+            d.sendAuthRequest('/auth/firebase', {
               email: t,
               password: o
             });
-          else if (_.contains(a, e)) {
-            var s = u.providers[e].scope, d = { rememberMe: !0 };
-            s && (d.scope = s), u.fbAuthClient.launchAuthWindow(e, d, u.cbVerify3);
+          else if (_.contains(l, e)) {
+            var r = d.providers[e].scope, s = { rememberMe: !0 };
+            r && (s.scope = r), d.fbAuthClient.launchAuthWindow(e, s, d.cbVerify3);
           } else
-            _.contains(c, e) && i.launchSinglyAuth(e, u.cbVerify);
+            _.contains(c, e) && i.launchSinglyAuth(e, d.cbVerify);
         },
         personaLogin: function () {
-          var e = u.handlePersonaResponse;
-          console.log(l, 'personaLogin'), navigator.id.watch({
+          var e = d.handlePersonaResponse;
+          console.log(a, 'personaLogin'), navigator.id.watch({
             onlogin: function (t) {
-              console.log(l, 'personaLogin onlogin assertion=', t), e(t);
+              console.log(a, 'personaLogin onlogin assertion=', t), e(t);
             },
             onlogout: function () {
-              console.log(l, 'personaLogin onlogout');
+              console.log(a, 'personaLogin onlogout');
             }
           }), navigator.id.request({
             oncancel: function () {
-              console.log(l, 'personaLogin oncancel'), e(null);
+              console.log(a, 'personaLogin oncancel'), e(null);
             }
           });
         },
         handlePersonaResponse: function (e) {
-          console.log(l, 'handlePersonaResponse authResponse=', e), null === e ? u.cbVerify(u.fbAuthClient.formatError({
+          console.log(a, 'handlePersonaResponse authResponse=', e), null === e ? d.cbVerify(d.fbAuthClient.formatError({
             code: 'UNKNOWN_ERROR',
             message: 'User denied authentication request or an error occurred.'
-          })) : u.sendAuthRequest('/auth/persona/authenticate', { assertion: e });
+          })) : d.sendAuthRequest('/auth/persona/authenticate', { assertion: e });
         },
         sendAuthRequest: function (e, t) {
-          console.log(l, 'sendAuthRequest url=', e, 'json=', t), u.fbAuthClient.jsonp(e, t, function (e, t) {
-            if (console.log(l, 'sendAuthRequest jsonp callback error=', e, 'response=', t), e || !t.token)
-              u.cbVerify(u.fbAuthClient.formatError(e));
+          console.log(a, 'sendAuthRequest url=', e, 'json=', t), d.fbAuthClient.jsonp(e, t, function (e, t) {
+            if (console.log(a, 'sendAuthRequest jsonp callback error=', e, 'response=', t), e || !t.token)
+              d.cbVerify(d.fbAuthClient.formatError(e));
             else {
               var o = t.user;
-              o.firebaseAuthToken = o.firebaseAuthToken || t.token, u.cbVerify(null, o);
+              o.firebaseAuthToken = o.firebaseAuthToken || t.token, d.cbVerify(null, o);
             }
           });
         },
         cbVerify3: function (e, t, o) {
-          o.firebaseAuthToken = t, u.cbVerify(e, o);
+          o.firebaseAuthToken = t, d.cbVerify(e, o);
         },
         cbVerify: function (e, t) {
-          console.log(l, 'cbVerify', 'SignUp=', u, ' error=', e, 'user=', t), e ? (console.log(l, 'cbVerify', 'launchError=', e), r.authFailed = !0) : t ? (console.log(l, 'cbVerify', 'sessionKey=', t.sessionKey), t.sessionKey ? t.firebaseSessionKey = t.sessionKey || null : t.sessionKey = t.firebaseSessionKey || null, u.fb.rootRef.auth(t.firebaseAuthToken, function (e) {
+          console.log(a, 'cbVerify', 'SignUp=', d, ' error=', e, 'user=', t), e ? (console.log(a, 'cbVerify', 'launchError=', e), r.authFailed = !0) : t ? (console.log(a, 'cbVerify', 'sessionKey=', t.sessionKey), t.sessionKey ? t.firebaseSessionKey = t.sessionKey || null : t.sessionKey = t.firebaseSessionKey || null, d.fb.rootRef.auth(t.firebaseAuthToken, function (e) {
             if (e)
-              console.log(l, 'cbVerify', 'authError=', e);
+              console.log(a, 'cbVerify', 'authError=', e);
             else {
-              console.log(l, 'cbVerify', 'user.provider=', t.provider);
-              var o = u.fb.rootRef.child('usermap'), n = o.child(t.provider).child(t.id);
+              console.log(a, 'cbVerify', 'user.provider=', t.provider);
+              var o = d.fb.rootRef.child('usermap'), n = o.child(t.provider).child(t.id);
               n.once('value', function (e) {
-                console.log(l, 'cbVerify', 'mapUserRef once value=', e.val()), u.checkExisting(e.val(), t);
+                console.log(a, 'cbVerify', 'mapUserRef once value=', e.val()), d.checkExisting(e.val(), t);
               });
             }
-          })) : (console.log(l, 'cbVerify', 'null user'), r.authFailed = !0);
+          })) : (console.log(a, 'cbVerify', 'null user'), r.authFailed = !0);
         },
         checkExisting: function (t, o) {
-          if (console.log(l, 'checkExisting', 'value=', t, 'fbUser=', o), t) {
-            console.log(l, 'checkExisting', 'found usermap for user', o.provider + '/' + o.id, 'value=', t);
-            var n = u.fb.rootRef.child('users').child(t);
+          if (console.log(a, 'checkExisting', 'value=', t, 'fbUser=', o), t) {
+            console.log(a, 'checkExisting', 'found usermap for user', o.provider + '/' + o.id, 'value=', t);
+            var n = d.fb.rootRef.child('users').child(t);
             n.once('value', function (t) {
               var n = t.val();
-              console.log(l, 'checkExisting', 'userRecordRef once value userRecord=', n), n ? e(function () {
-                r.retrieveUserRecord(n, o);
-              }) : r.buildServiceCredentials(o);
+              console.log(a, 'checkExisting', 'userRecordRef once value userRecord=', n), n ? e(function () {
+                u.retrieveUserRecord(n, o);
+              }) : u.buildServiceCredentials(o);
             }, function (e) {
-              console.log(l, 'checkExisting', 'userRecordRef once value error=', e);
+              console.log(a, 'checkExisting', 'userRecordRef once value error=', e);
             });
           } else
-            console.log(l, 'checkExisting', 'value null - build credentials'), r.buildServiceCredentials(o);
+            console.log(a, 'checkExisting', 'value null - build credentials'), u.buildServiceCredentials(o);
         },
         doneCred: function () {
-          console.log(l, 'doneCred primaryToken=', u.primaryToken), u.primaryToken && u.fb.rootRef.auth(u.primaryToken, function (t) {
-            t ? console.log(l, 'doneCred', 'user account set auth failed error=', t) : u.recRef.set(r.record, function (t) {
+          console.log(a, 'doneCred primaryToken=', d.primaryToken), d.primaryToken && d.fb.rootRef.auth(d.primaryToken, function (t) {
+            t ? console.log(a, 'doneCred', 'user account set auth failed error=', t) : d.recRef.set(r.mp.user, function (t) {
               e(function () {
                 if (t)
-                  console.log(l, 'doneCred user account set error=', t);
+                  console.log(a, 'doneCred user account set error=', t);
                 else {
-                  console.log(l, 'doneCred user account record created');
-                  var e = r.record.primary, o = r.record.accounts[e].authentic;
-                  'singly' === o.provider ? console.log(l, 'doneCred provider singly authUser=', o) : (console.log(l, 'doneCred openSession authUser=', o), o.sessionKey = o.firebaseSessionKey, u.fbAuthClient.saveSession(u.primaryToken, o), r.authenticated = !0), u.fb.openSession(u.recRef.name(), o);
+                  console.log(a, 'doneCred user account record created');
+                  var e = r.mp.user.primary, o = r.mp.user.accounts[e].authentic;
+                  'singly' === o.provider ? console.log(a, 'doneCred provider singly authUser=', o) : (console.log(a, 'doneCred openSession authUser=', o), o.sessionKey = o.firebaseSessionKey, d.fbAuthClient.saveSession(d.primaryToken, o), r.authenticated = !0), d.fb.openSession(d.recRef.name(), o), r.mp.user = null;
                 }
               });
             });
           });
         },
         signUp: function () {
-          u.mapRef = u.fb.rootRef.child('usermap'), u.accRef = u.fb.rootRef.child('users'), u.recRef = u.accRef.push(), u.userId = u.recRef.name(), u.loadCred(r.firstCred).then(u.recurseCred);
+          d.mapRef = d.fb.rootRef.child('usermap'), d.accRef = d.fb.rootRef.child('users'), d.recRef = d.accRef.push(), d.userId = d.recRef.name(), d.loadCred(u.firstCred).then(d.recurseCred);
         },
         loadCred: function (e) {
-          console.log(l, 'loadCred', 'cred=', e);
+          console.log(a, 'loadCred', 'cred=', e);
           var t = s.defer();
-          return u.processCred(e, t), t.promise;
+          return d.processCred(e, t), t.promise;
         },
         recurseCred: function (e) {
-          console.log(l, 'recurseCred', 'cred=', e), e ? u.loadCred(e).then(u.recurseCred) : u.doneCred();
+          console.log(a, 'recurseCred', 'cred=', e), e ? d.loadCred(e).then(d.recurseCred) : d.doneCred();
         },
         processCred: function (t, o) {
-          console.log(l, 'processCred', 'cred=', t, 'deferred=', o);
+          console.log(a, 'processCred', 'cred=', t, 'deferred=', o);
           var n = t.profile;
-          u.primaryToken || (u.primaryToken = t.token), r.storeAccount(n, t), console.log(l, 'processCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
-          var i = u.mapRef.child(n.provider).child(n.id);
-          u.fb.rootRef.auth(t.token, function (n) {
-            n ? 'EXPIRED_TOKEN' === n.code ? console.log(l, 'processCred error=', n, 'Processing expired token') : (console.log(l, 'processCred', 'user map set auth failed error=', n), e(function () {
+          d.primaryToken || (d.primaryToken = t.token), u.storeAccount(n, t), console.log(a, 'processCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
+          var i = d.mapRef.child(n.provider).child(n.id);
+          d.fb.rootRef.auth(t.token, function (n) {
+            n ? 'EXPIRED_TOKEN' === n.code ? console.log(a, 'processCred error=', n, 'Processing expired token') : (console.log(a, 'processCred', 'user map set auth failed error=', n), e(function () {
               o.reject(n);
-            })) : i && (console.log(l, 'processCred', 'setUserMap mapUserRef found, userId=', u.userId), i.set(u.userId, function (n) {
-              n ? (console.log(l, 'processCred user map set error=', n), e(function () {
+            })) : i && (console.log(a, 'processCred', 'setUserMap mapUserRef found, userId=', d.userId), i.set(d.userId, function (n) {
+              n ? (console.log(a, 'processCred user map set error=', n), e(function () {
                 o.reject(n);
-              })) : (console.log(l, 'processCred user map record created, cred.next=', t.next), e(function () {
+              })) : (console.log(a, 'processCred user map record created, cred.next=', t.next), e(function () {
                 o.resolve(t.next);
               }));
             }));
           });
         }
       };
-    return u;
+    return d;
   }
 ]), FirstRevenueApp.factory('Singly', [
+  '$rootScope',
+  '$timeout',
   '$resource',
   'JWT',
-  function (e, t) {
-    var o = 'Singly';
-    console.log(o, 'service launched');
-    var n = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=700,height=375', i = 'https://api.singly.com/services/:service/:endpoint?limit=:limit&access_token=:token', r = 'https://api.singly.com/profile?access_token=:token', s = {
+  function (e, t, o, n) {
+    var i = 'Singly';
+    console.log(i, 'service launched');
+    var r = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=700,height=375', s = 'https://api.singly.com/services/:service/:endpoint?limit=:limit&access_token=:token', a = 'https://api.singly.com/profile?access_token=:token', l = {
         gmail: 'contacts',
         gcontacts: 'contacts',
         google: 'self',
@@ -3116,90 +3180,90 @@ FirstRevenueApp.controller('AdminController', [
         github: 'following',
         yammer: 'users',
         meetup: 'groups'
-      }, l = {
+      }, c = {
         clientId: CONFIG_1ST_REVENUE.singlyClientId,
         accessToken: null,
         data: null,
         logoff: function () {
-          l.accessToken = null;
+          c.accessToken = null;
         },
-        launchAuth: function (e, i, r) {
-          console.log(o, 'launchAuth service=', e);
-          var a = window.location.origin || window.location.protocol + '//' + window.location.host, c = a + window.location.pathname + 'views/', u = {
-              client_id: l.clientId,
-              redirect_uri: c + 'SinglyRedirect.html',
+        launchAuth: function (e, t, o) {
+          console.log(i, 'launchAuth service=', e);
+          var s = window.location.origin || window.location.protocol + '//' + window.location.host, a = s + window.location.pathname + 'views/', u = {
+              client_id: c.clientId,
+              redirect_uri: a + 'SinglyRedirect.html',
               service: e,
               response_type: 'token'
             };
-          l.accessToken && (u.access_token = l.accessToken), 'linkedin' === e ? u.scope = 'r_basicprofile r_emailaddress r_network w_messages' : 'gplus' === e && (u.scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'), console.log(o, 'Opening WinChan params=', u), WinChan.open({
-            url: c + 'SinglyLaunch.html',
-            relay_url: c + 'WinChanRelay.html',
-            window_features: n,
+          c.accessToken && (u.access_token = c.accessToken), 'linkedin' === e ? u.scope = 'r_basicprofile r_emailaddress r_network w_messages' : 'gplus' === e && (u.scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'), console.log(i, 'Opening WinChan params=', u), WinChan.open({
+            url: a + 'SinglyLaunch.html',
+            relay_url: a + 'WinChanRelay.html',
+            window_features: r,
             params: u
-          }, function (n, a) {
-            if (console.log(o, 'launchSinglyAuth', 'error=', n, 'response=', a), n)
-              console.log(o, 'launchSinglyAuth', 'error=', n);
+          }, function (r, s) {
+            if (console.log(i, 'launchSinglyAuth', 'error=', r, 'response=', s), r)
+              console.log(i, 'launchSinglyAuth', 'error=', r);
             else {
-              console.log(o, 'launchSinglyAuth', 'response=', a), l.accessToken = a.access_token;
-              var c = t.decodeJWT(a.firebase);
-              console.log(o, 'launchSinglyAuth', 'singlyFirebase=', c), l.getProfile(a.access_token, function (t) {
-                console.log(o, 'launchSinglyAuth', 'Profile.get p=', t), i.auth(a.firebase, function (n, i) {
-                  n ? console.log(o, 'Login Failed!', n) : (console.log(o, 'Login Succeeded! account=', i), l.processProfile(e, a, t, i, r));
+              console.log(i, 'launchSinglyAuth', 'response=', s), c.accessToken = s.access_token;
+              var a = n.decodeJWT(s.firebase);
+              console.log(i, 'launchSinglyAuth', 'singlyFirebase=', a), c.getProfile(s.access_token, function (n) {
+                console.log(i, 'launchSinglyAuth', 'Profile.get p=', n), t.auth(s.firebase, function (t, r) {
+                  t ? console.log(i, 'Login Failed!', t) : (console.log(i, 'Login Succeeded! account=', r), c.processProfile(e, s, n, r, o));
                 });
-              }), l.getData(e, a.access_token, s[e], function (e) {
-                console.log(o, 'launchAuth data=', e), _.each(e, function (e) {
-                  console.log(o, 'launchAuth getData element=', e);
+              }), c.getData(e, s.access_token, l[e], function (e) {
+                console.log(i, 'launchAuth data=', e), _.each(e, function (e) {
+                  console.log(i, 'launchAuth getData element=', e);
                 });
               }, function (e) {
-                console.log(o, 'launchAuth getData error=', e);
+                console.log(i, 'launchAuth getData error=', e);
               });
             }
           });
         },
         getProfile: function (t, n) {
-          console.log(o, 'getProfile token=', t);
-          var i = e(r, { token: t });
-          console.log(o, 'getProfile profileURL=', r), i.get(n, l.requestError);
+          console.log(i, 'getProfile token=', t);
+          var r = o(a, { token: t });
+          console.log(i, 'getProfile profileURL=', a), r.get(n, c.requestError), e.$$phase || e.$apply();
         },
-        processProfile: function (e, t, n, i, r) {
-          var s = CryptoJS.MD5(t.firebase).toString(CryptoJS.enc.Hex), l = {
+        processProfile: function (e, t, o, n, r) {
+          var s = CryptoJS.MD5(t.firebase).toString(CryptoJS.enc.Hex), a = {
               provider: 'singly',
               token: t.access_token,
               firebaseAuthToken: t.firebase,
               sessionKey: s,
-              id: i.auth.account,
+              id: n.auth.account,
               service: e,
-              expires: i.expires,
-              name: n.name || null,
-              email: n.email || null,
-              url: n.url || null,
-              handle: n.handle || null,
-              thumbnail_url: n.thumbnail_url || null,
-              services: n.services || null
+              expires: n.expires,
+              name: o.name || null,
+              email: o.email || null,
+              url: o.url || null,
+              handle: o.handle || null,
+              thumbnail_url: o.thumbnail_url || null,
+              services: o.services || null
             };
-          console.log(o, 'processProfile acc=', l), r(null, l);
+          console.log(i, 'processProfile acc=', a), r(null, a);
         },
-        getData: function (t, n, r, s) {
-          console.log(o, 'getData service=', t, 'token=', n, 'endpoint=', r);
-          var a = s || l.processData, c = e(i, {
+        getData: function (t, n, r, a, l) {
+          console.log(i, 'getData service=', t, 'token=', n, 'endpoint=', r);
+          var u = a || c.processData, d = o(s, {
               service: t,
               token: n,
               endpoint: r,
               limit: 20
             });
-          l.data = c.query(a, l.requestError);
+          c.data = d.query(u, l || c.requestError), e.$$phase || e.$apply();
         },
         processData: function () {
-          _.each(l.data, l.processElement);
+          _.each(c.data, c.processElement);
         },
         processElement: function (e) {
-          console.log(o, 'processElement element=', e);
+          console.log(i, 'processElement element=', e);
         },
         requestError: function (e) {
-          console.log(o, 'requestError error=', e);
+          console.log(i, 'requestError error=', e);
         }
       };
-    return l;
+    return c;
   }
 ]), FirstRevenueApp.factory('TagCatalog', [
   'Database',
@@ -3247,7 +3311,7 @@ FirstRevenueApp.controller('AdminController', [
   'LinkedIn',
   'GPlus',
   'GContacts',
-  function (e, t, o, n, i, r, s, l, a) {
+  function (e, t, o, n, i, r, s, a, l) {
     var c = 'User';
     console.log(c, 'service launched');
     var u = {
@@ -3267,7 +3331,7 @@ FirstRevenueApp.controller('AdminController', [
         accounts: {},
         models: {},
         contacts: {}
-      }, f = {
+      }, p = {
         userId: null,
         account: null,
         record: _.clone(d),
@@ -3280,47 +3344,47 @@ FirstRevenueApp.controller('AdminController', [
         authFailed: !1,
         error: null,
         isMyself: function (e) {
-          return e === f.userId;
+          return e === p.userId;
         },
         setPrimary: function (e) {
-          f.record.primary = e.profile.key;
+          p.record.primary = e.profile.key;
         },
         isPrimary: function (e) {
-          return f.record.primary === e.profile.key;
+          return p.record.primary === e.profile.key;
         },
         clearLastUser: function () {
-          f.lastUser = null;
+          p.lastUser = null;
         },
         getLastUser: function () {
-          return f.lastUser;
+          return p.lastUser;
         },
         setLastUser: function (e) {
-          f.lastUser = e;
+          p.lastUser = e;
         },
         isSameUser: function (e) {
-          var t = f.lastUser ? new o(f.lastUser) : null;
+          var t = p.lastUser ? new o(p.lastUser) : null;
           return t && t.service === e;
         },
         logoff: function () {
-          console.log(c, 'logoff'), f.userId = null, f.account = null, f.record = _.clone(d), f.credentials = {}, f.firstCred = null, f.lastCred = null, f.authenticated = !1, n.logoff();
+          console.log(c, 'logoff'), p.userId = null, p.account = null, p.record = _.clone(d), p.credentials = {}, p.firstCred = null, p.lastCred = null, p.authenticated = !1, n.logoff();
         },
         authError: function (e) {
-          console.log(c, 'authError error=', e), f.authenticated = !1, f.authFailed = !0, e && e.code && (f.error = e, t.add({ text: 'Authentication error: ' + e.code }));
+          console.log(c, 'authError error=', e), p.authenticated = !1, p.authFailed = !0, e && e.code && (p.error = e, t.add({ text: 'Authentication error: ' + e.code }));
         },
         detach: function (e) {
           console.log(c, 'detach key=', e);
-          var t = f.credentials[e];
+          var t = p.credentials[e];
           t && (t.detached = !0);
         },
         confirmUser: function (e) {
-          console.log(c, 'confirmUser'), f.userId = e, f.authenticated = !0, f.authFailed = !1;
+          console.log(c, 'confirmUser'), p.userId = e, p.authenticated = !0, p.authFailed = !1;
         },
         buildServiceCredentials: function (t) {
           if (t.provider) {
             console.log(c, 'buildServiceCredentials', 'user added to credentials');
             var n = new o(t);
             e(function () {
-              f.storeCredential(n.service, {
+              p.storeCredential(n.service, {
                 token: t.firebaseAuthToken,
                 authentic: t,
                 profile: n
@@ -3329,10 +3393,8 @@ FirstRevenueApp.controller('AdminController', [
           }
         },
         retrieveUserRecord: function (e, t) {
-          console.log(c, 'retrieveUserRecord', 'urValue=', e, 'fbUser=', t);
-          var o = e;
-          o.primary = o.profile.provider + '-' + o.profile.id, _.each(o.accounts, function (e) {
-            f.storeCredential(e.profile.service, e, t);
+          console.log(c, 'retrieveUserRecord', 'ur=', e, 'fbUser=', t), e.primary = e.profile.provider + '-' + e.profile.id, _.each(e.accounts, function (e) {
+            p.storeCredential(e.profile.service, e, t);
           });
         },
         storeInviteCredentials: function (e) {
@@ -3348,10 +3410,10 @@ FirstRevenueApp.controller('AdminController', [
               next: null,
               detached: !1
             };
-          return f.credentials[n] = r, f.enhanceProfile(i.profile), r;
+          return p.credentials[n] = r, p.enhanceProfile(i.profile), r;
         },
         storeCredential: function (e, t, o) {
-          if (console.log(c, 'storeCredential', 'service=', e, 'account=', t), !f.credentials[e]) {
+          if (console.log(c, 'storeCredential', 'service=', e, 'account=', t), !p.credentials[e]) {
             var n = o || t.authentic, i = {
                 token: n.firebaseAuthToken,
                 authentic: n,
@@ -3359,15 +3421,15 @@ FirstRevenueApp.controller('AdminController', [
                 next: null,
                 detached: !1
               };
-            f.credentials[e] = i, f.lastCred && (f.lastCred.next = i), f.firstCred = f.firstCred || i, f.lastCred = i, f.enhanceProfile(t.profile);
+            p.credentials[e] = i, p.lastCred && (p.lastCred.next = i), p.firstCred = p.firstCred || i, p.lastCred = i, p.enhanceProfile(t.profile);
           }
         },
         enhanceProfile: function (e) {
-          _.defaults(f.record.profile, e), f.record.primary = f.record.primary || e.key, f.record.profile.ready = !0;
+          _.defaults(p.record.profile, e), p.record.primary = p.record.primary || e.key, p.record.profile.ready = !0;
         },
         storeAccount: function (e, t) {
           var o = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;
-          f.record.primary || (f.record.primary = o, f.record.profile = e), console.log(c, 'storeAccount', 'cred=', t, 'profile=', e), f.record.accounts[o] = {
+          p.record.primary || (p.record.primary = o, p.record.profile = e), console.log(c, 'storeAccount', 'cred=', t, 'profile=', e), p.record.accounts[o] = {
             active: !0,
             profile: e,
             authentic: t.authentic
@@ -3375,27 +3437,27 @@ FirstRevenueApp.controller('AdminController', [
         },
         getCredentials: function () {
           var e = {};
-          return _.each(f.credentials, function (t, o) {
+          return _.each(p.credentials, function (t, o) {
             t.detached || (e[o] = t);
           }), e;
         },
         getCredentialKeys: function () {
-          return _.keys(f.getCredentials());
+          return _.keys(p.getCredentials());
         },
         loadContacts: function (e) {
-          console.log(c, 'loadContacts accounts=', e.accounts), _.each(e.accounts, f.fetchAccount);
+          console.log(c, 'loadContacts accounts=', e.accounts), _.each(e.accounts, p.fetchAccount);
         },
         fetchAccount: function (e) {
           console.log(c, 'fetchAccount account=', e);
           var t = e.authentic.accessToken;
           if ('singly' === e.profile.provider) {
-            var o = e.profile.service, d = e.authentic.token, p = u[o] || 'self', h = e.authentic.expires, g = new Date().getTime() / 1000;
-            console.log(c, 'fetchAccount getContacts service=', o, 'token=', d, 'expires=', h, 'currentTime=', g), h > g ? 'linkedin' === o ? s.getFriends(f, e, d) : 'gplus' === o ? l.getPeople(f, e, d) : 'gcontacts' === o ? a.getContacts(f, e, d) : n.getData(o, d, p) : console.log(c, 'fetchAccount singly expired, service=', o);
+            var o = e.profile.service, d = e.authentic.token, h = u[o] || 'self', f = e.authentic.expires, g = new Date().getTime() / 1000;
+            console.log(c, 'fetchAccount getContacts service=', o, 'token=', d, 'expires=', f, 'currentTime=', g), f > g ? 'linkedin' === o ? s.getFriends(p, e, d) : 'gplus' === o ? a.getPeople(p, e, d) : 'gcontacts' === o ? l.getContacts(p, e, d) : n.getData(o, d, h) : console.log(c, 'fetchAccount singly expired, service=', o);
           } else
-            'facebook' === e.profile.provider ? i.getFriends(f, e, t) : 'twitter' === e.profile.provider && r.getFriends(f, e, t);
+            'facebook' === e.profile.provider ? i.getFriends(p, e, t) : 'twitter' === e.profile.provider && r.getFriends(p, e, t);
         }
       };
-    return f;
+    return p;
   }
 ]), FirstRevenueApp.factory('Zoom', [
   'Popup',
@@ -3585,280 +3647,36 @@ FirstRevenueApp.controller('AdminController', [
       t.image = t.image || null, console.log('TProfile fbUser=', e, 'profile=', t);
     };
     return e;
-  }]), FirstRevenueApp.factory('FirebaseEvents', [
-  '$timeout',
-  'Database',
-  'TProfile',
-  function (e, t, o) {
-    var n = 'scripts/services/firebase/FirebaseEvents', i = {
-        fb: null,
-        rootRef: null,
-        presenceRef: null,
-        db: t,
-        userId: null,
-        init: function (e, t) {
-          console.log(n, 'init', 'fb=', e, 'rootRef=', t, 'db=', i.db), i.fb = e, i.rootRef = t;
-        },
-        connTracking: function () {
-          var e = i.rootRef.child('.info/connected');
-          e.on('value', function (t) {
-            i.fb.connected = t.val(), i.fb.connStatus = i.fb.connected ? 'Connected' : 'Offline', i.fb.connected && i.presenceRef && i.presenceRef.set(!0), console.log(n, 'connTracking connRef .info/connected connRef=', e, 'snap=', t, 'fb.connected=', i.fb.connected, 'fb.connStatus=', i.fb.connStatus);
-          });
-        },
-        userTracking: function (e, t) {
-          console.log(n, 'userTracking userId=', e, 'fbUser=', t), i.userId = e;
-          var r = t.provider + '-' + t.id;
-          i.presenceRef = i.rootRef.child('presence').child(e), i.presenceRef.onDisconnect().set(!1), i.presenceRef.set(!0);
-          var s = i.rootRef.child('users').child(e), l = s.child('accounts').child(r);
-          l.set({
-            active: !0,
-            authentic: t,
-            profile: new o(t)
-          }, function (e) {
-            e && console.log(n, 'userTracking account set error=', e);
-          }), s.once('value', i.myselfValue, i.myselfError);
-          var a = i.rootRef.child('admins').child(e);
-          a.on('value', i.adminValue, i.adminError);
-        },
-        myselfValue: function (e) {
-          console.log(n, 'myselfValue snap.val()=', e.val()), i.fb.log({
-            op: 'setMyself',
-            path: '/users/' + i.userId
-          }), e.ref().child('accounts').on('value', i.userAccountValue), e.ref().child('models').on('value', i.privateTree), i.rootRef.child('public').on('value', i.publicTree);
-        },
-        myselfError: function (e) {
-          console.log(n, 'myselfError error=', e);
-        },
-        adminValue: function (e) {
-          var t = e.val();
-          console.log(n, 'adminValue av=', t), null !== t && (console.log(n, 'adminValue user has admin privileges'), i.fb.setAdmin(!0), i.fb.log({
-            op: 'adminConnected',
-            path: '/admins/' + i.userId,
-            value: t
-          }));
-        },
-        adminError: function (e) {
-          console.log(n, 'adminError error=', e);
-        },
-        userAccountValue: function (e) {
-          console.log(n, 'userAccountValue'), _.each(e.val(), function (e) {
-            console.log(n, 'userAccountValue account=', e), i.fb.user.record.accounts[e.profile.key] = e;
-          });
-        },
-        privateTree: function (e) {
-          i.loadModelTree('private', e);
-        },
-        publicTree: function (e) {
-          i.loadModelTree('public', e);
-        },
-        loadModelTree: function (t, o) {
-          var r = o.val();
-          console.log(n, 'loadModelTree publicFlag=', t, 'tree=', r), e(function () {
-            i.db.modelsLoaded = !0;
-          }), _.each(r, function (e, o) {
-            if (console.log(n, 'loadModelTree key=', o, 'pathStr=', e), '/' === e[0]) {
-              var r = e.split('/'), s = r[1], l = r[2], a = r[3];
-              if (console.log(n, 'loadModelTree org=', s, 'repo=', l, 'model=', a), s && l && a) {
-                var c = i.rootRef.child('orgs').child(s).child('repos').child(l).child('models').child(a);
-                console.log(n, 'loadModelTree', 'fbe.db.modelScope=', i.db.modelScope, 'pathStr=', e, 'modelRef=', c), i.db.modelScope[e] || (console.log(n, 'loadModelTree on model props'), c.child('fields').on('value', i.modelFields), c.child('users').on('value', i.modelUsers), i.db.modelScope[e] = t);
-              }
-            }
-          });
-        },
-        modelFields: function (e) {
-          e.forEach(function (e) {
-            i.modelFieldValue(e);
-          });
-        },
-        modelOldFieldValue: function (e) {
-          console.log(n, 'modelOldFieldValue', 'modelFieldSnap.name()=', e.name());
-          var t = e.val();
-          if (t) {
-            var o = e.ref(), r = i.getModelPath(o.parent());
-            r.fieldId = e.name();
-            var s = o.parent().child('fields').child(r.fieldId);
-            s.set(t), o.remove();
-          }
-        },
-        modelFieldValue: function (t) {
-          console.log(n, 'modelFieldValue', 'modelFieldSnap.name()=', t.name());
-          var o = t.val();
-          if (o) {
-            var r = t.ref(), s = i.getModelPath(r.parent().parent());
-            s.fieldId = t.name(), e(function () {
-              i.db.updateModel.call(i.db, s, o);
-            }, 0);
-          }
-        },
-        modelProfileValue: function (t) {
-          var o = t.ref().parent().name();
-          console.log(n, 'modelProfileValue', 'userId=', o, 'profileSnap.val(()=', t.val()), e(function () {
-            i.db.addUserProfile.call(i.db, o, t.val());
-          }, 0);
-        },
-        presenceValue: function (t) {
-          e(function () {
-            i.db.monitorPresence.call(i.db, t.name(), t.val());
-          }, 0);
-        },
-        openModel: function (e) {
-          console.log(n, 'openModel', 'modelRef.name()=', e.name());
-          var t = e.child('stickers');
-          t.on('child_added', i.stAdded), t.on('child_removed', i.stRemoved);
-        },
-        stAdded: function (e) {
-          console.log(n, 'stAdded', 'stSnap.name()=', e.name()), e.ref().on('value', i.stValue);
-        },
-        stRemoved: function (e) {
-          console.log(n, 'stRemoved', 'oldStSnap=', e), i.db.deleteSticker.call(i.db, i.getStPath(e)), e.ref().off('value', i.stValue);
-        },
-        stValue: function (e) {
-          console.log(n, 'stValue', 'stSnap.name()=', e.name()), e.val() && i.db.refreshSticker.call(i.db, i.getStPath(e));
-        },
-        getStPath: function (e) {
-          var t = e.ref(), o = t.parent().parent(), n = i.getModelPath(o);
-          return n.id = t.name(), n.value = e.val(), n;
-        }
-      };
-    return i;
-  }
-]), FirstRevenueApp.factory('Sync', [
-  '$location',
-  'angularFire',
-  'SyncModels',
-  function (e, t, o) {
-    var n = 'services/Sync', i = o, r = {
-        rootRef: null,
-        userId: null,
-        modelsLoaded: !1,
-        originalPath: null,
-        masterScope: null,
-        setMasterScope: function (t) {
-          r.masterScope = t, r.originalPath = r.originalPath || e.path();
-        },
-        syncUser: function (e, o) {
-          r.rootRef = e, r.userId = o, r.userRef = e.child('users').child(o), i.init(e, r.masterScope);
-          var n = '' + r.userRef;
-          r.masterScope.myself = t(n, r.masterScope, 'myself'), r.masterScope.myself.then(r.userDataLoaded, r.userDataFailed), r.connTracking(e, o);
-        },
-        userDataLoaded: function (t) {
-          console.log(n, 'userDataLoaded myself=', t), i.collectModels(r.userRef.child('models')), i.collectModels(r.rootRef.child('public')), r.modelsLoaded = !0, e.path(r.originalPath || '/repo');
-        },
-        userDataFailed: function (t) {
-          console.log(n, 'userDataFailed error=', t), e.path('/entry');
-        },
-        connTracking: function (e, t) {
-          var o = r.rootRef.child('presence').child(t), i = r.rootRef.child('.info/connected');
-          o.onDisconnect().set(!1), i.on('value', function (e) {
-            r.connected = e.val(), r.connected && o.set(!0), console.log(n, 'connTracking connRef .info/connected connRef=', i, 'sync.connected=', r.connected, 'sync.connStatus=', r.connStatus());
-          });
-        },
-        connStatus: function () {
-          return r.connected ? 'Connected' : 'Offline';
-        },
-        modelCount: function () {
-          return _.size(r.masterScope.models);
-        },
-        getModelData: function (e, t) {
-          return r.masterScope[e + (t ? '_' + t : '')];
-        }
-      };
-    return r;
-  }
-]), FirstRevenueApp.factory('SyncModels', [
-  'angularFire',
-  function (e) {
-    var t = 'services/SyncModels', o = {
-        rootRef: null,
-        masterScope: null,
-        init: function (e, t) {
-          o.rootRef = e, o.masterScope = t;
-        },
-        collectModels: function (e) {
-          e.on('child_added', o.modelAdded), e.on('child_changed', o.modelChanged), e.on('child_removed', o.modelRemoved);
-        },
-        modelAdded: function (e) {
-          var t = e.val();
-          'public' === e.ref().parent().name() ? o.loadPublicModels(t) : o.loadModel(t, !1);
-        },
-        loadPublicModels: function (e) {
-          if (console.log(t, 'loadPublicModels modelPathStr=', e), '/' === e[0]) {
-            var n = e.split('/'), i = n[1], r = n[2], s = n[3];
-            s ? o.loadModel(e, !0) : r ? o.loadPublicRepo(i, r) : i && o.loadPublicOrg(i);
-          }
-        },
-        loadPublicOrg: function (e) {
-          var t = o.rootRef.child('orgs').child(e).child('repos');
-          t.on('child_added', o.publicRepoAdded);
-        },
-        publicRepoAdded: function (e) {
-          var t = e.name(), n = e.ref(), i = n.parent().parent().name();
-          o.loadPublicRepo(i, t);
-        },
-        loadPublicRepo: function (e, t) {
-          var n = o.rootRef.child('orgs').child(e).child('repos').child(t).child('models');
-          n.on('child_added', o.publicModelAdded);
-        },
-        publicModelAdded: function (e) {
-          var t = e.name(), n = e.ref(), i = n.parent().parent(), r = i.parent().parent(), s = i.name(), l = r.name(), a = '/' + l + '/' + s + '/' + t;
-          o.loadSingleModel(a, n, !0);
-        },
-        loadModel: function (e, n) {
-          console.log(t, 'loadModel modelPath=', e);
-          var i = e.split('/'), r = i[1], s = i[2], l = i[3];
-          if (console.log(t, 'loadModel org=', r, 'repo=', s, 'model=', l), r && s && l) {
-            var a = o.rootRef.child('orgs').child(r).child('repos').child(s).child('models').child(l);
-            o.loadSingleModel(e, a, n);
-          }
-        },
-        loadSingleModel: function (e, n, i) {
-          var r = e.replace(/[\/\s]/g, '_');
-          o.masterScope.models[r] ? console.log(t, 'loadSingleModel ignored duplicate model at path=', e) : (o.observeBranch(n, r, 'fields', i), o.observeBranch(n, r, 'users', i), o.observeBranch(n, r, 'invites', i));
-        },
-        observeBranch: function (n, i, r, s) {
-          var l = '' + n.child(r), a = i + '_' + r;
-          o.masterScope.models[i] = o.masterScope.models[i] || {
-            'public': s,
-            label: n.name()
-          };
-          var c = e(l, o.masterScope, a);
-          c.then(function (e) {
-            console.log(t, 'observeBranch loaded for part=', r, 'data=', e), o.masterScope.models[i][r] = a;
-          });
-        },
-        modelChanged: function (e) {
-          console.log(t, 'modelChanged modelPath=', e.val());
-        },
-        modelRemoved: function (e) {
-          console.log(t, 'modelRemoved modelPath=', e.val());
-        }
-      };
-    return o;
-  }
-]), FirstRevenueApp.factory('Myself', [
+  }]), FirstRevenueApp.factory('Myself', [
   '$location',
   '$timeout',
   '$route',
+  'Sync',
   'MyModels',
-  'MyContacts',
-  'MyInvites',
-  'ModelStickers',
+  'MyProfile',
   'Social',
-  function (e, t, o, n, i, r, s, l) {
+  function (e, t, o, n, i, r, s) {
     var a = 'Myself';
     console.log(a, 'service launched');
-    var c = n, u = i, d = r, f = {
+    var l = i, c = {
         rootRef: null,
         userRef: null,
         publicRef: null,
         userId: null,
-        user: null,
-        af: null,
-        afCallback: null,
-        social: l,
-        models: c.models,
-        partners: u.partners,
-        invites: d.invites,
+        provider: null,
+        providerId: null,
+        serviceId: null,
+        authenticated: !1,
+        authFailed: !1,
+        adminRole: !1,
+        error: null,
+        email: null,
+        password: null,
+        newPassword: null,
+        sync: n,
+        mp: r,
+        social: s,
+        models: l.models,
         modelsLoaded: !1,
         currentModel: null,
         sessionFound: !1,
@@ -3919,42 +3737,35 @@ FirstRevenueApp.controller('AdminController', [
             name: 'Revenue Streams'
           }
         ],
-        init: function (e, t, o) {
-          console.log(a, 'init'), f.originalPath = e, f.af = t, f.afCallback = o;
+        init: function (e) {
+          console.log(a, 'init'), c.originalPath = e;
         },
         wakeup: function (e, t, o) {
-          console.log(a, 'wakeup'), f.rootRef = e, f.userId = t, f.userRef = e.child('users').child(t), f.publicRef = e.child('public'), c.init(e, f.userRef, f.af, f.afCallback), u.init(e, f.userRef), d.init(e, f.userRef), f.afCallback && (f.userRef.off('value'), f.publicRef.off('value'), f.afCallback(f.userRef, 'af.user').then(f.collectUserData), f.afCallback(f.publicRef, 'af.public').then(f.collectPublicData)), f.connTracking(e, t), f.selectedModelId = o || null;
+          console.log(a, 'wakeup'), c.rootRef = e, c.userId = t, c.userRef = e.child('users').child(t), c.publicRef = e.child('public'), c.authenticated = !0, c.authFailed = !1, l.init(e, c.userRef), c.sync.angularFire(c.userRef, 'sync.user').then(c.collectUserData), c.sync.angularFire(c.publicRef, 'sync.public').then(c.collectPublicData), c.connTracking(e, t), c.selectedModelId = o || null;
         },
         collectUserData: function (e) {
-          console.log(a, 'wakeup userPromise resolved afUser=', e), _.each(f.af.user.models, function (e, t) {
-            f.loadModel(t, !1);
-          }), f.navigateInitialView(), u.collectPartners(f.userRef);
+          console.log(a, 'wakeup userPromise resolved syncUserReady=', e), l.collectModels(c.userRef.child('models'), !1), c.navigateInitialView();
         },
         collectPublicData: function (e) {
-          console.log(a, 'wakeup publicPromise resolved afPublic=', e), _.each(f.af.public.models, function (e, t) {
-            f.loadModel(t, !0);
-          });
-        },
-        loadModel: function (e, t) {
-          c.loadModel(e, t);
+          console.log(a, 'wakeup publicPromise resolved syncPublic=', e), l.collectModels(c.publicRef.child('models'), !0);
         },
         logoff: function () {
-          console.log(a, 'logoff'), f.userRef.off('value'), d.logoff(), u.logoff(), c.logoff(), f.userRef = null, f.userId = null, f.af.user = {};
+          console.log(a, 'logoff'), n.logoff(), l.logoff(), c.userRef = null, c.userId = null;
+        },
+        authError: function (e) {
+          console.log(a, 'authError error=', e), c.authenticated = !1, c.authFailed = !0, e && e.code && (c.error = e);
         },
         processInvite: function (e) {
-          console.log(a, 'processInvite'), f.sessionFound = e, t(function () {
+          console.log(a, 'processInvite'), c.sessionFound = e, t(function () {
             console.log(a, 'processInvite $timeout calls $route.reload()'), o.reload();
           });
         },
-        openModel: function (e) {
-          console.log(a, 'openModel', 'modelRef.name()=', e.name());
-        },
         myDataValue: function (e) {
-          f.user = e.val(), console.log(a, 'myDataValue me.user=', f.user), c.collectModels(f.userRef), c.collectModels(f.rootRef.child('public')), u.collectPartners(f.userRef), f.navigateInitialView();
+          c.user = e.val(), console.log(a, 'myDataValue me.user=', c.user), l.collectModels(c.userRef), l.collectModels(c.rootRef.child('public')), c.navigateInitialView();
         },
         navigateInitialView: function () {
           t(function () {
-            f.modelsLoaded = !0, e.path(f.selectedModelId ? '/canvas/' + f.selectedModelId : '/repo');
+            c.modelsLoaded = !0, e.path(c.selectedModelId ? '/canvas/' + c.selectedModelId : '/repo');
           });
         },
         dataCancel: function (o) {
@@ -3962,40 +3773,50 @@ FirstRevenueApp.controller('AdminController', [
             e.path('/entry');
           });
         },
+        isMyself: function (e) {
+          return e === c.userId;
+        },
         connTracking: function (e, o) {
           var n = e.child('presence').child(o), i = e.child('.info/connected');
           i.on('value', function (e) {
-            f.connected = e.val(), f.connected && t(function () {
+            c.connected = e.val(), c.connected && t(function () {
               n.set(!0), n.onDisconnect().remove();
-            }), console.log(a, 'connTracking connRef .info/connected connRef=', i, 'me.connected=', f.connected, 'me.connStatus=', f.connStatus());
+            }), console.log(a, 'connTracking connRef .info/connected connRef=', i, 'me.connected=', c.connected, 'me.connStatus=', c.connStatus());
           });
         },
         connStatus: function () {
-          return f.connected ? 'Connected' : 'Offline';
+          return c.connected ? 'Connected' : 'Offline';
         },
         modelCount: function () {
-          return _.size(f.af.user.models);
-        },
-        saveAllContacts: function () {
-          console.log(a, 'saveAllContacts'), _.each(f.user.accounts, function (e) {
-            u.saveContacts(e);
-          });
+          return _.size(c.sync.user.models);
         },
         getAccounts: function () {
-          return u.getAccounts();
+          return c.sync.user.accounts;
         },
         getContacts: function (e) {
-          return console.log(a, 'getContacts accountId=', e), u.getContacts(e);
+          console.log(a, 'getContacts accountId=', e);
+          var t = {};
+          return e ? c.getAccountContacts(t, c.sync.user.accounts[e]) : _.each(c.sync.user.accounts, function (e) {
+            c.getAccountContacts(t, e);
+          }), t;
+        },
+        getAccountContacts: function (e, t) {
+          if (t) {
+            var o = t.profile.service;
+            _.each(t.contacts.partners, function (t, n) {
+              e[o + '-' + n] = t;
+            });
+          }
         },
         getSocialContacts: function (e) {
-          return console.log(a, 'getContacts accountId=', e), u.getContacts(e);
+          return console.log(a, 'getContacts accountId=', e), c.getContacts(e);
         },
         toggleContact: function (e) {
-          var t = f.getContactKey(e);
-          f.currentModel.users[t] ? delete f.currentModel.users[t] : f.currentModel.users[t] = e;
+          var t = c.getContactKey(e);
+          c.currentModel.users[t] ? delete c.currentModel.users[t] : c.currentModel.users[t] = e;
         },
         wasContactSelected: function (e) {
-          return console.log(a, 'wasContactSelected contact=', e), f.currentModel ? !!f.currentModel.users[f.getContactKey(e)] : {};
+          return console.log(a, 'wasContactSelected contact=', e), c.currentModel ? !!c.currentModel.users[c.getContactKey(e)] : {};
         },
         getContactKey: function (e) {
           return e.service + '-' + e.id;
@@ -4003,245 +3824,173 @@ FirstRevenueApp.controller('AdminController', [
         inviteUsers: function () {
         },
         peerCount: function () {
-          return _.size(f.getContacts());
-        },
-        saveContacts: function (e) {
-          console.log(a, 'saveContacts account=', e, 'total=', e.contacts.total, 'refreshed=', e.contacts.refreshed, 'date=', new Date(e.contacts.refreshed).toUTCString());
-          var t = e.profile.key, o = f.userRef.child('accounts').child(t).child('contacts');
-          o.set(e.contacts);
+          return _.size(c.getContacts());
         },
         findAccount: function (e) {
-          return _.find(f.af.user.accounts, function (t) {
+          return _.find(c.sync.user.accounts, function (t) {
             return t.profile.service === e;
           }) || {};
         }
       };
-    return f;
+    return c;
   }
-]), FirstRevenueApp.factory('MyModels', [
+]), FirstRevenueApp.factory('MyProfile', [
   '$timeout',
-  'ModelUsers',
-  'Database',
-  function (e, t, o) {
-    var n = 'services/MyModels', i = {
-        rootRef: null,
-        userRef: null,
-        af: null,
-        afCallback: null,
-        mu: t,
-        db: o,
-        models: {},
-        init: function (e, t, o, r) {
-          console.log(n, 'init'), i.rootRef = e, i.userRef = t, i.af = o, i.afCallback = r, i.mu.init(e), i.db.init(i);
+  'TProfile',
+  function (e, t) {
+    var o = 'MyProfile', n = {
+        lastUser: null,
+        user: null,
+        credentials: {},
+        firstCred: null,
+        lastCred: null,
+        getLastUser: function () {
+          return n.lastUser;
         },
-        logoff: function () {
-          console.log(n, 'logoff');
-          var e = i.rootRef.child('models');
-          e.off('child_added'), e.off('child_changed'), e.off('child_removed'), _.each(i.models, function (t) {
-            var o = e.child(t.id);
-            o.child('fields').off('value'), o.child('users').off('value'), o.child('invites').off('value');
-          }), i.af.models = {}, i.af.invites = {}, i.af.peers = {};
+        setLastUser: function (e) {
+          n.lastUser = e;
         },
-        loadModel: function (e, t) {
-          console.log(n, 'loadModel modelId=', e, 'publicFlag=', t);
-          var o = i.rootRef.child('models').child(e), r = 'af.models[\'' + e + '\']';
-          console.log(n, 'loadModel modelKey=', r);
-          var s = i.afCallback && i.afCallback(o, r);
-          s && s.then(i.loadModelData);
+        clearLastUser: function () {
+          n.lastUser = null;
         },
-        loadModelData: function (e) {
-          console.log(n, 'loadModel modelPromise resolved afModel=', e), _.each(e.users, i.processModelUsers), _.each(e.invites, i.processModelInvites);
+        isSameUser: function (e) {
+          var o = n.lastUser ? new t(n.lastUser) : null;
+          return o && o.service === e;
         },
-        processModelUsers: function (e, t) {
-          if (i.af.peers[t])
-            console.log(n, 'loadModel processModelUsers peer already loaded key=', t);
-          else {
-            var o = 'af.peers[\'' + t + '\']', r = i.rootRef.child('users').child(t).child('profile'), s = i.afCallback && i.afCallback(r, o);
-            s && s.then(function (e) {
-              console.log(n, 'loadModel processModelUsers resolved afPeer=', e);
+        buildServiceCredentials: function (i) {
+          if (i.provider) {
+            console.log(o, 'buildServiceCredentials', 'user added to credentials');
+            var r = new t(i);
+            e(function () {
+              n.storeCredential(r.service, {
+                token: i.firebaseAuthToken,
+                authentic: i,
+                profile: r
+              });
             });
           }
         },
-        processModelInvites: function (e, t) {
-          if (i.af.invites[t])
-            console.log(n, 'loadModel processModelInvites invite already loaded key=', t);
+        retrieveUserRecord: function (e, t) {
+          console.log(o, 'retrieveUserRecord', 'ur=', e, 'fbUser=', t), e.primary = e.profile.provider + '-' + e.profile.id, _.each(e.accounts, function (o) {
+            n.storeCredential(e, o.profile.service, o, t);
+          }), n.user = e;
+        },
+        storeInviteCredentials: function (e) {
+          console.log(o, 'storeInviteCredentials', 'user added to credentials');
+          var i = new t(e), r = i.service, s = {
+              token: e.firebaseAuthToken,
+              authentic: e,
+              profile: i
+            }, a = {
+              token: s.authentic.firebaseAuthToken,
+              authentic: s.authentic,
+              profile: s.profile,
+              next: null,
+              detached: !1
+            };
+          return n.credentials[r] = a, n.enhanceProfile(s.profile), a;
+        },
+        storeCredential: function (e, t, i) {
+          if (console.log(o, 'storeCredential', 'service=', e, 'account=', t), !n.credentials[e]) {
+            var r = i || t.authentic, s = {
+                token: r.firebaseAuthToken,
+                authentic: r,
+                profile: t.profile,
+                next: null,
+                detached: !1
+              };
+            n.credentials[e] = s, n.lastCred && (n.lastCred.next = s), n.firstCred = n.firstCred || s, n.lastCred = s, n.enhanceProfile(t.profile);
+          }
+        },
+        enhanceProfile: function (e) {
+          n.user = n.user || {}, n.user.profile = n.user.profile || {}, _.defaults(n.user.profile, e), n.user.primary = n.user.primary || e.key, n.user.profile.ready = !0;
+        },
+        storeAccount: function (e, t) {
+          var i = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;
+          n.user.primary || (n.user.primary = i, n.user.profile = e), console.log(o, 'storeAccount', 'cred=', t, 'profile=', e), n.user.accounts = n.user.accounts || {}, n.user.accounts[i] = {
+            active: !0,
+            profile: e,
+            authentic: t.authentic
+          };
+        }
+      };
+    return n;
+  }
+]), FirstRevenueApp.factory('MyModels', [
+  '$timeout',
+  'Sync',
+  'Canvas',
+  function (e, t, o) {
+    var n = 'MyModels', i = {
+        rootRef: null,
+        userRef: null,
+        sync: t,
+        models: {},
+        init: function (e, t) {
+          console.log(n, 'init'), i.rootRef = e, i.userRef = t;
+        },
+        logoff: function () {
+          console.log(n, 'logoff');
+        },
+        collectModels: function (e, t) {
+          e.on('child_added', function (e) {
+            i.loadModel(e.name(), t);
+          }, i.modelCancel), e.on('child_removed', i.modelRemoved, i.modelCancel);
+        },
+        modelRemoved: function (o) {
+          var r = o.name();
+          console.log(n, 'modelRemoved modelId=', r);
+          var s = i.rootRef.child('models').child(r);
+          s.child('users').off('child_added', i.processModelUsers), s.child('invites').off('child_added', i.processModelInvites), e(function () {
+            t.reset(t.getScopeName(r, 'models'));
+          });
+        },
+        modelCancel: function (e) {
+          console.log(n, 'modelCancel error=', e);
+        },
+        getModelKey: function (e) {
+          return t.getScopeName(e, 'models');
+        },
+        loadModel: function (e, t) {
+          console.log(n, 'loadModel modelId=', e, 'publicFlag=', t);
+          var o = i.rootRef.child('models').child(e), r = i.getModelKey(e);
+          console.log(n, 'loadModel modelKey=', r);
+          var s = i.sync.angularFire(o, r);
+          s && s.then(i.loadModelData);
+        },
+        loadModelData: function (e) {
+          console.log(n, 'loadModelData modelPromise resolved modelReady=', e);
+          var r = e.ref.name();
+          o.modelId === r && (o.model = t.models[r]);
+          var s = e.ref.child('users');
+          s.on('child_added', i.processModelUsers);
+          var a = e.ref.child('invites');
+          a.on('child_added', i.processModelInvites);
+        },
+        processModelUsers: function (e) {
+          var t = e.name();
+          if (i.sync.peers[t])
+            console.log(n, 'processModelUsers peer already loaded key=', t);
           else {
-            var o = 'af.invites[\'' + t + '\']', r = i.rootRef.child('invites').child(t), s = i.afCallback && i.afCallback(r, o);
+            var o = 'sync.peers[\'' + t + '\']', r = i.rootRef.child('users').child(t).child('profile'), s = i.sync.angularFire(r, o);
             s && s.then(function (e) {
-              console.log(n, 'loadModel processModelInvites resolved afInvite=', e), 'accepted' === e.status && console.log(n, 'loadModel processModelInvites accepted afInvite=', e);
+              console.log(n, 'processModelUsers resolved peer=', e);
+            });
+          }
+        },
+        processModelInvites: function (e) {
+          var t = e.name();
+          if (i.sync.invites[t])
+            console.log(n, 'processModelInvites invite already loaded key=', t);
+          else {
+            var o = 'sync.invites[\'' + t + '\']', r = i.rootRef.child('invites').child(t), s = i.sync.angularFire(r, o);
+            s && s.then(function (e) {
+              console.log(n, 'processModelInvites resolved invite=', e), 'accepted' === e.status && console.log(n, 'processModelInvites accepted invite=', e);
             });
           }
         }
       };
     return i;
-  }
-]), FirstRevenueApp.factory('MyContacts', [
-  '$timeout',
-  function (e) {
-    var t = 'MyContacts', o = {
-        rootRef: null,
-        userRef: null,
-        accounts: {},
-        partners: {},
-        init: function (e, n) {
-          console.log(t, 'init'), o.rootRef = e, o.userRef = n;
-        },
-        logoff: function () {
-          console.log(t, 'logoff');
-          var e = o.userRef.child('accounts');
-          e.off('child_added'), e.off('child_removed'), _.each(o.accounts, function (t, o) {
-            var n = e.child(o).child('contacts').child('partners');
-            n.off('child_added'), n.off('child_changed'), n.off('child_removed');
-          });
-        },
-        collectPartners: function (e) {
-          console.log(t, 'collectPartners');
-          var n = e.child('accounts');
-          n.on('child_added', o.accountAdded, o.partnerCancel), n.on('child_removed', o.accountRemoved, o.partnerCancel);
-        },
-        accountAdded: function (e) {
-          o.accountId = e.name(), console.log(t, 'accountAdded accountId=', o.accountId), o.accounts[o.accountId] = angular.extend(e.val(), { allContacts: {} }), o.partners[o.accountId] = {};
-          var n = e.ref().child('contacts').child('partners');
-          n.on('child_added', o.partnerAdded, o.partnerCancel), n.on('child_changed', o.partnerAdded, o.partnerCancel), n.on('child_removed', o.partnerRemoved, o.partnerCancel);
-        },
-        partnerCancel: function (e) {
-          console.log(t, 'partnerCancel error=', e);
-        },
-        partnerAdded: function (n) {
-          var i = n.ref(), r = n.val();
-          if (console.log(t, 'partnerAdded partner=', r), 'object' == typeof r) {
-            var s = i.name(), l = i.parent().parent().parent().name(), a = n.child('name').val(), c = n.child('image').val();
-            console.log(t, 'partnerAdded for accountId=', l, 'partnerId=', s, 'name=', a, 'image=', c), e(function () {
-              var e = o.accounts[l], t = angular.extend({}, r, {
-                  id: s,
-                  service: e.profile.service,
-                  provider: e.profile.provider,
-                  selected: !1
-                });
-              'private' !== t.id && (o.partners[l][s] = t);
-            });
-          }
-        },
-        accountRemoved: function (n) {
-          console.log(t, 'accountRemoved account=', n.val()), o.accountId = n.name(), e(function () {
-            delete o.accounts[o.accountId];
-          });
-        },
-        partnerRemoved: function (n) {
-          console.log(t, 'partnerRemoved contact=', n.val());
-          var i = n.ref(), r = i.name(), s = i.parent().parent().parent().name();
-          e(function () {
-            delete o.partners[s][r];
-          });
-        },
-        getAccounts: function () {
-          return console.log(t, 'getAccounts'), o.accounts;
-        },
-        getContacts: function (e) {
-          if (console.log(t, 'getContacts accountId=', e, 'partners=', o.partners), e)
-            return o.partners[e];
-          var n = {};
-          return _.each(o.accounts, function (e, t) {
-            _.each(o.partners[t], function (e) {
-              n[e.service + '-' + e.id] = e;
-            });
-          }), n;
-        }
-      };
-    return o;
-  }
-]), FirstRevenueApp.factory('MyInvites', [
-  '$timeout',
-  function (e) {
-    var t = 'services/MyInvites', o = {
-        rootRef: null,
-        userRef: null,
-        invites: {},
-        init: function (e, n) {
-          console.log(t, 'init'), o.rootRef = e, o.userRef = n;
-        },
-        logoff: function () {
-          console.log(t, 'logoff');
-          var e = o.userRef.child('invites');
-          e.off('child_added'), e.off('child_removed'), _.each(o.invites, function (e, t) {
-            var n = o.rootRef.child('invites').child(t);
-            n.off('value');
-          });
-        },
-        collectInvites: function (e) {
-          var t = e.child('invites');
-          t.on('child_added', o.inviteAdded, o.inviteCancel), t.on('child_removed', o.inviteRemoved, o.inviteCancel);
-        },
-        inviteAdded: function (e) {
-          o.inviteId = e.name(), o.invites[o.inviteId] = e.val();
-          var t = o.rootRef.child('invites').child(o.inviteId);
-          t.on('value', o.inviteModified, o.inviteCancel);
-        },
-        inviteModified: function (e) {
-          var n = e.val();
-          console.log(t, 'inviteModified invite=', n), o.invites[n.name()].status = n.status, console.log(t, 'inviteModified status=', n.status), 'accepted' === n.status && console.log(t, 'inviteModified accepted');
-        },
-        inviteCancel: function (e) {
-          console.log(t, 'inviteCancel error=', e);
-        },
-        inviteRemoved: function (n) {
-          console.log(t, 'inviteRemoved account=', n.val()), o.inviteId = n.name();
-          var i = o.rootRef.child('invites').child(o.inviteId);
-          i.off('value'), e(function () {
-            delete o.invites[o.inviteId];
-          });
-        },
-        getInvites: function () {
-          return o.invites;
-        }
-      };
-    return o;
-  }
-]), FirstRevenueApp.factory('ModelUsers', [
-  '$timeout',
-  'Database',
-  function (e, t) {
-    var o = 'services/ModelUsers', n = {
-        rootRef: null,
-        db: t,
-        init: function (e) {
-          n.rootRef = e;
-        },
-        logoff: function () {
-        },
-        loadModelUsers: function (t) {
-          t.forEach(function (e) {
-            var t = e.name();
-            console.log(o, 'loadModelUsers memberUserId=', t), n.rootRef.child('users').child(t).child('profile').on('value', n.modelProfileValue, function () {
-              e.ref().remove(n.orphanMemberRemoved);
-            }), n.rootRef.child('presence').child(t).on('value', n.presenceValue);
-          }), e(function () {
-            n.db.updateModelUsers.call(n.db, t.ref().parent().name(), t.val());
-          }, 0);
-        },
-        orphanMemberRemoved: function (e) {
-          console.log(o, 'orphanMemberRemoved error=', e);
-        },
-        modelProfileValue: function (t) {
-          var i = t.ref().parent().name();
-          console.log(o, 'modelProfileValue', 'userId=', i, 'profileSnap.val(()=', t.val()), e(function () {
-            n.db.addUserProfile.call(n.db, i, t.val());
-          }, 0);
-        },
-        presenceValue: function (t) {
-          e(function () {
-            n.db.monitorPresence.call(n.db, t.name(), t.val());
-          }, 0);
-        },
-        getModelPath: function (e) {
-          return { modelId: e.name() };
-        },
-        getModelPathKey: function (e) {
-          var t = n.getModelPath(e);
-          return '/' + t.orgId + '/' + t.repoId + '/' + t.modelId;
-        }
-      };
-    return n;
   }
 ]), FirstRevenueApp.factory('ModelStickers', [
   '$timeout',
@@ -4272,6 +4021,46 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return n;
+  }
+]), FirstRevenueApp.factory('Sync', [
+  'angularFire',
+  function (e) {
+    var t = 'Sync', o = {
+        masterScope: null,
+        user: {},
+        models: {},
+        peers: {},
+        invites: {},
+        dereg: {},
+        init: function (e) {
+          console.log(t, 'init'), o.masterScope = e;
+        },
+        angularFire: function (n, i) {
+          console.log(t, 'angularFire name=', i);
+          var r = e(n, o.masterScope, i, {});
+          return r.then(function (e) {
+            console.log(t, 'angularFire callback afReady=', e), e.off && e.name ? o.dereg[i] = e.off : r.off && (o.dereg[i] = r.off);
+          }), r;
+        },
+        reset: function (e) {
+          console.log(t, 'reset name=', e);
+          var n = o.dereg[e];
+          n && n();
+        },
+        getScopeName: function (e, t) {
+          return 'sync.' + t + '[\'' + e + '\']';
+        },
+        logoff: function () {
+          console.log(t, 'logoff'), o.reset('sync.user'), _.each(o.models, function (e, t) {
+            o.reset(o.getScopeName(t, 'models'));
+          }), _.each(o.invites, function (e, t) {
+            o.reset(o.getScopeName(t, 'invites'));
+          }), _.each(o.peers, function (e, t) {
+            o.reset(o.getScopeName(t, 'peers'));
+          }), o.user = {}, o.models = {}, o.invites = {}, o.peers = {};
+        }
+      };
+    return o;
   }
 ]), FirstRevenueApp.factory('StickerEditor', [
   '$window',
@@ -4337,11 +4126,6 @@ FirstRevenueApp.controller('AdminController', [
       }
     };
   }
-]), FirstRevenueApp.factory('UserEditor', [
-  'Editor',
-  function (e) {
-    return console.log('UserEditor Editor=', e), {};
-  }
 ]), FirstRevenueApp.factory('ModelEditor', [
   'Canvas',
   function (e) {
@@ -4352,6 +4136,9 @@ FirstRevenueApp.controller('AdminController', [
         icon: null,
         descr: null,
         pitch: null
+      },
+      wasModelModified: function () {
+        return !0;
       },
       matchModelDescr: function (t) {
         var o = e.model.label;
@@ -4369,11 +4156,6 @@ FirstRevenueApp.controller('AdminController', [
       }
     };
   }
-]), FirstRevenueApp.factory('ContactEditor', [
-  'Editor',
-  function (e) {
-    return console.log('ContactEditor Editor=', e), {};
-  }
 ]), FirstRevenueApp.factory('Social', [
   '$timeout',
   'Singly',
@@ -4383,9 +4165,9 @@ FirstRevenueApp.controller('AdminController', [
   'GPlus',
   'GContacts',
   function (e, t, o, n, i, r, s) {
-    var l = 'Social';
-    console.log(l, 'service launched');
-    var a = {
+    var a = 'Social';
+    console.log(a, 'service launched');
+    var l = {
         gmail: 'contacts',
         gcontacts: 'contacts',
         google: 'self',
@@ -4405,6 +4187,7 @@ FirstRevenueApp.controller('AdminController', [
         account: null,
         selectedItems: [],
         loaded: {},
+        loading: {},
         contacts: {},
         fetchAccount: function (e, t) {
           u.me = e;
@@ -4412,15 +4195,48 @@ FirstRevenueApp.controller('AdminController', [
           u.fetchSocialAccount(o);
         },
         fetchSocialAccount: function (e) {
-          console.log(l, 'fetchAccount account=', e), e.contacts = e.contacts || c;
+          console.log(a, 'fetchAccount account=', e), e.contacts = e.contacts || c;
           var d = e.authentic.accessToken;
           if ('singly' === e.profile.provider) {
-            var f = e.profile.service, p = e.authentic.token, h = a[f] || 'self', g = e.authentic.expires, v = new Date().getTime() / 1000;
-            console.log(l, 'fetchAccount getContacts service=', f, 'token=', p, 'expires=', g, 'currentTime=', v), 'linkedin' === f ? i.getFriends(u.me, e, p) : 'gplus' === f ? r.getPeople(u.me, e, p) : 'gcontacts' === f ? s.getContacts(u.me, e, p) : h ? t.getData(f, p, h) : console.log(l, 'Unknown Singly service, endpoint not found');
+            var p = e.profile.service, h = e.authentic.token, f = l[p] || 'self', g = e.authentic.expires, v = new Date().getTime() / 1000;
+            console.log(a, 'fetchAccount getContacts service=', p, 'token=', h, 'expires=', g, 'currentTime=', v), 'linkedin' === p ? i.getFriends(u.me, e, h) : 'gplus' === p ? r.getPeople(u.me, e, h) : 'gcontacts' === p ? s.getContacts(u.me, e, h) : f ? t.getData(p, h, f) : console.log(a, 'Unknown Singly service, endpoint not found');
           } else
             'facebook' === e.profile.provider ? o.getFriends(u.me, e, d) : 'twitter' === e.profile.provider && n.getFriends(u.me, e, d);
         },
-        invite: function (e, t) {
+        createInvite: function (e, t) {
+          console.log(a, 'invite key=', e, 'partner=', t);
+          var o = u.me.userRef.child('invites').push();
+          o.set({
+            service: t.service,
+            id: e
+          }), t.invite = o.name();
+          var n = {
+              service: t.service,
+              id: e,
+              status: 'created',
+              creator: u.me.userId
+            }, i = u.me.rootRef.child('invites').child(t.invite);
+          i.set(n, function (e) {
+            u.inviteCallback(e, t, 'created');
+          }), u.serviceInvite(t, function (e) {
+            e && (console.log(a, 'invite sent partner=', t), i.update({ status: 'sent' }, function (e) {
+              u.inviteCallback(e, t, 'sent');
+            }));
+          });
+        },
+        updateInvite: function (e) {
+          console.log(a, 'inviteId=', e);
+          var t = u.me.rootRef.child('invites').child(e), o = u.findPartner(e);
+          u.serviceInvite(o, function (e, n) {
+            e ? console.log(a, 'invite error=', e, 'partner=', o) : n && (console.log(a, 'invite sent partner=', o), t.update({ status: 'sent' }, function (e) {
+              u.inviteCallback(e, o, 'sent');
+            }));
+          });
+        },
+        inviteCallback: function (e, t, o) {
+          e ? (console.log(a, 'invite global status cannot be set to', o, 'error=', e), t.inviteFailed = !0) : (console.log(a, 'invite global status set to', o), 'created' === o && (t.inviteCreated = !0), 'sent' === o && (t.inviteSent = !0));
+        },
+        serviceInvite: function (e, t) {
           var n = u.findAccount(e.service);
           switch (e.service) {
           case 'facebook':
@@ -4433,13 +4249,22 @@ FirstRevenueApp.controller('AdminController', [
             r.sendMessage(e, n.authentic.token, t);
             break;
           default:
-            console.log(l, 'invite do not have sendMessage function for service=', e.service);
+            console.log(a, 'invite does not have sendMessage function for service=', e.service);
           }
         },
         findAccount: function (e) {
-          return _.find(u.me.af.user.accounts, function (t) {
+          return _.find(u.me.sync.user.accounts, function (t) {
             return t.profile.service === e;
           });
+        },
+        findPartner: function (e) {
+          var t = u.me.sync.invites[e], o = {};
+          return _.each(u.me.sync.user.accounts, function (n) {
+            if (n.profile.service === t.service && n.contacts && n.contacts.partners) {
+              var i = n.contacts.partners[t.serviceId];
+              i && (o = angular.copy(i)), o.service = t.service, o.serviceId = t.serviceId, o.inviteId = e;
+            }
+          }), o;
         }
       };
     return u;
@@ -4448,7 +4273,7 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$timeout',
   function (e, t) {
-    var o = 'Facebook', n = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=700,height=375', i = 'https://graph.facebook.com/me/friends?fields=name,username,picture,email&access_token=:token', r = {
+    var o = 'Facebook', n = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=1000,height=600', i = 'https://graph.facebook.com/me/friends?fields=name,username,picture,email&access_token=:token', r = {
         me: null,
         account: null,
         afAccount: null,
@@ -4456,12 +4281,12 @@ FirstRevenueApp.controller('AdminController', [
         friends: null,
         sendMessage: function (e, i) {
           console.log('Facebook sendMessage contact=', e);
-          var r = window.location.origin || window.location.protocol + '//' + window.location.host, s = r + window.location.pathname + 'views/', l = s + 'FacebookRedirect.html', a = s + 'FacebookInvitation.html', c = e.serviceId, u = {
+          var r = window.location.origin || window.location.protocol + '//' + window.location.host, s = r + window.location.pathname + 'views/', a = s + 'FacebookRedirect.html', l = s + 'FacebookInvitation.html', c = e.serviceId, u = {
               app_id: CONFIG_1ST_REVENUE.facebookClientId,
-              redirect_uri: l,
+              redirect_uri: a,
               display: 'page',
               to: c,
-              link: a + '?invite=' + e.invite
+              link: l + '?invite=' + e.inviteId
             };
           WinChan.open({
             url: s + 'FacebookLaunch.html',
@@ -4470,12 +4295,12 @@ FirstRevenueApp.controller('AdminController', [
             params: u
           }, function (e, n) {
             t(function () {
-              console.log(o, 'sendMessage', 'error=', e, 'response=', n), e ? console.log(o, 'sendMessage', 'error=', e) : (console.log(o, 'sendMessage', 'response=', n), n.success ? i(null, !0) : i(null, !1));
+              console.log(o, 'sendMessage', 'error=', e, 'response=', n), e ? (console.log(o, 'sendMessage', 'error=', e), i(e)) : (console.log(o, 'sendMessage', 'response=', n), n.success ? i(null, !0) : i(null, !1));
             });
           });
         },
         getFriends: function (t, o, n) {
-          r.me = t, r.account = o, r.afAccount = t.af.user.accounts[o.profile.key], console.log('Facebook getFriends token=', n);
+          r.me = t, r.account = o, r.afAccount = t.sync.user.accounts[o.profile.key], r.me.social.loaded.facebook = !1, console.log('Facebook getFriends token=', n);
           var s = e(i, { token: n });
           r.friends = s.get(r.processFriends, r.queryError);
         },
@@ -4509,28 +4334,29 @@ FirstRevenueApp.controller('AdminController', [
   '$timeout',
   function (e, t) {
     var o = 'https://api.singly.com/proxy/gcontacts/contacts/default/full?access_token=:token&max-results=1000&alt=json', n = 'https://api.singly.com/proxy/gcontacts/groups/default/base?access_token=:token&max-results=1000&alt=json', i = 'http://schemas.google.com/contacts/2008/rel#edit-photo', r = {
-        user: null,
+        me: null,
         account: null,
         contacts: null,
         groups: null,
         token: null,
-        getContacts: function (t, i, s, l) {
-          r.user = t, r.account = i, r.token = s, console.log('GContacts getContacts token=', s);
-          var a = e(o, { token: s }), c = l || r.processContacts;
-          r.contacts = a.get(c, r.requestError);
+        total: 0,
+        getContacts: function (t, i, s, a) {
+          r.me = t, r.account = i, r.token = s, console.log('GContacts getContacts token=', s);
+          var l = e(o, { token: s }), c = a || r.processContacts;
+          r.contacts = l.get(c, r.requestError);
           var u = e(n, { token: s });
           r.groups = u.get(r.processGroups, r.requestError);
         },
         processContacts: function (e) {
           console.log('GContacts processContacts contacts=', e), r.account.friends = e, t(function () {
-            r.account.contacts.total = 0, _.each(e.feed.entry, r.processContact), r.account.contacts.refreshed = Date.now();
+            r.total = 0, _.each(e.feed.entry, r.processContact), r.account.contacts.refreshed = Date.now(), r.me.social.loaded.linkedin = !0;
           });
         },
         processContact: function (e) {
           console.log('GContacts processContact contact=', e);
           var t = e.gd$email, o = e.id.$t.split('/')[8];
           if (o) {
-            var n = {
+            var n = r.account.contacts.partners, s = r.me.social.contacts.linkedin[e.id] = {
                 profileKey: r.account.profile.key,
                 service: 'gcontacts',
                 id: o,
@@ -4541,13 +4367,13 @@ FirstRevenueApp.controller('AdminController', [
                 image: '',
                 phone: ''
               };
-            r.user.gridContacts.push(n), r.account.contacts.total += 1, t && (n.email = t[0].address, _.each(t, function (e) {
-              'true' === e.primary && (n.email = e.address);
-            })), e.gd$organization && (n.org = e.gd$organization[0].gd$orgName.$t), e.link[0].gd$etag && _.each(e.link, function (e) {
-              e.gd$etag && 'image/*' === e.type && e.rel === i && (n.image = e.href);
+            n && n[e.id] && (s.partner = n[e.id]), r.total += 1, t && (s.email = t[0].address, _.each(t, function (e) {
+              'true' === e.primary && (s.email = e.address);
+            })), e.gd$organization && (s.org = e.gd$organization[0].gd$orgName.$t), e.link[0].gd$etag && _.each(e.link, function (e) {
+              e.gd$etag && 'image/*' === e.type && e.rel === i && (s.image = e.href);
             }), e.gd$phoneNumber && _.each(e.gd$phoneNumber, function (e) {
-              'true' === e.primary && (n.phone = e.$t);
-            }), console.log('GContacts processContact c=', n);
+              'true' === e.primary && (s.phone = e.$t);
+            }), console.log('GContacts processContact c=', s);
           }
         },
         processGroups: function (e) {
@@ -4564,7 +4390,7 @@ FirstRevenueApp.controller('AdminController', [
   '$http',
   '$timeout',
   function (e, t, o) {
-    var n = 'GPlus', i = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', r = 'https://www.googleapis.com/plus/v1/people/me', s = 'https://www.googleapis.com/plus/v1/people/me/people/visible', l = {
+    var n = 'GPlus', i = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', r = 'https://www.googleapis.com/plus/v1/people/me', s = 'https://www.googleapis.com/plus/v1/people/me/people/visible', a = {
         me: null,
         account: null,
         afAccount: null,
@@ -4572,9 +4398,11 @@ FirstRevenueApp.controller('AdminController', [
         people: null,
         token: null,
         getPeople: function (t, o, n) {
-          l.me = t, l.account = o, l.afAccount = t.af.user.accounts[o.profile.key], l.token = n;
-          var r = e(i, { token: n });
-          l.profile = r.get(l.processProfile, l.requestError);
+          if (a.me = t, a.account = o, a.afAccount = t.sync.user.accounts[o.profile.key], a.token = n, a.me.social.loaded.gplus = !1, !t.social.loading.gplus) {
+            t.social.loading.gplus = !0;
+            var r = e(i, { token: n });
+            a.profile = r.get(a.processProfile, a.requestError);
+          }
         },
         processProfile: function (e) {
           console.log(n, 'processProfile profile=', e), t({
@@ -4582,7 +4410,7 @@ FirstRevenueApp.controller('AdminController', [
             url: r,
             params: { key: CONFIG_1ST_REVENUE.gplusAPIKey },
             headers: { Authorization: 'Bearer ' + e.auth.accessToken }
-          }).success(l.processGPlusProfile).error(l.requestError), l.total = 0, l.afAccount.contacts = l.afAccount.contacts || { refreshed: Date.now() }, l.bearerToken = e.auth.accessToken, l.sendPeopleRequest();
+          }).success(a.processGPlusProfile).error(a.requestError), a.total = 0, a.afAccount.contacts = a.afAccount.contacts || { refreshed: Date.now() }, a.bearerToken = e.auth.accessToken, a.sendPeopleRequest();
         },
         sendPeopleRequest: function (e) {
           t({
@@ -4592,21 +4420,21 @@ FirstRevenueApp.controller('AdminController', [
               key: CONFIG_1ST_REVENUE.gplusAPIKey,
               pageToken: e || null
             },
-            headers: { Authorization: 'Bearer ' + l.bearerToken }
-          }).success(l.processGPlusPeople).error(l.requestError);
+            headers: { Authorization: 'Bearer ' + a.bearerToken }
+          }).success(a.processGPlusPeople).error(a.requestError);
         },
         processGPlusProfile: function (e) {
           console.log('GPlus processGPlusProfile gprofile=', e);
         },
         processGPlusPeople: function (e) {
-          console.log('GPlus processGPlusPeople people=', e), l.me.social.contacts.gplus = l.me.social.contacts.gplus || {}, o(function () {
-            _.each(e.items, l.processPerson), e.nextPageToken ? l.sendPeopleRequest(e.nextPageToken) : (l.afAccount.contacts.refreshed = Date.now(), l.afAccount.contacts.total = l.total, l.me.social.loaded.gplus = !0);
+          console.log('GPlus processGPlusPeople people=', e), a.me.social.contacts.gplus = a.me.social.contacts.gplus || {}, o(function () {
+            _.each(e.items, a.processPerson), e.nextPageToken ? a.sendPeopleRequest(e.nextPageToken) : (a.afAccount.contacts.refreshed = Date.now(), a.afAccount.contacts.total = a.total, a.me.social.loaded.gplus = !0, a.me.social.loading.gplus = !1);
           });
         },
         processPerson: function (e) {
           console.log('GPlus processPerson person=', e);
-          var t = l.afAccount.contacts.partners, o = l.me.social.contacts.gplus[e.id] = {
-              profileKey: l.account.profile.key,
+          var t = a.afAccount.contacts.partners, o = a.me.social.contacts.gplus[e.id] = {
+              profileKey: a.account.profile.key,
               provider: 'singly',
               service: 'gplus',
               type: e.objectType,
@@ -4615,13 +4443,13 @@ FirstRevenueApp.controller('AdminController', [
               id: e.id,
               serviceId: e.id
             };
-          t && t[e.id] && (o.partner = t[e.id]), l.total += 1, console.log('GPlus processPerson c=', o);
+          t && t[e.id] && (o.partner = t[e.id]), a.total += 1, console.log('GPlus processPerson c=', o);
         },
         requestError: function (e) {
           console.log('GPlus requestError error=', e);
         }
       };
-    return l;
+    return a;
   }
 ]), FirstRevenueApp.factory('LinkedIn', [
   '$resource',
@@ -4637,20 +4465,22 @@ FirstRevenueApp.controller('AdminController', [
         msg: null,
         sendMessage: function (t, o, r) {
           i.token = o, console.log('LinkedIn sendMessage token=', o);
-          var s = window.location.origin || window.location.protocol + '//' + window.location.host, l = s + window.location.pathname + '#invite/', a = e(n, { token: o }), c = t.serviceId, u = new a({
-              recipients: { values: [{ person: { _path: '/people/' + c } }] },
+          var s = window.location.origin || window.location.protocol + '//' + window.location.host, a = s + window.location.pathname + '#invite/', l = e(n, { token: o }), c = new l({
+              recipients: { values: [{ person: { _path: '/people/qptylQNe7G' } }] },
               subject: 'Join 1stRevenue.com',
-              body: 'Join 1stRevenue.com and collaborate with us on business modeling. Use your LinkedIn account to sign to the application. The original sender of the invitation will be notified when you log on to the 1st Revenue. Create your account at ' + l + t.invite
-            }), d = r || i.processMessage;
-          u.$save(d, i.requestError);
+              body: 'Join 1stRevenue.com and collaborate with us on business modeling. Use your LinkedIn account to sign to the application. The original sender of the invitation will be notified when you log on to the 1st Revenue. Create your account at ' + a + t.inviteId
+            }), u = r || i.processMessage;
+          c.$save(function (e) {
+            console.log('LinkedIn processMessage msgResponse=', e), u(null, !0);
+          }, i.requestError);
         },
-        processMessage: function (e) {
-          console.log('LinkedIn processMessage msgResponse=', e);
+        processMessage: function (e, t) {
+          console.log('LinkedIn processMessage err=', e, 'msgResponse=', t);
         },
         getFriends: function (t, n, r, s) {
-          i.me = t, i.account = n, i.afAccount = t.af.user.accounts[n.profile.key], i.token = r, console.log('LinkedIn getFriends token=', r);
-          var l = e(o, { token: r }), a = s || i.processFriends;
-          i.friends = l.get(a, i.requestError);
+          i.me = t, i.account = n, i.afAccount = t.sync.user.accounts[n.profile.key], i.token = r, i.me.social.loaded.linkedin = !1, console.log('LinkedIn getFriends token=', r);
+          var a = e(o, { token: r }), l = s || i.processFriends;
+          i.friends = a.get(l, i.requestError);
         },
         processFriends: function (e) {
           console.log('LinkedIn processFriends friends=', e), i.me.social.contacts.linkedin = i.me.social.contacts.linkedin || {}, t(function () {

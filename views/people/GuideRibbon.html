@@ -18,7 +18,7 @@
     Partners
   </div>
 
-  <div ng-repeat="account in me.af.user.accounts"
+  <div ng-repeat="account in me.sync.user.accounts"
        ng-click="social.account = account; layout.setView(account.profile.service)"
        ng-class="{'ribbon-item-current': layout.isView(account.profile.service)}"
        class="ribbon-item">
@@ -73,6 +73,6 @@
     All
   </div-->
 
-  <div ng-include src="'views/ribbon/License.html'"></div>
+  <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

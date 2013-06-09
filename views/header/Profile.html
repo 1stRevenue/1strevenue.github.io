@@ -1,11 +1,11 @@
-<div ng-switch="me.af.user.profile.id && layout.profile">
+<div ng-switch="me.sync.user.profile.id && layout.profile">
   <div ng-switch-when="true">
     <div class="user-icon-wrapper pull-right">
       <img class="user-icon"
-           ng-show="me.af.user.profile.image"
-           ng-src="{{me.af.user.profile.image}}" />
+           ng-show="me.sync.user.profile.image"
+           ng-src="{{me.sync.user.profile.image}}" />
       <img class="user-icon"
-           ng-hide="me.af.user.profile.image"
+           ng-hide="me.sync.user.profile.image"
            ng-src="images/bbf82395.light_avatar_small.png" />
     </div>
 
@@ -17,12 +17,12 @@
              data-toggle="dropdown"
              href="#user-menu">
             <div class="user-name"
-                 ng-show="me.af.user.profile.name">
-              {{me.af.user.profile.name}}
+                 ng-show="me.sync.user.profile.name">
+              {{me.sync.user.profile.name}}
             </div>
             <div class="user-name"
-                 ng-hide="me.af.user.profile.name">
-              Singly: {{me.af.user.profile.id}}
+                 ng-hide="me.sync.user.profile.name">
+              Singly: {{me.sync.user.profile.id}}
             </div>
             <span class="caret"></span>
           </a>
@@ -55,8 +55,8 @@
         </li>
       </ul>
     </div>
-    <div ng-switch="me.af.user.profile.provider"
-          alt="{{me.af.user.profile.provider}}"
+    <div ng-switch="me.sync.user.profile.service"
+          alt="{{me.sync.user.profile.service}}"
           class="pull-right provider-icon-wrapper">
       <img ng-switch-when="facebook"
            class="provider-icon"
@@ -78,10 +78,10 @@
            class="provider-icon"
            title="Firebase"
            ng-src="images/favicons/733ecf03.firebase.png" />
-      <img ng-switch-when="singly"
+      <img ng-switch-when="gplus"
            class="provider-icon"
-           title="Singly"
-           ng-src="images/favicons/087e701a.singly.png" />
+           title="Google+"
+           ng-src="images/favicons/576925e6.gplus.png" />
     </div>
   </div>
 </div>

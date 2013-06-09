@@ -1,0 +1,19 @@
+<div class="user-list-header">Users</div>
+<div ng-repeat="(userId, userValue) in canvas.model.users track by userId"
+     class="user-list-item">
+  <button class="btn btn-small delete-button"
+          ng-class="{'hidden-button': userId === me.userId}"
+          ng-click="deletePeer(userId)">
+    &times;
+  </button>
+  <span first-revenue-service-icon="sync.peers[userId].service"></span>
+  <img ng-src="{{sync.peers[userId].image}}"
+       class="user-icon"
+       ng-show="sync.peers[userId].image"
+       title="{{sync.peers[userId].name}}" />
+  <img ng-src="images/bbf82395.light_avatar_small.png"
+       class="user-icon"
+       ng-hide="sync.peers[userId].image"
+       title="{{sync.peers[userId].name}}" />
+  {{sync.peers[userId].name}}
+</div>
