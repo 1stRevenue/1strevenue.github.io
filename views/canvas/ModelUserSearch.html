@@ -3,7 +3,7 @@
 <input type="text"
        id="user-typeahead"
        class="input-xlarge search-query"
-       placeholder="Add users"
+       placeholder="Search and add users"
        ng-model="tah.userTypeAhead"
        first-revenue-typeahead="tah.dataset"
        data-selection="tahSelection" />
@@ -36,10 +36,10 @@
           ng-hide="social.loaded[account.profile.service]">
     Load {{account.contacts.total}} friends
   </button>
-  <span class="latency-note"
+  <small class="latency-note"
         ng-hide="social.loaded[account.profile.service]">
     Seen {{getRefreshLatency(account.contacts.refreshed)}}
-  </span>
+  </small>
 
   <button class="btn btn-small"
           ng-disabled="true"
@@ -47,8 +47,10 @@
           ng-show="social.loaded[account.profile.service]">
     Loaded {{account.contacts.total}} friends
   </button>
-  <span class="latency-note"
+  <small class="latency-note"
         ng-show="social.loaded[account.profile.service]">
-    {{getRefreshLatency(account.contacts.refreshed)}}
-  </span>
+    <small>
+      {{getRefreshLatency(account.contacts.refreshed)}}
+    </small>
+  </small>
 </div>

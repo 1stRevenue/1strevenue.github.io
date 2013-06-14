@@ -27,14 +27,19 @@
       <div class="pull-right"
            ng-include="'views/header/Profile.html'"></div>
 
-      <div class="header-title">
-        <img class="header-model-icon"
-             ng-show="menu.selected == 'canvas' && canvas.model.fields.icon"
-             ng-src="{{canvas.model.fields.icon}}" />
-        <div class="brand header-model-name"
-             ng-show="menu.title"
-             title="{{menu.title}}">
+      <div class="header-title"
+           ng-hide="menu.selected == 'canvas'">
+        <div class="brand header-model-name">
           {{menu.title}}
+        </div>
+      </div>
+      <div class="header-title"
+           ng-show="menu.selected == 'canvas'">
+        <img class="header-model-icon"
+             ng-show="canvas.model.fields.icon"
+             ng-src="{{canvas.model.fields.icon}}" />
+        <div class="brand header-model-name">
+          {{canvas.model.fields.name}}
         </div>
       </div>
 

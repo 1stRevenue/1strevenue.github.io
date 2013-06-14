@@ -4,14 +4,14 @@
      ng-class="{'wide-ribbon': layout.peer.wide}">
   <div ng-include src="'views/ribbon/Drag.html'"></div>
 
-  <div class="add-new-peer">
+  <!--div class="add-new-peer">
     <div class="add-new-peer-icon"></div>
-  </div>
+  </div-->
 
-  <div class="peer-count"
+  <!--div class="peer-count"
        ng-click="modal.users=true">
     {{canvas.peerCount()}}
-  </div>
+  </div-->
 
   <!-- The following expr may work to avoid repetition of 'true' -->
   <!--div ng-repeat="(userId, userValue) in canvas.model.users track by userId"    -->
@@ -27,6 +27,7 @@
          ng-hide="sync.peers[userId].image"
          title="{{sync.peers[userId].name}}" />
   </div>
+
   <div ng-include src="'views/ribbon/QRCode.html'"></div>
   <div ng-include src="'views/ribbon/Signal.html'"></div>
 </div>

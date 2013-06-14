@@ -1,4 +1,5 @@
 <div ng-controller="ModelController"
+     ng-hide="layout.isView('canvas')"
      class="first-revenue-model">
   <div ng-include="'views/canvas/ModelEditor.html'"
        ng-show="layout.isView('model')"></div>

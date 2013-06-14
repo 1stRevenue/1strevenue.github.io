@@ -1,0 +1,45 @@
+<div ng-controller="NewModelController"
+     class="first-revenue-new-model create-model"
+     ng-show="layout.isView('new')">
+  <form ng-submit="">
+    <fieldset class="well">
+      <div class="control-group"
+           ng-class="{error: nameError}">
+        <label class="control-label"
+               for="model-name">
+          <span>Model name</span>
+        </label>
+        <div class="controls">
+          <input type="text"
+                 autofocus
+                 id="model-name"
+                 class="input-xlarge"
+                 placeholder="Model name"
+                 ng-model="newModel.name" />
+          <span style="color: red">*</span>
+          <p class="help-block"
+             ng-show="name==''">Please specify the model name</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button class="btn"
+                  ng-click="cancel()">
+            Cancel
+          </button>
+          <button type="submit"
+                  class="btn btn-primary"
+                  ng-click="createModel(newModel.name)"
+                  ng-disabled="!newModel.name || newModel.name.trim() == ''">
+            Create model
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <span style="color: red">*</span>
+        Model name should be specified
+      </div>
+    </fieldset>
+  </form>
+</div>

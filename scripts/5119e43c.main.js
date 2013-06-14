@@ -175,7 +175,7 @@ FirstRevenueApp.controller('AdminController', [
       getSticker: function (t) {
         return e.me.sync.models[a].stickers[t];
       }
-    }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.layout.qrCode = !1, e.canvas.modelId = a, e.canvas.model = e.me.sync.models[a] || null, e.canvas.model && (e.menu.title = e.canvas.model.fields ? e.canvas.model.fields.name : null, a !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', a), e.canvas.lastModelId = a)));
+    }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.layout.qrCode = !1, e.canvas.modelId = a, e.canvas.model = e.me.sync.models[a] || null, e.canvas.model && (e.menu.title = e.canvas.model.fields ? e.canvas.model.fields.name : null, console.log(s, 'menu.title=', e.menu.title, 'canvas.model.fields=', e.canvas.model.fields), a !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', a), e.canvas.lastModelId = a)));
   }
 ]), FirstRevenueApp.controller('ContactController', [
   '$scope',
@@ -592,22 +592,8 @@ FirstRevenueApp.controller('AdminController', [
         var e = this.repoList = [];
         return e;
       },
-      createModel: function (o) {
-        console.log(i, 'createModel name=', o), '' === o ? e.nameError = !0 : (e.nameError = !1, e.menu.title = o, console.log(i, 'calling Firebase.createModel newModelName=', o), e.newModelId = e.firebase.createModel(o, function () {
-          console.log(i, 'model create callback newModelId=', e.newModelId), e.modal.newModel = !1, e.modal.modelForm = 'Fields', e.canvas.modelId = e.newModelId, e.canvas.model = e.sync.models[e.newModelId], t.path('/canvas/' + e.newModelId);
-        }));
-      },
-      cancel: function () {
-        t.path('/repo');
-      },
-      cancelOld: function () {
-        e.fpFile && (console.log(i, 'cancel removing fpFile=', e.fpFile), filepicker.remove(e.fpFile)), this.showModels(), e.modal.model = !1;
-      },
       'delete': function () {
         console.log(i, 'model delete remove model ref from user modelId=', e.canvas.modelId), delete e.sync.user.models[e.canvas.modelId], console.log(i, 'model delete set model to null modelId=', e.canvas.modelId), e.sync.models[e.canvas.modelId] = null, console.log(i, 'model delete done models[id]=', e.sync.models[e.canvas.modelId]), e.modal.model = !1, t.path('/repo');
-      },
-      finish: function () {
-        e.menu.title = e.canvas.model.fields.name, e.modal.model = !1;
       },
       showModels: function () {
         e.fpFile = null, t.path('/repo');
@@ -730,13 +716,7 @@ FirstRevenueApp.controller('AdminController', [
   function (e, t, o) {
     console.log('Models route invoked'), angular.extend(e, {
       catalog: t,
-      zoom: o,
-      isPublic: function (t) {
-        return !!e.me.sync.public.models[t];
-      },
-      getModel: function (t) {
-        return e.me.sync.models[t];
-      }
+      zoom: o
     }), e.menu.title = '1st Revenue Repository', e.menu.selected = 'repo', e.menu.visible = [
       'home',
       'repo'
@@ -764,7 +744,7 @@ FirstRevenueApp.controller('AdminController', [
   '$location',
   function (e, t) {
     var o = 'NewModelController';
-    e.layout.peer.wide = !0, e.menu.title = 'Create Model', e.menu.selected = 'create', console.log(o, 'launched'), angular.extend(e, {
+    e.layout.peer.wide = !1, e.menu.title = 'Create Model', e.menu.selected = 'create', console.log(o, 'launched'), angular.extend(e, {
       newModel: {},
       nameError: !1,
       createModel: function (n) {
@@ -817,7 +797,8 @@ FirstRevenueApp.controller('AdminController', [
   'Modal',
   'RrrrRrrr',
   function (e, t, o, n) {
-    console.log('---- RepoController'), angular.extend(e, {
+    var i = 'RepoController';
+    console.log(i, 'launched'), angular.extend(e, {
       catalog: t,
       modal: o,
       modelTabName: 'models',
@@ -880,34 +861,33 @@ FirstRevenueApp.controller('AdminController', [
   '$timeout',
   'Firebase',
   'SignUp',
-  'User',
   'Invite',
-  function (e, t, o, n, i, r, s, a) {
-    var l = 'SignUpController';
+  function (e, t, o, n, i, r, s) {
+    var a = 'SignUpController';
     console.log('SignUpController invoked SignUp=', r), angular.extend(e, {
       signUp: r,
       service: null,
       providerList: function () {
-        var e = [];
-        return angular.forEach(r.providers, function (t, o) {
-          var n = _.contains(s.getCredentialKeys(), o);
-          e.push(angular.extend(t, {
-            provider: o,
-            attached: n
+        var t = [];
+        return angular.forEach(r.providers, function (o, n) {
+          var i = _.contains(e.me.mp.getCredentialKeys(), n);
+          t.push(angular.extend(o, {
+            provider: n,
+            attached: i
           }));
-        }), e;
+        }), t;
       },
-      getProv: function (e) {
-        return r.providers[s.credentials[e].profile.service];
+      getProv: function (t) {
+        return r.providers[e.me.mp.credentials[t].profile.service];
       },
       openAuth: function () {
-        console.log(l, 'openAuth direct call'), a.acceptInvite(e.service);
+        console.log(a, 'openAuth direct call'), s.acceptInvite(e.service);
       },
       initInvite: function () {
         var t = o.current.params.inviteId;
-        t && (console.log(l, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
+        t && (console.log(a, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
           n(function () {
-            e.service = t.val(), console.log(l, 'service=', e.service);
+            e.service = t.val(), console.log(a, 'service=', e.service);
           });
         }, function (e) {
           console.log('Invite error=', e);
@@ -1469,58 +1449,10 @@ FirstRevenueApp.controller('AdminController', [
           e !== t && (a = e), console.log(o, '$watch modelValue=', a);
         });
         var l = t(r.firstRevenueTypeahead)(e);
-        console.log(o, 'dataset=', l), n.typeahead(l), i(n), e.$watch(r.firstRevenueTypeahead, function (e, s, a) {
+        console.log(o, 'dataset=', l), l && (n.typeahead(l), i(n)), e.$watch(r.firstRevenueTypeahead, function (e, s, a) {
           l = t(r.firstRevenueTypeahead)(a), console.log(o, '$watch tah.dataset=', l), n.typeahead('destroy'), n.typeahead(l), i(n);
         }, !0), n.on('typeahead:selected typeahead:autocompleted', function (t, n) {
           console.log(o, 'event $e=', t, 'data=', n), e.tah.selectedDatum = n;
-        });
-      }
-    };
-  }
-]), FirstRevenueApp.directive('firstRevenueBsTypeahead', [
-  '$timeout',
-  '$parse',
-  function (e, t) {
-    var o = 'firstRevenueBsTypeahead';
-    return {
-      restrict: 'A',
-      require: 'ngModel',
-      link: function (e, n, i, r) {
-        var s = t(i.bsTypeahead), a = s(e);
-        e.$watch(i.firstRevenueBsTypeahead, function (e, t) {
-          e !== t && (a = e);
-        }), n.attr('data-provide', 'typeahead'), n.typeahead({
-          source: function () {
-            return angular.isFunction(a) ? a.apply(null, arguments) : a;
-          },
-          minLength: i.minLength || 1,
-          items: i.items,
-          matcher: function (e) {
-            return ~e.name.toLowerCase().indexOf(this.query.toLowerCase());
-          },
-          updater: function (t) {
-            return console.log(o, 'updater value=', t), r && e.$apply(function () {
-              r.$setViewValue(t);
-            }), e.$emit('typeahead-updated', t), t;
-          },
-          highlighter: function (e) {
-            console.log(o, 'highlighter item=', e);
-            var t = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&'), n = e.name.replace(RegExp('(' + t + ')', 'ig'), function (e, t) {
-                return '<strong>' + t + '</strong>';
-              });
-            return '<p>' + n + '</p>';
-          }
-        });
-        var l = n.data('typeahead');
-        l.lookup = function () {
-          var e;
-          return this.query = this.$element.val() || '', this.query.length < this.options.minLength ? this.shown ? this.hide() : this : (e = $.isFunction(this.source) ? this.source(this.query, $.proxy(this.process, this)) : this.source, e ? this.process(e) : this);
-        }, i.matchAll && (l.matcher = function () {
-          return !0;
-        }), '0' === i.minLength && setTimeout(function () {
-          n.on('focus', function () {
-            0 === n.val().length && setTimeout(n.typeahead.bind(n, 'lookup'), 200);
-          });
         });
       }
     };
@@ -2001,13 +1933,14 @@ FirstRevenueApp.controller('AdminController', [
         },
         log: function (e) {
           var t = new Date(), o = t.getUTCFullYear(), n = t.getUTCMonth(), r = t.getUTCDate(), s = t.getUTCHours(), a = l.rootRef.child('log').child(o).child(n).child(r).child(s);
-          e.time = t.getTime(), e.timeISO = t.toISOString(), e.user = i.provider + '-' + i.providerId, a.push(e);
+          e.time = t.getTime(), e.timeISO = t.toISOString(), e.user = i.sync.user.primary, a.push(e);
         },
         createModel: function (e, o) {
           console.log(a, 'createModel modelName=', e);
           var n = l.rootRef.child('models'), r = n.push(), s = r.name(), c = {
               fields: { name: e },
-              users: {}
+              users: {},
+              owner: i.userId
             };
           return c.users[i.userId] = !0, console.log(a, 'createModel modelUpdate=', c), i.sync.models[s] = {
             fields: {},
@@ -2402,7 +2335,11 @@ FirstRevenueApp.controller('AdminController', [
         var n = o[0], i = o[1], r = o[2];
         console.log(e, 'decodeJWT', 'headerSeg=', n, 'payloadSeg=', i, 'signatureSeg=', r);
         var s = this.base64urldecode(n), a = this.base64urldecode(i), l = this.base64urldecode(r);
-        return console.log(e, 'decodeJWT', 'header=', s, 'payload=', a, 'signature=', l), s + '\n' + a + '\n' + l;
+        return console.log(e, 'decodeJWT', 'header=', s, 'payload=', a, 'signature=', l), [
+          JSON.parse(s),
+          JSON.parse(a),
+          JSON.parse(l)
+        ];
       },
       base64urldecode: function (e) {
         var t = e;
@@ -2575,8 +2512,17 @@ FirstRevenueApp.controller('AdminController', [
         backInTime: !0,
         refreshModels: function () {
         },
+        getModel: function (e) {
+          return o.sync.models[e];
+        },
+        isMine: function (e) {
+          return o.sync.models[e].owner === o.userId;
+        },
         isPublic: function (e) {
-          return !!(o.sync.public && o.sync.public.models && o.sync.public.models[e]);
+          return o.sync.public.models && !!o.sync.public.models[e];
+        },
+        isShared: function (e) {
+          return !(i.isPublic(e) || i.isMine(e));
         },
         getModelsNew3: function (e) {
           var t = {};
@@ -2600,8 +2546,8 @@ FirstRevenueApp.controller('AdminController', [
           return _.each(o.sync.models, function (n, r) {
             var s = o.sync.models[r];
             if (s && s.fields) {
-              var a = i.isPublic(r);
-              ('all' === e || 'public' === e && a || 'my' === e && !a) && t.push(r);
+              var a = i.isPublic(r), l = i.isMine(r), c = i.isShared(r);
+              ('all' === e || 'public' === e && a || 'shared' === e && c || 'my' === e && l) && t.push(r);
             }
           }), this.sortModelIdList(t);
         },
@@ -3912,6 +3858,15 @@ FirstRevenueApp.controller('AdminController', [
             profile: e,
             authentic: t.authentic
           };
+        },
+        getCredentials: function () {
+          var e = {};
+          return _.each(n.credentials, function (t, o) {
+            t.detached || (e[o] = t);
+          }), e;
+        },
+        getCredentialKeys: function () {
+          return _.keys(n.getCredentials());
         }
       };
     return n;
@@ -4199,7 +4154,7 @@ FirstRevenueApp.controller('AdminController', [
           var d = e.authentic.accessToken;
           if ('singly' === e.profile.provider) {
             var p = e.profile.service, h = e.authentic.token, f = l[p] || 'self', g = e.authentic.expires, v = new Date().getTime() / 1000;
-            console.log(a, 'fetchAccount getContacts service=', p, 'token=', h, 'expires=', g, 'currentTime=', v), 'linkedin' === p ? i.getFriends(u.me, e, h) : 'gplus' === p ? r.getPeople(u.me, e, h) : 'gcontacts' === p ? s.getContacts(u.me, e, h) : f ? t.getData(p, h, f) : console.log(a, 'Unknown Singly service, endpoint not found');
+            console.log(a, 'fetchSocialAccount service=', p, 'token=', h, 'expires=', g, 'currentTime=', v), 'linkedin' === p ? i.getFriends(u.me, e, h) : 'gplus' === p ? r.getPeople(u.me, e, h) : 'gcontacts' === p ? s.getContacts(u.me, e, h) : f ? t.getData(p, h, f) : console.log(a, 'Unknown Singly service, endpoint not found');
           } else
             'facebook' === e.profile.provider ? o.getFriends(u.me, e, d) : 'twitter' === e.profile.provider && n.getFriends(u.me, e, d);
         },
@@ -4276,7 +4231,6 @@ FirstRevenueApp.controller('AdminController', [
     var o = 'Facebook', n = 'menubar=0,location=0,resizable=0,scrollbars=0,status=0,dialog=1,width=1000,height=600', i = 'https://graph.facebook.com/me/friends?fields=name,username,picture,email&access_token=:token', r = {
         me: null,
         account: null,
-        afAccount: null,
         total: 0,
         friends: null,
         sendMessage: function (e, i) {
@@ -4300,18 +4254,20 @@ FirstRevenueApp.controller('AdminController', [
           });
         },
         getFriends: function (t, o, n) {
-          r.me = t, r.account = o, r.afAccount = t.sync.user.accounts[o.profile.key], r.me.social.loaded.facebook = !1, console.log('Facebook getFriends token=', n);
+          r.me = t, r.account = o, r.me.social.loaded.facebook = !1, console.log('Facebook getFriends token=', n);
           var s = e(i, { token: n });
           r.friends = s.get(r.processFriends, r.queryError);
         },
         processFriends: function (e) {
           console.log('Facebook processFriends friends=', e), r.me.social.contacts.facebook = r.me.social.contacts.facebook || {}, t(function () {
-            r.total = 0, r.afAccount.contacts = r.afAccount.contacts || { refreshed: Date.now() }, _.each(e.data, r.processFriend), r.afAccount.contacts.refreshed = Date.now(), r.afAccount.contacts.total = r.total, r.me.social.loaded.facebook = !0;
+            r.total = 0, r.account.contacts = r.account.contacts || { refreshed: Date.now() }, _.each(e.data, r.processFriend), console.log('Facebook processFriends facebook.total=', r.total);
+            var t = r.account.profile.key, o = r.me.sync.user.accounts[t], n = o.contacts;
+            n.refreshed = Date.now(), n.total = r.total, r.me.social.loaded.facebook = !0, console.log('Facebook processFriends contacts=', r.account.contacts, 'facebook.me.social.loaded.facebook=', r.me.social.loaded.facebook, 'facebook.me.sync=', r.me.sync);
           });
         },
         processFriend: function (e) {
-          console.log('Facebook processFriend friend=', e), console.log('Facebook processFriend profile.key=', r.account.profile.key, 'afAccount=', r.afAccount);
-          var t = r.afAccount.contacts.partners, o = r.me.social.contacts.facebook[e.id] = {
+          console.log('Facebook processFriend friend=', e), console.log('Facebook processFriend profile.key=', r.account.profile.key, 'account=', r.account);
+          var t = r.account.contacts.partners, o = r.me.social.contacts.facebook[e.id] = {
               profileKey: r.account.profile.key,
               provider: 'facebook',
               service: 'facebook',
@@ -4389,52 +4345,56 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$http',
   '$timeout',
-  function (e, t, o) {
-    var n = 'GPlus', i = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', r = 'https://www.googleapis.com/plus/v1/people/me', s = 'https://www.googleapis.com/plus/v1/people/me/people/visible', a = {
+  'JWT',
+  function (e, t, o, n) {
+    var i = 'GPlus', r = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', s = 'https://www.googleapis.com/plus/v1/people/me', a = 'https://www.googleapis.com/plus/v1/people/me/people/visible', l = {
         me: null,
         account: null,
-        afAccount: null,
         total: 0,
         people: null,
         token: null,
         getPeople: function (t, o, n) {
-          if (a.me = t, a.account = o, a.afAccount = t.sync.user.accounts[o.profile.key], a.token = n, a.me.social.loaded.gplus = !1, !t.social.loading.gplus) {
+          if (l.me = t, l.account = o, l.token = n, l.me.social.loaded.gplus = !1, !t.social.loading.gplus) {
             t.social.loading.gplus = !0;
-            var r = e(i, { token: n });
-            a.profile = r.get(a.processProfile, a.requestError);
+            var i = e(r, { token: n });
+            l.profile = i.get(l.processProfile, l.requestError);
           }
         },
         processProfile: function (e) {
-          console.log(n, 'processProfile profile=', e), t({
+          console.log(i, 'processProfile profile=', e), t({
             method: 'GET',
-            url: r,
+            url: s,
             params: { key: CONFIG_1ST_REVENUE.gplusAPIKey },
             headers: { Authorization: 'Bearer ' + e.auth.accessToken }
-          }).success(a.processGPlusProfile).error(a.requestError), a.total = 0, a.afAccount.contacts = a.afAccount.contacts || { refreshed: Date.now() }, a.bearerToken = e.auth.accessToken, a.sendPeopleRequest();
+          }).success(l.processGPlusProfile).error(l.requestError), l.total = 0, l.account.contacts = l.account.contacts || { refreshed: Date.now() }, l.bearerToken = e.auth.accessToken, l.sendPeopleRequest();
+        },
+        verifyExpiration: function (e) {
+          var t = n.decodeJWT(e), o = t[1].exp;
+          Math.floor(Date.now()) > o;
         },
         sendPeopleRequest: function (e) {
           t({
             method: 'GET',
-            url: s,
+            url: a,
             params: {
               key: CONFIG_1ST_REVENUE.gplusAPIKey,
               pageToken: e || null
             },
-            headers: { Authorization: 'Bearer ' + a.bearerToken }
-          }).success(a.processGPlusPeople).error(a.requestError);
+            headers: { Authorization: 'Bearer ' + l.bearerToken }
+          }).success(l.processGPlusPeople).error(l.requestError);
         },
         processGPlusProfile: function (e) {
           console.log('GPlus processGPlusProfile gprofile=', e);
         },
         processGPlusPeople: function (e) {
-          console.log('GPlus processGPlusPeople people=', e), a.me.social.contacts.gplus = a.me.social.contacts.gplus || {}, o(function () {
-            _.each(e.items, a.processPerson), e.nextPageToken ? a.sendPeopleRequest(e.nextPageToken) : (a.afAccount.contacts.refreshed = Date.now(), a.afAccount.contacts.total = a.total, a.me.social.loaded.gplus = !0, a.me.social.loading.gplus = !1);
+          console.log('GPlus processGPlusPeople people=', e), l.me.social.contacts.gplus = l.me.social.contacts.gplus || {}, o(function () {
+            _.each(e.items, l.processPerson), e.nextPageToken ? l.sendPeopleRequest(e.nextPageToken) : (l.account.contacts.refreshed = Date.now(), l.account.contacts.total = l.total, l.me.social.loaded.gplus = !0, l.me.social.loading.gplus = !1);
           });
         },
         processPerson: function (e) {
           console.log('GPlus processPerson person=', e);
-          var t = a.afAccount.contacts.partners, o = a.me.social.contacts.gplus[e.id] = {
-              profileKey: a.account.profile.key,
+          var t = l.account.contacts.partners, o = l.me.social.contacts.gplus[e.id] = {
+              profileKey: l.account.profile.key,
               provider: 'singly',
               service: 'gplus',
               type: e.objectType,
@@ -4443,13 +4403,13 @@ FirstRevenueApp.controller('AdminController', [
               id: e.id,
               serviceId: e.id
             };
-          t && t[e.id] && (o.partner = t[e.id]), a.total += 1, console.log('GPlus processPerson c=', o);
+          t && t[e.id] && (o.partner = t[e.id]), l.total += 1, console.log('GPlus processPerson c=', o);
         },
         requestError: function (e) {
           console.log('GPlus requestError error=', e);
         }
       };
-    return a;
+    return l;
   }
 ]), FirstRevenueApp.factory('LinkedIn', [
   '$resource',
@@ -4458,7 +4418,6 @@ FirstRevenueApp.controller('AdminController', [
     var o = 'https://api.singly.com/proxy/linkedin/people/~/connections?format=json&access_token=:token&scope=r_network', n = 'https://api.singly.com/proxy/linkedin/people/~/mailbox?format=json&access_token=:token&scope=w_messages', i = {
         me: null,
         account: null,
-        afAccount: null,
         total: 0,
         friends: null,
         token: null,
@@ -4478,18 +4437,18 @@ FirstRevenueApp.controller('AdminController', [
           console.log('LinkedIn processMessage err=', e, 'msgResponse=', t);
         },
         getFriends: function (t, n, r, s) {
-          i.me = t, i.account = n, i.afAccount = t.sync.user.accounts[n.profile.key], i.token = r, i.me.social.loaded.linkedin = !1, console.log('LinkedIn getFriends token=', r);
+          i.me = t, i.account = n, i.token = r, i.me.social.loaded.linkedin = !1, console.log('LinkedIn getFriends token=', r);
           var a = e(o, { token: r }), l = s || i.processFriends;
           i.friends = a.get(l, i.requestError);
         },
         processFriends: function (e) {
           console.log('LinkedIn processFriends friends=', e), i.me.social.contacts.linkedin = i.me.social.contacts.linkedin || {}, t(function () {
-            i.total = 0, i.afAccount.contacts = i.afAccount.contacts || { refreshed: Date.now() }, _.each(e.values, i.processFriend), i.afAccount.contacts.refreshed = Date.now(), i.afAccount.contacts.total = i.total, i.me.social.loaded.linkedin = !0;
+            i.total = 0, i.account.contacts = i.account.contacts || { refreshed: Date.now() }, _.each(e.values, i.processFriend), i.account.contacts.refreshed = Date.now(), i.account.contacts.total = i.total, i.me.social.loaded.linkedin = !0;
           });
         },
         processFriend: function (e) {
           if (console.log('LinkedIn processFriend friend=', e), 'private' !== e.id) {
-            var t = i.afAccount.contacts.partners, o = i.me.social.contacts.linkedin[e.id] = {
+            var t = i.account.contacts.partners, o = i.me.social.contacts.linkedin[e.id] = {
                 profileKey: i.account.profile.key,
                 provider: 'singly',
                 service: 'linkedin',

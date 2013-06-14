@@ -1,22 +1,20 @@
-<div class="add-new-peer">
+<!--div class="add-new-peer">
   <div class="add-new-peer-icon"></div>
-</div>
+</div-->
 
-<div class="peer-count">
+<!--div class="peer-count">
   {{db.peerCount()}}
-</div>
+</div-->
 
-<!--div ng-repeat="dbuser in db.users"
-     ng-show="dbuser.id != user.account.id"-->
 <div ng-repeat="(peerKey, peer) in sync.peers"
      class="ribbon-item"
      ng-class="{'ribbon-item-current': me.isMyself(peerKey)}">
-  <img ng-src="{{peer.profile.image}}"
+  <img ng-src="{{peer.image}}"
        class="user-icon"
-       ng-show="peer.profile.image"
-       title="{{peer.profile.name}}" />
+       ng-show="peer.image"
+       title="{{peer.name}}" />
   <img ng-src="images/bbf82395.light_avatar_small.png"
        class="user-icon"
-       ng-hide="peer.profile.image"
-       title="{{peer.profile.id}}" />
+       ng-hide="peer.image"
+       title="{{peer.id}}" />
 </div>

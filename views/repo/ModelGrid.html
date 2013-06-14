@@ -4,7 +4,7 @@
     <div ng-repeat="mid in catalog.getModelIdList(layout.view)"
          zzz-ng-show="catalog.filterMatch(m.tags)">
       <div class="span2 well canvas-link model"
-           ng-class="{'model-public': catalog.isPublic(mid)}"
+           ng-class="{'model-public': catalog.isPublic(mid), 'model-shared': catalog.isShared(mid)}"
            title="{{catalog.getFields(mid).name}}">
         <a ng-href="#/canvas/{{mid}}">
           <img class="model-icon"
