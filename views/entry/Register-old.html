@@ -12,42 +12,23 @@
     Modify 1st Revenue account
   </h2>
 
-  <div class="well well-large register-profile"
+  <div class="well well-large signup-profile"
        ng-hide="me.mp.user.profile.ready">
     Attach one or more accounts to build your 1st Revenue profile
   </div>
-  <fieldset class="well well-large register-profile container-fluid"
+  <fieldset class="well well-large signup-profile container-fluid"
        ng-show="me.mp.user.profile.ready">
     <legend class="register-connected">
       Connected identities
     </legend>
-    <div ng-repeat="(key, s) in me.mp.services"
-         class="alert alert-success alert-block row-fluid">
-      <div class="span9">
-        <span first-revenue-service-icon="key"></span>
-        <img ng-src="{{s.image}}"
-             ng-show="s.image"
-             class="user-icon" />
-        <img ng-src="images/bbf82395.light_avatar_small.png"
-             ng-hide="s.image"
-             class="user-icon" />
-        {{s.name}}
-      </div>
-      <button class="btn btn-danger span3"
-              ng-disabled="true"
-              ng-click="register.detach(key)">
-        <i class="icon-remove"></i>
-        Detach
-      </button>
-    </div>
-    <!--div ng-repeat="(key, cred) in me.mp.getCredentials()"
+    <div ng-repeat="(key, cred) in me.mp.getCredentials()"
          class="alert alert-success alert-block row-fluid">
       <div class="span9">
         <span first-revenue-service-icon="cred.profile.service"></span>
         <img ng-src="{{cred.profile.image}}"
              ng-show="cred.profile.image"
              class="user-icon" />
-        <img ng-src="images/bbf82395.light_avatar_small.png"
+        <img ng-src="{{cred.profile.image}}"
              ng-hide="cred.profile.image"
              class="user-icon" />
         {{cred.profile.name}}
@@ -56,32 +37,34 @@
               ng-click="me.mp.detach(key)">
         <i class="icon-remove"></i>
         Detach
+        <!--  &times; -->
       </button>
-    </div-->
+    </div>
     <div>
       <button class="btn btn-success btn-large"
               ng-show="me.mp.user.profile.ready"
-              ng-click="register.saveChanges()">
+              ng-click="signUp.signUp()">
         <i class="icon-save"></i>
         Save changes
       </button>
     </div>
   </fieldset>
 
-  <fieldset class="well well-large register-attached container-fluid">
+  <fieldset class="well well-large signup-attached container-fluid">
     <legend class="register-supported">
       Supported services
     </legend>
-    <div ng-repeat="(key, pr) in providerList() | orderBy:'seq'"
+    <div ng-repeat="pr in providerList() | orderBy:'seq'"
+         ng-hide="pr.attached"
          class="alert alert-info alert-block row-fluid">
       <div class="span9">
-        <span first-revenue-service-icon="key"></span>
+        <span first-revenue-service-icon="pr.provider"></span>
         <span>
           {{pr.title}}
         </span>
       </div>
       <button class="btn btn-primary span3"
-              ng-click="register.attach(key)">
+              ng-click="signUp.attach(pr.provider)">
         <i class="icon-plus"></i>
         Attach
       </button>
@@ -92,7 +75,7 @@
 
   <!--div class="alert alert-success alert-block">
     <div ng-repeat="(key, cred) in me.mp.getCredentials()"
-         class="well register-attached">
+         class="well signup-attached">
       <div class="clearfix">
         <img ng-src="{{cred.profile.image}}"
              class="pull-right user-icon" />
@@ -147,12 +130,12 @@
     <div class="clearfix">
       <button class="btn btn-primary disabled pull-right"
               ng-show="me.mp.user.profile.ready"
-              ng-click="register.modify()">
+              ng-click="signUp.modify()">
         <i class="icon-edit"></i>
         Modify
       </button-->
       <!--button class="btn btn-warning disabled"
-              ng-hide="register.account.ready">
+              ng-hide="signUp.account.ready">
         <i class="icon-plus"></i>
         Sign Up
       </button-->
@@ -161,7 +144,7 @@
       </div>
       <button class="btn btn-success"
               ng-show="me.mp.user.profile.ready"
-              ng-click="register.saveChanges()">
+              ng-click="signUp.signUp()">
         <i class="icon-plus"></i>
         Sign Up
       </button>

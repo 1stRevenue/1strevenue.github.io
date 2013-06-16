@@ -1,29 +1,29 @@
-<h2>Invite</h2>
-<div>
-  One of your {{service}} contacts sent you an invite to join
-  <strong>1stRevenue.com</strong>
+<h2>Invite to join the 1st Revenue</h2>
+<div class="alert alert-success alert-block">
+  <p>One of your {{service}} contacts sent you an invite to join
+  <strong>1stRevenue.com</strong></p>
+  <p>The invite code is {{inviteId}}</p>
 </div>
-<div>The invite code is {{inviteId}}</div>
 <!--div>Session found: {{me.sessionFound}}</div-->
-<div ng-show="!invite.completed"
+<div ng-hide="invite.completed"
      ng-switch="me.sessionFound">
   <div ng-switch-when="true">
-    <div>There's a previous 1st Revenue session for this browser</div>
-    <div>
-      with the following account:
-      {{user.lastUser.provider}}-{{user.lastUser.id}}
-      ({{user.lastUser.name}})
+    <div class="alert alert-error alert-block">
+      <p>There's a previous 1st Revenue session for this browser
+      with the following account:</p>
+      <p>{{me.mp.lastUser.provider}}-{{me.mp.lastUser.id}}
+      (<strong>{{me.mp.lastUser.name}}</strong>)</p>
     </div>
-    <div>
-      Choose to abandon the session and accept the new invite or
-      ignore the invite and continue with the previous session
-    </div>
-    <div>
-      <button class="btn btn-danger"
+    <div class="alert alert-warning alert-block">
+      Ignore the invite and continue with the previous session
+      <button class="btn btn-warning"
               ng-show="service"
               ng-click="invite.ignoreInvite(service)">
         Ignore invite
       </button>
+    </div>
+    <div class="alert alert-info alert-block">
+      Abandon the session and accept the new invite
       <button class="btn btn-primary"
               ng-show="service"
               ng-click="invite.acceptInvite(service)">
@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<div ng-show="!invite.inviteValue">
+<div ng-hide="invite.inviteValue">
   The invite with the given code does not exist anymore
 </div>
 
@@ -50,10 +50,10 @@
 
 <div ng-show="invite.error">
   <div class="alert alert-error alert-block">
-    {{invite.error}}
+    {{invite.error.message}}
   </div>
-  Ignore the invite and create your independent account
-  <div>
+  <div class="alert alert-info alert-block">
+    Ignore the invite and create your independent account
     <button class="btn btn-primary"
             ng-click="createAccount()">
       Create 1st Revenue account

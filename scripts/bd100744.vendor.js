@@ -9,7 +9,7 @@ var Opentip, firstAdapter, i, mouseMoved, mousePosition, mousePositionObservers,
   }, __hasProp = {}.hasOwnProperty;
 for (Opentip = function () {
     function e(t, n, o, i) {
-      var r, s, a, l, c, u, d, h, p, g, f, m, v, b, y = this;
+      var r, s, a, l, c, u, d, h, p, g, f, v, m, b, y = this;
       if (this.id = ++e.lastId, this.debug('Creating Opentip.'), e.tips.push(this), this.adapter = e.adapter, r = this.adapter.data(t, 'opentips') || [], r.push(this), this.adapter.data(t, 'opentips', r), this.triggerElement = this.adapter.wrap(t), this.triggerElement.length > 1)
         throw Error('You can\'t call Opentip on multiple elements.');
       if (1 > this.triggerElement.length)
@@ -35,25 +35,25 @@ for (Opentip = function () {
           for (n = i.hideTriggers, o = [], e = 0, t = n.length; t > e; e++)
             s = n[e], o.push(s);
           return o;
-        }(), i.hideTrigger && 0 === i.hideTriggers.length && i.hideTriggers.push(i.hideTrigger), m = [
+        }(), i.hideTrigger && 0 === i.hideTriggers.length && i.hideTriggers.push(i.hideTrigger), v = [
           'tipJoint',
           'targetJoint',
           'stem'
-        ], d = 0, p = m.length; p > d; d++)
-        c = m[d], i[c] && 'string' == typeof i[c] && (i[c] = new e.Joint(i[c]));
+        ], d = 0, p = v.length; p > d; d++)
+        c = v[d], i[c] && 'string' == typeof i[c] && (i[c] = new e.Joint(i[c]));
       for (!i.ajax || i.ajax !== !0 && i.ajax || (i.ajax = 'A' === this.adapter.tagName(this.triggerElement) ? this.adapter.attr(this.triggerElement, 'href') : !1), 'click' === i.showOn && 'A' === this.adapter.tagName(this.triggerElement) && this.adapter.observe(this.triggerElement, 'click', function (e) {
           return e.preventDefault(), e.stopPropagation(), e.stopped = !0;
         }), i.target && (i.fixed = !0), i.stem === !0 && (i.stem = new e.Joint(i.tipJoint)), i.target === !0 ? i.target = this.triggerElement : i.target && (i.target = this.adapter.wrap(i.target)), this.currentStem = i.stem, null == i.delay && (i.delay = 'mouseover' === i.showOn ? 0.2 : 0), null == i.targetJoint && (i.targetJoint = new e.Joint(i.tipJoint).flip()), this.showTriggers = [], this.showTriggersWhenVisible = [], this.hideTriggers = [], i.showOn && 'creation' !== i.showOn && this.showTriggers.push({
           element: this.triggerElement,
           event: i.showOn
-        }), null != i.ajaxCache && (i.cache = i.ajaxCache, delete i.ajaxCache), this.options = i, this.bound = {}, v = [
+        }), null != i.ajaxCache && (i.cache = i.ajaxCache, delete i.ajaxCache), this.options = i, this.bound = {}, m = [
           'prepareToShow',
           'prepareToHide',
           'show',
           'hide',
           'reposition'
-        ], h = 0, g = v.length; g > h; h++)
-        a = v[h], this.bound[a] = function (e) {
+        ], h = 0, g = m.length; g > h; h++)
+        a = m[h], this.bound[a] = function (e) {
           return function () {
             return y[e].apply(y, arguments);
           };
@@ -140,12 +140,12 @@ for (Opentip = function () {
     }, e.prototype.deactivate = function () {
       return this.debug('Deactivating tooltip.'), this.hide(), this._setupObservers('-showing', '-visible', '-hidden', '-hiding');
     }, e.prototype._setupObservers = function () {
-      var e, t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, m = this;
+      var e, t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, v = this;
       for (o = arguments.length >= 1 ? __slice.call(arguments, 0) : [], r = 0, c = o.length; c > r; r++)
         if (n = o[r], t = !1, '-' === n.charAt(0) && (t = !0, n = n.substr(1)), this.currentObservers[n] !== !t)
           switch (this.currentObservers[n] = !t, e = function () {
               var e, n, o;
-              return e = arguments.length >= 1 ? __slice.call(arguments, 0) : [], t ? (n = m.adapter).stopObserving.apply(n, e) : (o = m.adapter).observe.apply(o, e);
+              return e = arguments.length >= 1 ? __slice.call(arguments, 0) : [], t ? (n = v.adapter).stopObserving.apply(n, e) : (o = v.adapter).observe.apply(o, e);
             }, n) {
           case 'showing':
             for (p = this.hideTriggers, s = 0, u = p.length; u > s; s++)
@@ -250,16 +250,16 @@ for (Opentip = function () {
         !1
       ], 0 > t[0] ? o[0] = this.STICKS_OUT_LEFT : t[0] + this.dimensions.width > i.width && (o[0] = this.STICKS_OUT_RIGHT), 0 > t[1] ? o[1] = this.STICKS_OUT_TOP : t[1] + this.dimensions.height > i.height && (o[1] = this.STICKS_OUT_BOTTOM), o;
     }, e.prototype._draw = function () {
-      var t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, m, v, b, y, w = this;
+      var t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, v, m, b, y, w = this;
       if (this.backgroundCanvas && this.redraw) {
         if (this.debug('Drawing background.'), this.redraw = !1, this.currentStem) {
-          for (v = [
+          for (m = [
               'top',
               'right',
               'bottom',
               'left'
-            ], f = 0, m = v.length; m > f; f++)
-            h = v[f], this.adapter.removeClass(this.container, 'stem-' + h);
+            ], f = 0, v = m.length; v > f; f++)
+            h = m[f], this.adapter.removeClass(this.container, 'stem-' + h);
           this.adapter.addClass(this.container, 'stem-' + this.currentStem.horizontal), this.adapter.addClass(this.container, 'stem-' + this.currentStem.vertical);
         }
         return s = [
@@ -1121,27 +1121,27 @@ var FirebaseIndex;
     if (u(e.element), null != c) {
       var d = c.querySelector('.introjs-helperNumberLayer'), h = c.querySelector('.introjs-tooltiptext'), p = c.querySelector('.introjs-arrow'), g = c.querySelector('.introjs-tooltip'), f = c.querySelector('.introjs-skipbutton');
       t = c.querySelector('.introjs-prevbutton');
-      var m = c.querySelector('.introjs-nextbutton');
+      var v = c.querySelector('.introjs-nextbutton');
       if (g.style.opacity = 0, s.call(a, c), (c = document.querySelectorAll('.introjs-fixParent')) && c.length > 0)
-        for (var v = c.length - 1; v >= 0; v--)
-          c[v].className = c[v].className.replace(/introjs-fixParent/g, '').replace(/^\s+|\s+$/g, '');
+        for (var m = c.length - 1; m >= 0; m--)
+          c[m].className = c[m].className.replace(/introjs-fixParent/g, '').replace(/^\s+|\s+$/g, '');
       c = document.querySelector('.introjs-showElement'), c.className = c.className.replace(/introjs-[a-zA-Z]+/g, '').replace(/^\s+|\s+$/g, ''), a._lastShowElementTimer && clearTimeout(a._lastShowElementTimer), a._lastShowElementTimer = setTimeout(function () {
         d.innerHTML = e.step, h.innerHTML = e.intro, r.call(a, e.element, g, p), g.style.opacity = 1;
       }, 350);
     } else {
-      f = document.createElement('div'), t = document.createElement('span'), c = document.createElement('div'), v = document.createElement('div'), f.className = 'introjs-helperLayer', s.call(a, f), this._targetElement.appendChild(f), t.className = 'introjs-helperNumberLayer', c.className = 'introjs-arrow', v.className = 'introjs-tooltip', t.innerHTML = e.step, v.innerHTML = '<div class="introjs-tooltiptext">' + e.intro + '</div><div class="introjs-tooltipbuttons"></div>', f.appendChild(t), v.appendChild(c), f.appendChild(v), m = document.createElement('a'), m.onclick = function () {
+      f = document.createElement('div'), t = document.createElement('span'), c = document.createElement('div'), m = document.createElement('div'), f.className = 'introjs-helperLayer', s.call(a, f), this._targetElement.appendChild(f), t.className = 'introjs-helperNumberLayer', c.className = 'introjs-arrow', m.className = 'introjs-tooltip', t.innerHTML = e.step, m.innerHTML = '<div class="introjs-tooltiptext">' + e.intro + '</div><div class="introjs-tooltipbuttons"></div>', f.appendChild(t), m.appendChild(c), f.appendChild(m), v = document.createElement('a'), v.onclick = function () {
         a._introItems.length - 1 != a._currentStep && n.call(a);
-      }, m.href = 'javascript:void(0);', m.innerHTML = this._options.nextLabel, t = document.createElement('a'), t.onclick = function () {
+      }, v.href = 'javascript:void(0);', v.innerHTML = this._options.nextLabel, t = document.createElement('a'), t.onclick = function () {
         0 != a._currentStep && o.call(a);
       }, t.href = 'javascript:void(0);', t.innerHTML = this._options.prevLabel, f = document.createElement('a'), f.className = 'introjs-button introjs-skipbutton', f.href = 'javascript:void(0);', f.innerHTML = this._options.skipLabel, f.onclick = function () {
         i.call(a, a._targetElement);
       };
-      var b = v.querySelector('.introjs-tooltipbuttons');
-      b.appendChild(f), b.appendChild(t), b.appendChild(m), r.call(a, e.element, v, c);
+      var b = m.querySelector('.introjs-tooltipbuttons');
+      b.appendChild(f), b.appendChild(t), b.appendChild(v), r.call(a, e.element, m, c);
     }
-    for (0 == this._currentStep ? (t.className = 'introjs-button introjs-prevbutton introjs-disabled', m.className = 'introjs-button introjs-nextbutton', f.innerHTML = this._options.skipLabel) : this._introItems.length - 1 == this._currentStep ? (f.innerHTML = this._options.doneLabel, t.className = 'introjs-button introjs-prevbutton', m.className = 'introjs-button introjs-nextbutton introjs-disabled') : (t.className = 'introjs-button introjs-prevbutton', m.className = 'introjs-button introjs-nextbutton', f.innerHTML = this._options.skipLabel), m.focus(), e.element.className += ' introjs-showElement', f = l(e.element, 'position'), 'absolute' !== f && 'relative' !== f && (e.element.className += ' introjs-relativePosition'), f = e.element.parentNode; null != f && 'body' !== f.tagName.toLowerCase();)
+    for (0 == this._currentStep ? (t.className = 'introjs-button introjs-prevbutton introjs-disabled', v.className = 'introjs-button introjs-nextbutton', f.innerHTML = this._options.skipLabel) : this._introItems.length - 1 == this._currentStep ? (f.innerHTML = this._options.doneLabel, t.className = 'introjs-button introjs-prevbutton', v.className = 'introjs-button introjs-nextbutton introjs-disabled') : (t.className = 'introjs-button introjs-prevbutton', v.className = 'introjs-button introjs-nextbutton', f.innerHTML = this._options.skipLabel), v.focus(), e.element.className += ' introjs-showElement', f = l(e.element, 'position'), 'absolute' !== f && 'relative' !== f && (e.element.className += ' introjs-relativePosition'), f = e.element.parentNode; null != f && 'body' !== f.tagName.toLowerCase();)
       t = l(f, 'z-index'), /[0-9]+/.test(t) && (f.className += ' introjs-fixParent'), f = f.parentNode;
-    f = e.element.getBoundingClientRect(), f.top >= 0 && f.left >= 0 && f.bottom + 80 <= window.innerHeight && f.right <= window.innerWidth || (t = e.element.getBoundingClientRect(), f = t.bottom - (t.bottom - t.top), m = t.bottom, t = void 0 != window.innerWidth ? window.innerHeight : document.documentElement.clientHeight, t = m - t, 0 > f ? window.scrollBy(0, f - 30) : window.scrollBy(0, t + 100));
+    f = e.element.getBoundingClientRect(), f.top >= 0 && f.left >= 0 && f.bottom + 80 <= window.innerHeight && f.right <= window.innerWidth || (t = e.element.getBoundingClientRect(), f = t.bottom - (t.bottom - t.top), v = t.bottom, t = void 0 != window.innerWidth ? window.innerHeight : document.documentElement.clientHeight, t = v - t, 0 > f ? window.scrollBy(0, f - 30) : window.scrollBy(0, t + 100));
   }
   function l(e, t) {
     var n = '';
@@ -1334,7 +1334,7 @@ var FirebaseIndex;
   'use strict';
   var t = 6, n = 4, o = 'asc', i = 'desc', r = '_ng_field_', s = '_ng_depth_', a = '_ng_hidden_', l = '_ng_column_', c = /CUSTOM_FILTERS/g, u = /COL_FIELD/g, d = /DISPLAY_CELL_TEMPLATE/g, h = /EDITABLE_CELL_TEMPLATE/g, p = /<.+>/;
   e.ng || (e.ng = {}), e.ngGrid = {}, e.ngGrid.i18n = {};
-  var g = angular.module('ngGrid.services', []), f = angular.module('ngGrid.directives', []), m = angular.module('ngGrid.filters', []);
+  var g = angular.module('ngGrid.services', []), f = angular.module('ngGrid.directives', []), v = angular.module('ngGrid.filters', []);
   angular.module('ngGrid', [
     'ngGrid.services',
     'ngGrid.directives',
@@ -1356,8 +1356,8 @@ var FirebaseIndex;
     }) : i.filteredRows;
     var f = 0;
     if (0 != c && (38 == s || 13 == s && o.shiftKey || 9 == s && o.shiftKey && l) ? f = -1 : c != g.length - 1 && (40 == s || 13 == s && !o.shiftKey || 9 == s && a) && (f = 1), f) {
-      var m = g[c + f];
-      m.beforeSelectionChange(m, o) && (m.continueSelection(o), e.$emit('ngGridEventDigestGridParent'), e.selectionService.lastClickedRow.renderedRowIndex >= e.renderedRows.length - t - 2 ? i.$viewport.scrollTop(i.$viewport.scrollTop() + e.rowHeight) : t + 2 >= e.selectionService.lastClickedRow.renderedRowIndex && i.$viewport.scrollTop(i.$viewport.scrollTop() - e.rowHeight));
+      var v = g[c + f];
+      v.beforeSelectionChange(v, o) && (v.continueSelection(o), e.$emit('ngGridEventDigestGridParent'), e.selectionService.lastClickedRow.renderedRowIndex >= e.renderedRows.length - t - 2 ? i.$viewport.scrollTop(i.$viewport.scrollTop() + e.rowHeight) : t + 2 >= e.selectionService.lastClickedRow.renderedRowIndex && i.$viewport.scrollTop(i.$viewport.scrollTop() - e.rowHeight));
     }
     return e.enableCellSelection && setTimeout(function () {
       e.domAccessProvider.focusCellElement(e, e.renderedColumns.indexOf(e.columns[r]));
@@ -1380,11 +1380,11 @@ var FirebaseIndex;
         e.call(i, s, r, t) && o.push(s);
       }
     return o;
-  }), m.filter('checkmark', function () {
+  }), v.filter('checkmark', function () {
     return function (e) {
       return e ? '\u2714' : '\u2718';
     };
-  }), m.filter('ngColumns', function () {
+  }), v.filter('ngColumns', function () {
     return function (e) {
       return e.filter(function (e) {
         return !e.isAggCol;
@@ -2209,13 +2209,13 @@ var FirebaseIndex;
         if (!f)
           return;
         d[g][a] = !0;
-        for (var m = u.groupedData, v = 0; t.length > v; v++) {
-          var b = t[v], y = p.filter(function (e) {
+        for (var v = u.groupedData, m = 0; t.length > m; m++) {
+          var b = t[m], y = p.filter(function (e) {
               return e.field == b;
             })[0], w = c.evalProperty(f, b);
-          w = w ? '' + w : 'null', m[w] || (m[w] = {}), m[r] || (m[r] = b), m[s] || (m[s] = v), m[l] || (m[l] = y), m = m[w];
+          w = w ? '' + w : 'null', v[w] || (v[w] = {}), v[r] || (v[r] = b), v[s] || (v[s] = m), v[l] || (v[l] = y), v = v[w];
         }
-        m.values || (m.values = []), m.values.push(d[g]);
+        v.values || (v.values = []), v.values.push(d[g]);
       }
       for (var C = 0; t.length > C; C++)
         !p[C].isAggCol && h >= C && p.splice(0, 0, new ng.Column({
@@ -2262,11 +2262,11 @@ var FirebaseIndex;
           var f = o.fieldMap[l.columnDisplay];
           if (!f)
             return !1;
-          var m = f.cellFilter.split(':'), v = f.cellFilter ? n(m[0]) : null, b = e[l.column] || e[f.field.split('.')[0]];
+          var v = f.cellFilter.split(':'), m = f.cellFilter ? n(v[0]) : null, b = e[l.column] || e[f.field.split('.')[0]];
           if (null == b)
             return !1;
-          if ('function' == typeof v) {
-            var y = '' + v('object' == typeof b ? r(b, f.field) : b, m[1]);
+          if ('function' == typeof m) {
+            var y = '' + m('object' == typeof b ? r(b, f.field) : b, v[1]);
             a = l.regex.test(y);
           } else
             a = l.regex.test('object' == typeof b ? '' + r(b, f.field) : '' + b);
@@ -3452,38 +3452,38 @@ var FirebaseIndex;
   }());
 }(window.jQuery), function (e) {
   function t(e, t, n) {
-    var u, d, h, w, C, S, k, T = t.version, I = t.errorCorrection, R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
+    var u, d, h, w, C, S, k, T = t.version, R = t.errorCorrection, I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
     switch (t.encodeMode) {
     case t.ENCODE_MODE.NUMERIC:
       var x = 0;
       for (u = 0; e.length > u; u++) {
         if (!(e[u] >= 48 && 57 >= e[u]))
           throw new TypeError('Invalid data format.');
-        x = 10 * x + (e[u] - 48), 2 === u % 3 && (E = a(R, E, i(x, 10)), x = 0);
+        x = 10 * x + (e[u] - 48), 2 === u % 3 && (E = a(I, E, i(x, 10)), x = 0);
       }
       switch (u % 3) {
       case 1:
-        E = a(R, E, i(x, 4));
+        E = a(I, E, i(x, 4));
         break;
       case 2:
-        E = a(R, E, i(x, 7));
+        E = a(I, E, i(x, 7));
         break;
       default:
       }
       if (T > 0)
         T >= 1 && 9 >= T ? S = 10 : T >= 10 && 26 >= T ? S = 12 : T >= 27 && 40 >= T && (S = 14);
       else {
-        if (k = o(E + 4 + 10, I), !(k > 0))
+        if (k = o(E + 4 + 10, R), !(k > 0))
           throw new RangeError('Too much data.');
         if (Math.abs(T) > k && (k = Math.abs(T)), k >= 1 && 9 >= k)
           S = 10;
         else {
-          if (k = o(E + 4 + 12, I), !(k > 0))
+          if (k = o(E + 4 + 12, R), !(k > 0))
             throw new RangeError('Too much data.');
           if (Math.abs(T) > k && (k = Math.abs(T)), k >= 10 && 26 >= k)
             S = 12;
           else {
-            if (k = o(E + 4 + 14, I), !(k > 0))
+            if (k = o(E + 4 + 14, R), !(k > 0))
               throw new RangeError('Too much data.');
             if (Math.abs(T) > k && (k = Math.abs(T)), !(k >= 27 && 40 >= k))
               throw new RangeError('Bug in version detection.');
@@ -3544,27 +3544,27 @@ var FirebaseIndex;
       for (u = 0; e.length - 1 > u; u += 2) {
         if (_ = c(96 === (96 & e[u]) ? 95 & e[u] : e[u], M), A = c(96 === (96 & e[u + 1]) ? 95 & e[u + 1] : e[u + 1], M), -1 === _ || -1 === A)
           throw Error('Character not supported in ALPHA_NUMERIC encoding mode.');
-        E = a(R, E, i(45 * _ + A, 11));
+        E = a(I, E, i(45 * _ + A, 11));
       }
       if (u === e.length - 1) {
         if (_ = c(96 === (96 & e[u]) ? 95 & e[u] : e[u], M), -1 === _)
           throw Error('Character not supported in ALPHA_NUMERIC encoding mode.');
-        E = a(R, E, i(_, 6));
+        E = a(I, E, i(_, 6));
       }
       if (T > 0)
         T >= 1 && 9 >= T ? S = 9 : T >= 10 && 26 >= T ? S = 11 : T >= 27 && 40 >= T && (S = 13);
       else {
-        if (k = o(E + 4 + 9, I), !(k > 0))
+        if (k = o(E + 4 + 9, R), !(k > 0))
           throw new RangeError('Too much data.');
         if (Math.abs(T) > k && (k = Math.abs(T)), k >= 1 && 9 >= k)
           S = 9;
         else {
-          if (k = o(E + 4 + 11, I), !(k > 0))
+          if (k = o(E + 4 + 11, R), !(k > 0))
             throw new RangeError('Too much data.');
           if (Math.abs(T) > k && (k = Math.abs(T)), k >= 10 && 26 >= k)
             S = 11;
           else {
-            if (k = o(E + 4 + 13, I), !(k > 0))
+            if (k = o(E + 4 + 13, R), !(k > 0))
               throw new RangeError('Too much data.');
             if (Math.abs(T) > k && (k = Math.abs(T)), !(k >= 27 && 40 >= k))
               throw new RangeError('Bug in version detection.');
@@ -3578,16 +3578,16 @@ var FirebaseIndex;
     case t.ENCODE_MODE.UTF8:
     case t.ENCODE_MODE.UTF8_SIGNATURE:
       for (u = 0; e.length > u; u++)
-        E = a(R, E, i(e[u], 8));
+        E = a(I, E, i(e[u], 8));
       if (T > 0)
         T >= 0 && 9 >= T ? S = 8 : T >= 10 && 40 >= T && (S = 16);
       else {
-        if (k = o(E + 4 + 8, I), !(k > 0))
+        if (k = o(E + 4 + 8, R), !(k > 0))
           throw new RangeError('Too much data.');
         if (Math.abs(T) > k && (k = Math.abs(T)), k >= 1 && 9 >= k)
           S = 8;
         else {
-          if (k = o(E + 4 + 16, I), !(k > 0))
+          if (k = o(E + 4 + 16, R), !(k > 0))
             throw new RangeError('Too much data.');
           if (Math.abs(T) > k && (k = Math.abs(T)), !(k >= 10 && 40 >= k))
             throw new RangeError('Bug in version detection.');
@@ -3603,13 +3603,13 @@ var FirebaseIndex;
     }
     if (n)
       return T;
-    R = i(15 & t.encodeMode, 4).concat(i(e.length, S)).concat(R), E += 4 + S;
-    var P = g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][I] << 3;
+    I = i(15 & t.encodeMode, 4).concat(i(e.length, S)).concat(I), E += 4 + S;
+    var P = g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][R] << 3;
     if (E > P)
       throw new RangeError('Too much data for the selected version.');
     var L = P - E;
-    for (L > 4 && (L = 4), E = a(R, E, s(L, 0)), E = a(R, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
-      E = a(R, E, 1 & u ? [
+    for (L > 4 && (L = 4), E = a(I, E, s(L, 0)), E = a(I, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
+      E = a(I, E, 1 & u ? [
         0,
         0,
         0,
@@ -3628,15 +3628,15 @@ var FirebaseIndex;
         0,
         0
       ]);
-    var D = Math.floor((g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][I]) / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), F = Math.floor(g[T][p.ECC_BYTES][I] / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), $ = [], O = [];
-    for (u = 0, C = g[T][p.EC_BLOCKS][I][0]; C > u; u++) {
+    var D = Math.floor((g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][R]) / (g[T][p.EC_BLOCKS][R][0] + g[T][p.EC_BLOCKS][R][1])), F = Math.floor(g[T][p.ECC_BYTES][R] / (g[T][p.EC_BLOCKS][R][0] + g[T][p.EC_BLOCKS][R][1])), $ = [], O = [];
+    for (u = 0, C = g[T][p.EC_BLOCKS][R][0]; C > u; u++) {
       for (O = [], d = 0; D > d; d++)
-        O.push(r(R.splice(0, 8)));
+        O.push(r(I.splice(0, 8)));
       $.push(O);
     }
-    for (u = 0, C = g[T][p.EC_BLOCKS][I][1]; C > u; u++) {
+    for (u = 0, C = g[T][p.EC_BLOCKS][R][1]; C > u; u++) {
       for (O = [], d = 0; D >= d; d++)
-        O.push(r(R.splice(0, 8)));
+        O.push(r(I.splice(0, 8)));
       $.push(O);
     }
     var N = [], U = [];
@@ -3661,23 +3661,23 @@ var FirebaseIndex;
           throw Error('Bug while generating the ECC');
       }
     }
-    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; D >= u; u++)
+    for (I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; D >= u; u++)
       for (d = 0; $.length > d; d++)
-        $[d].length > u && (E = a(R, E, i($[d][u], 8)));
+        $[d].length > u && (E = a(I, E, i($[d][u], 8)));
     for (u = 0; F > u; u++)
       for (d = 0; B.length > d; d++)
-        B[d].length > u && (E = a(R, E, i(B[d][u], 8)));
+        B[d].length > u && (E = a(I, E, i(B[d][u], 8)));
     var G = 17 + (T << 2), K = Array(G);
     for (u = 0; G > u; u++)
       K[u] = s(G, 0);
-    for (l(K, 0, 0, m, y.FINDER), l(K, 0, G - 7, m, y.FINDER), l(K, G - 7, 0, m, y.FINDER), u = 0; 8 > u; u++)
+    for (l(K, 0, 0, v, y.FINDER), l(K, 0, G - 7, v, y.FINDER), l(K, G - 7, 0, v, y.FINDER), u = 0; 8 > u; u++)
       K[u][7] = y.SEPARATOR, K[7][u] = y.SEPARATOR, K[u][G - 8] = y.SEPARATOR, K[7][G - 1 - u] = y.SEPARATOR, K[G - 1 - u][7] = y.SEPARATOR, K[G - 8][u] = y.SEPARATOR;
     for (u = 8; G - 8 > u; u++)
       K[u][6] = y.TIMING | (u + 1) % 2, K[6][u] = y.TIMING | (u + 1) % 2;
     if (T > 1) {
       var z = g[T][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * T + 10;
       for (w = q;;) {
-        for (h = q; 6 === h && 6 === w || 6 === h && w === G - 7 || h === G - 7 && 6 === w || l(K, h - 2, w - 2, v, y.ALIGNMENT), 6 !== h;)
+        for (h = q; 6 === h && 6 === w || 6 === h && w === G - 7 || h === G - 7 && 6 === w || l(K, h - 2, w - 2, m, y.ALIGNMENT), 6 !== h;)
           h -= z, 18 > h && (h = 6);
         if (6 === w)
           break;
@@ -3695,7 +3695,7 @@ var FirebaseIndex;
     K[8][8] = 0 | y.FORMAT, K[G - 8][8] = 1 | y.FORMAT;
     var Y = -1;
     for (h = w = G - 1, u = 0; E > u; u++) {
-      K[w][h] = y.DATA | R[u];
+      K[w][h] = y.DATA | I[u];
       do
         if (h > 6 && 0 === (1 & h) || 6 > h && 1 === (1 & h))
           h--;
@@ -3715,7 +3715,7 @@ var FirebaseIndex;
       for (X[u] = [], w = 0; G > w; w++)
         for (X[u][w] = [], h = 0; G > h; h++)
           X[u][w][h] = K[w][h] & y.DATA ? 1 & (K[w][h] ^ b[u](h, w)) : 1 & K[w][h];
-      J = i(f[I][u], 15), X[u][G - 1][8] = X[u][8][0] = J[0], X[u][G - 2][8] = X[u][8][1] = J[1], X[u][G - 3][8] = X[u][8][2] = J[2], X[u][G - 4][8] = X[u][8][3] = J[3], X[u][G - 5][8] = X[u][8][4] = J[4], X[u][G - 6][8] = X[u][8][5] = J[5], X[u][G - 7][8] = X[u][8][7] = J[6], X[u][8][G - 8] = X[u][8][8] = J[7], X[u][8][G - 7] = X[u][7][8] = J[8], X[u][8][G - 6] = X[u][5][8] = J[9], X[u][8][G - 5] = X[u][4][8] = J[10], X[u][8][G - 4] = X[u][3][8] = J[11], X[u][8][G - 3] = X[u][2][8] = J[12], X[u][8][G - 2] = X[u][1][8] = J[13], X[u][8][G - 1] = X[u][0][8] = J[14];
+      J = i(f[R][u], 15), X[u][G - 1][8] = X[u][8][0] = J[0], X[u][G - 2][8] = X[u][8][1] = J[1], X[u][G - 3][8] = X[u][8][2] = J[2], X[u][G - 4][8] = X[u][8][3] = J[3], X[u][G - 5][8] = X[u][8][4] = J[4], X[u][G - 6][8] = X[u][8][5] = J[5], X[u][G - 7][8] = X[u][8][7] = J[6], X[u][8][G - 8] = X[u][8][8] = J[7], X[u][8][G - 7] = X[u][7][8] = J[8], X[u][8][G - 6] = X[u][5][8] = J[9], X[u][8][G - 5] = X[u][4][8] = J[10], X[u][8][G - 4] = X[u][3][8] = J[11], X[u][8][G - 3] = X[u][2][8] = J[12], X[u][8][G - 2] = X[u][1][8] = J[13], X[u][8][G - 1] = X[u][0][8] = J[14];
     }
     var Q, Z, et, tt, nt, ot = 0, it = 4294967295;
     for (u = 0; b.length > u; u++) {
@@ -5558,7 +5558,7 @@ var FirebaseIndex;
         11994,
         11245
       ]
-    ], m = [
+    ], v = [
       [
         1,
         1,
@@ -5622,7 +5622,7 @@ var FirebaseIndex;
         1,
         1
       ]
-    ], v = [
+    ], m = [
       [
         1,
         1,

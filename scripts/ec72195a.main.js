@@ -397,14 +397,14 @@ FirstRevenueApp.controller('AdminController', [
   '$timeout',
   'Auth',
   'Modal',
-  'SignUp',
+  'Register',
   function (e, t, o, n, i, r) {
     var s = 'EntryController';
     console.log(s, 'Entry route invoked Modal=', i, 'Auth=', n), angular.extend(e, {
       modal: i,
       auth: n,
       logonTabName: 'persona',
-      signUp: r,
+      register: r,
       personaFound: null !== navigator.id,
       logon: function () {
         console.log(s, 'logon'), e.modal.logon = !0;
@@ -803,22 +803,16 @@ FirstRevenueApp.controller('AdminController', [
   '$route',
   '$timeout',
   'Firebase',
-  'SignUp',
+  'Register',
   'Invite',
   function (e, t, o, n, i, r, s) {
     var a = 'RegisterController';
-    console.log(a, 'launched SignUp=', r), angular.extend(e, {
-      signUp: r,
+    console.log(a, 'launched'), angular.extend(e, {
+      register: r,
       service: null,
       providerList: function () {
-        var t = [];
-        return angular.forEach(r.providers, function (o, n) {
-          var i = _.contains(e.me.mp.getCredentialKeys(), n);
-          t.push(angular.extend(o, {
-            provider: n,
-            attached: i
-          }));
-        }), t;
+        var t = _.keys(e.me.mp.services);
+        return _.omit(r.providers, t);
       },
       getProv: function (t) {
         return r.providers[e.me.mp.credentials[t].profile.service];
@@ -1472,7 +1466,9 @@ FirstRevenueApp.controller('AdminController', [
       restrict: 'A',
       templateUrl: 'views/ServiceIconSwitch.html',
       link: function (e, n, i) {
-        e.service = t(i.firstRevenueServiceIcon)(e), console.log(o, 'link elm=', n, 'service=', e.service);
+        e.service = t(i.firstRevenueServiceIcon)(e), console.log(o, 'link elm=', n, 'attrs.firstRevenueServiceIcon=', i.firstRevenueServiceIcon, 'scope=', e, 'service=', e.service, 'scope.inviteId-', e.inviteId), e.$watch(i.firstRevenueServiceIcon, function (e, n, r) {
+          r.service = t(i.firstRevenueServiceIcon)(r), console.log(o, '$watch service=', r.service);
+        }, !0);
       }
     };
   }
@@ -1870,6 +1866,36 @@ FirstRevenueApp.controller('AdminController', [
         connected: !1,
         connStatus: 'Offline',
         notif: s,
+        providers: {
+          facebook: {
+            seq: 1,
+            icon: 'facebook',
+            title: 'Facebook',
+            method: 'simple',
+            scope: 'email'
+          },
+          linkedin: {
+            seq: 2,
+            icon: 'linkedin',
+            title: 'LinkedIn',
+            method: 'singly',
+            option: 'linkedin'
+          },
+          gplus: {
+            seq: 7,
+            icon: 'google-plus',
+            title: 'Google+',
+            method: 'singly',
+            option: 'gplus'
+          },
+          gcontacts: {
+            seq: 9,
+            icon: 'google-plus',
+            title: 'Google contacts',
+            method: 'singly',
+            option: 'gcontacts'
+          }
+        },
         init: function () {
           l.rootRef = new Firebase(l.endpoint), Firebase.enableLogging(!0), console.log(a, 'init fb.rootRef=', l.rootRef);
         },
@@ -1921,9 +1947,9 @@ FirstRevenueApp.controller('AdminController', [
               }));
             });
           } else
-            console.log(a, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), l.clearSession(), console.log(a, 'checkUserMap', 'Firebase session cleared'), l.authFailed({
+            console.log(a, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), l.clearSession(), console.log(a, 'checkUserMap', 'Firebase session cleared'), t.service = t.service || t.provider, l.authFailed({
               code: 'USER_UNKNOWN',
-              message: t.service + ' user ' + (t.name ? t.name : '') + ' (id=' + t.id + ') not found in 1st Revenue',
+              message: l.providers[t.service].title + ' user ' + (t.name ? t.name : '') + ' (id=' + t.id + ') not found in 1st Revenue',
               user: t
             });
         },
@@ -2221,20 +2247,22 @@ FirstRevenueApp.controller('AdminController', [
           var t = u.inviteValue;
           return 'singly' === e.provider ? e.service === t.service && e.services[e.service].id === t.serviceId : e.provider === t.service && e.id === t.serviceId;
         },
-        inviteExisting: function (e) {
-          var t = n.defer();
-          if (console.log(a, 'inviteExisting', 'mapValue=', e.mapValue, 'ivUser=', e), e.mapValue) {
-            console.log(a, 'inviteExisting', 'found usermap for user', e.provider + '/' + e.id, 'value=', e.mapValue);
-            var o = u.fb.rootRef.child('users').child(e.mapValue);
-            o.once('value', function (o) {
-              var n = o.val();
-              console.log(a, 'inviteExisting', 'userRecordRef once value userRecord=', n), e.record = n, t.resolve(e);
+        inviteExisting: function (t) {
+          var o = n.defer();
+          if (console.log(a, 'inviteExisting', 'mapValue=', t.mapValue, 'ivUser=', t), t.mapValue) {
+            console.log(a, 'inviteExisting', 'found usermap for user', t.provider + '/' + t.id, 'value=', t.mapValue);
+            var i = u.fb.rootRef.child('users').child(t.mapValue);
+            i.once('value', function (n) {
+              var i = n.val();
+              console.log(a, 'inviteExisting', 'userRecordRef once value userRecord=', i), e(function () {
+                t.record = i, o.resolve(t);
+              });
             }, function (e) {
-              console.log(a, 'inviteExisting', 'userRecordRef once value error=', e), t.reject(e);
+              console.log(a, 'inviteExisting', 'userRecordRef once value error=', e), o.reject(e);
             });
           } else
-            t.resolve(e);
-          return t.promise;
+            o.resolve(t);
+          return o.promise;
         },
         userFetched: function (t) {
           console.log(a, 'userFetched', 'ivUser=', t);
@@ -2849,6 +2877,171 @@ FirstRevenueApp.controller('AdminController', [
       }
     };
   }
+]), FirstRevenueApp.factory('Register', [
+  '$timeout',
+  '$resource',
+  '$location',
+  'Firebase',
+  'Auth',
+  'Myself',
+  '$q',
+  function (e, t, o, n, i, r, s) {
+    var a = 'Register';
+    console.log(a, 'Service launched');
+    var l = [
+        'facebook',
+        'twitter',
+        'github'
+      ], c = [
+        'linkedin',
+        'google',
+        'gplus',
+        'gmail',
+        'gcontacts'
+      ], u = r.mp, d = {
+        deferred: null,
+        fb: n,
+        fbAuthClient: null,
+        providers: n.providers,
+        userId: null,
+        res: t,
+        init: function () {
+          console.log(a, 'init'), d.fb.clearSession(), d.fbAuthClient = new FirebaseAuthClient(d.fb.rootRef, d.cbVerify);
+          var e = u.getLastUser();
+          e && (console.log(a, 'init attaching the last user firebaseSessionKey=', e.firebaseSessionKey), d.cbVerify(null, e));
+        },
+        attach: function (e, t, o) {
+          console.log(a, 'attach service=', e);
+          var n = u.credentials[e];
+          if (n && n.detached)
+            console.log(a, 'attach re-attach service=', e), n.detached = !1;
+          else if (u.isSameUser(e))
+            console.log(a, 'attach same user found for service=', e), d.cbVerify(null, u.getLastUser());
+          else if ('persona' === e)
+            d.personaLogin();
+          else if ('password' === e)
+            d.sendAuthRequest('/auth/firebase', {
+              email: t,
+              password: o
+            });
+          else if (_.contains(l, e)) {
+            var r = d.providers[e].scope, s = { rememberMe: !0 };
+            r && (s.scope = r), d.fbAuthClient.launchAuthWindow(e, s, d.cbVerify3);
+          } else
+            _.contains(c, e) && i.launchSinglyAuth(e, d.cbVerify);
+        },
+        detach: function (e) {
+          var t = d.credentials[e];
+          t && (t.detached = !0);
+        },
+        personaLogin: function () {
+          var e = d.handlePersonaResponse;
+          console.log(a, 'personaLogin'), navigator.id.watch({
+            onlogin: function (t) {
+              console.log(a, 'personaLogin onlogin assertion=', t), e(t);
+            },
+            onlogout: function () {
+              console.log(a, 'personaLogin onlogout');
+            }
+          }), navigator.id.request({
+            oncancel: function () {
+              console.log(a, 'personaLogin oncancel'), e(null);
+            }
+          });
+        },
+        handlePersonaResponse: function (e) {
+          console.log(a, 'handlePersonaResponse authResponse=', e), null === e ? d.cbVerify(d.fbAuthClient.formatError({
+            code: 'UNKNOWN_ERROR',
+            message: 'User denied authentication request or an error occurred.'
+          })) : d.sendAuthRequest('/auth/persona/authenticate', { assertion: e });
+        },
+        sendAuthRequest: function (e, t) {
+          console.log(a, 'sendAuthRequest url=', e, 'json=', t), d.fbAuthClient.jsonp(e, t, function (e, t) {
+            if (console.log(a, 'sendAuthRequest jsonp callback error=', e, 'response=', t), e || !t.token)
+              d.cbVerify(d.fbAuthClient.formatError(e));
+            else {
+              var o = t.user;
+              o.firebaseAuthToken = o.firebaseAuthToken || t.token, d.cbVerify(null, o);
+            }
+          });
+        },
+        cbVerify3: function (e, t, o) {
+          o.firebaseAuthToken = t, d.cbVerify(e, o);
+        },
+        cbVerify: function (e, t) {
+          console.log(a, 'cbVerify', 'Register=', d, ' error=', e, 'user=', t), e ? (console.log(a, 'cbVerify', 'launchError=', e), r.authFailed = !0) : t ? (console.log(a, 'cbVerify', 'sessionKey=', t.sessionKey), t.sessionKey ? t.firebaseSessionKey = t.sessionKey || null : t.sessionKey = t.firebaseSessionKey || null, d.fb.rootRef.auth(t.firebaseAuthToken, function (e) {
+            if (e)
+              console.log(a, 'cbVerify', 'authError=', e);
+            else {
+              console.log(a, 'cbVerify', 'user.provider=', t.provider);
+              var o = d.fb.rootRef.child('usermap'), n = o.child(t.provider).child(t.id);
+              n.once('value', function (e) {
+                console.log(a, 'cbVerify', 'mapUserRef once value=', e.val()), d.checkExisting(e.val(), t);
+              });
+            }
+          })) : (console.log(a, 'cbVerify', 'null user'), r.authFailed = !0);
+        },
+        checkExisting: function (t, o) {
+          if (console.log(a, 'checkExisting', 'value=', t, 'fbUser=', o), t) {
+            console.log(a, 'checkExisting', 'found usermap for user', o.provider + '/' + o.id, 'value=', t);
+            var n = d.fb.rootRef.child('users').child(t);
+            n.once('value', function (t) {
+              var n = t.val();
+              console.log(a, 'checkExisting', 'userRecordRef once value userRecord=', n), n ? e(function () {
+                u.retrieveUserRecord(n, o);
+              }) : u.buildServiceCredentials(o);
+            }, function (e) {
+              console.log(a, 'checkExisting', 'userRecordRef once value error=', e);
+            });
+          } else
+            console.log(a, 'checkExisting', 'value null - build credentials'), u.buildServiceCredentials(o);
+        },
+        doneCred: function () {
+          console.log(a, 'doneCred primaryToken=', d.primaryToken), d.primaryToken && d.fb.rootRef.auth(d.primaryToken, function (t) {
+            t ? console.log(a, 'doneCred', 'user account set auth failed error=', t) : d.recRef.set(r.mp.user, function (t) {
+              e(function () {
+                if (t)
+                  console.log(a, 'doneCred user account set error=', t);
+                else {
+                  console.log(a, 'doneCred user account record created');
+                  var e = r.mp.user.primary, o = r.mp.user.accounts[e].authentic;
+                  'singly' === o.provider ? console.log(a, 'doneCred provider singly authUser=', o) : (console.log(a, 'doneCred openSession authUser=', o), o.sessionKey = o.firebaseSessionKey, d.fbAuthClient.saveSession(d.primaryToken, o), r.authenticated = !0), d.fb.openSession(d.recRef.name(), o), r.mp.user = null;
+                }
+              });
+            });
+          });
+        },
+        saveChanges: function () {
+          d.mapRef = d.fb.rootRef.child('usermap'), d.accRef = d.fb.rootRef.child('users'), d.recRef = d.accRef.push(), d.userId = d.recRef.name(), d.loadCred(u.firstCred).then(d.recurseCred);
+        },
+        loadCred: function (e) {
+          console.log(a, 'loadCred', 'cred=', e);
+          var t = s.defer();
+          return d.processCred(e, t), t.promise;
+        },
+        recurseCred: function (e) {
+          console.log(a, 'recurseCred', 'cred=', e), e ? d.loadCred(e).then(d.recurseCred) : d.doneCred();
+        },
+        processCred: function (t, o) {
+          console.log(a, 'processCred', 'cred=', t, 'deferred=', o);
+          var n = t.profile;
+          d.primaryToken || (d.primaryToken = t.token), u.storeAccount(n, t), console.log(a, 'processCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
+          var i = d.mapRef.child(n.provider).child(n.id);
+          d.fb.rootRef.auth(t.token, function (n) {
+            n ? 'EXPIRED_TOKEN' === n.code ? console.log(a, 'processCred error=', n, 'Processing expired token') : (console.log(a, 'processCred', 'user map set auth failed error=', n), e(function () {
+              o.reject(n);
+            })) : i && (console.log(a, 'processCred', 'setUserMap mapUserRef found, userId=', d.userId), i.set(d.userId, function (n) {
+              n ? (console.log(a, 'processCred user map set error=', n), e(function () {
+                o.reject(n);
+              })) : (console.log(a, 'processCred user map record created, cred.next=', t.next), e(function () {
+                o.resolve(t.next);
+              }));
+            }));
+          });
+        }
+      };
+    return d;
+  }
 ]), FirstRevenueApp.factory('RrrrRrrr', [function () {
     return {
       launching: !0,
@@ -2925,197 +3118,7 @@ FirstRevenueApp.controller('AdminController', [
         '1uht5a12i'
       ]
     };
-  }]), FirstRevenueApp.factory('SignUp', [
-  '$timeout',
-  '$resource',
-  '$location',
-  'Firebase',
-  'Auth',
-  'Myself',
-  '$q',
-  function (e, t, o, n, i, r, s) {
-    var a = 'SignUp';
-    console.log(a, 'Service launched');
-    var l = [
-        'facebook',
-        'twitter',
-        'github'
-      ], c = [
-        'linkedin',
-        'google',
-        'gplus',
-        'gmail',
-        'gcontacts'
-      ], u = r.mp, d = {
-        deferred: null,
-        fb: n,
-        fbAuthClient: null,
-        providers: {
-          gplus: {
-            seq: 7,
-            icon: 'google-plus',
-            title: 'Google+',
-            method: 'singly',
-            option: 'gplus'
-          },
-          gcontacts: {
-            seq: 9,
-            icon: 'google-plus',
-            title: 'Google contacts',
-            method: 'singly',
-            option: 'gcontacts'
-          },
-          linkedin: {
-            seq: 2,
-            icon: 'linkedin',
-            title: 'LinkedIn',
-            method: 'singly',
-            option: 'linkedin'
-          },
-          facebook: {
-            seq: 1,
-            icon: 'facebook',
-            title: 'Facebook',
-            method: 'simple',
-            scope: 'email'
-          }
-        },
-        userId: null,
-        res: t,
-        init: function () {
-          console.log(a, 'init'), d.fb.clearSession(), d.fbAuthClient = new FirebaseAuthClient(d.fb.rootRef, d.cbVerify);
-          var e = u.getLastUser();
-          e && (console.log(a, 'init attaching the last user firebaseSessionKey=', e.firebaseSessionKey), d.cbVerify(null, e));
-        },
-        attach: function (e, t, o) {
-          console.log(a, 'attach service=', e);
-          var n = u.credentials[e];
-          if (n && n.detached)
-            console.log(a, 'attach re-attach service=', e), n.detached = !1;
-          else if (u.isSameUser(e))
-            console.log(a, 'attach same user found for service=', e), d.cbVerify(null, u.getLastUser());
-          else if ('persona' === e)
-            d.personaLogin();
-          else if ('password' === e)
-            d.sendAuthRequest('/auth/firebase', {
-              email: t,
-              password: o
-            });
-          else if (_.contains(l, e)) {
-            var r = d.providers[e].scope, s = { rememberMe: !0 };
-            r && (s.scope = r), d.fbAuthClient.launchAuthWindow(e, s, d.cbVerify3);
-          } else
-            _.contains(c, e) && i.launchSinglyAuth(e, d.cbVerify);
-        },
-        personaLogin: function () {
-          var e = d.handlePersonaResponse;
-          console.log(a, 'personaLogin'), navigator.id.watch({
-            onlogin: function (t) {
-              console.log(a, 'personaLogin onlogin assertion=', t), e(t);
-            },
-            onlogout: function () {
-              console.log(a, 'personaLogin onlogout');
-            }
-          }), navigator.id.request({
-            oncancel: function () {
-              console.log(a, 'personaLogin oncancel'), e(null);
-            }
-          });
-        },
-        handlePersonaResponse: function (e) {
-          console.log(a, 'handlePersonaResponse authResponse=', e), null === e ? d.cbVerify(d.fbAuthClient.formatError({
-            code: 'UNKNOWN_ERROR',
-            message: 'User denied authentication request or an error occurred.'
-          })) : d.sendAuthRequest('/auth/persona/authenticate', { assertion: e });
-        },
-        sendAuthRequest: function (e, t) {
-          console.log(a, 'sendAuthRequest url=', e, 'json=', t), d.fbAuthClient.jsonp(e, t, function (e, t) {
-            if (console.log(a, 'sendAuthRequest jsonp callback error=', e, 'response=', t), e || !t.token)
-              d.cbVerify(d.fbAuthClient.formatError(e));
-            else {
-              var o = t.user;
-              o.firebaseAuthToken = o.firebaseAuthToken || t.token, d.cbVerify(null, o);
-            }
-          });
-        },
-        cbVerify3: function (e, t, o) {
-          o.firebaseAuthToken = t, d.cbVerify(e, o);
-        },
-        cbVerify: function (e, t) {
-          console.log(a, 'cbVerify', 'SignUp=', d, ' error=', e, 'user=', t), e ? (console.log(a, 'cbVerify', 'launchError=', e), r.authFailed = !0) : t ? (console.log(a, 'cbVerify', 'sessionKey=', t.sessionKey), t.sessionKey ? t.firebaseSessionKey = t.sessionKey || null : t.sessionKey = t.firebaseSessionKey || null, d.fb.rootRef.auth(t.firebaseAuthToken, function (e) {
-            if (e)
-              console.log(a, 'cbVerify', 'authError=', e);
-            else {
-              console.log(a, 'cbVerify', 'user.provider=', t.provider);
-              var o = d.fb.rootRef.child('usermap'), n = o.child(t.provider).child(t.id);
-              n.once('value', function (e) {
-                console.log(a, 'cbVerify', 'mapUserRef once value=', e.val()), d.checkExisting(e.val(), t);
-              });
-            }
-          })) : (console.log(a, 'cbVerify', 'null user'), r.authFailed = !0);
-        },
-        checkExisting: function (t, o) {
-          if (console.log(a, 'checkExisting', 'value=', t, 'fbUser=', o), t) {
-            console.log(a, 'checkExisting', 'found usermap for user', o.provider + '/' + o.id, 'value=', t);
-            var n = d.fb.rootRef.child('users').child(t);
-            n.once('value', function (t) {
-              var n = t.val();
-              console.log(a, 'checkExisting', 'userRecordRef once value userRecord=', n), n ? e(function () {
-                u.retrieveUserRecord(n, o);
-              }) : u.buildServiceCredentials(o);
-            }, function (e) {
-              console.log(a, 'checkExisting', 'userRecordRef once value error=', e);
-            });
-          } else
-            console.log(a, 'checkExisting', 'value null - build credentials'), u.buildServiceCredentials(o);
-        },
-        doneCred: function () {
-          console.log(a, 'doneCred primaryToken=', d.primaryToken), d.primaryToken && d.fb.rootRef.auth(d.primaryToken, function (t) {
-            t ? console.log(a, 'doneCred', 'user account set auth failed error=', t) : d.recRef.set(r.mp.user, function (t) {
-              e(function () {
-                if (t)
-                  console.log(a, 'doneCred user account set error=', t);
-                else {
-                  console.log(a, 'doneCred user account record created');
-                  var e = r.mp.user.primary, o = r.mp.user.accounts[e].authentic;
-                  'singly' === o.provider ? console.log(a, 'doneCred provider singly authUser=', o) : (console.log(a, 'doneCred openSession authUser=', o), o.sessionKey = o.firebaseSessionKey, d.fbAuthClient.saveSession(d.primaryToken, o), r.authenticated = !0), d.fb.openSession(d.recRef.name(), o), r.mp.user = null;
-                }
-              });
-            });
-          });
-        },
-        signUp: function () {
-          d.mapRef = d.fb.rootRef.child('usermap'), d.accRef = d.fb.rootRef.child('users'), d.recRef = d.accRef.push(), d.userId = d.recRef.name(), d.loadCred(u.firstCred).then(d.recurseCred);
-        },
-        loadCred: function (e) {
-          console.log(a, 'loadCred', 'cred=', e);
-          var t = s.defer();
-          return d.processCred(e, t), t.promise;
-        },
-        recurseCred: function (e) {
-          console.log(a, 'recurseCred', 'cred=', e), e ? d.loadCred(e).then(d.recurseCred) : d.doneCred();
-        },
-        processCred: function (t, o) {
-          console.log(a, 'processCred', 'cred=', t, 'deferred=', o);
-          var n = t.profile;
-          d.primaryToken || (d.primaryToken = t.token), u.storeAccount(n, t), console.log(a, 'processCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
-          var i = d.mapRef.child(n.provider).child(n.id);
-          d.fb.rootRef.auth(t.token, function (n) {
-            n ? 'EXPIRED_TOKEN' === n.code ? console.log(a, 'processCred error=', n, 'Processing expired token') : (console.log(a, 'processCred', 'user map set auth failed error=', n), e(function () {
-              o.reject(n);
-            })) : i && (console.log(a, 'processCred', 'setUserMap mapUserRef found, userId=', d.userId), i.set(d.userId, function (n) {
-              n ? (console.log(a, 'processCred user map set error=', n), e(function () {
-                o.reject(n);
-              })) : (console.log(a, 'processCred user map record created, cred.next=', t.next), e(function () {
-                o.resolve(t.next);
-              }));
-            }));
-          });
-        }
-      };
-    return d;
-  }
-]), FirstRevenueApp.factory('Singly', [
+  }]), FirstRevenueApp.factory('Singly', [
   '$rootScope',
   '$timeout',
   '$resource',
@@ -3814,6 +3817,7 @@ FirstRevenueApp.controller('AdminController', [
         lastUser: null,
         user: null,
         credentials: {},
+        services: {},
         firstCred: null,
         lastCred: null,
         getLastUser: function () {
@@ -3857,10 +3861,17 @@ FirstRevenueApp.controller('AdminController', [
               token: s.authentic.firebaseAuthToken,
               authentic: s.authentic,
               profile: s.profile,
+              services: {},
               next: null,
               detached: !1
             };
-          return n.credentials[r] = a, n.enhanceProfile(s.profile), a;
+          return 'singly' === s.profile.provider ? _.each(s.authentic.services, function (e, t) {
+            var o = {
+                id: e.id,
+                name: e.name
+              }, i = e.thumbnail_url;
+            i && (o.image = i), a.services[t] = o, n.services[t] = o;
+          }) : (a.services[s.profile.provider] = s.profile, n.services[s.profile.provider] = s.profile), n.credentials[r] = a, n.enhanceProfile(s.profile), a;
         },
         storeCredential: function (e, t, i) {
           if (console.log(o, 'storeCredential', 'service=', e, 'account=', t), !n.credentials[e]) {
@@ -3868,10 +3879,17 @@ FirstRevenueApp.controller('AdminController', [
                 token: r.firebaseAuthToken,
                 authentic: r,
                 profile: t.profile,
+                services: {},
                 next: null,
                 detached: !1
               };
-            n.credentials[e] = s, n.lastCred && (n.lastCred.next = s), n.firstCred = n.firstCred || s, n.lastCred = s, n.enhanceProfile(t.profile);
+            'singly' === t.profile.provider ? _.each(r.services, function (e, t) {
+              var o = {
+                  id: e.id,
+                  name: e.name
+                }, i = e.thumbnail_url;
+              i && (o.image = i), s.services[t] = o, n.services[t] = o;
+            }) : (s.services[t.profile.provider] = t.profile, n.services[t.profile.provider] = t.profile), n.credentials[e] = s, n.lastCred && (n.lastCred.next = s), n.firstCred = n.firstCred || s, n.lastCred = s, n.enhanceProfile(t.profile);
           }
         },
         enhanceProfile: function (e) {
@@ -3879,11 +3897,14 @@ FirstRevenueApp.controller('AdminController', [
         },
         storeAccount: function (e, t) {
           var i = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;
-          n.user.primary || (n.user.primary = i, n.user.profile = e), console.log(o, 'storeAccount', 'cred=', t, 'profile=', e), n.user.accounts = n.user.accounts || {}, n.user.accounts[i] = {
+          n.user.primary || (n.user.primary = i, n.user.profile = e), console.log(o, 'storeAccount', 'cred=', t, 'profile=', e), n.user.accounts = n.user.accounts || {}, n.user.accounts[i] = angular.copy({
             active: !0,
             profile: e,
-            authentic: t.authentic
-          };
+            authentic: t.authentic,
+            services: t.services ? t.services : null
+          }), n.user.services = n.user.services || {}, _.each(t.services, function (e, t) {
+            n.user.services[t] = angular.copy(e);
+          }), console.log(o, 'storeAccount', 'mp.user=', n.user);
         },
         getCredentials: function () {
           var e = {};
