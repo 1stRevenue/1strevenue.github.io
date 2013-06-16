@@ -1,0 +1,162 @@
+<div ng-controller="RegisterController"
+     class="container-fluid register-page"
+     ng-show="layout.isView('register')">
+
+  <h2 class="text-center"
+      ng-hide="me.mp.user.profile.ready">
+    Create 1st Revenue account
+  </h2>
+
+  <h2 class="text-center"
+      ng-show="me.mp.user.profile.ready">
+    Modify 1st Revenue account
+  </h2>
+
+  <div class="well well-large signup-profile"
+       ng-hide="me.mp.user.profile.ready">
+    Attach one or more accounts to build your 1st Revenue profile
+  </div>
+  <fieldset class="well well-large signup-profile container-fluid"
+       ng-show="me.mp.user.profile.ready">
+    <legend class="register-connected">
+      Connected identities
+    </legend>
+    <div ng-repeat="(key, cred) in me.mp.getCredentials()"
+         class="alert alert-success alert-block row-fluid">
+      <div class="span9">
+        <span first-revenue-service-icon="cred.profile.service"></span>
+        <img ng-src="{{cred.profile.image}}"
+             ng-show="cred.profile.image"
+             class="user-icon" />
+        <img ng-src="{{cred.profile.image}}"
+             ng-hide="cred.profile.image"
+             class="user-icon" />
+        {{cred.profile.name}}
+      </div>
+      <button class="btn btn-danger span3"
+              ng-click="me.mp.detach(key)">
+        <i class="icon-remove"></i>
+        Detach
+        <!--  &times; -->
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-success btn-large"
+              ng-show="me.mp.user.profile.ready"
+              ng-click="signUp.signUp()">
+        <i class="icon-save"></i>
+        Save changes
+      </button>
+    </div>
+  </fieldset>
+
+  <fieldset class="well well-large signup-attached container-fluid">
+    <legend class="register-supported">
+      Supported services
+    </legend>
+    <div ng-repeat="pr in providerList() | orderBy:'seq'"
+         ng-hide="pr.attached"
+         class="alert alert-info alert-block row-fluid">
+      <div class="span9">
+        <span first-revenue-service-icon="pr.provider"></span>
+        <span>
+          {{pr.title}}
+        </span>
+      </div>
+      <button class="btn btn-primary span3"
+              ng-click="signUp.attach(pr.provider)">
+        <i class="icon-plus"></i>
+        Attach
+      </button>
+    </div>
+  </fieldset>
+
+
+
+  <!--div class="alert alert-success alert-block">
+    <div ng-repeat="(key, cred) in me.mp.getCredentials()"
+         class="well signup-attached">
+      <div class="clearfix">
+        <img ng-src="{{cred.profile.image}}"
+             class="pull-right user-icon" />
+        <div>
+          <button class="btn btn-small disabled"
+                  ng-show="getProv(key).icon">
+            <i class="icon-{{getProv(key).icon}}"></i>
+          </button>
+          {{getProv(key).title}}
+        </div>
+        <div ng-show="cred.profile.name">
+          <small>Name: </small>
+          {{cred.profile.name}}
+        </div>
+        <div ng-show="cred.profile.email">
+          <small>E-mail: </small>
+          {{cred.profile.email}}
+        </div>
+      </div>
+      <div class="clearfix">
+        <button class="btn btn-small btn-warning"
+                ng-click="user.detach(key)">
+          <i class="icon-chevron-left"></i>
+          Detach
+        </button>
+      </div>
+    </div>
+  </div-->
+
+
+  <!--div class="well well-large signup-profile">
+    <div class="clearfix">
+      <img ng-src="{{me.mp.user.profile.image}}"
+           ng-show="me.mp.user.profile.image"
+           class="pull-right user-icon" />
+      <div>
+        <button ng-repeat="key in me.mp.getCredentialKeys()"
+                class="btn btn-small disabled"
+                ng-show="getProv(key).icon">
+          <i class="icon-{{getProv(key).icon}}"></i>
+        </button>
+      </div>
+      <div ng-show="me.mp.user.profile.name">
+        <small>Name: </small>
+        {{me.mp.user.profile.name}}
+      </div>
+      <div ng-show="me.mp.user.profile.email">
+        <small>E-mail: </small>
+        {{me.mp.user.profile.email}}
+      </div>
+    </div>
+    <div class="clearfix">
+      <button class="btn btn-primary disabled pull-right"
+              ng-show="me.mp.user.profile.ready"
+              ng-click="signUp.modify()">
+        <i class="icon-edit"></i>
+        Modify
+      </button-->
+      <!--button class="btn btn-warning disabled"
+              ng-hide="signUp.account.ready">
+        <i class="icon-plus"></i>
+        Sign Up
+      </button-->
+      <!--div ng-hide="me.mp.user.profile.ready">
+        Attach one or more accounts to build your 1st Revenue profile
+      </div>
+      <button class="btn btn-success"
+              ng-show="me.mp.user.profile.ready"
+              ng-click="signUp.signUp()">
+        <i class="icon-plus"></i>
+        Sign Up
+      </button>
+    </div>
+  </div-->
+
+
+  <!--div class="signup-left">
+    <div ng-include="'views/entry/SignUpProviders.html'"></div>
+  </div>
+  <div class="signup-right">
+    <div ng-include="'views/entry/SignUpAccount.html'"></div>
+    <div ng-include="'views/entry/SignUpCred.html'"></div>
+  </div-->
+</div>

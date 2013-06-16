@@ -14,7 +14,9 @@
        class="user-icon"
        ng-hide="sync.invites[inviteId].image"
        title="{{sync.invites[inviteId].name}}" />
-  {{sync.invites[inviteId].name}}
+  <span class="invite-name">
+    {{sync.invites[inviteId].name}}
+  </span>
   <button class="btn btn-success btn-small invite-button"
           ng-click="social.updateInvite(inviteId)"
           ng-show="sync.invites[inviteId].status=='created'">

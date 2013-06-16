@@ -3628,14 +3628,14 @@ var FirebaseIndex;
         0,
         0
       ]);
-    var F = Math.floor((g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][I]) / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), D = Math.floor(g[T][p.ECC_BYTES][I] / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), $ = [], O = [];
+    var D = Math.floor((g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][I]) / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), F = Math.floor(g[T][p.ECC_BYTES][I] / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), $ = [], O = [];
     for (u = 0, C = g[T][p.EC_BLOCKS][I][0]; C > u; u++) {
-      for (O = [], d = 0; F > d; d++)
+      for (O = [], d = 0; D > d; d++)
         O.push(r(R.splice(0, 8)));
       $.push(O);
     }
     for (u = 0, C = g[T][p.EC_BLOCKS][I][1]; C > u; u++) {
-      for (O = [], d = 0; F >= d; d++)
+      for (O = [], d = 0; D >= d; d++)
         O.push(r(R.splice(0, 8)));
       $.push(O);
     }
@@ -3643,7 +3643,7 @@ var FirebaseIndex;
     for (d = 1, u = 0; 255 > u; u++)
       N.push(d), U[d] = u, d <<= 1, d > 255 && (d = 285 ^ d);
     var j = [1];
-    for (u = 0, C = D; C > u; u++) {
+    for (u = 0, C = F; C > u; u++) {
       for (j[u + 1] = 1, d = u; d > 0; d--)
         j[d] = j[d] > 0 ? j[d - 1] ^ N[(U[j[d]] + u) % 255] : j[d - 1];
       j[0] = N[(U[j[0]] + u) % 255];
@@ -3653,7 +3653,7 @@ var FirebaseIndex;
       H.push(j[u]);
     var B = [];
     for (d = 0; $.length > d; d++) {
-      B[d] = [].concat($[d]).concat(s(D, 0));
+      B[d] = [].concat($[d]).concat(s(F, 0));
       for (var V; B[d].length >= H.length;) {
         for (V = B[d][0], u = 0; H.length > u; u++)
           B[d][u] ^= N[(U[H[u]] + U[V]) % 255];
@@ -3661,10 +3661,10 @@ var FirebaseIndex;
           throw Error('Bug while generating the ECC');
       }
     }
-    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; F >= u; u++)
+    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; D >= u; u++)
       for (d = 0; $.length > d; d++)
         $[d].length > u && (E = a(R, E, i($[d][u], 8)));
-    for (u = 0; D > u; u++)
+    for (u = 0; F > u; u++)
       for (d = 0; B.length > d; d++)
         B[d].length > u && (E = a(R, E, i(B[d][u], 8)));
     var G = 17 + (T << 2), K = Array(G);

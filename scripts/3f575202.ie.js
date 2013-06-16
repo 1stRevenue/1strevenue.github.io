@@ -348,18 +348,18 @@ var log4javascript = function () {
     }
     function AjaxAppender(e) {
       function t(e) {
-        return E ? (handleError('AjaxAppender: configuration option \'' + e + '\' may not be set after the appender has been initialized'), !1) : !0;
+        return k ? (handleError('AjaxAppender: configuration option \'' + e + '\' may not be set after the appender has been initialized'), !1) : !0;
       }
       function n() {
         if (u && enabled) {
-          k = !0;
+          E = !0;
           var e;
           if (h)
-            S.length > 0 ? (e = S.shift(), a(i(e), n)) : (k = !1, d && r());
+            S.length > 0 ? (e = S.shift(), a(i(e), n)) : (E = !1, d && r());
           else {
             for (; e = S.shift();)
               a(i(e));
-            k = !1, d && r();
+            E = !1, d && r();
           }
         }
       }
@@ -417,7 +417,7 @@ var log4javascript = function () {
         }
       }
       function l() {
-        if (E = !0, y) {
+        if (k = !0, y) {
           var e = window.onbeforeunload;
           window.onbeforeunload = function () {
             return e && e(), o() ? 'Sending log messages' : void 0;
@@ -427,7 +427,7 @@ var log4javascript = function () {
       }
       var c = this, u = !0;
       e || (handleError('AjaxAppender: URL must be specified in constructor'), u = !1);
-      var d = this.defaults.timed, h = this.defaults.waitForResponse, p = this.defaults.batchSize, g = this.defaults.timerInterval, f = this.defaults.requestSuccessCallback, m = this.defaults.failCallback, v = this.defaults.postVarName, y = this.defaults.sendAllOnUnload, b = this.defaults.contentType, w = null, C = [], S = [], T = [], k = !1, E = !1;
+      var d = this.defaults.timed, h = this.defaults.waitForResponse, p = this.defaults.batchSize, g = this.defaults.timerInterval, f = this.defaults.requestSuccessCallback, m = this.defaults.failCallback, v = this.defaults.postVarName, y = this.defaults.sendAllOnUnload, b = this.defaults.contentType, w = null, C = [], S = [], T = [], E = !1, k = !1;
       this.getSessionId = function () {
         return w;
       }, this.setSessionId = function (e) {
@@ -471,12 +471,12 @@ var log4javascript = function () {
         });
       }, this.sendAll = n, this.sendAllRemaining = o, this.append = function (e) {
         if (u) {
-          E || l(), C.push(e);
+          k || l(), C.push(e);
           var t = this.getLayout().allowBatching() ? p : 1;
           if (C.length >= t) {
             for (var o, i = []; o = C.shift();)
               i.push(o);
-            S.push(i), d || h && (!h || k) || n();
+            S.push(i), d || h && (!h || E) || n();
           }
         }
       };
@@ -1047,8 +1047,8 @@ var log4javascript = function () {
               break;
             case s:
               if (3 >= S) {
-                var k = '' + T;
-                h += k.substr(2, 2);
+                var E = '' + T;
+                h += E.substr(2, 2);
               } else
                 h += m(T, S);
               break;
@@ -1056,10 +1056,10 @@ var log4javascript = function () {
               h += S >= 3 ? f(t[T], S, S) : m(T + 1, S);
               break;
             case l:
-              var E = T > 0, I = E ? '-' : '+', R = Math.abs(T), A = '' + Math.floor(R / 60);
+              var k = T > 0, R = k ? '-' : '+', I = Math.abs(T), A = '' + Math.floor(I / 60);
               A = g(A, 2);
-              var x = '' + R % 60;
-              x = g(x, 2), h += I + A + x;
+              var x = '' + I % 60;
+              x = g(x, 2), h += R + A + x;
             }
           }
           p = p.substr(d.index + d[0].length);

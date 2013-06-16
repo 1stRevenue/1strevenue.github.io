@@ -30,11 +30,20 @@
             <li>
               <div class="header-menu-line"
                    ontouchstart="$(this).trigger('click')"
+                   ng-click="modifyAccount()">
+                <i class="icon-user"></i>
+                User account
+              </div>
+            </li>
+            <li>
+              <div class="header-menu-line"
+                   ontouchstart="$(this).trigger('click')"
                    ng-click="preferences()">
                 <i class="icon-cogs"></i>
                 Preferences
               </div>
             </li>
+            <li class="divider"></li>
             <li>
               <!-- Touch event converted to click -->
               <!-- Click event fires twice after conversion -->

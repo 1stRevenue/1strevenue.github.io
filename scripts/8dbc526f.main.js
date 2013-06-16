@@ -319,6 +319,12 @@ FirstRevenueApp.controller('AdminController', [
       model: i,
       env: r,
       info: s,
+      modifyAccount: function () {
+        e.modal.logoff = !0;
+      },
+      preferences: function () {
+        e.modal.logoff = !0;
+      },
       logoff: function () {
         e.modal.logoff = !0;
       }
@@ -791,6 +797,47 @@ FirstRevenueApp.controller('AdminController', [
   function (e, t) {
     e.menu.title = '1st Revenue Preferences', console.log('Preferences route invoked'), e.brighten = t.brightenFull;
   }
+]), FirstRevenueApp.controller('RegisterController', [
+  '$scope',
+  '$location',
+  '$route',
+  '$timeout',
+  'Firebase',
+  'SignUp',
+  'Invite',
+  function (e, t, o, n, i, r, s) {
+    var a = 'RegisterController';
+    console.log(a, 'launched SignUp=', r), angular.extend(e, {
+      signUp: r,
+      service: null,
+      providerList: function () {
+        var t = [];
+        return angular.forEach(r.providers, function (o, n) {
+          var i = _.contains(e.me.mp.getCredentialKeys(), n);
+          t.push(angular.extend(o, {
+            provider: n,
+            attached: i
+          }));
+        }), t;
+      },
+      getProv: function (t) {
+        return r.providers[e.me.mp.credentials[t].profile.service];
+      },
+      openAuth: function () {
+        console.log(a, 'openAuth direct call'), s.acceptInvite(e.service);
+      },
+      initInvite: function () {
+        var t = o.current.params.inviteId;
+        t && (console.log(a, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
+          n(function () {
+            e.service = t.val(), console.log(a, 'service=', e.service);
+          });
+        }, function (e) {
+          console.log('Invite error=', e);
+        }));
+      }
+    }), e.initInvite(), r.init(), e.menu.title = 'Register to the 1st Revenue';
+  }
 ]), FirstRevenueApp.controller('RepoController', [
   '$scope',
   'ModelCatalog',
@@ -853,47 +900,6 @@ FirstRevenueApp.controller('AdminController', [
         }
       }
     }), o.UserVoice = o.UserVoice || [];
-  }
-]), FirstRevenueApp.controller('SignUpController', [
-  '$scope',
-  '$location',
-  '$route',
-  '$timeout',
-  'Firebase',
-  'SignUp',
-  'Invite',
-  function (e, t, o, n, i, r, s) {
-    var a = 'SignUpController';
-    console.log('SignUpController invoked SignUp=', r), angular.extend(e, {
-      signUp: r,
-      service: null,
-      providerList: function () {
-        var t = [];
-        return angular.forEach(r.providers, function (o, n) {
-          var i = _.contains(e.me.mp.getCredentialKeys(), n);
-          t.push(angular.extend(o, {
-            provider: n,
-            attached: i
-          }));
-        }), t;
-      },
-      getProv: function (t) {
-        return r.providers[e.me.mp.credentials[t].profile.service];
-      },
-      openAuth: function () {
-        console.log(a, 'openAuth direct call'), s.acceptInvite(e.service);
-      },
-      initInvite: function () {
-        var t = o.current.params.inviteId;
-        t && (console.log(a, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
-          n(function () {
-            e.service = t.val(), console.log(a, 'service=', e.service);
-          });
-        }, function (e) {
-          console.log('Invite error=', e);
-        }));
-      }
-    }), e.initInvite(), r.init(), e.menu.title = 'Sign in to the 1st Revenue';
   }
 ]), FirstRevenueApp.controller('SocialController', [
   '$scope',
@@ -1909,19 +1915,21 @@ FirstRevenueApp.controller('AdminController', [
               console.log(a, 'checkUserMap', 'userRef once urValue=', i), i ? (console.log(a, 'checkUserMap', 'userRef urValue=', i), l.openSession(e, t)) : (console.log(a, 'checkUserMap', 'Remove orphan from user map: fbUser=', t), o.remove(function () {
                 console.log(a, 'checkUserMap', 'Orphan removed from user map: fbUser=', t), l.authFailed({
                   code: 'USER_UNKNOWN',
-                  message: 'User ' + t.name + ' (' + t.provider + '-' + t.id + ') not found in Firebase'
+                  message: t.service + ' user ' + (t.name ? t.name : '') + ' (id=' + t.id + ') not found in 1st Revenue',
+                  user: t
                 });
               }));
             });
           } else
             console.log(a, 'checkUserMap', 'No record in user map for fbUser=', t, 'firebaseSessionKey=', t.firebaseSessionKey), l.clearSession(), console.log(a, 'checkUserMap', 'Firebase session cleared'), l.authFailed({
               code: 'USER_UNKNOWN',
-              message: 'User ' + (t.name ? t.name : '') + ' (' + t.provider + '-' + t.id + ') not found in Firebase'
+              message: t.service + ' user ' + (t.name ? t.name : '') + ' (id=' + t.id + ') not found in 1st Revenue',
+              user: t
             });
         },
         authFailed: function (e) {
           console.log(a, 'authFailed error=', e), i.authError(e), t(function () {
-            '/entry' === o.$$url ? r.setView('logon') : o.url('/entry');
+            '/entry' === o.$$url ? r.setView('signin') : o.url('/entry');
           });
         },
         openSession: function (t, o, n) {
@@ -2338,7 +2346,7 @@ FirstRevenueApp.controller('AdminController', [
         return console.log(e, 'decodeJWT', 'header=', s, 'payload=', a, 'signature=', l), [
           JSON.parse(s),
           JSON.parse(a),
-          JSON.parse(l)
+          l
         ];
       },
       base64urldecode: function (e) {
@@ -2926,7 +2934,7 @@ FirstRevenueApp.controller('AdminController', [
   'Myself',
   '$q',
   function (e, t, o, n, i, r, s) {
-    var a = 'SignUpPromises';
+    var a = 'SignUp';
     console.log(a, 'Service launched');
     var l = [
         'facebook',
@@ -3133,6 +3141,15 @@ FirstRevenueApp.controller('AdminController', [
         logoff: function () {
           c.accessToken = null;
         },
+        buildErrorAccount: function (e, t) {
+          var o = null, n = t, i = e.services[n];
+          return i && (o = {
+            name: e.name,
+            service: n,
+            id: i.id,
+            image: e.thumbnail_url
+          }), o;
+        },
         launchAuth: function (e, t, o) {
           console.log(i, 'launchAuth service=', e);
           var s = window.location.origin || window.location.protocol + '//' + window.location.host, a = s + window.location.pathname + 'views/', u = {
@@ -3141,20 +3158,29 @@ FirstRevenueApp.controller('AdminController', [
               service: e,
               response_type: 'token'
             };
-          c.accessToken && (u.access_token = c.accessToken), 'linkedin' === e ? u.scope = 'r_basicprofile r_emailaddress r_network w_messages' : 'gplus' === e && (u.scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'), console.log(i, 'Opening WinChan params=', u), WinChan.open({
+          c.accessToken && (u.access_token = c.accessToken), 'linkedin' === e ? u.scope = 'r_basicprofile r_emailaddress r_network w_messages' : 'gplus' === e && (u.scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'), console.log(i, 'launchAuth Opening WinChan params=', u), WinChan.open({
             url: a + 'SinglyLaunch.html',
             relay_url: a + 'WinChanRelay.html',
             window_features: r,
             params: u
           }, function (r, s) {
-            if (console.log(i, 'launchSinglyAuth', 'error=', r, 'response=', s), r)
-              console.log(i, 'launchSinglyAuth', 'error=', r);
+            if (console.log(i, 'launchAuth', 'error=', r, 'response=', s), r)
+              console.log(i, 'launchAuth', 'error=', r), o(r);
             else {
-              console.log(i, 'launchSinglyAuth', 'response=', s), c.accessToken = s.access_token;
+              console.log(i, 'launchAuth', 'response=', s), c.accessToken = s.access_token;
               var a = n.decodeJWT(s.firebase);
-              console.log(i, 'launchSinglyAuth', 'singlyFirebase=', a), c.getProfile(s.access_token, function (n) {
-                console.log(i, 'launchSinglyAuth', 'Profile.get p=', n), t.auth(s.firebase, function (t, r) {
-                  t ? console.log(i, 'Login Failed!', t) : (console.log(i, 'Login Succeeded! account=', r), c.processProfile(e, s, n, r, o));
+              console.log(i, 'launchAuth', 'singlyFirebase=', a), c.getProfile(s.access_token, function (n) {
+                console.log(i, 'launchAuth', 'Profile.get p=', n), t.auth(s.firebase, function (t, r) {
+                  if (t) {
+                    console.log(i, 'Login Failed!', t);
+                    var a = c.buildErrorAccount(n, e);
+                    o({
+                      code: t.code,
+                      message: a.service + ' user ' + a.name + ' (id=' + a.id + ') not found in 1st Revenue',
+                      user: a
+                    }, r);
+                  } else
+                    console.log(i, 'Login Succeeded! account=', r), c.processProfile(e, s, n, r, o);
                 });
               }), c.getData(e, s.access_token, l[e], function (e) {
                 console.log(i, 'launchAuth data=', e), _.each(e, function (e) {
@@ -3817,8 +3843,8 @@ FirstRevenueApp.controller('AdminController', [
           }
         },
         retrieveUserRecord: function (e, t) {
-          console.log(o, 'retrieveUserRecord', 'ur=', e, 'fbUser=', t), e.primary = e.profile.provider + '-' + e.profile.id, _.each(e.accounts, function (o) {
-            n.storeCredential(e, o.profile.service, o, t);
+          console.log(o, 'retrieveUserRecord', 'ur=', e, 'fbUser=', t), e.primary = e.profile.provider + '-' + e.profile.id, _.each(e.accounts, function (e) {
+            n.storeCredential(e.profile.service, e, t);
           }), n.user = e;
         },
         storeInviteCredentials: function (e) {
@@ -3849,7 +3875,7 @@ FirstRevenueApp.controller('AdminController', [
           }
         },
         enhanceProfile: function (e) {
-          n.user = n.user || {}, n.user.profile = n.user.profile || {}, _.defaults(n.user.profile, e), n.user.primary = n.user.primary || e.key, n.user.profile.ready = !0;
+          console.log(o, 'enhanceProfile', 'serviceProfile=', e), n.user = n.user || {}, n.user.profile = n.user.profile || {}, _.defaults(n.user.profile, e), console.log(o, 'enhanceProfile', 'mp.user=', n.user), n.user.primary = n.user.primary || e.key, n.user.profile.ready = !0;
         },
         storeAccount: function (e, t) {
           var i = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;

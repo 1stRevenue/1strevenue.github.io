@@ -1,0 +1,152 @@
+<div class="container-fluid"
+     ng-show="layout.isView('signin')">
+  <div class="row-fluid">
+    <div class="span1"></div>
+
+    <div class="span10">
+      <h2>Sign in to the 1st Revenue</h2>
+
+      <div class="logon">
+        <h3 ng-hide="me.authFailed">
+          Searching and retrieving the previous session...
+        </h3>
+        <div ng-show="me.authFailed">
+          <div class="alert alert-error alert-block"
+               ng-show="me.error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4>{{me.error.code}}</h4>
+            {{me.error.message}}
+          </div>
+
+          <div class="alert alert-success alert-block"
+               ng-show="me.error">
+            You have the following alternatives to sign in:
+          </div>
+
+          <div ng-show="me.error">
+            <div class="row-fluid">
+              <div class="span2 alert alert-success alert-block">
+                <h1>(A)</h1>
+              </div>
+              <div class="span10 alert alert-success alert-block">
+                <h4>Create a new 1st Revenue account with the current credentials:</h4>
+                <strong>{{me.error.user.name}}</strong>
+                <div>
+                  <button class="btn btn-primary"
+                          ng-click="layout.setView('signup')">
+                    Create
+                  </button>
+                  1st Revenue account using {{me.error.user.service}}-{{me.error.user.id}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ng-show="me.error">
+            <div class="row-fluid">
+              <div class="span2 alert alert-success alert-block">
+                <h1>(B)</h1>
+              </div>
+              <div class="span10 alert alert-success alert-block">
+                <h4>Choose one or more of your social network IDs to register a new 1stRevenue account:</h4>
+                <button class="btn btn-primary"
+                        ng-click="layout.setView('register')">
+                  Register
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div ng-show="me.error">
+            <div class="row-fluid">
+              <div class="span2 alert alert-success alert-block">
+                <h1>(C)</h1>
+              </div>
+              <div class="span10 alert alert-success alert-block">
+                <h4>Try to sign in with a different social network ID:</h4>
+
+                <div class="signin-button">
+                  <img src="images/logon/facebook/45d6eb5a.Signin-246x54.png"
+                       ng-click="auth.launchLogon('simple', 'facebook')" />
+                </div>
+                <div class="signin-button">
+                  <img src="images/logon/linkedin/442e6927.Signin-246x54.png"
+                       ng-click="auth.launchLogon('singly', 'linkedin')" />
+                </div>
+                <div class="signin-button">
+                  <img src="images/logon/gplus/a81dc389.Signin-246x54.png"
+                       ng-click="auth.launchLogon('singly', 'gplus')" />
+                </div>
+                <div class="signin-button">
+                  <img src="images/logon/gcontacts/3163b2e3.Signin-246x54.png"
+                       ng-click="auth.launchLogon('singly', 'gcontacts')" />
+                </div>
+
+                <div>
+                  You may need to sign out of chosen social network before trying another account
+                </div>
+
+                <div>
+                  <label class="checkbox">
+                    <input type="checkbox"
+                           ng-model="auth.rememberMe" />
+                    Remember the selected account
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!--div ng-repeat="pr in providerList() | orderBy:'seq'"
+               class="well signup-detached">
+            <div>
+              {{pr.title}}
+            </div>
+            <div class="clearfix">
+              <button class="btn btn-success btn-small pull-right"
+                      ng-click="auth.launchLogon(pr.method, pr.provider)">
+                Log on
+                <i class="icon-chevron-right"></i>
+              </button>
+              <button class="btn btn-small disabled"
+                      ng-show="pr.icon">
+                <i class="icon-{{pr.icon}}"></i>
+              </button>
+            </div>
+          </div-->
+          <div ng-hide="me.error">
+            <div>
+              <span class="signin-button">
+                <img src="images/logon/facebook/45d6eb5a.Signin-246x54.png"
+                     ng-click="auth.launchLogon('simple', 'facebook')" />
+              </span>
+              <span class="signin-button">
+                <img src="images/logon/linkedin/442e6927.Signin-246x54.png"
+                     ng-click="auth.launchLogon('singly', 'linkedin')" />
+              </span>
+            </div>
+            <div>
+              <span class="signin-button">
+                <img src="images/logon/gplus/a81dc389.Signin-246x54.png"
+                     ng-click="auth.launchLogon('singly', 'gplus')" />
+              </span>
+              <span class="signin-button">
+                <img src="images/logon/gcontacts/3163b2e3.Signin-246x54.png"
+                     ng-click="auth.launchLogon('singly', 'gcontacts')" />
+              </span>
+            </div>
+
+            <label class="checkbox">
+              <input type="checkbox"
+                     ng-model="auth.rememberMe" />
+              Remember the selected account
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="span1"></div>
+  </div>
+</div>
