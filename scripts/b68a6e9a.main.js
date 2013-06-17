@@ -844,7 +844,9 @@ FirstRevenueApp.controller('AdminController', [
       modal: o,
       modelTabName: 'models',
       rrrrImageLink: n.getImageLink()
-    }), e.layout.setView('my'), e.layout.guide.wide = !0, e.layout.peer.wide = !1;
+    });
+    var r = _.size(e.catalog.getModelIdList('my')), s = _.size(e.catalog.getModelIdList('shared'));
+    !r && s ? e.layout.setView('shared') : e.layout.setView('my'), e.layout.guide.wide = !0, e.layout.peer.wide = !1;
   }
 ]), FirstRevenueApp.controller('RibbonController', [
   '$scope',
@@ -2572,8 +2574,8 @@ FirstRevenueApp.controller('AdminController', [
           return _.each(o.sync.models, function (n, r) {
             var s = o.sync.models[r], a = s;
             if (a.id = r, s) {
-              var l = i.isPublic(r);
-              ('all' === e || 'public' === e && l || 'my' === e && !l) && t.push(a);
+              var l = i.isPublic(r), c = i.isMine(r), u = i.isShared(r);
+              ('all' === e || 'public' === e && l || 'shared' === e && u || 'my' === e && c) && t.push(a);
             }
           }), this.sortModelList(t);
         },
