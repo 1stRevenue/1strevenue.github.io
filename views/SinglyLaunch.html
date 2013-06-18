@@ -7,10 +7,10 @@
   </head>
   <body>
     <script>
-      var singlyURL = 'https://api.singly.com/oauth/authenticate';
+      var SINGLY_URL = 'https://api.singly.com/oauth/authenticate';
       var wc = WinChan.onOpen(function(origin, r, cb) {
         var params = r;
-        var url = singlyURL;
+        var url = SINGLY_URL;
         var sep = '?';
         for (var param in params) {
           url += sep + param + '=' + encodeURIComponent(params[param]);

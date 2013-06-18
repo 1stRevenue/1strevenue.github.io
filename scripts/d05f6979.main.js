@@ -303,22 +303,49 @@ FirstRevenueApp.controller('AdminController', [
       }
     }), e.layout.guide.wide = !0, e.layout.peer.wide = !1;
   }
+]), FirstRevenueApp.controller('EntryController', [
+  '$scope',
+  '$location',
+  '$timeout',
+  'Auth',
+  'Modal',
+  'Register',
+  function (e, t, o, n, i, r) {
+    var s = 'EntryController';
+    console.log(s, 'Entry route invoked Modal=', i, 'Auth=', n), angular.extend(e, {
+      modal: i,
+      auth: n,
+      logonTabName: 'persona',
+      register: r,
+      personaFound: null !== navigator.id,
+      logon: function () {
+        console.log(s, 'logon'), e.modal.logon = !0;
+      },
+      providerList: function () {
+        var e = [];
+        return angular.forEach(r.providers, function (t, o) {
+          e.push(angular.extend(t, { provider: o }));
+        }), e;
+      }
+    }), e.layout.setView('welcome'), e.layout.guide.wide = !0, e.menu.title = 'Welcome to the 1st Revenue', e.menu.selected = 'logon', e.menu.visible = [
+      'home',
+      'logon'
+    ];
+  }
 ]), FirstRevenueApp.controller('HeaderController', [
   '$scope',
   'Modal',
   'Popup',
   'Zoom',
   'Model',
-  'Env',
   'Info',
-  function (e, t, o, n, i, r, s) {
+  function (e, t, o, n, i, r) {
     _.extend(e, {
       modal: t,
       popup: o,
       zoom: n,
       model: i,
-      env: r,
-      info: s,
+      info: r,
       modifyAccount: function () {
         e.modal.logoff = !0;
       },
@@ -390,35 +417,6 @@ FirstRevenueApp.controller('AdminController', [
         });
       }
     }), e.openAuth();
-  }
-]), FirstRevenueApp.controller('EntryController', [
-  '$scope',
-  '$location',
-  '$timeout',
-  'Auth',
-  'Modal',
-  'Register',
-  function (e, t, o, n, i, r) {
-    var s = 'EntryController';
-    console.log(s, 'Entry route invoked Modal=', i, 'Auth=', n), angular.extend(e, {
-      modal: i,
-      auth: n,
-      logonTabName: 'persona',
-      register: r,
-      personaFound: null !== navigator.id,
-      logon: function () {
-        console.log(s, 'logon'), e.modal.logon = !0;
-      },
-      providerList: function () {
-        var e = [];
-        return angular.forEach(r.providers, function (t, o) {
-          e.push(angular.extend(t, { provider: o }));
-        }), e;
-      }
-    }), e.layout.setView('welcome'), e.layout.guide.wide = !0, e.menu.title = 'Welcome to the 1st Revenue', e.menu.selected = 'logon', e.menu.visible = [
-      'home',
-      'logon'
-    ];
   }
 ]), FirstRevenueApp.controller('MasterController', [
   '$scope',
@@ -799,38 +797,16 @@ FirstRevenueApp.controller('AdminController', [
   }
 ]), FirstRevenueApp.controller('RegisterController', [
   '$scope',
-  '$location',
-  '$route',
-  '$timeout',
-  'Firebase',
   'Register',
-  'Invite',
-  function (e, t, o, n, i, r, s) {
-    var a = 'RegisterController';
-    console.log(a, 'launched'), angular.extend(e, {
-      register: r,
-      service: null,
-      providerList: function () {
-        var t = _.keys(e.me.mp.services);
-        return _.omit(r.providers, t);
-      },
-      getProv: function (t) {
-        return r.providers[e.me.mp.credentials[t].profile.service];
-      },
-      openAuth: function () {
-        console.log(a, 'openAuth direct call'), s.acceptInvite(e.service);
-      },
-      initInvite: function () {
-        var t = o.current.params.inviteId;
-        t && (console.log(a, 'openAuth $scope=', e, 'inviteId=', t), i.rootRef.child('invites').child(t).child('service').once('value', function (t) {
-          n(function () {
-            e.service = t.val(), console.log(a, 'service=', e.service);
-          });
-        }, function (e) {
-          console.log('Invite error=', e);
-        }));
-      }
-    }), e.initInvite(), r.init(), e.menu.title = 'Register to the 1st Revenue';
+  'Credentials',
+  function (e, t, o) {
+    var n = 'RegisterController';
+    console.log(n, 'launched'), angular.extend(e, {
+      register: t,
+      cr: o
+    });
+    var i = t.init();
+    o.init(i), e.menu.title = 'Register to the 1st Revenue';
   }
 ]), FirstRevenueApp.controller('RepoController', [
   '$scope',
@@ -846,7 +822,7 @@ FirstRevenueApp.controller('AdminController', [
       rrrrImageLink: n.getImageLink()
     });
     var r = _.size(e.catalog.getModelIdList('my')), s = _.size(e.catalog.getModelIdList('shared'));
-    !r && s ? e.layout.setView('shared') : e.layout.setView('my'), e.layout.guide.wide = !0, e.layout.peer.wide = !1;
+    e.layout.setView(s && !r ? 'shared' : 'my'), e.layout.guide.wide = !0, e.layout.peer.wide = !1;
   }
 ]), FirstRevenueApp.controller('RibbonController', [
   '$scope',
@@ -1552,88 +1528,6 @@ FirstRevenueApp.controller('AdminController', [
       a(e, t, 'mouseenter', 'mouseover'), a(e, t, 'click', 'click');
     };
   }
-]), FirstRevenueApp.factory('Auth', [
-  '$rootScope',
-  '$location',
-  '$resource',
-  '$q',
-  'Firebase',
-  'Myself',
-  'Singly',
-  function (e, t, o, n, i, r, s) {
-    var a = 'Auth';
-    return console.log(a, 'service launched'), {
-      deferred: null,
-      rememberMe: !0,
-      launchLogon: function (e, t) {
-        switch (console.log('Auth.launchLogon method=', e, 'provider=', t), r.error = null, e) {
-        case 'simple':
-          var o = { rememberMe: this.rememberMe };
-          switch (t) {
-          case 'password':
-            o.email = r.email, o.password = r.password;
-            break;
-          case 'facebook':
-            o.scope = 'email';
-            break;
-          case 'github':
-            o.scope = 'user:email';
-            break;
-          default:
-          }
-          i.authClient.login(t, o);
-          break;
-        case 'singly':
-          this.launchSinglyAuth(t);
-          break;
-        default:
-          console.log('Auth.launchLogon unknown method=', e);
-        }
-      },
-      signupPasswordAuth: function () {
-        console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), i.authClient.createUser(r.email, r.password, function (e, t) {
-          console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), e ? console.log('Auth.signupPasswordAuth error=', e) : (console.log('Auth.signupPasswordAuth success user id=', t.id, 'email', r.email), i.authClient.login('password', {
-            email: r.email,
-            password: r.password,
-            rememberMe: !0
-          }));
-        });
-      },
-      launchPasswordAuth: function () {
-        console.log('Auth.launchPasswordAuth email=', r.email, 'password=', r.password), i.authClient.login('password', {
-          email: r.email,
-          password: r.password,
-          rememberMe: !0
-        });
-      },
-      launchFacebookAuth: function () {
-        console.log('Auth.launchFacebookAuth'), i.authClient.login('facebook', {
-          rememberMe: !0,
-          scope: 'email'
-        });
-      },
-      launchTwitterAuth: function () {
-        console.log('Auth.launchTwitterAuth'), i.authClient.login('twitter', { rememberMe: !0 });
-      },
-      launchPersonaAuth: function () {
-        console.log('Auth.launchPersonaAuth'), i.authClient.login('persona', { rememberMe: !0 });
-      },
-      launchGithubAuth: function () {
-        console.log('Auth.launchGithubAuth'), i.authClient.login('github', {
-          rememberMe: !0,
-          scope: 'user:email'
-        });
-      },
-      launchSinglyAuth: function (e, t) {
-        console.log('Auth.launchSinglyAuth service=', e), s.launchAuth(e, i.rootRef, t || i.generalAuth);
-      },
-      changePassword: function () {
-        console.log('Auth.changePassword', 'email=', r.email, 'oldPassword=', r.password, 'newPassword=', r.newPassword), i.authClient.changePassword(r.email, r.password, r.newPassword, function (e, t) {
-          console.log('Auth.changePassword done error=', e, 'success=', t), e ? console.log('Auth.changePassword error=', e) : console.log('Auth.changePassword success=', t);
-        });
-      }
-    };
-  }
 ]), FirstRevenueApp.factory('Database', [
   'Canvas',
   'TOrg',
@@ -1835,9 +1729,7 @@ FirstRevenueApp.controller('AdminController', [
       };
     return n;
   }
-]), FirstRevenueApp.factory('Env', [function () {
-    return { version: null };
-  }]), FirstRevenueApp.factory('Favicon', [function () {
+]), FirstRevenueApp.factory('Favicon', [function () {
     var e = {
         persona: 'login.persona.org',
         gplus: 'plus.google.com',
@@ -1889,13 +1781,6 @@ FirstRevenueApp.controller('AdminController', [
             title: 'Google+',
             method: 'singly',
             option: 'gplus'
-          },
-          gcontacts: {
-            seq: 9,
-            icon: 'google-plus',
-            title: 'Google contacts',
-            method: 'singly',
-            option: 'gcontacts'
           }
         },
         init: function () {
@@ -2112,7 +1997,941 @@ FirstRevenueApp.controller('AdminController', [
         return !this.view.sticker && this.stickerModified;
       }
     };
-  }]), FirstRevenueApp.factory('Invite', [
+  }]), FirstRevenueApp.factory('JWT', [function () {
+    var e = 'JWT';
+    return console.log(e, 'service launched'), {
+      decodeJWT: function (t) {
+        console.log(e, 'decodeJWT token=', t);
+        var o = t.split('.');
+        if (3 !== o.length)
+          throw Error('Not enough or too many segments');
+        var n = o[0], i = o[1], r = o[2];
+        console.log(e, 'decodeJWT', 'headerSeg=', n, 'payloadSeg=', i, 'signatureSeg=', r);
+        var s = this.base64urldecode(n), a = this.base64urldecode(i), l = this.base64urldecode(r);
+        return console.log(e, 'decodeJWT', 'header=', s, 'payload=', a, 'signature=', l), [
+          JSON.parse(s),
+          JSON.parse(a),
+          l
+        ];
+      },
+      base64urldecode: function (e) {
+        var t = e;
+        switch (t = t.replace(/-/g, '+'), t = t.replace(/_/g, '/'), t.length % 4) {
+        case 0:
+          break;
+        case 2:
+          t += '==';
+          break;
+        case 3:
+          t += '=';
+          break;
+        default:
+          throw new InputException('Illegal base64url string!');
+        }
+        return window.atob(t);
+      },
+      displayToken: function (t) {
+        var o = t.split('.');
+        console.log(e, 'displayToken tokenParts=', atob(o[0]), atob(o[1]), o[2]);
+      }
+    };
+  }]), FirstRevenueApp.factory('Layout', [
+  '$window',
+  'Database',
+  'Popup',
+  'Zoom',
+  'FullScreen',
+  'Menu',
+  function (e, t, o, n, i, r) {
+    return {
+      title: '',
+      colorValue: 100,
+      view: '',
+      setView: function (e) {
+        this.view = e;
+      },
+      isView: function (e) {
+        return this.view === e;
+      },
+      tooltips: !0,
+      profile: !0,
+      qrCode: !1,
+      guide: { wide: !0 },
+      peer: { wide: !0 },
+      editor: {
+        model: !1,
+        sticker: !1,
+        contact: !1,
+        user: !1
+      },
+      reset: function () {
+        t.reset(), o.reset(), n.reset(), this.view = '', this.guide.wide = !0, this.peer.wide = !1;
+      },
+      isFullScreen: function () {
+        return e.navigator.standalone;
+      },
+      showButtons: function () {
+        return 'canvas' === r.selected;
+      }
+    };
+  }
+]), FirstRevenueApp.factory('MasterScope', [function () {
+    return {
+      masterScope: null,
+      setMasterScope: function (e) {
+        this.masterScope = e;
+      },
+      getMasterScope: function () {
+        return this.masterScope;
+      }
+    };
+  }]), FirstRevenueApp.factory('MemberCatalog', [
+  'Database',
+  function (e) {
+    return {
+      sort: null,
+      getMembers: function () {
+        return e.users;
+      },
+      getTitle: function (e) {
+        return e.title ? e.title[0] : '';
+      },
+      getFullTitle: function (e) {
+        return _.reduce(e.title || [], function (e, t) {
+          return (e ? e + '\n' : '') + t;
+        });
+      },
+      modelCount: function (e) {
+        return e.models ? _.size(e.models) : 0;
+      },
+      highlightModels: function (e) {
+        console.log('highlightModels member=', e, 'event=', event), $(event.target).parent().children().css('color', 'darkred');
+      }
+    };
+  }
+]), FirstRevenueApp.value('Menu', {
+  title: '1st Revenue',
+  selected: 'home',
+  visible: [
+    'home',
+    'logon'
+  ],
+  def: {
+    home: {
+      label: 'Home',
+      route: 'home',
+      icon: 'home'
+    },
+    logon: {
+      label: 'Logon',
+      route: 'logon',
+      icon: 'user'
+    },
+    admin: {
+      label: 'Admin',
+      route: 'admin',
+      icon: 'wrench'
+    },
+    repo: {
+      label: 'Repo',
+      route: 'repo',
+      icon: 'list'
+    },
+    canvas: {
+      label: 'Canvas',
+      route: 'canvas',
+      icon: 'th-large'
+    },
+    create: {
+      label: 'Create',
+      route: 'canvas/new',
+      icon: 'edit'
+    }
+  },
+  toggle: function (e) {
+    this[e] = !this[e];
+  }
+}), FirstRevenueApp.factory('Modal', [function () {
+    var e = {
+        logon: !1,
+        logoff: !1,
+        dup: !1,
+        dis: !1,
+        del: !1,
+        delNoRights: !1,
+        model: !1,
+        modelNew: !1,
+        modelEditorTab: 0,
+        stickerId: null,
+        sticker: null,
+        contact: null,
+        openDeleteStickerDialog: function (t, o) {
+          e.stickerId = t, e.sticker = o, e.isDeleteAllowed(t) ? e.del = !0 : e.delNoRights = !0;
+        },
+        isDeleteAllowed: function () {
+          return !0;
+        }
+      };
+    return e;
+  }]), FirstRevenueApp.factory('ModelCatalog', [
+  'TagCatalog',
+  'Myself',
+  function (e, t) {
+    var o = 'ModelCatalog', n = {
+        sort: 'time',
+        tag: '*',
+        ascending: !0,
+        backInTime: !0,
+        refreshModels: function () {
+        },
+        getModel: function (e) {
+          return t.sync.models[e];
+        },
+        isMine: function (e) {
+          return t.sync.models[e].owner === t.userId;
+        },
+        isPublic: function (e) {
+          return t.sync.public.models && !!t.sync.public.models[e];
+        },
+        isShared: function (e) {
+          return !(n.isPublic(e) || n.isMine(e));
+        },
+        getModelsNew3: function (e) {
+          var o = {};
+          return _.each(t.sync.models, function (t, i) {
+            var r = n.isPublic(i);
+            ('all' === e || 'public' === e && r || 'my' === e && !r) && (t.id = i, o[i] = t);
+          }), this.sortModelList(o);
+        },
+        getModels: function (e) {
+          var o = [];
+          return _.each(t.sync.models, function (t, i) {
+            t.id = i;
+            var r = n.isPublic(i), s = n.isMine(i), a = n.isShared(i);
+            ('all' === e || 'public' === e && r || 'shared' === e && a || 'my' === e && s) && o.push(t);
+          }), this.sortModelList(o);
+        },
+        getModelIdList: function (e) {
+          var o = [];
+          return _.each(t.sync.models, function (t, i) {
+            if (t && t.fields) {
+              var r = n.isPublic(i), s = n.isMine(i), a = n.isShared(i);
+              ('all' === e || 'public' === e && r || 'shared' === e && a || 'my' === e && s) && o.push(i);
+            }
+          }), this.sortModelIdList(o);
+        },
+        getFields: function (e) {
+          return t.sync.models[e].fields;
+        },
+        getTags: function (e) {
+          return t.sync.models[e].tags;
+        },
+        sortModelIdList: function (e) {
+          var o = e;
+          return 'name' === this.sort && (o = _.sortBy(e, function (e) {
+            return t.sync.models[e].fields.name;
+          }), this.ascending || o.reverse()), 'time' === this.sort && (o = _.sortBy(e, function (e) {
+            return e;
+          }), this.backInTime && o.reverse()), o;
+        },
+        sortModelList: function (e) {
+          var t = e;
+          return 'name' === this.sort && (t = _.sortBy(e, function (e) {
+            return e.fields.name;
+          }), this.ascending || t.reverse()), 'time' === this.sort && (t = _.sortBy(e, function (e) {
+            return e.id;
+          }), this.backInTime && t.reverse()), t;
+        },
+        nameSortOrder: function () {
+          return this.ascending ? 'a-z' : 'z-a';
+        },
+        timeSortIconSuffix: function () {
+          return (this.backInTime ? '-back' : '') + ('time' === this.sort ? '-white' : '');
+        },
+        getMemberCount: function (e) {
+          var o = t.sync.models[e];
+          return o.users ? _.size(o.users) : 0;
+        },
+        highlightMembers: function (e) {
+          console.log(o, 'highlightMembers modelId=', e, 'event=', event);
+        },
+        getAllTags: function () {
+          var e = [];
+          return _.each(t.sync.models, function (t) {
+            console.log(o, 'getAllTags model loop model.id=', t.id), _.each(t.tags, function (t) {
+              console.log(o, 'getAllTags tag loop tag.text=', t.text), e.push({
+                text: t.text,
+                type: 'info',
+                count: 1
+              });
+            });
+          }), console.log(o, 'getAllTags allTags=', e), e;
+        },
+        sortModels: function (e) {
+          'name' === this.sort ? 'name' === e ? this.ascending = !this.ascending : (this.sort = e, this.ascending = !0) : 'time' === this.sort && ('time' === e ? this.backInTime = !this.backInTime : (this.sort = e, this.backInTime = !0));
+        },
+        labelColor: function (e) {
+          return e === this.tag ? 'label-success' : 'label-info';
+        },
+        filterMatch: function (t) {
+          var o = n.getTags(t), i = e.tag, r = !1;
+          if (i)
+            if ('*' === i)
+              r = !0;
+            else {
+              var s = _.find(o, function (e) {
+                  return e.text === i;
+                });
+              r = !!s;
+            }
+          else
+            r = 0 === o.length;
+          return r;
+        }
+      };
+    return n;
+  }
+]), FirstRevenueApp.factory('Model', [function () {
+    return {
+      modelId: null,
+      model: null
+    };
+  }]), FirstRevenueApp.factory('Monitor', [function () {
+    return {
+      rateStats: null,
+      globalStats: null,
+      getRateStats: function (e) {
+        var t = this;
+        now.getRateStats(function (o) {
+          console.log('Monitor.getRateStats=', o), t.rateStats = o, e();
+        }), now.getGlobalStats(function (o) {
+          console.log('Monitor.getGlobalStats=', o), t.globalStats = o, e();
+        });
+      }
+    };
+  }]), FirstRevenueApp.factory('Notif', [
+  'Popup',
+  function (e) {
+    var t = 'Notif';
+    return console.log(t, 'service launched'), {
+      list: {},
+      next: 0,
+      show: !1,
+      add: function (e) {
+        console.log(t, 'add', e), e.seq = this.next, e.time = new Date(), e.type || (e.type = 'info'), this.list[this.next++] = e;
+      },
+      remove: function (e) {
+        console.log(t, 'remove index=', e, 'item=', this.list[e]), delete this.list[e], console.log(t, 'remove deleted notif=', this.list);
+      },
+      count: function () {
+        return _.size(this.list);
+      },
+      get: function (e) {
+        return this.list[e];
+      },
+      getList: function () {
+        return this.list;
+      },
+      clear: function () {
+        this.list = {}, this.next = 0, e.notif = !1;
+      }
+    };
+  }
+]), FirstRevenueApp.value('Popup', {
+  slider: !1,
+  version: !1,
+  zoom: !1,
+  license: !1,
+  member: !1,
+  palette: !1,
+  notif: !1,
+  uservoice: !1,
+  reset: function () {
+    this.slider = this.version = this.zoom = this.license = this.member = this.palette = this.notif = !1;
+  },
+  toggle: function (e) {
+    this[e] = !this[e];
+  }
+}), FirstRevenueApp.factory('RGB', [function () {
+    return {
+      hsvObject: function (e, t, o) {
+        this.h = e, this.s = t, this.v = o, this.validate = function () {
+          0 >= this.h && (this.h = 0), 0 >= this.s && (this.s = 0), 0 >= this.v && (this.v = 0), this.h > 360 && (this.h = 360), this.s > 100 && (this.s = 100), this.v > 100 && (this.v = 100);
+        };
+      },
+      rgbObject: function (e, t, o) {
+        this.r = e, this.g = t, this.b = o, this.validate = function () {
+          0 >= this.r && (this.r = 0), 0 >= this.g && (this.g = 0), 0 >= this.b && (this.b = 0), this.r > 255 && (this.r = 255), this.g > 255 && (this.g = 255), this.b > 255 && (this.b = 255);
+        };
+      },
+      hexify: function (e) {
+        var t = '0123456789ABCDEF', o = e % 16, n = (e - o) / 16, i = t.charAt(n) + t.charAt(o);
+        return i;
+      },
+      decimalize: function (e) {
+        var t = '0123456789ABCDEF';
+        return 16 * t.indexOf(e.charAt(0).toUpperCase()) + t.indexOf(e.charAt(1).toUpperCase());
+      },
+      hex2rgb: function (e, t) {
+        t.r = this.decimalize(e.substring(1, 3)), t.g = this.decimalize(e.substring(3, 5)), t.b = this.decimalize(e.substring(5, 7));
+      },
+      rgb2hex: function (e) {
+        return '#' + this.hexify(e.r) + this.hexify(e.g) + this.hexify(e.b);
+      },
+      rgb2hsv: function (e, t) {
+        var o = e.r / 255, n = e.g / 255, i = e.b / 255, r = Math.min(o, n, i), s = Math.max(o, n, i), a = s - r;
+        if (t.v = s, 0 === a)
+          t.h = 0, t.s = 0;
+        else {
+          t.s = a / s;
+          var l = ((s - o) / 6 + a / 2) / a, c = ((s - n) / 6 + a / 2) / a, u = ((s - i) / 6 + a / 2) / a;
+          o === s ? t.h = u - c : n === s ? t.h = 1 / 3 + l - u : i === s && (t.h = 2 / 3 + c - l), 0 > t.h && (t.h += 1), t.h > 1 && (t.h -= 1);
+        }
+        t.h *= 360, t.s *= 100, t.v *= 100;
+      },
+      hsv2rgb: function (e, t) {
+        var o = e.h / 360, n = e.s / 100, i = e.v / 100;
+        if (0 === n)
+          t.r = 255 * i, t.g = 255 * i, t.b = 255 * i;
+        else {
+          var r, s, a, l = 6 * o, c = Math.floor(l), u = i * (1 - n), d = i * (1 - n * (l - c)), p = i * (1 - n * (1 - (l - c)));
+          0 === c ? (r = i, s = p, a = u) : 1 === c ? (r = d, s = i, a = u) : 2 === c ? (r = u, s = i, a = p) : 3 === c ? (r = u, s = d, a = i) : 4 === c ? (r = p, s = u, a = i) : (r = i, s = u, a = d), t.r = 255 * r, t.g = 255 * s, t.b = 255 * a;
+        }
+      }
+    };
+  }]), FirstRevenueApp.factory('Rainbow', [
+  'Canvas',
+  'RGB',
+  function (e, t) {
+    var o = '0123456789abcdef', n = {
+        red: {
+          id: 1,
+          text: 'Red',
+          code: 'F7D1D0'
+        },
+        yellow: {
+          id: 2,
+          text: 'Yellow',
+          code: 'F7F0C5'
+        },
+        gray: {
+          id: 3,
+          text: 'Gray',
+          code: 'EFEFEF'
+        },
+        blue: {
+          id: 4,
+          text: 'Blue',
+          code: 'D2E4EB'
+        },
+        magenta: {
+          id: 5,
+          text: 'Magenta',
+          code: 'E1D8ED'
+        },
+        salmon: {
+          id: 6,
+          text: 'Salmon',
+          code: 'FFD5C2'
+        },
+        cyan: {
+          id: 7,
+          text: 'Cyan',
+          code: 'D1F3EC'
+        },
+        neutral: {
+          id: 8,
+          text: 'Neutral',
+          code: 'FFFFFF'
+        },
+        green: {
+          id: 9,
+          text: 'Green',
+          code: 'DCEBD8'
+        }
+      };
+    return {
+      canvas: e,
+      rgb: t,
+      colorMap: n,
+      getColorMap: function () {
+        return this.colorMap;
+      },
+      getColor: function (e) {
+        var t = this.colorMap[e];
+        return t || this.colorMap.neutral;
+      },
+      colorList: function () {
+        return $.map(this.colorMap, function (e, t) {
+          return 'neutral' === t ? null : t;
+        });
+      },
+      colorCodeList: function () {
+        return $.map(this.colorMap, function (e, t) {
+          return e.name = t, 'neutral' === t ? null : e;
+        });
+      },
+      brightenHex: function (e) {
+        return e = e || 'FF0000', this.brightenFull(e);
+      },
+      brighten: function (e) {
+        var t = this.colorMap[e].code;
+        return this.brightenFull(t);
+      },
+      brightenFull: function (e, t, o) {
+        var n = new this.rgb.rgbObject(0, 0, 0), i = new this.rgb.hsvObject(0, 0, 0);
+        return this.rgb.hex2rgb('#' + e, n), this.rgb.rgb2hsv(n, i), 0 === i.s ? 100 > i.v && (i.v = o ? o : 80) : (i.s = t ? t : 50, i.v = o ? o : 100), this.rgb.hsv2rgb(i, n), this.rgb.rgb2hex(n).substring(1);
+      },
+      opaqueField: function (e) {
+        var t = this.colorMap[e].code;
+        return this.opaqueFieldHex(t);
+      },
+      brightenFieldCSS: function (e) {
+        return this.brightenFull(this.rgb2hex(e), 100, 100);
+      },
+      opaqueFieldCSS: function (e) {
+        var t = e.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/), o = new this.rgb.hsvObject(0, 0, 0), n = new this.rgb.rgbObject(t[1], t[2], t[3]);
+        return this.makeOpaque(n, o);
+      },
+      opaqueFieldHex: function (e) {
+        var t = new this.rgb.rgbObject(0, 0, 0), o = new this.rgb.hsvObject(0, 0, 0);
+        return e || (e = 'EFEFEF'), this.rgb.hex2rgb('#' + e, t), this.makeOpaque(t, o);
+      },
+      makeOpaque: function (e, t) {
+        return this.rgb.rgb2hsv(e, t), 100 > t.v ? t.v = 100 : t.s = 0 === t.s ? 0 : Math.max(0, t.s - 10), this.rgb.hsv2rgb(t, e), this.rgb.rgb2hex(e).substring(1);
+      },
+      rgb2hex: function (e) {
+        return e = e.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/), this.hex(e[1]) + this.hex(e[2]) + this.hex(e[3]);
+      },
+      hex: function (e) {
+        return isNaN(e) ? '00' : o[(e - e % 16) / 16] + o[e % 16];
+      }
+    };
+  }
+]), FirstRevenueApp.factory('RrrrRrrr', [function () {
+    return {
+      launching: !0,
+      getImageLink: function () {
+        var e = Math.floor(Math.random() * this.rrrrrrrrImages.length);
+        return this.imageLinkPrefix + this.rrrrrrrrImages[e] + this.imageLinkSuffix;
+      },
+      imageLinkPrefix: 'http://24.media.tumblr.com/tumblr_m',
+      imageLinkSuffix: '1rt0g8wo1_500.gif',
+      rrrrrrrrImages: [
+        'euuwtJ9nV',
+        'dvka3G41p',
+        'dj1obEOlh',
+        'd65evMYkd',
+        'cnh5cn9C1',
+        'ccire33IK',
+        'bxp00m7C0',
+        'bpvhrbHPo',
+        'bd83rnrYp',
+        'b7s2s3EV3',
+        'b0f8a4pgB',
+        'ankvxXfq3',
+        'aami4M0HW',
+        '9x0hbDvcs',
+        '9rnf2HAO9',
+        '9k651ina7',
+        '9er5rZyEg',
+        '91f14NyEA',
+        '91etz18X0',
+        '8ogrxZX77',
+        '8ogo21KEv',
+        '8h55wLclu',
+        '8bjmzW8bc',
+        '84a7mPsXs',
+        '7yo1n6Rfq',
+        '7rcy6WHk8',
+        '7khbxGWM8',
+        '7egxdQaZ1',
+        '78mc8Yldh',
+        '71lryYOAM',
+        '6wfa4Cp85',
+        '6omiiIOmH',
+        '6j60b07bX',
+        '6bj3lYuJI',
+        '6682mxtuF',
+        '5ypkjdWsh',
+        '5sxx323Rm',
+        '5ldoe1E2b',
+        '5g2nqAeU8',
+        '58gra1RRz',
+        '52o9pcvrd',
+        '4w7mn4fxb',
+        '4qg8knCAj',
+        '4j0e4jRq4',
+        '47h6bViV8',
+        '47h3k3RZW',
+        '3xsjeuvbO',
+        '34rmyHRsK',
+        '3n2nqGWe7',
+        '3efuq0DT4',
+        '3efroqt6b',
+        '34rjhIzwL',
+        '33a7fTeZ3',
+        '2xt4ciY73',
+        '2s55mYp1q',
+        '2mos9dUK7',
+        '2gxxmlC3S',
+        '2b3fzb5HQ',
+        '27hm76FGR',
+        '244o3I4Fv',
+        '20202MWiD',
+        '1wjlbI0Zw',
+        '1uj03PKyA',
+        '1uht5a12i'
+      ]
+    };
+  }]), FirstRevenueApp.factory('TagCatalog', [
+  'Database',
+  function (e) {
+    return {
+      tag: '*',
+      getTagCloud: function () {
+        return e.tagCloud;
+      },
+      tagFilter: function (e) {
+        this.tag = e;
+      },
+      labelColor: function (e) {
+        var t = this.colorClass(e);
+        return t ? 'label-' + t : '';
+      },
+      badgeColor: function (e) {
+        var t = this.colorClass(e);
+        return t ? 'badge-' + t : '';
+      },
+      colorClass: function (e) {
+        return e && '*' !== e ? e === this.tag ? 'success' : 'info' : e === this.tag ? 'success' : '';
+      },
+      getModelCount: function () {
+        return e.models ? _.size(e.models) : 0;
+      },
+      getTaggedCount: function () {
+        return this.getModelCount() - this.getUntaggedCount();
+      },
+      getUntaggedCount: function () {
+        var t = 0;
+        return _.each(e.models, function (e) {
+          e.tags && 0 !== e.tags.length || ++t;
+        }), t;
+      }
+    };
+  }
+]), FirstRevenueApp.factory('Zoom', [
+  'Popup',
+  'Canvas',
+  function (e, t) {
+    return {
+      choice: 0,
+      singleBlock: !1,
+      levels: {
+        0: {
+          label: 'full',
+          title: 'Full canvas'
+        },
+        1: {
+          label: 'customer',
+          title: 'Product market fit'
+        },
+        2: {
+          label: 'revenue',
+          title: 'Customer facing side'
+        },
+        3: {
+          label: 'cost',
+          title: 'Cost'
+        },
+        4: {
+          label: 'single',
+          title: 'Single block'
+        },
+        5: {
+          label: 'equal',
+          title: 'Equal area'
+        }
+      },
+      reset: function () {
+        this.choice = 0, this.singleBlock = !1;
+      },
+      zoom: function (o) {
+        console.log('Zoom choice=', o);
+        var n = $('.first-revenue').find('.views');
+        for (var i in this.levels)
+          n.removeClass('canvas-' + this.levels[i].label);
+        n.addClass('canvas-' + this.levels[o].label), 4 === o ? (this.block = this.block || _.find(t.model.blocks, function (e) {
+          return 'VP' === e.paneClass;
+        }), this.singleBlock = t.singleBlock = this.block) : this.singleBlock = t.singleBlock = null, this.choice = o, e.zoom = !1;
+      }
+    };
+  }
+]), FirstRevenueApp.factory('StickerEditor', [
+  '$window',
+  '$log',
+  'Layout',
+  'Firebase',
+  'Rainbow',
+  function (e, t, o, n, i) {
+    return {
+      active: !1,
+      block: null,
+      stickerId: null,
+      sticker: null,
+      rainbow: i,
+      firebase: n,
+      showSticker: function (e, t, n) {
+        console.log('StickerEditor showSticker model=', e, 'blockId=', t, 'stickerId=', n);
+        var i = this;
+        this.active = !0, 0 === n ? this.sticker = {
+          title: '',
+          notes: '',
+          block: t,
+          color: 'yellow'
+        } : (this.stickerId = n, this.sticker = e.stickers[n]), o.editor.sticker = !0, setTimeout(function () {
+          i.focusTitle();
+        }, 0);
+      },
+      setColor: function (e) {
+        this.sticker.color = e;
+      },
+      checkModelRights: function (e) {
+        return console.log('StickerEditor checkModelRights rightName=', e), !0;
+      },
+      matchTitle: function () {
+        var e = this.sticker;
+        return e && e.shadow ? e.shadow.title === e.title : !0;
+      },
+      matchNotes: function () {
+        var e = this.sticker;
+        return e && e.shadow ? e.shadow.notes === e.notes : !0;
+      },
+      matchColor: function () {
+        var e = this.sticker;
+        return e && e.shadow && e.color ? e.shadow.color === e.color.name : !0;
+      },
+      wasStickerModified: function () {
+        return !(this.matchTitle() && this.matchNotes() && this.matchColor());
+      },
+      focusTitle: function () {
+        var e = $('.field-title').get(0);
+        e && this.placeCaretAtEnd(e);
+      },
+      placeCaretAtEnd: function (t) {
+        if (t.focus(), void 0 !== e.getSelection && void 0 !== e.document.createRange) {
+          var o = e.document.createRange();
+          o.selectNodeContents(t), o.collapse(!1);
+          var n = e.getSelection();
+          n.removeAllRanges(), n.addRange(o);
+        } else if (void 0 !== e.document.body.createTextRange) {
+          var i = e.document.body.createTextRange();
+          i.moveToElementText(t), i.collapse(!1), i.select();
+        }
+      }
+    };
+  }
+]), FirstRevenueApp.factory('ModelEditor', [
+  'Canvas',
+  function (e) {
+    return {
+      model: null,
+      shadow: {
+        name: null,
+        icon: null,
+        descr: null,
+        pitch: null
+      },
+      wasModelModified: function () {
+        return !0;
+      },
+      matchModelDescr: function (t) {
+        var o = e.model.label;
+        if (o) {
+          var n = _.find(t.fields, function (e) {
+              return 'Notes' === e.label;
+            });
+          if (n) {
+            var i = n.values[0].value;
+            return i === t.notes;
+          }
+          return '' === t.notes;
+        }
+        return !0;
+      }
+    };
+  }
+]), FirstRevenueApp.factory('Auth', [
+  '$rootScope',
+  '$location',
+  '$resource',
+  '$q',
+  'Firebase',
+  'Myself',
+  'Singly',
+  function (e, t, o, n, i, r, s) {
+    var a = 'Auth';
+    return console.log(a, 'service launched'), {
+      deferred: null,
+      rememberMe: !0,
+      launchLogon: function (e, t) {
+        switch (console.log('Auth.launchLogon method=', e, 'provider=', t), r.error = null, e) {
+        case 'simple':
+          var o = { rememberMe: this.rememberMe };
+          switch (t) {
+          case 'password':
+            o.email = r.email, o.password = r.password;
+            break;
+          case 'facebook':
+            o.scope = 'email';
+            break;
+          case 'github':
+            o.scope = 'user:email';
+            break;
+          default:
+          }
+          i.authClient.login(t, o);
+          break;
+        case 'singly':
+          this.launchSinglyAuth(t);
+          break;
+        default:
+          console.log('Auth.launchLogon unknown method=', e);
+        }
+      },
+      signupPasswordAuth: function () {
+        console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), i.authClient.createUser(r.email, r.password, function (e, t) {
+          console.log('Auth.signupPasswordAuth email=', r.email, 'password=', r.password), e ? console.log('Auth.signupPasswordAuth error=', e) : (console.log('Auth.signupPasswordAuth success user id=', t.id, 'email', r.email), i.authClient.login('password', {
+            email: r.email,
+            password: r.password,
+            rememberMe: !0
+          }));
+        });
+      },
+      launchPasswordAuth: function () {
+        console.log('Auth.launchPasswordAuth email=', r.email, 'password=', r.password), i.authClient.login('password', {
+          email: r.email,
+          password: r.password,
+          rememberMe: !0
+        });
+      },
+      launchFacebookAuth: function () {
+        console.log('Auth.launchFacebookAuth'), i.authClient.login('facebook', {
+          rememberMe: !0,
+          scope: 'email'
+        });
+      },
+      launchTwitterAuth: function () {
+        console.log('Auth.launchTwitterAuth'), i.authClient.login('twitter', { rememberMe: !0 });
+      },
+      launchPersonaAuth: function () {
+        console.log('Auth.launchPersonaAuth'), i.authClient.login('persona', { rememberMe: !0 });
+      },
+      launchGithubAuth: function () {
+        console.log('Auth.launchGithubAuth'), i.authClient.login('github', {
+          rememberMe: !0,
+          scope: 'user:email'
+        });
+      },
+      launchSinglyAuth: function (e, t) {
+        console.log('Auth.launchSinglyAuth service=', e), s.launchAuth(e, i.rootRef, t || i.generalAuth);
+      },
+      changePassword: function () {
+        console.log('Auth.changePassword', 'email=', r.email, 'oldPassword=', r.password, 'newPassword=', r.newPassword), i.authClient.changePassword(r.email, r.password, r.newPassword, function (e, t) {
+          console.log('Auth.changePassword done error=', e, 'success=', t), e ? console.log('Auth.changePassword error=', e) : console.log('Auth.changePassword success=', t);
+        });
+      }
+    };
+  }
+]), FirstRevenueApp.factory('Credentials', [
+  '$timeout',
+  'Firebase',
+  'Myself',
+  '$q',
+  function (e, t, o, n) {
+    var i = 'Credentials';
+    console.log(i, 'Service launched');
+    var r = o.mp, s = {
+        deferred: null,
+        fb: t,
+        fbAuthClient: null,
+        fbUser: null,
+        providers: t.providers,
+        init: function (e) {
+          console.log(i, 'init'), s.fbAuthClient = e;
+        },
+        saveChanges: function () {
+          console.log(i, 'saveChanges', 'userId=', o.userId), s.mapRef = s.fb.rootRef.child('usermap'), s.accRef = s.fb.rootRef.child('users'), o.userId ? (s.recRef = s.accRef.child(o.userId), console.log(i, 'saveChanges uses existing user for recRef')) : (s.recRef = s.accRef.push(), o.userId = s.recRef.name(), console.log(i, 'saveChanges creates new user for recRef userId=', o.userId)), s.loadCred(r.firstCred).then(s.recurseCred);
+        },
+        loadCred: function (e) {
+          console.log(i, 'loadCred', 'cred=', e);
+          var t = n.defer();
+          return e.detached ? s.deleteCred(e, t) : s.processCred(e, t), t.promise;
+        },
+        recurseCred: function (e) {
+          console.log(i, 'recurseCred', 'cred=', e), e ? s.loadCred(e).then(s.recurseCred) : s.doneCred();
+        },
+        deleteCred: function (e, t) {
+          console.log(i, 'deleteCred', 'cred=', e);
+          var n = e.profile;
+          s.primaryToken || (s.primaryToken = e.token), r.deleteAccount(n, e), console.log(i, 'deleteCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
+          var a = s.mapRef.child(n.provider).child(n.id);
+          s.fb.rootRef.auth(e.token, function (n) {
+            n ? s.mapSetAuthError(t, n) : a && (console.log(i, 'deleteCred', 'setUserMap mapUserRef found, userId=', o.userId), s.removeUserMap(t, a, e));
+          });
+        },
+        processCred: function (e, t) {
+          console.log(i, 'processCred', 'cred=', e, 'deferred=', t);
+          var n = e.profile;
+          s.primaryToken || (s.primaryToken = e.token), r.storeAccount(n, e), console.log(i, 'processCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
+          var a = s.mapRef.child(n.provider).child(n.id);
+          s.fb.rootRef.auth(e.token, function (n) {
+            n ? s.mapSetAuthError(t, n) : a && (console.log(i, 'processCred', 'setUserMap mapUserRef found, userId=', o.userId), s.setUserMap(t, a, e));
+          });
+        },
+        removeUserMap: function (t, o, n) {
+          o.remove(function (o) {
+            o ? (console.log(i, 'removeUserMap user map set error=', o), e(function () {
+              t.reject(o);
+            })) : (console.log(i, 'removeUserMap user map record removed, cred.next=', n.next), e(function () {
+              t.resolve(n.next);
+            }));
+          });
+        },
+        setUserMap: function (t, n, r) {
+          n.set(o.userId, function (o) {
+            o ? (console.log(i, 'setUserMap user map set error=', o), e(function () {
+              t.reject(o);
+            })) : (console.log(i, 'setUserMap user map record created, cred.next=', r.next), e(function () {
+              t.resolve(r.next);
+            }));
+          });
+        },
+        mapSetAuthError: function (t, o) {
+          'EXPIRED_TOKEN' === o.code ? console.log(i, 'mapSetAuthError error=', o, 'Processing expired token') : (console.log(i, 'mapSetAuthError', 'user map set auth failed error=', o), e(function () {
+            t.reject(o);
+          }));
+        },
+        doneCred: function () {
+          console.log(i, 'doneCred primaryToken=', s.primaryToken), s.primaryToken && s.fb.rootRef.auth(s.primaryToken, function (e) {
+            e ? console.log(i, 'doneCred', 'user account set auth failed error=', e) : s.recRef.set(o.mp.user, s.doneCredSet);
+          });
+        },
+        doneCredSet: function (t) {
+          e(function () {
+            if (t)
+              console.log(i, 'doneCred user account set error=', t);
+            else {
+              console.log(i, 'doneCred user account record created');
+              var e = o.mp.user.primary, n = o.mp.user.accounts[e].authentic;
+              'singly' === n.provider ? console.log(i, 'doneCred provider singly authUser=', n) : (console.log(i, 'doneCred openSession authUser=', n), n.sessionKey = n.firebaseSessionKey, s.fbAuthClient.saveSession(s.primaryToken, n), o.authenticated = !0), s.fb.openSession(s.recRef.name(), n), o.mp.user = null;
+            }
+          });
+        }
+      };
+    return s;
+  }
+]), FirstRevenueApp.factory('Invite', [
   '$timeout',
   '$resource',
   '$location',
@@ -2362,765 +3181,143 @@ FirstRevenueApp.controller('AdminController', [
       };
     return u;
   }
-]), FirstRevenueApp.factory('JWT', [function () {
-    var e = 'JWT';
-    return console.log(e, 'service launched'), {
-      decodeJWT: function (t) {
-        console.log(e, 'decodeJWT token=', t);
-        var o = t.split('.');
-        if (3 !== o.length)
-          throw Error('Not enough or too many segments');
-        var n = o[0], i = o[1], r = o[2];
-        console.log(e, 'decodeJWT', 'headerSeg=', n, 'payloadSeg=', i, 'signatureSeg=', r);
-        var s = this.base64urldecode(n), a = this.base64urldecode(i), l = this.base64urldecode(r);
-        return console.log(e, 'decodeJWT', 'header=', s, 'payload=', a, 'signature=', l), [
-          JSON.parse(s),
-          JSON.parse(a),
-          l
-        ];
-      },
-      base64urldecode: function (e) {
-        var t = e;
-        switch (t = t.replace(/-/g, '+'), t = t.replace(/_/g, '/'), t.length % 4) {
-        case 0:
-          break;
-        case 2:
-          t += '==';
-          break;
-        case 3:
-          t += '=';
-          break;
-        default:
-          throw new InputException('Illegal base64url string!');
-        }
-        return window.atob(t);
-      },
-      displayToken: function (t) {
-        var o = t.split('.');
-        console.log(e, 'displayToken tokenParts=', atob(o[0]), atob(o[1]), o[2]);
-      }
-    };
-  }]), FirstRevenueApp.factory('Layout', [
-  '$window',
-  'Database',
-  'Popup',
-  'Zoom',
-  'FullScreen',
-  'Menu',
-  function (e, t, o, n, i, r) {
-    return {
-      title: '',
-      colorValue: 100,
-      view: '',
-      setView: function (e) {
-        this.view = e;
-      },
-      isView: function (e) {
-        return this.view === e;
-      },
-      tooltips: !0,
-      profile: !0,
-      qrCode: !1,
-      guide: { wide: !0 },
-      peer: { wide: !0 },
-      editor: {
-        model: !1,
-        sticker: !1,
-        contact: !1,
-        user: !1
-      },
-      reset: function () {
-        t.reset(), o.reset(), n.reset(), this.view = '', this.guide.wide = !0, this.peer.wide = !1;
-      },
-      isFullScreen: function () {
-        return e.navigator.standalone;
-      },
-      showButtons: function () {
-        return 'canvas' === r.selected;
-      }
-    };
-  }
-]), FirstRevenueApp.factory('MasterScope', [function () {
-    return {
-      masterScope: null,
-      setMasterScope: function (e) {
-        this.masterScope = e;
-      },
-      getMasterScope: function () {
-        return this.masterScope;
-      }
-    };
-  }]), FirstRevenueApp.factory('MemberCatalog', [
-  'Database',
-  function (e) {
-    return {
-      sort: null,
-      getMembers: function () {
-        return e.users;
-      },
-      getTitle: function (e) {
-        return e.title ? e.title[0] : '';
-      },
-      getFullTitle: function (e) {
-        return _.reduce(e.title || [], function (e, t) {
-          return (e ? e + '\n' : '') + t;
-        });
-      },
-      modelCount: function (e) {
-        return e.models ? _.size(e.models) : 0;
-      },
-      highlightModels: function (e) {
-        console.log('highlightModels member=', e, 'event=', event), $(event.target).parent().children().css('color', 'darkred');
-      }
-    };
-  }
-]), FirstRevenueApp.value('Menu', {
-  title: '1st Revenue',
-  selected: 'home',
-  visible: [
-    'home',
-    'logon'
-  ],
-  def: {
-    home: {
-      label: 'Home',
-      route: 'home',
-      icon: 'home'
-    },
-    logon: {
-      label: 'Logon',
-      route: 'logon',
-      icon: 'user'
-    },
-    admin: {
-      label: 'Admin',
-      route: 'admin',
-      icon: 'wrench'
-    },
-    repo: {
-      label: 'Repo',
-      route: 'repo',
-      icon: 'list'
-    },
-    canvas: {
-      label: 'Canvas',
-      route: 'canvas',
-      icon: 'th-large'
-    },
-    create: {
-      label: 'Create',
-      route: 'canvas/new',
-      icon: 'edit'
-    }
-  },
-  toggle: function (e) {
-    this[e] = !this[e];
-  }
-}), FirstRevenueApp.factory('Modal', [function () {
-    var e = {
-        logon: !1,
-        logoff: !1,
-        dup: !1,
-        dis: !1,
-        del: !1,
-        delNoRights: !1,
-        model: !1,
-        modelNew: !1,
-        modelEditorTab: 0,
-        stickerId: null,
-        sticker: null,
-        contact: null,
-        openDeleteStickerDialog: function (t, o) {
-          e.stickerId = t, e.sticker = o, e.isDeleteAllowed(t) ? e.del = !0 : e.delNoRights = !0;
-        },
-        isDeleteAllowed: function () {
-          return !0;
-        }
-      };
-    return e;
-  }]), FirstRevenueApp.factory('ModelCatalog', [
-  'Database',
-  'TagCatalog',
-  'Myself',
-  function (e, t, o) {
-    var n = 'ModelCatalog', i = {
-        sort: 'time',
-        tag: '*',
-        ascending: !0,
-        backInTime: !0,
-        refreshModels: function () {
-        },
-        getModel: function (e) {
-          return o.sync.models[e];
-        },
-        isMine: function (e) {
-          return o.sync.models[e].owner === o.userId;
-        },
-        isPublic: function (e) {
-          return o.sync.public.models && !!o.sync.public.models[e];
-        },
-        isShared: function (e) {
-          return !(i.isPublic(e) || i.isMine(e));
-        },
-        getModelsNew3: function (e) {
-          var t = {};
-          return _.each(o.sync.models, function (o, n) {
-            var r = i.isPublic(n);
-            ('all' === e || 'public' === e && r || 'my' === e && !r) && (o.id = n, t[n] = o);
-          }), this.sortModelList(t);
-        },
-        getModels: function (e) {
-          var t = [];
-          return _.each(o.sync.models, function (n, r) {
-            var s = o.sync.models[r], a = s;
-            if (a.id = r, s) {
-              var l = i.isPublic(r), c = i.isMine(r), u = i.isShared(r);
-              ('all' === e || 'public' === e && l || 'shared' === e && u || 'my' === e && c) && t.push(a);
-            }
-          }), this.sortModelList(t);
-        },
-        getModelIdList: function (e) {
-          var t = [];
-          return _.each(o.sync.models, function (n, r) {
-            var s = o.sync.models[r];
-            if (s && s.fields) {
-              var a = i.isPublic(r), l = i.isMine(r), c = i.isShared(r);
-              ('all' === e || 'public' === e && a || 'shared' === e && c || 'my' === e && l) && t.push(r);
-            }
-          }), this.sortModelIdList(t);
-        },
-        getFields: function (e) {
-          return o.sync.models[e].fields;
-        },
-        getTags: function (e) {
-          return o.sync.models[e].tags;
-        },
-        sortModelIdList: function (e) {
-          var t = e;
-          return 'name' === this.sort && (t = _.sortBy(e, function (e) {
-            return o.sync.models[e].fields.name;
-          }), this.ascending || t.reverse()), 'time' === this.sort && (t = _.sortBy(e, function (e) {
-            return e;
-          }), this.backInTime && t.reverse()), t;
-        },
-        sortModelList: function (e) {
-          var t = e;
-          return 'name' === this.sort && (t = _.sortBy(e, function (e) {
-            return e.fields.name;
-          }), this.ascending || t.reverse()), 'time' === this.sort && (t = _.sortBy(e, function (e) {
-            return e.id;
-          }), this.backInTime && t.reverse()), t;
-        },
-        nameSortOrder: function () {
-          return this.ascending ? 'a-z' : 'z-a';
-        },
-        timeSortIconSuffix: function () {
-          return (this.backInTime ? '-back' : '') + ('time' === this.sort ? '-white' : '');
-        },
-        getMemberCount: function (e) {
-          var t = o.sync.models[e];
-          return t.users ? _.size(t.users) : 0;
-        },
-        highlightMembers: function (e) {
-          console.log(n, 'highlightMembers modelId=', e, 'event=', event);
-        },
-        getAllTags: function () {
-          var t = [];
-          _.each(e.models, function (e) {
-            console.log(n, 'getAllTags model loop model.id=', e.id), _.each(e.tags, function (e) {
-              console.log(n, 'getAllTags tag loop tag.text=', e.text), t.push({
-                text: e.text,
-                type: 'info',
-                count: 1
-              });
-            });
-          });
-          var o = t;
-          return console.log(n, 'getAllTags allTags=', o), o;
-        },
-        sortModels: function (e) {
-          'name' === this.sort ? 'name' === e ? this.ascending = !this.ascending : (this.sort = e, this.ascending = !0) : 'time' === this.sort && ('time' === e ? this.backInTime = !this.backInTime : (this.sort = e, this.backInTime = !0));
-        },
-        labelColor: function (e) {
-          return e === this.tag ? 'label-success' : 'label-info';
-        },
-        filterMatch: function (e) {
-          var o = i.getTags(e), n = t.tag, r = !1;
-          if (n)
-            if ('*' === n)
-              r = !0;
-            else {
-              var s = _.find(o, function (e) {
-                  return e.text === n;
-                });
-              r = !!s;
-            }
-          else
-            r = 0 === o.length;
-          return r;
-        }
-      };
-    return i;
-  }
-]), FirstRevenueApp.factory('Model', [function () {
-    return {
-      modelId: null,
-      model: null
-    };
-  }]), FirstRevenueApp.factory('Monitor', [function () {
-    return {
-      rateStats: null,
-      globalStats: null,
-      getRateStats: function (e) {
-        var t = this;
-        now.getRateStats(function (o) {
-          console.log('Monitor.getRateStats=', o), t.rateStats = o, e();
-        }), now.getGlobalStats(function (o) {
-          console.log('Monitor.getGlobalStats=', o), t.globalStats = o, e();
-        });
-      }
-    };
-  }]), FirstRevenueApp.factory('Notif', [
-  'Popup',
-  function (e) {
-    var t = 'Notif';
-    return console.log(t, 'service launched'), {
-      list: {},
-      next: 0,
-      show: !1,
-      add: function (e) {
-        console.log(t, 'add', e), e.seq = this.next, e.time = new Date(), e.type || (e.type = 'info'), this.list[this.next++] = e;
-      },
-      remove: function (e) {
-        console.log(t, 'remove index=', e, 'item=', this.list[e]), delete this.list[e], console.log(t, 'remove deleted notif=', this.list);
-      },
-      count: function () {
-        return _.size(this.list);
-      },
-      get: function (e) {
-        return this.list[e];
-      },
-      getList: function () {
-        return this.list;
-      },
-      clear: function () {
-        this.list = {}, this.next = 0, e.notif = !1;
-      }
-    };
-  }
-]), FirstRevenueApp.value('Popup', {
-  slider: !1,
-  version: !1,
-  zoom: !1,
-  license: !1,
-  member: !1,
-  palette: !1,
-  notif: !1,
-  uservoice: !1,
-  reset: function () {
-    this.slider = this.version = this.zoom = this.license = this.member = this.palette = this.notif = !1;
-  },
-  toggle: function (e) {
-    this[e] = !this[e];
-  }
-}), FirstRevenueApp.factory('RGB', [function () {
-    return {
-      hsvObject: function (e, t, o) {
-        this.h = e, this.s = t, this.v = o, this.validate = function () {
-          0 >= this.h && (this.h = 0), 0 >= this.s && (this.s = 0), 0 >= this.v && (this.v = 0), this.h > 360 && (this.h = 360), this.s > 100 && (this.s = 100), this.v > 100 && (this.v = 100);
-        };
-      },
-      rgbObject: function (e, t, o) {
-        this.r = e, this.g = t, this.b = o, this.validate = function () {
-          0 >= this.r && (this.r = 0), 0 >= this.g && (this.g = 0), 0 >= this.b && (this.b = 0), this.r > 255 && (this.r = 255), this.g > 255 && (this.g = 255), this.b > 255 && (this.b = 255);
-        };
-      },
-      hexify: function (e) {
-        var t = '0123456789ABCDEF', o = e % 16, n = (e - o) / 16, i = t.charAt(n) + t.charAt(o);
-        return i;
-      },
-      decimalize: function (e) {
-        var t = '0123456789ABCDEF';
-        return 16 * t.indexOf(e.charAt(0).toUpperCase()) + t.indexOf(e.charAt(1).toUpperCase());
-      },
-      hex2rgb: function (e, t) {
-        t.r = this.decimalize(e.substring(1, 3)), t.g = this.decimalize(e.substring(3, 5)), t.b = this.decimalize(e.substring(5, 7));
-      },
-      rgb2hex: function (e) {
-        return '#' + this.hexify(e.r) + this.hexify(e.g) + this.hexify(e.b);
-      },
-      rgb2hsv: function (e, t) {
-        var o = e.r / 255, n = e.g / 255, i = e.b / 255, r = Math.min(o, n, i), s = Math.max(o, n, i), a = s - r;
-        if (t.v = s, 0 === a)
-          t.h = 0, t.s = 0;
-        else {
-          t.s = a / s;
-          var l = ((s - o) / 6 + a / 2) / a, c = ((s - n) / 6 + a / 2) / a, u = ((s - i) / 6 + a / 2) / a;
-          o === s ? t.h = u - c : n === s ? t.h = 1 / 3 + l - u : i === s && (t.h = 2 / 3 + c - l), 0 > t.h && (t.h += 1), t.h > 1 && (t.h -= 1);
-        }
-        t.h *= 360, t.s *= 100, t.v *= 100;
-      },
-      hsv2rgb: function (e, t) {
-        var o = e.h / 360, n = e.s / 100, i = e.v / 100;
-        if (0 === n)
-          t.r = 255 * i, t.g = 255 * i, t.b = 255 * i;
-        else {
-          var r, s, a, l = 6 * o, c = Math.floor(l), u = i * (1 - n), d = i * (1 - n * (l - c)), p = i * (1 - n * (1 - (l - c)));
-          0 === c ? (r = i, s = p, a = u) : 1 === c ? (r = d, s = i, a = u) : 2 === c ? (r = u, s = i, a = p) : 3 === c ? (r = u, s = d, a = i) : 4 === c ? (r = p, s = u, a = i) : (r = i, s = u, a = d), t.r = 255 * r, t.g = 255 * s, t.b = 255 * a;
-        }
-      }
-    };
-  }]), FirstRevenueApp.factory('Rainbow', [
-  'Canvas',
-  'RGB',
-  function (e, t) {
-    var o = '0123456789abcdef', n = {
-        red: {
-          id: 1,
-          text: 'Red',
-          code: 'F7D1D0'
-        },
-        yellow: {
-          id: 2,
-          text: 'Yellow',
-          code: 'F7F0C5'
-        },
-        gray: {
-          id: 3,
-          text: 'Gray',
-          code: 'EFEFEF'
-        },
-        blue: {
-          id: 4,
-          text: 'Blue',
-          code: 'D2E4EB'
-        },
-        magenta: {
-          id: 5,
-          text: 'Magenta',
-          code: 'E1D8ED'
-        },
-        salmon: {
-          id: 6,
-          text: 'Salmon',
-          code: 'FFD5C2'
-        },
-        cyan: {
-          id: 7,
-          text: 'Cyan',
-          code: 'D1F3EC'
-        },
-        neutral: {
-          id: 8,
-          text: 'Neutral',
-          code: 'FFFFFF'
-        },
-        green: {
-          id: 9,
-          text: 'Green',
-          code: 'DCEBD8'
-        }
-      };
-    return {
-      canvas: e,
-      rgb: t,
-      colorMap: n,
-      getColorMap: function () {
-        return this.colorMap;
-      },
-      getColor: function (e) {
-        var t = this.colorMap[e];
-        return t || this.colorMap.neutral;
-      },
-      colorList: function () {
-        return $.map(this.colorMap, function (e, t) {
-          return 'neutral' === t ? null : t;
-        });
-      },
-      colorCodeList: function () {
-        return $.map(this.colorMap, function (e, t) {
-          return e.name = t, 'neutral' === t ? null : e;
-        });
-      },
-      brightenHex: function (e) {
-        return e = e || 'FF0000', this.brightenFull(e);
-      },
-      brighten: function (e) {
-        var t = this.colorMap[e].code;
-        return this.brightenFull(t);
-      },
-      brightenFull: function (e, t, o) {
-        var n = new this.rgb.rgbObject(0, 0, 0), i = new this.rgb.hsvObject(0, 0, 0);
-        return this.rgb.hex2rgb('#' + e, n), this.rgb.rgb2hsv(n, i), 0 === i.s ? 100 > i.v && (i.v = o ? o : 80) : (i.s = t ? t : 50, i.v = o ? o : 100), this.rgb.hsv2rgb(i, n), this.rgb.rgb2hex(n).substring(1);
-      },
-      opaqueField: function (e) {
-        var t = this.colorMap[e].code;
-        return this.opaqueFieldHex(t);
-      },
-      brightenFieldCSS: function (e) {
-        return this.brightenFull(this.rgb2hex(e), 100, 100);
-      },
-      opaqueFieldCSS: function (e) {
-        var t = e.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/), o = new this.rgb.hsvObject(0, 0, 0), n = new this.rgb.rgbObject(t[1], t[2], t[3]);
-        return this.makeOpaque(n, o);
-      },
-      opaqueFieldHex: function (e) {
-        var t = new this.rgb.rgbObject(0, 0, 0), o = new this.rgb.hsvObject(0, 0, 0);
-        return e || (e = 'EFEFEF'), this.rgb.hex2rgb('#' + e, t), this.makeOpaque(t, o);
-      },
-      makeOpaque: function (e, t) {
-        return this.rgb.rgb2hsv(e, t), 100 > t.v ? t.v = 100 : t.s = 0 === t.s ? 0 : Math.max(0, t.s - 10), this.rgb.hsv2rgb(t, e), this.rgb.rgb2hex(e).substring(1);
-      },
-      rgb2hex: function (e) {
-        return e = e.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/), this.hex(e[1]) + this.hex(e[2]) + this.hex(e[3]);
-      },
-      hex: function (e) {
-        return isNaN(e) ? '00' : o[(e - e % 16) / 16] + o[e % 16];
-      }
-    };
-  }
 ]), FirstRevenueApp.factory('Register', [
   '$timeout',
   '$resource',
-  '$location',
+  '$q',
   'Firebase',
   'Auth',
   'Myself',
-  '$q',
-  function (e, t, o, n, i, r, s) {
-    var a = 'Register';
-    console.log(a, 'Service launched');
-    var l = [
-        'facebook',
-        'twitter',
-        'github'
-      ], c = [
-        'linkedin',
-        'google',
-        'gplus',
-        'gmail',
-        'gcontacts'
-      ], u = r.mp, d = {
+  function (e, t, o, n, i, r) {
+    var s = 'Register';
+    console.log(s, 'Service launched');
+    var a = r.mp, l = {
         deferred: null,
         fb: n,
         fbAuthClient: null,
+        fbUser: null,
         providers: n.providers,
-        userId: null,
         res: t,
         init: function () {
-          console.log(a, 'init'), d.fb.clearSession(), d.fbAuthClient = new FirebaseAuthClient(d.fb.rootRef, d.cbVerify);
-          var e = u.getLastUser();
-          e && (console.log(a, 'init attaching the last user firebaseSessionKey=', e.firebaseSessionKey), d.cbVerify(null, e));
+          console.log(s, 'init'), l.fb.clearSession(), l.fbAuthClient = new FirebaseAuthClient(l.fb.rootRef, l.cbVerify);
+          var e = a.getLastUser();
+          return e && (console.log(s, 'init attaching the last user firebaseSessionKey=', e.firebaseSessionKey), l.cbVerify(null, e)), l.fbAuthClient;
+        },
+        unusedProviders: function () {
+          return _.omit(l.providers, _.keys(a.services));
         },
         attach: function (e, t, o) {
-          console.log(a, 'attach service=', e);
-          var n = u.credentials[e];
+          r.error = null, console.log(s, 'attach service=', e);
+          var n = a.credentials[e];
           if (n && n.detached)
-            console.log(a, 'attach re-attach service=', e), n.detached = !1;
-          else if (u.isSameUser(e))
-            console.log(a, 'attach same user found for service=', e), d.cbVerify(null, u.getLastUser());
-          else if ('persona' === e)
-            d.personaLogin();
-          else if ('password' === e)
-            d.sendAuthRequest('/auth/firebase', {
+            console.log(s, 'attach - re-attach service=', e), n.detached = !1, a.services[e] = n.services[e];
+          else if (a.isSameUser(e))
+            console.log(s, 'attach - same user found for service=', e), l.cbVerify(null, a.getLastUser());
+          else {
+            var c = l.fb.providers[e].method;
+            switch (c) {
+            case 'simple':
+              l.attachSimple(e, t, o);
+              break;
+            case 'singly':
+              i.launchSinglyAuth(e, l.cbVerify);
+              break;
+            default:
+              console.log(s, 'Unsupported auth method=', c);
+            }
+          }
+        },
+        attachSimple: function (e, t, o) {
+          switch (e) {
+          case 'persona':
+            l.personaLogin();
+            break;
+          case 'password':
+            l.sendAuthRequest('/auth/firebase', {
               email: t,
               password: o
             });
-          else if (_.contains(l, e)) {
-            var r = d.providers[e].scope, s = { rememberMe: !0 };
-            r && (s.scope = r), d.fbAuthClient.launchAuthWindow(e, s, d.cbVerify3);
-          } else
-            _.contains(c, e) && i.launchSinglyAuth(e, d.cbVerify);
+            break;
+          default:
+            var n = l.providers[e].scope, i = { rememberMe: !0 };
+            n && (i.scope = n), l.fbAuthClient.launchAuthWindow(e, i, l.cbVerify3);
+          }
         },
         detach: function (e) {
-          var t = d.credentials[e];
-          t && (t.detached = !0);
+          var t = a.credentials[e];
+          console.log(s, 'detach key=', e), t && (t.detached = !0), delete a.services[e];
         },
         personaLogin: function () {
-          var e = d.handlePersonaResponse;
-          console.log(a, 'personaLogin'), navigator.id.watch({
+          var e = l.handlePersonaResponse;
+          console.log(s, 'personaLogin'), navigator.id.watch({
             onlogin: function (t) {
-              console.log(a, 'personaLogin onlogin assertion=', t), e(t);
+              console.log(s, 'personaLogin onlogin assertion=', t), e(t);
             },
             onlogout: function () {
-              console.log(a, 'personaLogin onlogout');
+              console.log(s, 'personaLogin onlogout');
             }
           }), navigator.id.request({
             oncancel: function () {
-              console.log(a, 'personaLogin oncancel'), e(null);
+              console.log(s, 'personaLogin oncancel'), e(null);
             }
           });
         },
         handlePersonaResponse: function (e) {
-          console.log(a, 'handlePersonaResponse authResponse=', e), null === e ? d.cbVerify(d.fbAuthClient.formatError({
+          console.log(s, 'handlePersonaResponse authResponse=', e), null === e ? l.cbVerify(l.fbAuthClient.formatError({
             code: 'UNKNOWN_ERROR',
             message: 'User denied authentication request or an error occurred.'
-          })) : d.sendAuthRequest('/auth/persona/authenticate', { assertion: e });
+          })) : l.sendAuthRequest('/auth/persona/authenticate', { assertion: e });
         },
         sendAuthRequest: function (e, t) {
-          console.log(a, 'sendAuthRequest url=', e, 'json=', t), d.fbAuthClient.jsonp(e, t, function (e, t) {
-            if (console.log(a, 'sendAuthRequest jsonp callback error=', e, 'response=', t), e || !t.token)
-              d.cbVerify(d.fbAuthClient.formatError(e));
-            else {
-              var o = t.user;
-              o.firebaseAuthToken = o.firebaseAuthToken || t.token, d.cbVerify(null, o);
-            }
+          console.log(s, 'sendAuthRequest url=', e, 'json=', t), l.fbAuthClient.jsonp(e, t, function (e, t) {
+            console.log(s, 'sendAuthRequest jsonp callback error=', e, 'response=', t), e || !t.token ? l.cbVerify(l.fbAuthClient.formatError(e)) : (l.fbUser = t.user, l.fbUser.firebaseAuthToken = l.fbUser.firebaseAuthToken || t.token, l.cbVerify(null, l.fbUser));
           });
         },
         cbVerify3: function (e, t, o) {
-          o.firebaseAuthToken = t, d.cbVerify(e, o);
+          o.firebaseAuthToken = t, l.cbVerify(e, o);
         },
         cbVerify: function (e, t) {
-          console.log(a, 'cbVerify', 'Register=', d, ' error=', e, 'user=', t), e ? (console.log(a, 'cbVerify', 'launchError=', e), r.authFailed = !0) : t ? (console.log(a, 'cbVerify', 'sessionKey=', t.sessionKey), t.sessionKey ? t.firebaseSessionKey = t.sessionKey || null : t.sessionKey = t.firebaseSessionKey || null, d.fb.rootRef.auth(t.firebaseAuthToken, function (e) {
+          console.log(s, 'cbVerify', 'Register=', l, ' error=', e, 'user=', t), e ? l.reportLaunchError(e) : t && (console.log(s, 'cbVerify', 'sessionKey=', t.sessionKey), t.sessionKey ? t.firebaseSessionKey = t.sessionKey || null : t.sessionKey = t.firebaseSessionKey || null, l.fb.rootRef.auth(t.firebaseAuthToken, function (e) {
             if (e)
-              console.log(a, 'cbVerify', 'authError=', e);
+              l.reportLaunchError(e);
             else {
-              console.log(a, 'cbVerify', 'user.provider=', t.provider);
-              var o = d.fb.rootRef.child('usermap'), n = o.child(t.provider).child(t.id);
+              console.log(s, 'cbVerify', 'user.provider=', t.provider);
+              var o = l.fb.rootRef.child('usermap'), n = o.child(t.provider).child(t.id);
               n.once('value', function (e) {
-                console.log(a, 'cbVerify', 'mapUserRef once value=', e.val()), d.checkExisting(e.val(), t);
+                console.log(s, 'cbVerify', 'mapUserRef once value=', e.val()), l.checkExisting(e, t);
               });
             }
-          })) : (console.log(a, 'cbVerify', 'null user'), r.authFailed = !0);
+          }));
         },
-        checkExisting: function (t, o) {
-          if (console.log(a, 'checkExisting', 'value=', t, 'fbUser=', o), t) {
-            console.log(a, 'checkExisting', 'found usermap for user', o.provider + '/' + o.id, 'value=', t);
-            var n = d.fb.rootRef.child('users').child(t);
-            n.once('value', function (t) {
-              var n = t.val();
-              console.log(a, 'checkExisting', 'userRecordRef once value userRecord=', n), n ? e(function () {
-                u.retrieveUserRecord(n, o);
-              }) : u.buildServiceCredentials(o);
+        checkExisting: function (e, t) {
+          var o = e.val();
+          if (console.log(s, 'checkExisting', 'mapUserId=', o, 'fbUser=', t), o) {
+            console.log(s, 'checkExisting', 'found usermap for user', t.provider + '/' + t.id, 'mapUserId=', o);
+            var n = l.fb.rootRef.child('users').child(o);
+            n.once('value', function (n) {
+              var i = n.val();
+              console.log(s, 'checkExisting', 'userRecordRef once mapUserId userRecord=', i), i ? (a.retrieveUserRecord(i, t), r.userId = o) : (a.buildServiceCredentials(t), e.ref().remove(function (e) {
+                e ? console.log(s, 'checkExisting', 'Orphan user map entry for mapUserId=', o, 'could not be deleted err=', e) : console.log(s, 'checkExisting', 'Orphan user map entry deleted for mapUserId=', o);
+              }));
             }, function (e) {
-              console.log(a, 'checkExisting', 'userRecordRef once value error=', e);
+              console.log(s, 'checkExisting', 'userRecordRef once mapUserId error=', e), r.authFailed = !0;
             });
           } else
-            console.log(a, 'checkExisting', 'value null - build credentials'), u.buildServiceCredentials(o);
+            console.log(s, 'checkExisting', 'mapUserId null - build credentials'), a.buildServiceCredentials(t);
         },
-        doneCred: function () {
-          console.log(a, 'doneCred primaryToken=', d.primaryToken), d.primaryToken && d.fb.rootRef.auth(d.primaryToken, function (t) {
-            t ? console.log(a, 'doneCred', 'user account set auth failed error=', t) : d.recRef.set(r.mp.user, function (t) {
-              e(function () {
-                if (t)
-                  console.log(a, 'doneCred user account set error=', t);
-                else {
-                  console.log(a, 'doneCred user account record created');
-                  var e = r.mp.user.primary, o = r.mp.user.accounts[e].authentic;
-                  'singly' === o.provider ? console.log(a, 'doneCred provider singly authUser=', o) : (console.log(a, 'doneCred openSession authUser=', o), o.sessionKey = o.firebaseSessionKey, d.fbAuthClient.saveSession(d.primaryToken, o), r.authenticated = !0), d.fb.openSession(d.recRef.name(), o), r.mp.user = null;
-                }
-              });
-            });
-          });
-        },
-        saveChanges: function () {
-          d.mapRef = d.fb.rootRef.child('usermap'), d.accRef = d.fb.rootRef.child('users'), d.recRef = d.accRef.push(), d.userId = d.recRef.name(), d.loadCred(u.firstCred).then(d.recurseCred);
-        },
-        loadCred: function (e) {
-          console.log(a, 'loadCred', 'cred=', e);
-          var t = s.defer();
-          return d.processCred(e, t), t.promise;
-        },
-        recurseCred: function (e) {
-          console.log(a, 'recurseCred', 'cred=', e), e ? d.loadCred(e).then(d.recurseCred) : d.doneCred();
-        },
-        processCred: function (t, o) {
-          console.log(a, 'processCred', 'cred=', t, 'deferred=', o);
-          var n = t.profile;
-          d.primaryToken || (d.primaryToken = t.token), u.storeAccount(n, t), console.log(a, 'processCred', 'profile.provider=', n.provider, 'profile.id=', n.id);
-          var i = d.mapRef.child(n.provider).child(n.id);
-          d.fb.rootRef.auth(t.token, function (n) {
-            n ? 'EXPIRED_TOKEN' === n.code ? console.log(a, 'processCred error=', n, 'Processing expired token') : (console.log(a, 'processCred', 'user map set auth failed error=', n), e(function () {
-              o.reject(n);
-            })) : i && (console.log(a, 'processCred', 'setUserMap mapUserRef found, userId=', d.userId), i.set(d.userId, function (n) {
-              n ? (console.log(a, 'processCred user map set error=', n), e(function () {
-                o.reject(n);
-              })) : (console.log(a, 'processCred user map record created, cred.next=', t.next), e(function () {
-                o.resolve(t.next);
-              }));
-            }));
-          });
+        reportLaunchError: function (e) {
+          console.log(s, 'reportLaunchError', 'launchError=', e), r.authFailed = !0, r.error = 'unknown closed window' === e ? {
+            code: 'WINDOW_CLOSED',
+            message: 'Authentication window has been closed'
+          } : angular.isString(e) ? {
+            code: 'UNKNOWN_ERROR',
+            message: e
+          } : e;
         }
       };
-    return d;
+    return l;
   }
-]), FirstRevenueApp.factory('RrrrRrrr', [function () {
-    return {
-      launching: !0,
-      getImageLink: function () {
-        var e = Math.floor(Math.random() * this.rrrrrrrrImages.length);
-        return this.imageLinkPrefix + this.rrrrrrrrImages[e] + this.imageLinkSuffix;
-      },
-      imageLinkPrefix: 'http://24.media.tumblr.com/tumblr_m',
-      imageLinkSuffix: '1rt0g8wo1_500.gif',
-      rrrrrrrrImages: [
-        'euuwtJ9nV',
-        'dvka3G41p',
-        'dj1obEOlh',
-        'd65evMYkd',
-        'cnh5cn9C1',
-        'ccire33IK',
-        'bxp00m7C0',
-        'bpvhrbHPo',
-        'bd83rnrYp',
-        'b7s2s3EV3',
-        'b0f8a4pgB',
-        'ankvxXfq3',
-        'aami4M0HW',
-        '9x0hbDvcs',
-        '9rnf2HAO9',
-        '9k651ina7',
-        '9er5rZyEg',
-        '91f14NyEA',
-        '91etz18X0',
-        '8ogrxZX77',
-        '8ogo21KEv',
-        '8h55wLclu',
-        '8bjmzW8bc',
-        '84a7mPsXs',
-        '7yo1n6Rfq',
-        '7rcy6WHk8',
-        '7khbxGWM8',
-        '7egxdQaZ1',
-        '78mc8Yldh',
-        '71lryYOAM',
-        '6wfa4Cp85',
-        '6omiiIOmH',
-        '6j60b07bX',
-        '6bj3lYuJI',
-        '6682mxtuF',
-        '5ypkjdWsh',
-        '5sxx323Rm',
-        '5ldoe1E2b',
-        '5g2nqAeU8',
-        '58gra1RRz',
-        '52o9pcvrd',
-        '4w7mn4fxb',
-        '4qg8knCAj',
-        '4j0e4jRq4',
-        '47h6bViV8',
-        '47h3k3RZW',
-        '3xsjeuvbO',
-        '34rmyHRsK',
-        '3n2nqGWe7',
-        '3efuq0DT4',
-        '3efroqt6b',
-        '34rjhIzwL',
-        '33a7fTeZ3',
-        '2xt4ciY73',
-        '2s55mYp1q',
-        '2mos9dUK7',
-        '2gxxmlC3S',
-        '2b3fzb5HQ',
-        '27hm76FGR',
-        '244o3I4Fv',
-        '20202MWiD',
-        '1wjlbI0Zw',
-        '1uj03PKyA',
-        '1uht5a12i'
-      ]
-    };
-  }]), FirstRevenueApp.factory('Singly', [
+]), FirstRevenueApp.factory('Singly', [
   '$rootScope',
   '$timeout',
   '$resource',
@@ -3147,11 +3344,11 @@ FirstRevenueApp.controller('AdminController', [
           c.accessToken = null;
         },
         buildErrorAccount: function (e, t) {
-          var o = null, n = t, i = e.services[n];
-          return i && (o = {
+          var o = null, n = e.services[t];
+          return n && (o = {
             name: e.name,
-            service: n,
-            id: i.id,
+            service: t,
+            id: n.id,
             image: e.thumbnail_url
           }), o;
         },
@@ -3163,7 +3360,7 @@ FirstRevenueApp.controller('AdminController', [
               service: e,
               response_type: 'token'
             };
-          c.accessToken && (u.access_token = c.accessToken), 'linkedin' === e ? u.scope = 'r_basicprofile r_emailaddress r_network w_messages' : 'gplus' === e && (u.scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'), console.log(i, 'launchAuth Opening WinChan params=', u), WinChan.open({
+          c.accessToken, 'linkedin' === e ? u.scope = 'r_basicprofile r_emailaddress r_network w_messages' : 'gplus' === e ? u.scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email' : 'gcontacts' === e && (u.scope = 'https://www.google.com/m8/feeds/'), console.log(i, 'launchAuth Opening WinChan params=', u), WinChan.open({
             url: a + 'SinglyLaunch.html',
             relay_url: a + 'WinChanRelay.html',
             window_features: r,
@@ -3242,389 +3439,7 @@ FirstRevenueApp.controller('AdminController', [
       };
     return c;
   }
-]), FirstRevenueApp.factory('TagCatalog', [
-  'Database',
-  function (e) {
-    return {
-      tag: '*',
-      getTagCloud: function () {
-        return e.tagCloud;
-      },
-      tagFilter: function (e) {
-        this.tag = e;
-      },
-      labelColor: function (e) {
-        var t = this.colorClass(e);
-        return t ? 'label-' + t : '';
-      },
-      badgeColor: function (e) {
-        var t = this.colorClass(e);
-        return t ? 'badge-' + t : '';
-      },
-      colorClass: function (e) {
-        return e && '*' !== e ? e === this.tag ? 'success' : 'info' : e === this.tag ? 'success' : '';
-      },
-      getModelCount: function () {
-        return e.models ? _.size(e.models) : 0;
-      },
-      getTaggedCount: function () {
-        return this.getModelCount() - this.getUntaggedCount();
-      },
-      getUntaggedCount: function () {
-        var t = 0;
-        return _.each(e.models, function (e) {
-          e.tags && 0 !== e.tags.length || ++t;
-        }), t;
-      }
-    };
-  }
-]), FirstRevenueApp.factory('User', [
-  '$timeout',
-  'Notif',
-  'TProfile',
-  'Singly',
-  'Facebook',
-  'Twitter',
-  'LinkedIn',
-  'GPlus',
-  'GContacts',
-  function (e, t, o, n, i, r, s, a, l) {
-    var c = 'User';
-    console.log(c, 'service launched');
-    var u = {
-        gmail: 'contacts',
-        gcontacts: 'contacts',
-        google: 'self',
-        gplus: 'activities',
-        linkedin: 'connections',
-        facebook: 'friends',
-        twitter: 'friends',
-        github: 'following',
-        yammer: 'users',
-        meetup: 'groups'
-      }, d = {
-        primary: null,
-        profile: {},
-        accounts: {},
-        models: {},
-        contacts: {}
-      }, p = {
-        userId: null,
-        account: null,
-        record: _.clone(d),
-        data: null,
-        credentials: {},
-        firstCred: null,
-        lastCred: null,
-        lastUser: null,
-        authenticated: !1,
-        authFailed: !1,
-        error: null,
-        isMyself: function (e) {
-          return e === p.userId;
-        },
-        setPrimary: function (e) {
-          p.record.primary = e.profile.key;
-        },
-        isPrimary: function (e) {
-          return p.record.primary === e.profile.key;
-        },
-        clearLastUser: function () {
-          p.lastUser = null;
-        },
-        getLastUser: function () {
-          return p.lastUser;
-        },
-        setLastUser: function (e) {
-          p.lastUser = e;
-        },
-        isSameUser: function (e) {
-          var t = p.lastUser ? new o(p.lastUser) : null;
-          return t && t.service === e;
-        },
-        logoff: function () {
-          console.log(c, 'logoff'), p.userId = null, p.account = null, p.record = _.clone(d), p.credentials = {}, p.firstCred = null, p.lastCred = null, p.authenticated = !1, n.logoff();
-        },
-        authError: function (e) {
-          console.log(c, 'authError error=', e), p.authenticated = !1, p.authFailed = !0, e && e.code && (p.error = e, t.add({ text: 'Authentication error: ' + e.code }));
-        },
-        detach: function (e) {
-          console.log(c, 'detach key=', e);
-          var t = p.credentials[e];
-          t && (t.detached = !0);
-        },
-        confirmUser: function (e) {
-          console.log(c, 'confirmUser'), p.userId = e, p.authenticated = !0, p.authFailed = !1;
-        },
-        buildServiceCredentials: function (t) {
-          if (t.provider) {
-            console.log(c, 'buildServiceCredentials', 'user added to credentials');
-            var n = new o(t);
-            e(function () {
-              p.storeCredential(n.service, {
-                token: t.firebaseAuthToken,
-                authentic: t,
-                profile: n
-              });
-            });
-          }
-        },
-        retrieveUserRecord: function (e, t) {
-          console.log(c, 'retrieveUserRecord', 'ur=', e, 'fbUser=', t), e.primary = e.profile.provider + '-' + e.profile.id, _.each(e.accounts, function (e) {
-            p.storeCredential(e.profile.service, e, t);
-          });
-        },
-        storeInviteCredentials: function (e) {
-          console.log(c, 'storeInviteCredentials', 'user added to credentials');
-          var t = new o(e), n = t.service, i = {
-              token: e.firebaseAuthToken,
-              authentic: e,
-              profile: t
-            }, r = {
-              token: i.authentic.firebaseAuthToken,
-              authentic: i.authentic,
-              profile: i.profile,
-              next: null,
-              detached: !1
-            };
-          return p.credentials[n] = r, p.enhanceProfile(i.profile), r;
-        },
-        storeCredential: function (e, t, o) {
-          if (console.log(c, 'storeCredential', 'service=', e, 'account=', t), !p.credentials[e]) {
-            var n = o || t.authentic, i = {
-                token: n.firebaseAuthToken,
-                authentic: n,
-                profile: t.profile,
-                next: null,
-                detached: !1
-              };
-            p.credentials[e] = i, p.lastCred && (p.lastCred.next = i), p.firstCred = p.firstCred || i, p.lastCred = i, p.enhanceProfile(t.profile);
-          }
-        },
-        enhanceProfile: function (e) {
-          _.defaults(p.record.profile, e), p.record.primary = p.record.primary || e.key, p.record.profile.ready = !0;
-        },
-        storeAccount: function (e, t) {
-          var o = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;
-          p.record.primary || (p.record.primary = o, p.record.profile = e), console.log(c, 'storeAccount', 'cred=', t, 'profile=', e), p.record.accounts[o] = {
-            active: !0,
-            profile: e,
-            authentic: t.authentic
-          };
-        },
-        getCredentials: function () {
-          var e = {};
-          return _.each(p.credentials, function (t, o) {
-            t.detached || (e[o] = t);
-          }), e;
-        },
-        getCredentialKeys: function () {
-          return _.keys(p.getCredentials());
-        },
-        loadContacts: function (e) {
-          console.log(c, 'loadContacts accounts=', e.accounts), _.each(e.accounts, p.fetchAccount);
-        },
-        fetchAccount: function (e) {
-          console.log(c, 'fetchAccount account=', e);
-          var t = e.authentic.accessToken;
-          if ('singly' === e.profile.provider) {
-            var o = e.profile.service, d = e.authentic.token, h = u[o] || 'self', f = e.authentic.expires, g = new Date().getTime() / 1000;
-            console.log(c, 'fetchAccount getContacts service=', o, 'token=', d, 'expires=', f, 'currentTime=', g), f > g ? 'linkedin' === o ? s.getFriends(p, e, d) : 'gplus' === o ? a.getPeople(p, e, d) : 'gcontacts' === o ? l.getContacts(p, e, d) : n.getData(o, d, h) : console.log(c, 'fetchAccount singly expired, service=', o);
-          } else
-            'facebook' === e.profile.provider ? i.getFriends(p, e, t) : 'twitter' === e.profile.provider && r.getFriends(p, e, t);
-        }
-      };
-    return p;
-  }
-]), FirstRevenueApp.factory('Zoom', [
-  'Popup',
-  'Canvas',
-  function (e, t) {
-    return {
-      choice: 0,
-      singleBlock: !1,
-      levels: {
-        0: {
-          label: 'full',
-          title: 'Full canvas'
-        },
-        1: {
-          label: 'customer',
-          title: 'Product market fit'
-        },
-        2: {
-          label: 'revenue',
-          title: 'Customer facing side'
-        },
-        3: {
-          label: 'cost',
-          title: 'Cost'
-        },
-        4: {
-          label: 'single',
-          title: 'Single block'
-        },
-        5: {
-          label: 'equal',
-          title: 'Equal area'
-        }
-      },
-      reset: function () {
-        this.choice = 0, this.singleBlock = !1;
-      },
-      zoom: function (o) {
-        console.log('Zoom choice=', o);
-        var n = $('.first-revenue').find('.views');
-        for (var i in this.levels)
-          n.removeClass('canvas-' + this.levels[i].label);
-        n.addClass('canvas-' + this.levels[o].label), 4 === o ? (this.block = this.block || _.find(t.model.blocks, function (e) {
-          return 'VP' === e.paneClass;
-        }), this.singleBlock = t.singleBlock = this.block) : this.singleBlock = t.singleBlock = null, this.choice = o, e.zoom = !1;
-      }
-    };
-  }
-]), FirstRevenueApp.factory('TOrg', [function () {
-    var e = function (e, t) {
-      this.id = e, t && (this.name = t.name, this.descr = t.descr), this.repos = {};
-    };
-    return e.prototype.xxxx = function () {
-    }, e;
-  }]), FirstRevenueApp.factory('TRepo', [function () {
-    var e = function (e, t, o) {
-      this.orgId = e.id, this.id = t, o && (this.name = o.name, this.descr = o.descr), this.models = {};
-    };
-    return e.prototype.xxxx = function () {
-    }, e;
-  }]), FirstRevenueApp.factory('TModel', [function () {
-    var e = 'TModel', t = [
-        {
-          id: 'KP',
-          iconId: 106,
-          initials: 'KP',
-          name: 'Key Partnerships'
-        },
-        {
-          id: 'KA',
-          iconId: 51,
-          initials: 'KA',
-          name: 'Key Activities'
-        },
-        {
-          id: 'KR',
-          iconId: 82,
-          initials: 'KR',
-          name: 'Key Resources'
-        },
-        {
-          id: 'VP',
-          iconId: 89,
-          initials: 'VP',
-          name: 'Value Propositions'
-        },
-        {
-          id: 'CR',
-          iconId: 83,
-          initials: 'CR',
-          name: 'Customer Relationships'
-        },
-        {
-          id: 'CH',
-          iconId: 261,
-          initials: 'CH',
-          name: 'Channels'
-        },
-        {
-          id: 'CS',
-          iconId: 175,
-          initials: 'CS',
-          name: 'Customer Segments'
-        },
-        {
-          id: 'CX',
-          iconId: 165,
-          initials: 'C$',
-          name: 'Cost Structure'
-        },
-        {
-          id: 'RX',
-          iconId: 200,
-          initials: 'R$',
-          name: 'Revenue Streams'
-        }
-      ], o = function (t, o, n) {
-        this.orgId = t.orgId, this.repoId = t.id, this.id = o, n && (this.fields = angular.copy(n.fields)), this.createBlocks(), console.log(e, 'constructor this=', this);
-      };
-    return o.prototype.createBlocks = function () {
-      var o = this, n = o.id;
-      o.blocks = {};
-      for (var i in t) {
-        var r = t[i];
-        o.blocks[r.id] = o.blocks[r.id] || {
-          paneClass: r.id,
-          id: r.id,
-          bmId: n,
-          name: r.name,
-          iconId: r.iconId,
-          initials: r.initials,
-          stickers: {}
-        };
-      }
-      console.log(e, 'createBlocks model=', o);
-    }, o;
-  }]), FirstRevenueApp.factory('TSticker', [function () {
-    var e = function (e, t, o) {
-      console.log('scripts/services/obj/TSticker constructor this=', this, 'model=', e, 'id=', t, 'sticker=', o), this.orgId = e.orgId, this.repoId = e.repoId, this.modelId = e.id, this.id = t, this.setFields(this, o);
-    };
-    return e.prototype.setFields = function (e, t) {
-      e.title = t.title, e.notes = t.notes, e.block = t.block, t.color = t.color || 'yellow', e.color = t.color, t.x || t.y ? e.position = {
-        absolute: !0,
-        x: t.x,
-        y: t.y
-      } : e.position && delete e.position, e.shadow = {
-        title: t.title,
-        notes: t.notes,
-        color: t.color
-      };
-    }, e.prototype.update = function (e) {
-      console.log('scripts/services/obj/TSticker update this=', this, 'sticker=', e), this.setFields(this, e);
-    }, e;
-  }]), FirstRevenueApp.factory('TProfile', [function () {
-    var e = function (e) {
-      var t = _.extend(this, {
-          provider: e.provider || (e.account ? 'singly' : null),
-          service: e.service || e.provider,
-          id: e.id || e.account,
-          serviceId: e.services ? e.services[e.service].id : e.id,
-          email: e.email || null,
-          name: e.name || (e.email ? e.email.split('@')[0] : null),
-          hash: e.hash || (e.email ? CryptoJS.MD5(e.email).toString(CryptoJS.enc.Hex) : null)
-        });
-      switch (t.key = t.provider + '-' + t.id, e.provider) {
-      case 'facebook':
-        t.image = '//graph.facebook.com/' + e.username + '/picture';
-        break;
-      case 'twitter':
-        t.image = e.profile_image_url;
-        break;
-      case 'github':
-        t.image = e.avatar_url;
-        break;
-      case 'persona':
-        t.image = '//www.gravatar.com/avatar/' + t.hash;
-        break;
-      case 'password':
-        t.image = '//www.gravatar.com/avatar/' + t.hash;
-        break;
-      case 'singly':
-        t.image = e.thumbnail_url;
-        break;
-      default:
-        t.image = null;
-      }
-      t.image = t.image || null, console.log('TProfile fbUser=', e, 'profile=', t);
-    };
-    return e;
-  }]), FirstRevenueApp.factory('Myself', [
+]), FirstRevenueApp.factory('Myself', [
   '$location',
   '$timeout',
   '$route',
@@ -3645,8 +3460,8 @@ FirstRevenueApp.controller('AdminController', [
         serviceId: null,
         authenticated: !1,
         authFailed: !1,
-        adminRole: !1,
         error: null,
+        adminRole: !1,
         email: null,
         password: null,
         newPassword: null,
@@ -3848,10 +3663,12 @@ FirstRevenueApp.controller('AdminController', [
             });
           }
         },
-        retrieveUserRecord: function (e, t) {
-          console.log(o, 'retrieveUserRecord', 'ur=', e, 'fbUser=', t), e.primary = e.profile.provider + '-' + e.profile.id, _.each(e.accounts, function (e) {
-            n.storeCredential(e.profile.service, e, t);
-          }), n.user = e;
+        retrieveUserRecord: function (t, i) {
+          console.log(o, 'retrieveUserRecord', 'ur=', t, 'fbUser=', i), e(function () {
+            t.primary = t.profile.provider + '-' + t.profile.id, _.each(t.accounts, function (e) {
+              n.storeCredential(e.profile.service, e, i);
+            }), n.user = t;
+          });
         },
         storeInviteCredentials: function (e) {
           console.log(o, 'storeInviteCredentials', 'user added to credentials');
@@ -3875,27 +3692,47 @@ FirstRevenueApp.controller('AdminController', [
             i && (o.image = i), a.services[t] = o, n.services[t] = o;
           }) : (a.services[s.profile.provider] = s.profile, n.services[s.profile.provider] = s.profile), n.credentials[r] = a, n.enhanceProfile(s.profile), a;
         },
-        storeCredential: function (e, t, i) {
-          if (console.log(o, 'storeCredential', 'service=', e, 'account=', t), !n.credentials[e]) {
-            var r = i || t.authentic, s = {
-                token: r.firebaseAuthToken,
-                authentic: r,
-                profile: t.profile,
-                services: {},
-                next: null,
-                detached: !1
-              };
-            'singly' === t.profile.provider ? _.each(r.services, function (e, t) {
-              var o = {
-                  id: e.id,
-                  name: e.name
-                }, i = e.thumbnail_url;
-              i && (o.image = i), s.services[t] = o, n.services[t] = o;
-            }) : (s.services[t.profile.provider] = t.profile, n.services[t.profile.provider] = t.profile), n.credentials[e] = s, n.lastCred && (n.lastCred.next = s), n.firstCred = n.firstCred || s, n.lastCred = s, n.enhanceProfile(t.profile);
+        removeCred: function (e) {
+          for (var t = n.firstCred, o = null; t;) {
+            if (t === e) {
+              n.firstCred === e && (n.firstCred = e.next), n.lastCred === e && (n.lastCred = o), o && (o.next = t.next);
+              break;
+            }
+            o = t, t = t.next;
           }
+        },
+        storeCredential: function (e, t, i) {
+          console.log(o, 'storeCredential', 'service=', e, 'account=', t, 'fbUser=', i);
+          var r = n.credentials[e];
+          r && n.removeCred(r);
+          var s = t.authentic;
+          r = {
+            token: s.firebaseAuthToken,
+            authentic: s,
+            profile: t.profile,
+            services: {},
+            next: null,
+            detached: !1
+          }, console.log(o, 'storeCredential', 'authentic=', s, 'cred=', r), 'singly' === t.profile.provider ? _.each(s.services, function (e, t) {
+            var i = n.getServiceObject(e);
+            console.log(o, 'storeCredential', 'singlyService=', e, 'key=', t, 's=', i), r.services[t] = i, n.services[t] = i;
+          }) : (console.log(o, 'storeCredential', 'account.profile=', t.profile), r.services[t.profile.provider] = t.profile, n.services[t.profile.provider] = t.profile), n.credentials[e] = r, console.log(o, 'storeCredential', 'mp.services=', n.services, 'mp.credentials=', n.credentials), n.lastCred && (n.lastCred.next = r), n.firstCred = n.firstCred || r, n.lastCred = r, n.enhanceProfile(t.profile);
+        },
+        getServiceObject: function (e) {
+          var t = {
+              id: e.id,
+              name: e.name
+            }, o = e.thumbnail_url;
+          return o && (t.image = o), t;
         },
         enhanceProfile: function (e) {
           console.log(o, 'enhanceProfile', 'serviceProfile=', e), n.user = n.user || {}, n.user.profile = n.user.profile || {}, _.defaults(n.user.profile, e), console.log(o, 'enhanceProfile', 'mp.user=', n.user), n.user.primary = n.user.primary || e.key, n.user.profile.ready = !0;
+        },
+        deleteAccount: function (e, t) {
+          var i = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;
+          n.user.primary === i && (delete n.user.primary, delete n.user.profile), console.log(o, 'deleteAccount', 'cred=', t, 'profile=', e), n.user.accounts && delete n.user.accounts[i], n.user.services && _.each(t.services, function (e, t) {
+            delete n.user.services[t];
+          }), console.log(o, 'deleteAccount', 'mp.user=', n.user);
         },
         storeAccount: function (e, t) {
           var i = e.account ? 'singly-' + e.account : e.provider + '-' + e.id;
@@ -3996,36 +3833,6 @@ FirstRevenueApp.controller('AdminController', [
       };
     return i;
   }
-]), FirstRevenueApp.factory('ModelStickers', [
-  '$timeout',
-  'Database',
-  function (e, t) {
-    var o = 'services/ModelStickers', n = {
-        db: t,
-        loadStickers: function (e) {
-          console.log(o, 'loadStickers', 'modelRef.name()=', e.name());
-          var t = e.child('stickers');
-          t.on('child_added', n.stAdded), t.on('child_removed', n.stRemoved);
-        },
-        stAdded: function (e) {
-          console.log(o, 'stAdded', 'stSnap.name()=', e.name()), e.ref().on('value', n.stValue);
-        },
-        stRemoved: function (e) {
-          console.log(o, 'stRemoved', 'oldStSnap=', e), n.db.deleteSticker.call(n.db, n.getStPath(e)), e.ref().off('value', n.stValue);
-        },
-        stValue: function (e) {
-          console.log(o, 'stValue', 'stSnap.name()=', e.name()), e.val() && n.db.refreshSticker.call(n.db, n.getStPath(e));
-        },
-        getStPath: function (e) {
-          var t = e.ref(), o = t.parent().parent(), i = n.getModelPath(o);
-          return i.id = t.name(), i.value = e.val(), i;
-        },
-        getModelPath: function (e) {
-          return { modelId: e.name() };
-        }
-      };
-    return n;
-  }
 ]), FirstRevenueApp.factory('Sync', [
   'angularFire',
   function (e) {
@@ -4066,101 +3873,148 @@ FirstRevenueApp.controller('AdminController', [
       };
     return o;
   }
-]), FirstRevenueApp.factory('StickerEditor', [
-  '$window',
-  '$log',
-  'Layout',
-  'Firebase',
-  'Rainbow',
-  function (e, t, o, n, i) {
-    return {
-      active: !1,
-      block: null,
-      stickerId: null,
-      sticker: null,
-      rainbow: i,
-      firebase: n,
-      showSticker: function (e, t, n) {
-        console.log('StickerEditor showSticker model=', e, 'blockId=', t, 'stickerId=', n);
-        var i = this;
-        this.active = !0, 0 === n ? this.sticker = {
-          title: '',
-          notes: '',
-          block: t,
-          color: 'yellow'
-        } : (this.stickerId = n, this.sticker = e.stickers[n]), o.editor.sticker = !0, setTimeout(function () {
-          i.focusTitle();
-        }, 0);
-      },
-      setColor: function (e) {
-        this.sticker.color = e;
-      },
-      checkModelRights: function (e) {
-        return console.log('StickerEditor checkModelRights rightName=', e), !0;
-      },
-      matchTitle: function () {
-        var e = this.sticker;
-        return e && e.shadow ? e.shadow.title === e.title : !0;
-      },
-      matchNotes: function () {
-        var e = this.sticker;
-        return e && e.shadow ? e.shadow.notes === e.notes : !0;
-      },
-      matchColor: function () {
-        var e = this.sticker;
-        return e && e.shadow && e.color ? e.shadow.color === e.color.name : !0;
-      },
-      wasStickerModified: function () {
-        return !(this.matchTitle() && this.matchNotes() && this.matchColor());
-      },
-      focusTitle: function () {
-        var e = $('.field-title').get(0);
-        e && this.placeCaretAtEnd(e);
-      },
-      placeCaretAtEnd: function (t) {
-        if (t.focus(), void 0 !== e.getSelection && void 0 !== e.document.createRange) {
-          var o = e.document.createRange();
-          o.selectNodeContents(t), o.collapse(!1);
-          var n = e.getSelection();
-          n.removeAllRanges(), n.addRange(o);
-        } else if (void 0 !== e.document.body.createTextRange) {
-          var i = e.document.body.createTextRange();
-          i.moveToElementText(t), i.collapse(!1), i.select();
-        }
-      }
+]), FirstRevenueApp.factory('TOrg', [function () {
+    var e = function (e, t) {
+      this.id = e, t && (this.name = t.name, this.descr = t.descr), this.repos = {};
     };
-  }
-]), FirstRevenueApp.factory('ModelEditor', [
-  'Canvas',
-  function (e) {
-    return {
-      model: null,
-      shadow: {
-        name: null,
-        icon: null,
-        descr: null,
-        pitch: null
-      },
-      wasModelModified: function () {
-        return !0;
-      },
-      matchModelDescr: function (t) {
-        var o = e.model.label;
-        if (o) {
-          var n = _.find(t.fields, function (e) {
-              return 'Notes' === e.label;
-            });
-          if (n) {
-            var i = n.values[0].value;
-            return i === t.notes;
-          }
-          return '' === t.notes;
-        }
-        return !0;
-      }
+    return e.prototype.xxxx = function () {
+    }, e;
+  }]), FirstRevenueApp.factory('TRepo', [function () {
+    var e = function (e, t, o) {
+      this.orgId = e.id, this.id = t, o && (this.name = o.name, this.descr = o.descr), this.models = {};
     };
-  }
-]), FirstRevenueApp.factory('Social', [
+    return e.prototype.xxxx = function () {
+    }, e;
+  }]), FirstRevenueApp.factory('TModel', [function () {
+    var e = 'TModel', t = [
+        {
+          id: 'KP',
+          iconId: 106,
+          initials: 'KP',
+          name: 'Key Partnerships'
+        },
+        {
+          id: 'KA',
+          iconId: 51,
+          initials: 'KA',
+          name: 'Key Activities'
+        },
+        {
+          id: 'KR',
+          iconId: 82,
+          initials: 'KR',
+          name: 'Key Resources'
+        },
+        {
+          id: 'VP',
+          iconId: 89,
+          initials: 'VP',
+          name: 'Value Propositions'
+        },
+        {
+          id: 'CR',
+          iconId: 83,
+          initials: 'CR',
+          name: 'Customer Relationships'
+        },
+        {
+          id: 'CH',
+          iconId: 261,
+          initials: 'CH',
+          name: 'Channels'
+        },
+        {
+          id: 'CS',
+          iconId: 175,
+          initials: 'CS',
+          name: 'Customer Segments'
+        },
+        {
+          id: 'CX',
+          iconId: 165,
+          initials: 'C$',
+          name: 'Cost Structure'
+        },
+        {
+          id: 'RX',
+          iconId: 200,
+          initials: 'R$',
+          name: 'Revenue Streams'
+        }
+      ], o = function (t, o, n) {
+        this.orgId = t.orgId, this.repoId = t.id, this.id = o, n && (this.fields = angular.copy(n.fields)), this.createBlocks(), console.log(e, 'constructor this=', this);
+      };
+    return o.prototype.createBlocks = function () {
+      var o = this, n = o.id;
+      o.blocks = {};
+      for (var i in t) {
+        var r = t[i];
+        o.blocks[r.id] = o.blocks[r.id] || {
+          paneClass: r.id,
+          id: r.id,
+          bmId: n,
+          name: r.name,
+          iconId: r.iconId,
+          initials: r.initials,
+          stickers: {}
+        };
+      }
+      console.log(e, 'createBlocks model=', o);
+    }, o;
+  }]), FirstRevenueApp.factory('TSticker', [function () {
+    var e = function (e, t, o) {
+      console.log('scripts/services/obj/TSticker constructor this=', this, 'model=', e, 'id=', t, 'sticker=', o), this.orgId = e.orgId, this.repoId = e.repoId, this.modelId = e.id, this.id = t, this.setFields(this, o);
+    };
+    return e.prototype.setFields = function (e, t) {
+      e.title = t.title, e.notes = t.notes, e.block = t.block, t.color = t.color || 'yellow', e.color = t.color, t.x || t.y ? e.position = {
+        absolute: !0,
+        x: t.x,
+        y: t.y
+      } : e.position && delete e.position, e.shadow = {
+        title: t.title,
+        notes: t.notes,
+        color: t.color
+      };
+    }, e.prototype.update = function (e) {
+      console.log('scripts/services/obj/TSticker update this=', this, 'sticker=', e), this.setFields(this, e);
+    }, e;
+  }]), FirstRevenueApp.factory('TProfile', [function () {
+    var e = function (e) {
+      var t = _.extend(this, {
+          provider: e.provider || (e.account ? 'singly' : null),
+          service: e.service || e.provider,
+          id: e.id || e.account,
+          serviceId: e.services ? e.services[e.service].id : e.id,
+          email: e.email || null,
+          name: e.name || (e.email ? e.email.split('@')[0] : null),
+          hash: e.hash || (e.email ? CryptoJS.MD5(e.email).toString(CryptoJS.enc.Hex) : null)
+        });
+      switch (t.key = t.provider + '-' + t.id, e.provider) {
+      case 'facebook':
+        t.image = '//graph.facebook.com/' + e.username + '/picture';
+        break;
+      case 'twitter':
+        t.image = e.profile_image_url;
+        break;
+      case 'github':
+        t.image = e.avatar_url;
+        break;
+      case 'persona':
+        t.image = '//www.gravatar.com/avatar/' + t.hash;
+        break;
+      case 'password':
+        t.image = '//www.gravatar.com/avatar/' + t.hash;
+        break;
+      case 'singly':
+        t.image = e.thumbnail_url;
+        break;
+      default:
+        t.image = null;
+      }
+      t.image = t.image || null, console.log('TProfile fbUser=', e, 'profile=', t);
+    };
+    return e;
+  }]), FirstRevenueApp.factory('Social', [
   '$timeout',
   'Singly',
   'Facebook',

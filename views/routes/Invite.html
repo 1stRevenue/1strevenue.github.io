@@ -2,9 +2,9 @@
 <div class="alert alert-success alert-block">
   <p>One of your {{service}} contacts sent you an invite to join
   <strong>1stRevenue.com</strong></p>
-  <p>The invite code is {{inviteId}}</p>
+  <p>The invite code is <strong>{{inviteId}}</strong></p>
 </div>
-<!--div>Session found: {{me.sessionFound}}</div-->
+
 <div ng-hide="invite.completed"
      ng-switch="me.sessionFound">
   <div ng-switch-when="true">
@@ -40,11 +40,13 @@
   </div>
 </div>
 
-<div ng-hide="invite.inviteValue">
-  The invite with the given code does not exist anymore
+<div ng-hide="invite.inviteValue"
+     class="alert alert-error alert-block">
+  The invite with code <strong>{{inviteId}}</strong> does not exist anymore
 </div>
 
-<div ng-show="invite.completed">
+<div ng-show="invite.completed"
+     class="alert alert-success alert-block">
   Invite has been completed
 </div>
 
