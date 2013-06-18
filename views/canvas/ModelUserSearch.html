@@ -37,7 +37,7 @@
     Load {{account.contacts.total}} friends
   </button>
   <small class="latency-note"
-        ng-hide="social.loaded[account.profile.service]">
+        ng-show="getRefreshLatency(account.contacts.refreshed)">
     Seen {{getRefreshLatency(account.contacts.refreshed)}}
   </small>
 

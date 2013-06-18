@@ -1,5 +1,6 @@
 <div class="user-list-header">Invites</div>
 <div ng-repeat="(inviteId, inviteValue) in canvas.model.invites track by inviteId"
+     ng-show="sync.invites[inviteId].status!=='accepted'"
      class="user-list-item">
   <button class="btn btn-small delete-button"
         ng-click="deleteInvite(inviteId)">
