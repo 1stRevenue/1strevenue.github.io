@@ -3079,7 +3079,7 @@ FirstRevenueApp.controller('AdminController', [
             i.once('value', function (n) {
               var r = n.val();
               console.log(a, 'inviteExisting', 'userRecordRef once value userRecord=', r), e(function () {
-                t.record = r, t.userRef = i, u.userId = n.name(), o.resolve(t);
+                t.record = r, u.recRef = i, u.userId = n.name(), u.fbUser = t, o.resolve(t);
               });
             }, function (e) {
               console.log(a, 'inviteExisting', 'userRecordRef once value error=', e), o.reject(e);
