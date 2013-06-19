@@ -299,7 +299,7 @@ var log4javascript = function () {
             t[o] = n + t[o];
           return t.join(newLine);
         }
-        var s, a, l, c, u, d, p;
+        var s, a, l, c, u, d, h;
         if (n || (n = ''), null === e)
           return 'null';
         if (e === void 0)
@@ -309,17 +309,17 @@ var log4javascript = function () {
         if ('object' == typeof e && array_contains(i, e)) {
           try {
             d = toStr(e);
-          } catch (h) {
-            d = 'Error formatting property. Details: ' + getExceptionStringRep(h);
+          } catch (p) {
+            d = 'Error formatting property. Details: ' + getExceptionStringRep(p);
           }
           return d + ' [already expanded]';
         }
         if (e instanceof Array && t > 0) {
           for (i.push(e), d = '[' + newLine, l = t - 1, c = n + '  ', u = [], s = 0, a = e.length; a > s; s++)
             try {
-              p = o(e[s], l, c), u.push(c + p);
-            } catch (h) {
-              u.push(c + 'Error formatting array member. Details: ' + getExceptionStringRep(h));
+              h = o(e[s], l, c), u.push(c + h);
+            } catch (p) {
+              u.push(c + 'Error formatting array member. Details: ' + getExceptionStringRep(p));
             }
           return d += u.join(',' + newLine) + newLine + n + ']';
         }
@@ -329,9 +329,9 @@ var log4javascript = function () {
           i.push(e), d = '{' + newLine, l = t - 1, c = n + '  ', u = [];
           for (s in e)
             try {
-              p = o(e[s], l, c), u.push(c + s + ': ' + p);
-            } catch (h) {
-              u.push(c + s + ': Error formatting property. Details: ' + getExceptionStringRep(h));
+              h = o(e[s], l, c), u.push(c + s + ': ' + h);
+            } catch (p) {
+              u.push(c + s + ': Error formatting property. Details: ' + getExceptionStringRep(p));
             }
           return d += u.join(',' + newLine) + newLine + n + '}';
         }
@@ -354,7 +354,7 @@ var log4javascript = function () {
         if (u && enabled) {
           E = !0;
           var e;
-          if (p)
+          if (h)
             S.length > 0 ? (e = S.shift(), a(i(e), n)) : (E = !1, d && r());
           else {
             for (; e = S.shift();)
@@ -366,9 +366,9 @@ var log4javascript = function () {
       function o() {
         var e = !1;
         if (u && enabled) {
-          for (var t, o = c.getLayout().allowBatching() ? h : 1, i = []; t = C.shift();)
+          for (var t, o = c.getLayout().allowBatching() ? p : 1, i = []; t = C.shift();)
             i.push(t), C.length >= o && (S.push(i), i = []);
-          i.length > 0 && S.push(i), e = S.length > 0, p = !1, d = !1, n();
+          i.length > 0 && S.push(i), e = S.length > 0, h = !1, d = !1, n();
         }
         return e;
       }
@@ -412,8 +412,8 @@ var log4javascript = function () {
             o.send(t);
           }
         } catch (d) {
-          var p = 'AjaxAppender.append: error sending log message to ' + e;
-          handleError(p, d), u = !1, m && m(p + '. Details: ' + getExceptionStringRep(d));
+          var h = 'AjaxAppender.append: error sending log message to ' + e;
+          handleError(h, d), u = !1, m && m(h + '. Details: ' + getExceptionStringRep(d));
         }
       }
       function l() {
@@ -427,7 +427,7 @@ var log4javascript = function () {
       }
       var c = this, u = !0;
       e || (handleError('AjaxAppender: URL must be specified in constructor'), u = !1);
-      var d = this.defaults.timed, p = this.defaults.waitForResponse, h = this.defaults.batchSize, g = this.defaults.timerInterval, f = this.defaults.requestSuccessCallback, m = this.defaults.failCallback, v = this.defaults.postVarName, y = this.defaults.sendAllOnUnload, b = this.defaults.contentType, w = null, C = [], S = [], T = [], E = !1, k = !1;
+      var d = this.defaults.timed, h = this.defaults.waitForResponse, p = this.defaults.batchSize, g = this.defaults.timerInterval, f = this.defaults.requestSuccessCallback, m = this.defaults.failCallback, v = this.defaults.postVarName, y = this.defaults.sendAllOnUnload, b = this.defaults.contentType, w = null, C = [], S = [], T = [], E = !1, k = !1;
       this.getSessionId = function () {
         return w;
       }, this.setSessionId = function (e) {
@@ -443,13 +443,13 @@ var log4javascript = function () {
       }, this.setTimerInterval = function (e) {
         t('timerInterval') && (g = extractIntFromParam(e, g));
       }, this.isWaitForResponse = function () {
-        return p;
-      }, this.setWaitForResponse = function (e) {
-        t('waitForResponse') && (p = bool(e));
-      }, this.getBatchSize = function () {
         return h;
+      }, this.setWaitForResponse = function (e) {
+        t('waitForResponse') && (h = bool(e));
+      }, this.getBatchSize = function () {
+        return p;
       }, this.setBatchSize = function (e) {
-        t('batchSize') && (h = extractIntFromParam(e, h));
+        t('batchSize') && (p = extractIntFromParam(e, p));
       }, this.isSendAllOnUnload = function () {
         return y;
       }, this.setSendAllOnUnload = function (e) {
@@ -472,11 +472,11 @@ var log4javascript = function () {
       }, this.sendAll = n, this.sendAllRemaining = o, this.append = function (e) {
         if (u) {
           k || l(), C.push(e);
-          var t = this.getLayout().allowBatching() ? h : 1;
+          var t = this.getLayout().allowBatching() ? p : 1;
           if (C.length >= t) {
             for (var o, i = []; o = C.shift();)
               i.push(o);
-            S.push(i), d || p && (!p || E) || n();
+            S.push(i), d || h && (!h || E) || n();
           }
         }
       };
@@ -927,7 +927,7 @@ var log4javascript = function () {
           s: r,
           S: r,
           Z: l
-        }, u = 86400000, d = 7 * u, p = 1, h = function (e, t, n) {
+        }, u = 86400000, d = 7 * u, h = 1, p = function (e, t, n) {
           var o = new Date(e, t, n, 0, 0, 0);
           return o.setMilliseconds(0), o;
         };
@@ -941,24 +941,24 @@ var log4javascript = function () {
         return this.getUTCTime() - e.getUTCTime();
       }, Date.prototype.getPreviousSunday = function () {
         var e = new Date(this.getFullYear(), this.getMonth(), this.getDate(), 12, 0, 0), t = new Date(e.getTime() - this.getDay() * u);
-        return h(t.getFullYear(), t.getMonth(), t.getDate());
+        return p(t.getFullYear(), t.getMonth(), t.getDate());
       }, Date.prototype.getWeekInYear = function (e) {
-        isUndefined(this.minimalDaysInFirstWeek) && (e = p);
-        var t = this.getPreviousSunday(), n = h(this.getFullYear(), 0, 1), o = t.isBefore(n) ? 0 : 1 + Math.floor(t.getTimeSince(n) / d), i = 7 - n.getDay(), r = o;
+        isUndefined(this.minimalDaysInFirstWeek) && (e = h);
+        var t = this.getPreviousSunday(), n = p(this.getFullYear(), 0, 1), o = t.isBefore(n) ? 0 : 1 + Math.floor(t.getTimeSince(n) / d), i = 7 - n.getDay(), r = o;
         return e > i && r--, r;
       }, Date.prototype.getWeekInMonth = function (e) {
-        isUndefined(this.minimalDaysInFirstWeek) && (e = p);
-        var t = this.getPreviousSunday(), n = h(this.getFullYear(), this.getMonth(), 1), o = t.isBefore(n) ? 0 : 1 + Math.floor(t.getTimeSince(n) / d), i = 7 - n.getDay(), r = o;
+        isUndefined(this.minimalDaysInFirstWeek) && (e = h);
+        var t = this.getPreviousSunday(), n = p(this.getFullYear(), this.getMonth(), 1), o = t.isBefore(n) ? 0 : 1 + Math.floor(t.getTimeSince(n) / d), i = 7 - n.getDay(), r = o;
         return i >= e && r++, r;
       }, Date.prototype.getDayInYear = function () {
-        var e = h(this.getFullYear(), 0, 1);
+        var e = p(this.getFullYear(), 0, 1);
         return 1 + Math.floor(this.getTimeSince(e) / u);
       }, SimpleDateFormat = function (e) {
         this.formatString = e;
       }, SimpleDateFormat.prototype.setMinimalDaysInFirstWeek = function (e) {
         this.minimalDaysInFirstWeek = e;
       }, SimpleDateFormat.prototype.getMinimalDaysInFirstWeek = function () {
-        return isUndefined(this.minimalDaysInFirstWeek) ? p : this.minimalDaysInFirstWeek;
+        return isUndefined(this.minimalDaysInFirstWeek) ? h : this.minimalDaysInFirstWeek;
       };
       var g = function (e, t) {
           for (; t > e.length;)
@@ -971,13 +971,13 @@ var log4javascript = function () {
           return g(n, t);
         };
       SimpleDateFormat.prototype.format = function (u) {
-        for (var d, p = '', h = this.formatString; d = e.exec(h);) {
+        for (var d, h = '', p = this.formatString; d = e.exec(p);) {
           var v = d[1], y = d[2], b = d[3], w = d[4];
           if (v)
-            p += '\'\'' == v ? '\'' : v.substring(1, v.length - 1);
+            h += '\'\'' == v ? '\'' : v.substring(1, v.length - 1);
           else if (b);
           else if (w)
-            p += w;
+            h += w;
           else if (y) {
             var C = y.charAt(0), S = y.length, T = '';
             switch (C) {
@@ -1037,34 +1037,34 @@ var log4javascript = function () {
             }
             switch (c[C]) {
             case o:
-              p += f(T, S, 2);
+              h += f(T, S, 2);
               break;
             case i:
-              p += f(T, S, 3);
+              h += f(T, S, 3);
               break;
             case r:
-              p += m(T, S);
+              h += m(T, S);
               break;
             case s:
               if (3 >= S) {
                 var E = '' + T;
-                p += E.substr(2, 2);
+                h += E.substr(2, 2);
               } else
-                p += m(T, S);
+                h += m(T, S);
               break;
             case a:
-              p += S >= 3 ? f(t[T], S, S) : m(T + 1, S);
+              h += S >= 3 ? f(t[T], S, S) : m(T + 1, S);
               break;
             case l:
-              var k = T > 0, R = k ? '-' : '+', I = Math.abs(T), A = '' + Math.floor(I / 60);
+              var k = T > 0, I = k ? '-' : '+', R = Math.abs(T), A = '' + Math.floor(R / 60);
               A = g(A, 2);
-              var x = '' + I % 60;
-              x = g(x, 2), p += R + A + x;
+              var x = '' + R % 60;
+              x = g(x, 2), h += I + A + x;
             }
           }
-          h = h.substr(d.index + d[0].length);
+          p = p.substr(d.index + d[0].length);
         }
-        return p;
+        return h;
       };
     }(), log4javascript.SimpleDateFormat = SimpleDateFormat, PatternLayout.TTCC_CONVERSION_PATTERN = '%r %p %c - %m%n', PatternLayout.DEFAULT_CONVERSION_PATTERN = '%m%n', PatternLayout.ISO8601_DATEFORMAT = 'yyyy-MM-dd HH:mm:ss,SSS', PatternLayout.DATETIME_DATEFORMAT = 'dd MMM yyyy HH:mm:ss,SSS', PatternLayout.ABSOLUTETIME_DATEFORMAT = 'HH:mm:ss,SSS', PatternLayout.prototype = new Layout(), PatternLayout.prototype.format = function (e) {
       for (var t, n = /%(-?[0-9]+)?(\.?[0-9]+)?([acdfmMnpr%])(\{([^\}]+)\})?|([^%]+)/, o = '', i = this.pattern; t = n.exec(i);) {
@@ -1076,10 +1076,10 @@ var log4javascript = function () {
           switch (l) {
           case 'a':
           case 'm':
-            var p = 0;
-            c && (p = parseInt(c, 10), isNaN(p) && (handleError('PatternLayout.format: invalid specifier \'' + c + '\' for conversion character \'' + l + '\' - should be a number'), p = 0));
-            for (var h = 'a' === l ? e.messages[0] : e.messages, g = 0, f = h.length; f > g; g++)
-              g > 0 && ' ' !== d.charAt(d.length - 1) && (d += ' '), d += 0 === p ? h[g] : formatObjectExpansion(h[g], p);
+            var h = 0;
+            c && (h = parseInt(c, 10), isNaN(h) && (handleError('PatternLayout.format: invalid specifier \'' + c + '\' for conversion character \'' + l + '\' - should be a number'), h = 0));
+            for (var p = 'a' === l ? e.messages[0] : e.messages, g = 0, f = p.length; f > g; g++)
+              g > 0 && ' ' !== d.charAt(d.length - 1) && (d += ' '), d += 0 === h ? p[g] : formatObjectExpansion(p[g], h);
             break;
           case 'c':
             var m = e.logger.name;
