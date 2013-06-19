@@ -3162,7 +3162,7 @@ FirstRevenueApp.controller('AdminController', [
           return _.each(e, function (e) {
             console.log(a, 'inviteModels modelId=', e);
             var o = u.fb.rootRef.child('models').child(e), i = n.defer();
-            t.push(i.promise), console.log(a, 'inviteModels setting userId=', u.userId), o.child('users').child(u.userId).set(!0, function (t) {
+            t.push(i.promise), console.log(a, 'inviteModels setting userId=', u.userId), o.child('users').child(u.userId).set(u.inviteId, function (t) {
               console.log(a, 'inviteModels user userId=', u.userId, 'added to model modelId=', e), u.rejectResolve(t, i, o.name());
             });
           }), n.all(t);
