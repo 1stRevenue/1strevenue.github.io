@@ -551,7 +551,7 @@ FirstRevenueApp.controller('AdminController', [
       },
       testSelection: function () {
         var t = !!e.tah.selectedDatum;
-        return console.log(i, 'testSelection selFlag=', t), t;
+        return t;
       },
       tahSubmit: function () {
         console.log(i, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), e.tahSelection(e.tah.selectedDatum), e.resetSearch();
@@ -563,20 +563,20 @@ FirstRevenueApp.controller('AdminController', [
         if (console.log(i, 'tahSelection data=', t), t) {
           var o = angular.copy(t), n = e.me.rootRef.child('invitemap').child(o.service).child(o.serviceId);
           n.once('value', function (t) {
-            if (null === t.val())
-              e.createModelInvite(o, n, o.account);
-            else {
-              var r = t.val(), s = e.me.rootRef.child('invites').child(r), a = s.child('models').child(e.canvas.modelId);
+            var r = t.val();
+            if (r) {
+              var s = e.me.rootRef.child('invites').child(r), a = s.child('models').child(e.canvas.modelId);
               a.set(!0, function (t) {
-                t ? console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t) : (console.log(i, 'successfully set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, r));
+                t ? console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t) : console.log(i, 'successfully set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, r);
               });
-            }
+            } else
+              e.createModelInvite(o, n, o.account);
           });
         }
       },
-      createModelInvite: function (t, o, n) {
+      createModelInvite: function (t, o) {
         console.log(i, 'createModelInvite data=', t);
-        var r = {
+        var n = {
             creator: e.me.userId,
             service: t.service,
             serviceId: t.serviceId,
@@ -585,23 +585,23 @@ FirstRevenueApp.controller('AdminController', [
             status: 'created',
             models: {}
           };
-        r.models[e.canvas.modelId] = !0;
-        var s = e.me.rootRef.child('invites'), a = s.push().name();
-        console.log(i, 'createModelInvite inviteId=', a), s.child(a).set(r, function (s) {
-          s ? console.log(i, 'failed to create an invite=', r, 'err=', s) : o.set(a, function () {
-            e.updateModelInvite(t, a);
-            var o = n.contacts.partners = n.contacts.partners || {};
-            o[t.serviceId] || (o[t.serviceId] = {
-              name: t.name,
-              image: t.image,
-              favorite: !0
-            });
+        n.models[e.canvas.modelId] = !0;
+        var r = e.me.rootRef.child('invites'), s = r.push().name();
+        console.log(i, 'createModelInvite inviteId=', s), r.child(s).set(n, function (r) {
+          r ? console.log(i, 'failed to create an invite=', n, 'err=', r) : o.set(s, function () {
+            e.updateModelInvite(t, s);
           });
         });
       },
       updateModelInvite: function (t, n) {
         console.log(i, 'updateModelInvite data=', t), o(function () {
           e.canvas.model.invites = e.canvas.model.invites || {}, e.canvas.model.invites[n] = !0, e.sync.user.invites = e.sync.user.invites || {}, e.sync.user.invites[n] = !0;
+          var o = t.account.contacts.partners = t.account.contacts.partners || {};
+          o[t.serviceId] || (o[t.serviceId] = {
+            name: t.name,
+            image: t.image,
+            favorite: !0
+          });
         });
       },
       getRefreshLatency: function (t) {
@@ -2084,43 +2084,47 @@ FirstRevenueApp.controller('AdminController', [
     };
   }]), FirstRevenueApp.factory('Layout', [
   '$window',
-  'Database',
   'Popup',
   'Zoom',
   'FullScreen',
   'Menu',
-  function (e, t, o, n, i, r) {
-    return {
-      title: '',
-      colorValue: 100,
-      view: '',
-      setView: function (e) {
-        this.view = e;
-      },
-      isView: function (e) {
-        return this.view === e;
-      },
-      tooltips: !0,
-      profile: !0,
-      qrCode: !1,
-      guide: { wide: !0 },
-      peer: { wide: !0 },
-      editor: {
-        model: !1,
-        sticker: !1,
-        contact: !1,
-        user: !1
-      },
-      reset: function () {
-        t.reset(), o.reset(), n.reset(), this.view = '', this.guide.wide = !0, this.peer.wide = !1;
-      },
-      isFullScreen: function () {
-        return e.navigator.standalone;
-      },
-      showButtons: function () {
-        return 'canvas' === r.selected;
-      }
-    };
+  function (e, t, o, n, i) {
+    var r = {
+        title: '',
+        colorValue: 100,
+        view: '',
+        tooltips: !0,
+        profile: !0,
+        qrCode: !1,
+        guide: { wide: !0 },
+        peer: { wide: !0 },
+        editor: {
+          model: !1,
+          sticker: !1,
+          contact: !1,
+          user: !1
+        },
+        setView: function (e) {
+          this.view = e;
+        },
+        isView: function (e) {
+          return this.view === e;
+        },
+        reset: function () {
+          t.reset(), o.reset(), r.view = '', r.guide.wide = !0, r.peer.wide = !1;
+        },
+        getLayoutClasses: function () {
+          var e = [o.getZoomClass()];
+          return r.editor.sticker && e.push('edit-sticker'), e;
+        },
+        isFullScreen: function () {
+          return e.navigator.standalone;
+        },
+        showButtons: function () {
+          return 'canvas' === i.selected;
+        }
+      };
+    return r;
   }
 ]), FirstRevenueApp.factory('MasterScope', [function () {
     return {
@@ -2671,10 +2675,7 @@ FirstRevenueApp.controller('AdminController', [
   'Popup',
   'Canvas',
   function (e, t) {
-    return {
-      choice: 0,
-      singleBlock: !1,
-      levels: {
+    var o = 'Zoom', n = {
         0: {
           label: 'full',
           title: 'Full canvas'
@@ -2699,20 +2700,27 @@ FirstRevenueApp.controller('AdminController', [
           label: 'equal',
           title: 'Equal area'
         }
-      },
-      reset: function () {
-        this.choice = 0, this.singleBlock = !1;
-      },
-      zoom: function (o) {
-        console.log('Zoom choice=', o);
-        var n = $('.first-revenue').find('.views');
-        for (var i in this.levels)
-          n.removeClass('canvas-' + this.levels[i].label);
-        n.addClass('canvas-' + this.levels[o].label), 4 === o ? (this.block = this.block || _.find(t.model.blocks, function (e) {
-          return 'VP' === e.paneClass;
-        }), this.singleBlock = t.singleBlock = this.block) : this.singleBlock = t.singleBlock = null, this.choice = o, e.zoom = !1;
-      }
-    };
+      }, i = {
+        choice: 0,
+        singleBlock: !1,
+        levels: n,
+        getZoomClass: function () {
+          return 'canvas-' + n[i.choice].label;
+        },
+        reset: function () {
+          i.choice = 0, i.singleBlock = !1;
+        },
+        zoom: function (r) {
+          console.log(o, 'choice=', r);
+          var s = $('.first-revenue').find('.views');
+          for (var a in n)
+            s.removeClass('canvas-' + n[a].label);
+          s.addClass('canvas-' + n[r].label), 4 === r ? (i.block = i.block || _.find(t.model.blocks, function (e) {
+            return 'VP' === e.paneClass;
+          }), i.singleBlock = t.singleBlock = i.block) : i.singleBlock = t.singleBlock = null, i.choice = r, e.zoom = !1;
+        }
+      };
+    return i;
   }
 ]), FirstRevenueApp.factory('StickerEditor', [
   '$window',

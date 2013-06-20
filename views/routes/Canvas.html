@@ -7,6 +7,10 @@
          ng-class="{'canvas-editor': layout.editor.sticker}"
          ng-include="'views/canvas/Layout.html'">
     </div>
+    <div ng-switch-when="zoom"
+         ng-class="{'canvas-editor': layout.editor.sticker}"
+         ng-include="'views/canvas/Layout.html'">
+    </div>
     <div ng-switch-otherwise
          ng-include="'views/canvas/Model.html'">
     </div>

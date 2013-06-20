@@ -1,11 +1,5 @@
 <div class="canvas"
-     ng-class="{
-       'info-mode': info.infoMode(),
-       'edit-model': layout.editor.model,
-       'edit-sticker': layout.editor.sticker,
-       'edit-user': layout.editor.user,
-       'edit-contact': layout.editor.contact
-     }">
+     ng-class="layout.getLayoutClasses()">
 
   <!--div class="model-logotype"-->
   <img class="model-logotype"
@@ -27,7 +21,8 @@
       </div>
     </div>
     <div ng-switch-default>
-      <div ng-repeat="(block, blockId in getBlocks()"
+      <div ng-repeat="(block, blockId) in getBlocks()"
+           first-revenue-edit="{{blockId}}"
            data-label="{{blockId}}"
            data-id="{{blockId}}"
            class="pane {{blockId}} {{canvas.getGridClass()}}"
@@ -35,10 +30,10 @@
         <div ng-include="'views/canvas/Block.html'"></div>
       </div>
 
-      <div ng-click="zoom.zoom(0)"
+      <!--div ng-click="zoom.zoom(0)"
            class="pane pane-small ALL">
-          <img ng-src="images/zoom/c0da7e3a.Zoom-0-transp.png" />
-      </div>  
+          <img ng-src="icons/zoom/Zoom-0-transp.png" />
+      </div-->
 
       <!--div ng-init="block = canvas.singleBlock"
            first-revenue-open-tip="XXC"

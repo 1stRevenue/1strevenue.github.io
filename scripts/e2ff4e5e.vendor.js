@@ -3452,7 +3452,7 @@ var FirebaseIndex;
   }());
 }(window.jQuery), function (e) {
   function t(e, t, n) {
-    var u, d, h, w, C, S, T, k = t.version, I = t.errorCorrection, R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
+    var u, d, h, w, C, S, k, T = t.version, I = t.errorCorrection, R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
     switch (t.encodeMode) {
     case t.ENCODE_MODE.NUMERIC:
       var x = 0;
@@ -3470,27 +3470,27 @@ var FirebaseIndex;
         break;
       default:
       }
-      if (k > 0)
-        k >= 1 && 9 >= k ? S = 10 : k >= 10 && 26 >= k ? S = 12 : k >= 27 && 40 >= k && (S = 14);
+      if (T > 0)
+        T >= 1 && 9 >= T ? S = 10 : T >= 10 && 26 >= T ? S = 12 : T >= 27 && 40 >= T && (S = 14);
       else {
-        if (T = o(E + 4 + 10, I), !(T > 0))
+        if (k = o(E + 4 + 10, I), !(k > 0))
           throw new RangeError('Too much data.');
-        if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
+        if (Math.abs(T) > k && (k = Math.abs(T)), k >= 1 && 9 >= k)
           S = 10;
         else {
-          if (T = o(E + 4 + 12, I), !(T > 0))
+          if (k = o(E + 4 + 12, I), !(k > 0))
             throw new RangeError('Too much data.');
-          if (Math.abs(k) > T && (T = Math.abs(k)), T >= 10 && 26 >= T)
+          if (Math.abs(T) > k && (k = Math.abs(T)), k >= 10 && 26 >= k)
             S = 12;
           else {
-            if (T = o(E + 4 + 14, I), !(T > 0))
+            if (k = o(E + 4 + 14, I), !(k > 0))
               throw new RangeError('Too much data.');
-            if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 27 && 40 >= T))
+            if (Math.abs(T) > k && (k = Math.abs(T)), !(k >= 27 && 40 >= k))
               throw new RangeError('Bug in version detection.');
             S = 14;
           }
         }
-        k = T;
+        T = k;
       }
       break;
     case t.ENCODE_MODE.ALPHA_NUMERIC:
@@ -3551,27 +3551,27 @@ var FirebaseIndex;
           throw Error('Character not supported in ALPHA_NUMERIC encoding mode.');
         E = a(R, E, i(_, 6));
       }
-      if (k > 0)
-        k >= 1 && 9 >= k ? S = 9 : k >= 10 && 26 >= k ? S = 11 : k >= 27 && 40 >= k && (S = 13);
+      if (T > 0)
+        T >= 1 && 9 >= T ? S = 9 : T >= 10 && 26 >= T ? S = 11 : T >= 27 && 40 >= T && (S = 13);
       else {
-        if (T = o(E + 4 + 9, I), !(T > 0))
+        if (k = o(E + 4 + 9, I), !(k > 0))
           throw new RangeError('Too much data.');
-        if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
+        if (Math.abs(T) > k && (k = Math.abs(T)), k >= 1 && 9 >= k)
           S = 9;
         else {
-          if (T = o(E + 4 + 11, I), !(T > 0))
+          if (k = o(E + 4 + 11, I), !(k > 0))
             throw new RangeError('Too much data.');
-          if (Math.abs(k) > T && (T = Math.abs(k)), T >= 10 && 26 >= T)
+          if (Math.abs(T) > k && (k = Math.abs(T)), k >= 10 && 26 >= k)
             S = 11;
           else {
-            if (T = o(E + 4 + 13, I), !(T > 0))
+            if (k = o(E + 4 + 13, I), !(k > 0))
               throw new RangeError('Too much data.');
-            if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 27 && 40 >= T))
+            if (Math.abs(T) > k && (k = Math.abs(T)), !(k >= 27 && 40 >= k))
               throw new RangeError('Bug in version detection.');
             S = 13;
           }
         }
-        k = T;
+        T = k;
       }
       break;
     case t.ENCODE_MODE.BYTE:
@@ -3579,21 +3579,21 @@ var FirebaseIndex;
     case t.ENCODE_MODE.UTF8_SIGNATURE:
       for (u = 0; e.length > u; u++)
         E = a(R, E, i(e[u], 8));
-      if (k > 0)
-        k >= 0 && 9 >= k ? S = 8 : k >= 10 && 40 >= k && (S = 16);
+      if (T > 0)
+        T >= 0 && 9 >= T ? S = 8 : T >= 10 && 40 >= T && (S = 16);
       else {
-        if (T = o(E + 4 + 8, I), !(T > 0))
+        if (k = o(E + 4 + 8, I), !(k > 0))
           throw new RangeError('Too much data.');
-        if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
+        if (Math.abs(T) > k && (k = Math.abs(T)), k >= 1 && 9 >= k)
           S = 8;
         else {
-          if (T = o(E + 4 + 16, I), !(T > 0))
+          if (k = o(E + 4 + 16, I), !(k > 0))
             throw new RangeError('Too much data.');
-          if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 10 && 40 >= T))
+          if (Math.abs(T) > k && (k = Math.abs(T)), !(k >= 10 && 40 >= k))
             throw new RangeError('Bug in version detection.');
           S = 16;
         }
-        k = T;
+        T = k;
       }
       break;
     case t.ENCODE_MODE.KANJI:
@@ -3602,13 +3602,13 @@ var FirebaseIndex;
       throw Error('Unsupported encoding mode.');
     }
     if (n)
-      return k;
+      return T;
     R = i(15 & t.encodeMode, 4).concat(i(e.length, S)).concat(R), E += 4 + S;
-    var P = g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I] << 3;
+    var P = g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][I] << 3;
     if (E > P)
       throw new RangeError('Too much data for the selected version.');
-    var D = P - E;
-    for (D > 4 && (D = 4), E = a(R, E, s(D, 0)), E = a(R, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
+    var L = P - E;
+    for (L > 4 && (L = 4), E = a(R, E, s(L, 0)), E = a(R, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
       E = a(R, E, 1 & u ? [
         0,
         0,
@@ -3628,14 +3628,14 @@ var FirebaseIndex;
         0,
         0
       ]);
-    var L = Math.floor((g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I]) / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), F = Math.floor(g[k][p.ECC_BYTES][I] / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), O = [], $ = [];
-    for (u = 0, C = g[k][p.EC_BLOCKS][I][0]; C > u; u++) {
-      for ($ = [], d = 0; L > d; d++)
+    var D = Math.floor((g[T][p.TOTAL_BYTES] - g[T][p.ECC_BYTES][I]) / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), F = Math.floor(g[T][p.ECC_BYTES][I] / (g[T][p.EC_BLOCKS][I][0] + g[T][p.EC_BLOCKS][I][1])), O = [], $ = [];
+    for (u = 0, C = g[T][p.EC_BLOCKS][I][0]; C > u; u++) {
+      for ($ = [], d = 0; D > d; d++)
         $.push(r(R.splice(0, 8)));
       O.push($);
     }
-    for (u = 0, C = g[k][p.EC_BLOCKS][I][1]; C > u; u++) {
-      for ($ = [], d = 0; L >= d; d++)
+    for (u = 0, C = g[T][p.EC_BLOCKS][I][1]; C > u; u++) {
+      for ($ = [], d = 0; D >= d; d++)
         $.push(r(R.splice(0, 8)));
       O.push($);
     }
@@ -3661,21 +3661,21 @@ var FirebaseIndex;
           throw Error('Bug while generating the ECC');
       }
     }
-    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; L >= u; u++)
+    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; D >= u; u++)
       for (d = 0; O.length > d; d++)
         O[d].length > u && (E = a(R, E, i(O[d][u], 8)));
     for (u = 0; F > u; u++)
       for (d = 0; B.length > d; d++)
         B[d].length > u && (E = a(R, E, i(B[d][u], 8)));
-    var V = 17 + (k << 2), K = Array(V);
+    var V = 17 + (T << 2), K = Array(V);
     for (u = 0; V > u; u++)
       K[u] = s(V, 0);
     for (l(K, 0, 0, m, y.FINDER), l(K, 0, V - 7, m, y.FINDER), l(K, V - 7, 0, m, y.FINDER), u = 0; 8 > u; u++)
       K[u][7] = y.SEPARATOR, K[7][u] = y.SEPARATOR, K[u][V - 8] = y.SEPARATOR, K[7][V - 1 - u] = y.SEPARATOR, K[V - 1 - u][7] = y.SEPARATOR, K[V - 8][u] = y.SEPARATOR;
     for (u = 8; V - 8 > u; u++)
       K[u][6] = y.TIMING | (u + 1) % 2, K[6][u] = y.TIMING | (u + 1) % 2;
-    if (k > 1) {
-      var z = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * k + 10;
+    if (T > 1) {
+      var z = g[T][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * T + 10;
       for (w = q;;) {
         for (h = q; 6 === h && 6 === w || 6 === h && w === V - 7 || h === V - 7 && 6 === w || l(K, h - 2, w - 2, v, y.ALIGNMENT), 6 !== h;)
           h -= z, 18 > h && (h = 6);
@@ -3684,8 +3684,8 @@ var FirebaseIndex;
         w -= z, 18 > w && (w = 6);
       }
     }
-    if (k >= 7) {
-      var W = g[k][p.VERSION_PATTERN];
+    if (T >= 7) {
+      var W = g[T][p.VERSION_PATTERN];
       for (u = 0; 6 > u; u++)
         for (d = 0; 3 > d; d++)
           K[V - 11 + d][u] = y.VERSION | 1 & W, K[u][V - 11 + d] = y.VERSION | 1 & W, W >>= 1;

@@ -1,11 +1,5 @@
 <div ng-controller="HeaderController">
   <div class="navbar navbar-inverse navbar-fixed-top corner-shadow">
-    <!--img class="canvas-icon pg-zoom"
-         style="background-color: lightgray;"
-         ng-src="zoomimages/Zoom-{{zoom.choice}}-transp.png"
-         ng-click="popup.toggle('zoom')"
-         ng-show="menu.selected == 'canvas'"
-         title="Select Zoom Level" /-->
     <!--a href="/#/canvas/new"
        ng-show="menu.selected == 'repo'">
       <img class="canvas-icon pg-create-canvas"
@@ -41,6 +35,13 @@
         <div class="brand header-model-name">
           {{canvas.model.fields.name}}
         </div>
+        <img class="canvas-icon"
+             zzz-style="background-color: lightgray;"
+             ng-src="icons/zoom/Zoom-{{zoom.choice}}-transp.png"
+             zzz-ng-src="icons/zoom/Zoom-0-transp.png"
+             ng-click="popup.toggle('zoom')"
+             ng-show="layout.isView('zoom')"
+             title="Select Zoom Level" />
       </div>
 
     </div>
