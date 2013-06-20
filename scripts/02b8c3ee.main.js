@@ -2114,7 +2114,7 @@ FirstRevenueApp.controller('AdminController', [
           t.reset(), o.reset(), r.view = '', r.guide.wide = !0, r.peer.wide = !1;
         },
         getLayoutClasses: function () {
-          var e = [o.getZoomClass()];
+          var e = [o.getZoomClass(r.isView('canvas') ? 0 : null)];
           return r.editor.sticker && e.push('edit-sticker'), e;
         },
         isFullScreen: function () {
@@ -2704,20 +2704,16 @@ FirstRevenueApp.controller('AdminController', [
         choice: 0,
         singleBlock: !1,
         levels: n,
-        getZoomClass: function () {
-          return 'canvas-' + n[i.choice].label;
+        canvas: t,
+        getZoomClass: function (e) {
+          var t = angular.isNumber(e) ? e : i.choice;
+          return 'canvas-' + n[t].label;
         },
         reset: function () {
           i.choice = 0, i.singleBlock = !1;
         },
-        zoom: function (r) {
-          console.log(o, 'choice=', r);
-          var s = $('.first-revenue').find('.views');
-          for (var a in n)
-            s.removeClass('canvas-' + n[a].label);
-          s.addClass('canvas-' + n[r].label), 4 === r ? (i.block = i.block || _.find(t.model.blocks, function (e) {
-            return 'VP' === e.paneClass;
-          }), i.singleBlock = t.singleBlock = i.block) : i.singleBlock = t.singleBlock = null, i.choice = r, e.zoom = !1;
+        zoom: function (t) {
+          console.log(o, 'choice=', t), i.choice = t, e.zoom = !1;
         }
       };
     return i;
