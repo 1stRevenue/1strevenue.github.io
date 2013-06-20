@@ -1,12 +1,27 @@
 <input type="submit"
        style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-<input type="text"
-       id="user-typeahead"
-       class="input-xlarge search-query"
-       placeholder="Search and add users"
-       ng-model="tah.userTypeAhead"
-       first-revenue-typeahead="tah.dataset"
-       data-selection="tahSelection" />
+<div class="typeahead-search">
+  <button class="btn btn-small left-button"
+          ng-disabled="!tah.userTypeAhead"
+          ng-class="{'btn-danger': tah.userTypeAhead}"
+          ng-click="resetSearch()">
+    &times;
+  </button>
+  <input type="text"
+         id="user-typeahead"
+         class="input-xlarge zzz-search-query"
+         placeholder="Search and add users"
+         ng-model="tah.userTypeAhead"
+         first-revenue-typeahead="tah.dataset"
+         data-selection="tahSelection" />
+  <button class="btn btn-small right-button"
+          ng-disabled="!testSelection()"
+          ng-class="{'btn-success': testSelection()}"
+          ng-click="tahSubmit()">
+    +
+  </button>
+</div>
+
 <div class="search-header">
   Search partners
 </div>

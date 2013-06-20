@@ -533,6 +533,7 @@ FirstRevenueApp.controller('AdminController', [
       model: { editorTab: 0 },
       tah: {
         userTypeAhead: null,
+        selectedDatum: null,
         dataset: null,
         social: {},
         partners: {}
@@ -545,22 +546,29 @@ FirstRevenueApp.controller('AdminController', [
         header: '<div class="tt-header">No users found</div>',
         local: []
       },
+      resetSearch: function () {
+        e.tah.userTypeAhead = '', e.tah.selectedDatum = null;
+      },
+      testSelection: function () {
+        var t = !!e.tah.selectedDatum;
+        return console.log(i, 'testSelection selFlag=', t), t;
+      },
       tahSubmit: function () {
-        console.log(i, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), e.tahSelection(e.tah.selectedDatum), e.tah.userTypeAhead = '', $('#user-typeahead').val('');
+        console.log(i, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), e.tahSelection(e.tah.selectedDatum), e.resetSearch();
       },
       deleteInvite: function (t) {
         delete e.canvas.model.invites[t], delete e.sync.user.invites[t];
       },
       tahSelection: function (t) {
         if (console.log(i, 'tahSelection data=', t), t) {
-          var o = e.me.rootRef.child('invitemap').child(t.service).child(t.serviceId);
-          o.once('value', function (n) {
-            if (null === n.val())
-              e.createModelInvite(t, o, t.account);
+          var o = angular.copy(t), n = e.me.rootRef.child('invitemap').child(o.service).child(o.serviceId);
+          n.once('value', function (t) {
+            if (null === t.val())
+              e.createModelInvite(o, n, o.account);
             else {
-              var r = n.val(), s = e.me.rootRef.child('invite').child(r), a = s.child('models').child(e.canvas.modelId);
-              a.set(!0, function (o) {
-                console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', o), e.updateModelInvite(t, r);
+              var r = t.val(), s = e.me.rootRef.child('invite').child(r), a = s.child('models').child(e.canvas.modelId);
+              a.set(!0, function (t) {
+                console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, r);
               });
             }
           });
@@ -1458,16 +1466,18 @@ FirstRevenueApp.controller('AdminController', [
     return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (e, n, r) {
-        var s = t(r.ngModel), a = s(e);
-        e.$watch(r.ngModel, function (e, t) {
-          e !== t && (a = e), console.log(o, '$watch modelValue=', a);
+      link: function (n, r, s) {
+        var a = t(s.ngModel), l = a(n);
+        n.$watch(s.ngModel, function (e, t) {
+          e !== t && (l = e), console.log(o, '$watch modelValue=', l);
         });
-        var l = t(r.firstRevenueTypeahead)(e);
-        console.log(o, 'dataset=', l), l && (n.typeahead(l), i(n)), e.$watch(r.firstRevenueTypeahead, function (e, s, a) {
-          l = t(r.firstRevenueTypeahead)(a), console.log(o, '$watch tah.dataset=', l), n.typeahead('destroy'), n.typeahead(l), i(n);
-        }, !0), n.on('typeahead:selected typeahead:autocompleted', function (t, n) {
-          console.log(o, 'event $e=', t, 'data=', n), e.tah.selectedDatum = n;
+        var c = t(s.firstRevenueTypeahead)(n);
+        console.log(o, 'dataset=', c), c && (r.typeahead(c), i(r)), n.$watch(s.firstRevenueTypeahead, function (e, n, a) {
+          c = t(s.firstRevenueTypeahead)(a), console.log(o, '$watch tah.dataset=', c), r.typeahead('destroy'), r.typeahead(c), i(r);
+        }, !0), r.on('typeahead:selected typeahead:autocompleted', function (t, i) {
+          console.log(o, 'event $e=', t, 'data=', i), e(function () {
+            n.tah.selectedDatum = i;
+          });
         });
       }
     };

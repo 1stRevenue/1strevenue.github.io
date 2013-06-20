@@ -3607,8 +3607,8 @@ var FirebaseIndex;
     var P = g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I] << 3;
     if (E > P)
       throw new RangeError('Too much data for the selected version.');
-    var L = P - E;
-    for (L > 4 && (L = 4), E = a(R, E, s(L, 0)), E = a(R, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
+    var D = P - E;
+    for (D > 4 && (D = 4), E = a(R, E, s(D, 0)), E = a(R, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
       E = a(R, E, 1 & u ? [
         0,
         0,
@@ -3628,14 +3628,14 @@ var FirebaseIndex;
         0,
         0
       ]);
-    var D = Math.floor((g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I]) / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), F = Math.floor(g[k][p.ECC_BYTES][I] / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), O = [], $ = [];
+    var L = Math.floor((g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I]) / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), F = Math.floor(g[k][p.ECC_BYTES][I] / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), O = [], $ = [];
     for (u = 0, C = g[k][p.EC_BLOCKS][I][0]; C > u; u++) {
-      for ($ = [], d = 0; D > d; d++)
+      for ($ = [], d = 0; L > d; d++)
         $.push(r(R.splice(0, 8)));
       O.push($);
     }
     for (u = 0, C = g[k][p.EC_BLOCKS][I][1]; C > u; u++) {
-      for ($ = [], d = 0; D >= d; d++)
+      for ($ = [], d = 0; L >= d; d++)
         $.push(r(R.splice(0, 8)));
       O.push($);
     }
@@ -3661,7 +3661,7 @@ var FirebaseIndex;
           throw Error('Bug while generating the ECC');
       }
     }
-    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; D >= u; u++)
+    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; L >= u; u++)
       for (d = 0; O.length > d; d++)
         O[d].length > u && (E = a(R, E, i(O[d][u], 8)));
     for (u = 0; F > u; u++)
