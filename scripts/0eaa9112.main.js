@@ -568,7 +568,7 @@ FirstRevenueApp.controller('AdminController', [
             else {
               var r = t.val(), s = e.me.rootRef.child('invites').child(r), a = s.child('models').child(e.canvas.modelId);
               a.set(!0, function (t) {
-                console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, r);
+                t ? console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t) : (console.log(i, 'successfully set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, r));
               });
             }
           });
