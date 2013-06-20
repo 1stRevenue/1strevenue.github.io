@@ -4153,7 +4153,7 @@ FirstRevenueApp.controller('AdminController', [
         updateInvite: function (e) {
           console.log(a, 'inviteId=', e);
           var t = u.me.rootRef.child('invites').child(e), o = u.findPartner(e);
-          u.serviceInvite(o, function (e, n) {
+          console.log(a, 'updateInvite partner=', o), u.serviceInvite(o, function (e, n) {
             e ? console.log(a, 'invite error=', e, 'partner=', o) : n && (console.log(a, 'invite sent partner=', o), t.update({ status: 'sent' }, function (e) {
               u.inviteCallback(e, o, 'sent');
             }));
@@ -4164,7 +4164,7 @@ FirstRevenueApp.controller('AdminController', [
         },
         serviceInvite: function (e, t) {
           var n = u.findAccount(e.service);
-          switch (e.service) {
+          switch (console.log(a, 'serviceInvite contact=', e, 'account=', n), e.service) {
           case 'facebook':
             o.sendMessage(e, t);
             break;
@@ -4184,11 +4184,16 @@ FirstRevenueApp.controller('AdminController', [
           });
         },
         findPartner: function (e) {
-          var t = u.me.sync.invites[e], o = {};
+          var t = u.me.sync.invites[e];
+          console.log(a, 'findPartner inviteId=', e, 'invite=', t);
+          var o = {};
           return _.each(u.me.sync.user.accounts, function (n) {
-            if (n.profile.service === t.service && n.contacts && n.contacts.partners) {
-              var i = n.contacts.partners[t.serviceId];
-              i && (o = angular.copy(i)), o.service = t.service, o.serviceId = t.serviceId, o.inviteId = e;
+            if (n.profile.service === t.service) {
+              if (n.contacts && n.contacts.partners) {
+                var i = n.contacts.partners[t.serviceId];
+                i && (o = angular.copy(i));
+              }
+              o.service = t.service, o.serviceId = t.serviceId, o.inviteId = e;
             }
           }), o;
         }
