@@ -86,16 +86,16 @@
     </div>
     <div class="row-fluid">
       <div class="span6">
-        <!--button type="submit"
+        <button type="submit"
                 class="btn btn-success pull-right"
                 ng-click="finish()"
                 ng-disabled="!canvas.model.fields.name || canvas.model.fields.name == ''">
           Finish
         </button>
-        <button class="btn btn-danger"
-                ng-click="delete()">
-          Delete
-        </button-->
+        <button class="btn btn-primary"
+                ng-click="manageUsers()">
+          Manage users
+        </button>
       </div>
       <div class='pitch-remarks span6'>
         <div ng-show="pitchWordCount() === 0">

@@ -47,6 +47,9 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
       }).when('/invite/:inviteId', {
         templateUrl: 'views/routes/Invite.html',
         controller: 'InviteController'
+      }).when('/admin', {
+        templateUrl: 'views/routes/Admin.html',
+        controller: 'AdminController'
       }).otherwise({ redirectTo: '/' });
     }
   ]).run([
@@ -334,18 +337,22 @@ FirstRevenueApp.controller('AdminController', [
   }
 ]), FirstRevenueApp.controller('HeaderController', [
   '$scope',
+  '$location',
   'Modal',
   'Popup',
   'Zoom',
   'Model',
   'Info',
-  function (e, t, o, n, i, r) {
+  function (e, t, o, n, i, r, s) {
     _.extend(e, {
-      modal: t,
-      popup: o,
-      zoom: n,
-      model: i,
-      info: r,
+      modal: o,
+      popup: n,
+      zoom: i,
+      model: r,
+      info: s,
+      admin: function () {
+        e.me.sync.admin && t.path('/admin');
+      },
       modifyAccount: function () {
         e.modal.logoff = !0;
       },
@@ -599,6 +606,12 @@ FirstRevenueApp.controller('AdminController', [
       'delete': function () {
         console.log(i, 'model delete remove model ref from user modelId=', e.canvas.modelId), delete e.sync.user.models[e.canvas.modelId], console.log(i, 'model delete set model to null modelId=', e.canvas.modelId), e.sync.models[e.canvas.modelId] = null, console.log(i, 'model delete done models[id]=', e.sync.models[e.canvas.modelId]), e.modal.model = !1, t.path('/repo');
       },
+      finish: function () {
+        e.layout.setView('canvas');
+      },
+      manageUsers: function () {
+        e.layout.setView('users');
+      },
       showModels: function () {
         e.fpFile = null, t.path('/repo');
       },
@@ -668,7 +681,7 @@ FirstRevenueApp.controller('AdminController', [
             header: '<div class="tt-header">' + s + ' ' + t + ' (' + _.size(o) + ')</div>',
             local: o
           };
-        return console.log(i, 'buildDatasets ' + t + ' dataset=', a), a;
+        return console.log(i, 'createDataset ' + t + ' dataset=', a), a;
       },
       buildDatasetItem: function (e) {
         return function (t, o) {
@@ -1349,6 +1362,28 @@ FirstRevenueApp.controller('AdminController', [
         var o = $(this).offsetParent(), n = r.firstRevenueEdit;
         e.singleBlock && 'XXC' !== n || s(t, o);
       });
+    };
+  }
+]), FirstRevenueApp.directive('firstRevenueGapiInteractivePost', [
+  '$parse',
+  function (e) {
+    var t = 'firstRevenueGapiInteractivePost', o = window.location.origin || window.location.protocol + '//' + window.location.host, n = o + window.location.pathname + 'invite/';
+    return {
+      restrict: 'A',
+      link: function (o, i, r) {
+        var s = e(r.firstRevenueGapiInteractivePost)(o), a = {
+            contenturl: 'GooglePlusInvitation.html',
+            contentdeeplinkid: o.inviteId,
+            clientid: CONFIG_1ST_REVENUE.googleClientId,
+            cookiepolicy: 'single_host_origin',
+            prefilltext: 'Join 1st Revenue to collaborate on model ' + o.canvas.model.fields.name,
+            calltoactionlabel: 'INVITE',
+            calltoactionurl: n + o.inviteId,
+            calltoactiondeeplinkid: o.inviteId,
+            recipients: s
+          };
+        console.log(t, 'Interactive post options=', a), gapi.interactivepost.render(i, a);
+      }
     };
   }
 ]), FirstRevenueApp.directive('firstRevenueOpenTip', [
@@ -3462,6 +3497,7 @@ FirstRevenueApp.controller('AdminController', [
     var l = i, c = {
         rootRef: null,
         userRef: null,
+        adminRef: null,
         publicRef: null,
         userId: null,
         provider: null,
@@ -3542,10 +3578,13 @@ FirstRevenueApp.controller('AdminController', [
           console.log(a, 'init'), c.originalPath = e;
         },
         wakeup: function (e, t, o) {
-          console.log(a, 'wakeup'), c.rootRef = e, c.userId = t, c.userRef = e.child('users').child(t), c.publicRef = e.child('public'), c.authenticated = !0, c.authFailed = !1, l.init(e, c.userRef), c.sync.angularFire(c.userRef, 'sync.user').then(c.collectUserData), c.sync.angularFire(c.publicRef, 'sync.public').then(c.collectPublicData), c.connTracking(e, t), c.selectedModelId = o || null;
+          console.log(a, 'wakeup'), c.rootRef = e, c.userId = t, c.userRef = e.child('users').child(t), c.adminRef = e.child('admin').child(t), c.publicRef = e.child('public'), c.authenticated = !0, c.authFailed = !1, l.init(e, c.userRef), c.sync.angularFire(c.userRef, 'sync.user').then(c.collectUserData), c.sync.angularFire(c.adminRef, 'sync.admin').then(c.collectAdminData), c.sync.angularFire(c.publicRef, 'sync.public').then(c.collectPublicData), c.connTracking(e, t), c.selectedModelId = o || null, c.social.reset();
         },
         collectUserData: function (e) {
           console.log(a, 'wakeup userPromise resolved syncUserReady=', e), l.collectModels(c.userRef.child('models'), !1), c.navigateInitialView();
+        },
+        collectAdminData: function (e) {
+          console.log(a, 'wakeup adminPromise resolved syncAdminReady=', e);
         },
         collectPublicData: function (e) {
           console.log(a, 'wakeup publicPromise resolved syncPublic=', e), l.collectModels(c.publicRef.child('models'), !0);
@@ -3854,6 +3893,7 @@ FirstRevenueApp.controller('AdminController', [
     var t = 'Sync', o = {
         masterScope: null,
         user: {},
+        admin: !1,
         models: {},
         peers: {},
         invites: {},
@@ -3877,13 +3917,13 @@ FirstRevenueApp.controller('AdminController', [
           return 'sync.' + t + '[\'' + e + '\']';
         },
         logoff: function () {
-          console.log(t, 'logoff'), o.reset('sync.user'), _.each(o.models, function (e, t) {
+          console.log(t, 'logoff'), o.reset('sync.user'), o.reset('sync.admin'), o.reset('sync.public'), _.each(o.models, function (e, t) {
             o.reset(o.getScopeName(t, 'models'));
           }), _.each(o.invites, function (e, t) {
             o.reset(o.getScopeName(t, 'invites'));
           }), _.each(o.peers, function (e, t) {
             o.reset(o.getScopeName(t, 'peers'));
-          }), o.user = {}, o.models = {}, o.invites = {}, o.peers = {};
+          }), o.user = {}, o.admin = null, o.models = {}, o.invites = {}, o.peers = {};
         }
       };
     return o;
@@ -4062,6 +4102,9 @@ FirstRevenueApp.controller('AdminController', [
         loaded: {},
         loading: {},
         contacts: {},
+        reset: function () {
+          u.selectedItems = [], u.loaded = {}, u.loading = {}, u.contacts = {};
+        },
         fetchAccount: function (e, t) {
           u.me = e;
           var o = u.findAccount(t);
@@ -4306,7 +4349,12 @@ FirstRevenueApp.controller('AdminController', [
         },
         processGPlusPeople: function (e) {
           console.log('GPlus processGPlusPeople people=', e), l.me.social.contacts.gplus = l.me.social.contacts.gplus || {}, o(function () {
-            _.each(e.items, l.processPerson), e.nextPageToken ? l.sendPeopleRequest(e.nextPageToken) : (l.account.contacts.refreshed = Date.now(), l.account.contacts.total = l.total, l.me.social.loaded.gplus = !0, l.me.social.loading.gplus = !1);
+            if (_.each(e.items, l.processPerson), e.nextPageToken)
+              l.sendPeopleRequest(e.nextPageToken);
+            else {
+              var t = l.account.profile.key, o = l.me.sync.user.accounts[t], n = o.contacts;
+              n.refreshed = Date.now(), n.total = l.total, l.me.social.loaded.gplus = !0, l.me.social.loading.gplus = !1;
+            }
           });
         },
         processPerson: function (e) {

@@ -61,7 +61,7 @@
       <div class="field-color"
            ng-class="{modified: !editor.matchColor(editor.sticker)}">
         <div ng-repeat="(colorName, colorData) in editor.rainbow.colorMap"
-             class="palette-color xpalette-color-{{colorName}}"
+             class="palette-color zzz-palette-color-{{colorName}}"
              style="background-color: #{{editor.rainbow.brighten(colorName)}};"
              ng-class="{chosen: isColorChosen(colorName)}"
              ng-click="editor.setColor(colorName)">

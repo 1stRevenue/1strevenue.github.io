@@ -1,0 +1,14 @@
+<div class="admin-user-list-header">User list</div>
+<div ng-repeat="(userId, user) in admin.users track by userId"
+     class="user-list-item">
+  <span first-revenue-service-icon="user.profile.service"></span>
+  <img ng-src="{{user.profile.image}}"
+       class="user-icon"
+       ng-show="user.profile.image"
+       title="{{user.profile.name}}" />
+  <img ng-src="images/bbf82395.light_avatar_small.png"
+       class="user-icon"
+       ng-hide="user.profile.image"
+       title="{{user.profile.name}}" />
+  {{user.profile.name}}
+</div>

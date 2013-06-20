@@ -1,0 +1,14 @@
+<div ng-include src="'views/admin/GuideRibbon.html'"></div>
+
+<div class="first-revenue-admin">
+  <div ng-switch="layout.view">
+    <div ng-switch-when="users"
+         ng-include="'views/admin/Users.html'">
+    </div>
+    <div ng-switch-default>
+      Unknown admin page selected
+    </div>
+  </div>
+</div>
+
+<div ng-include src="'views/admin/PeerRibbon.html'"></div>

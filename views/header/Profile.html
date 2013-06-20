@@ -30,6 +30,14 @@
             <li>
               <div class="header-menu-line"
                    ontouchstart="$(this).trigger('click')"
+                   ng-click="admin()">
+                <i class="icon-user"></i>
+                Administration
+              </div>
+            </li>
+            <li>
+              <div class="header-menu-line"
+                   ontouchstart="$(this).trigger('click')"
                    ng-click="modifyAccount()">
                 <i class="icon-user"></i>
                 User account

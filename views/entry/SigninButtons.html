@@ -1,4 +1,17 @@
-<div ng-repeat="(key, pr) in register.fb.providers | orderBy:seq"
+<div class="signin-button">
+  <img ng-src="images/signin/facebook/45d6eb5a.Signin-246x54.png"
+       ng-click="auth.launchLogon('simple', 'facebook')" />
+</div>
+<div class="signin-button">
+  <img ng-src="images/signin/linkedin/442e6927.Signin-246x54.png"
+       ng-click="auth.launchLogon('singly', 'linkedin')" />
+</div>
+<div class="signin-button">
+  <img ng-src="images/signin/gplus/a81dc389.Signin-246x54.png"
+       ng-click="auth.launchLogon('singly', 'gplus')" />
+</div>
+
+<!--div ng-repeat="(key, pr) in register.fb.providers | orderBy:seq"
      class="signin-button">
   <img ng-src="images/signin/facebook/45d6eb5a.Signin-246x54.png"
        ng-show="key == 'facebook'"
@@ -9,4 +22,4 @@
   <img ng-src="images/signin/gplus/a81dc389.Signin-246x54.png"
        ng-show="key == 'gplus'"
        ng-click="auth.launchLogon('singly', 'gplus')" />
-</div>
+</div-->
