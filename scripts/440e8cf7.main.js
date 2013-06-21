@@ -530,7 +530,11 @@ FirstRevenueApp.controller('AdminController', [
       repoList: [],
       fpFile: null,
       newModelName: '',
-      model: { editorTab: 0 },
+      model: {
+        editorTab: 0,
+        commentId: null,
+        commentSort: '-updated'
+      },
       tah: {
         userTypeAhead: null,
         selectedDatum: null,
@@ -545,6 +549,35 @@ FirstRevenueApp.controller('AdminController', [
         template: e.template,
         header: '<div class="tt-header">No users found</div>',
         local: []
+      },
+      getComments: function () {
+        return _.sortBy(e.canvas.model.comments, function (e) {
+          return -e.updated;
+        });
+      },
+      openComment: function () {
+        e.model.commentId = e.me.userRef.push().name(), e.canvas.model.comments[e.model.commentId] = {
+          id: e.model.commentId,
+          author: e.me.userId,
+          updated: Date.now(),
+          text: ''
+        };
+      },
+      closeComment: function () {
+        var t = e.canvas.model.comments[e.model.commentId];
+        t.updated = Date.now(), t.created || (t.created = t.updated), e.model.commentId = null;
+      },
+      modifyComment: function (t) {
+        e.model.commentId = t.id;
+      },
+      getDateUpdated: function (t) {
+        return t.updated ? e.getLatency(new Date(t.updated), Date.now()) : null;
+      },
+      getDateCreated: function (t) {
+        return t.created ? e.getLatency(new Date(t.created), Date.now()) : null;
+      },
+      getCommentLatency: function (t) {
+        return t ? e.getLatency(new Date(t), Date.now()) : null;
       },
       resetSearch: function () {
         e.tah.userTypeAhead = '', e.tah.selectedDatum = null;
