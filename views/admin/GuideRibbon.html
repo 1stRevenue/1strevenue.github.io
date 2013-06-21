@@ -1,0 +1,58 @@
+<div ng-controller="RibbonController"
+     class="guide-ribbon"
+     ng-init="ribbon = layout.guide"
+     ng-class="{'wide-ribbon': layout.guide.wide}">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
+
+  <div class="ribbon-item">
+    <a href="#/repo">
+      <i class="icon-folder-open icon-2x"></i>
+      <span ng-show="layout.guide.wide">
+        Repo
+      </span>
+    </a>
+  </div>
+  <div ng-click="layout.setView('summary'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('summary')}"
+       class="ribbon-item">
+    <i class="icon-list-alt icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Summary
+    </span>
+  </div>
+  <div ng-click="layout.setView('presence'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('presence')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Presence
+    </span>
+  </div>
+  <div ng-click="layout.setView('users'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('users')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Users
+    </span>
+  </div>
+  <div ng-click="layout.setView('models'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('models')}"
+       class="ribbon-item">
+    <i class="icon-list-alt icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Models
+    </span>
+  </div>
+  <div ng-click="layout.setView('invites'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('invites')}"
+       class="ribbon-item">
+    <i class="icon-list-alt icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Invites
+    </span>
+  </div>
+
+  <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
+  <div ng-include src="'views/ribbon/Uservoice.html'"></div>
+</div>

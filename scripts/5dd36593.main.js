@@ -68,22 +68,13 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
   ]);
 FirstRevenueApp.controller('AdminController', [
   '$scope',
-  'Contacts',
-  'Hooks',
-  function (e, t, o) {
-    _.extend(e, {
-      contacts: t.contacts,
-      hooks: o,
-      loadContacts: function (e) {
-        'google' === e && t.loadContacts('google');
-      },
-      loadHooks: function () {
-        this.hooks.loadHooks(e);
-      },
-      loadHooksForApp: function (t, o) {
-        this.hooks.loadHooksForApp(e, t, o);
+  function (e) {
+    var t = 'AdminController';
+    console.log(t, 'launched'), _.extend(e, {
+      admin: e.me.sync.admin,
+      getOnlineUsers: function () {
       }
-    });
+    }), e.layout.setView('summary'), e.menu.title = 'Administer 1st Revenue';
   }
 ]), FirstRevenueApp.controller('AdminRepoController', [
   '$scope',
@@ -351,7 +342,7 @@ FirstRevenueApp.controller('AdminController', [
       model: r,
       info: s,
       admin: function () {
-        e.me.sync.admin && t.path('/admin');
+        e.me.sync.admin.status && (e.me.sync.collectAdminData(e.me.rootRef), e.me.sync.admin.enabled = !0, t.path('/admin'));
       },
       modifyAccount: function () {
         e.modal.logoff = !0;
@@ -3625,16 +3616,16 @@ FirstRevenueApp.controller('AdminController', [
           console.log(a, 'init'), c.originalPath = e;
         },
         wakeup: function (e, t, o) {
-          console.log(a, 'wakeup'), c.rootRef = e, c.userId = t, c.userRef = e.child('users').child(t), c.adminRef = e.child('admin').child(t), c.publicRef = e.child('public'), c.authenticated = !0, c.authFailed = !1, l.init(e, c.userRef), c.sync.angularFire(c.userRef, 'sync.user').then(c.collectUserData), c.sync.angularFire(c.adminRef, 'sync.admin').then(c.collectAdminData), c.sync.angularFire(c.publicRef, 'sync.public').then(c.collectPublicData), c.connTracking(e, t), c.selectedModelId = o || null, c.social.reset();
+          console.log(a, 'wakeup'), c.rootRef = e, c.userId = t, c.userRef = e.child('users').child(t), c.publicRef = e.child('public'), c.adminRef = e.child('admin').child(t), c.authenticated = !0, c.authFailed = !1, l.init(e, c.userRef), c.sync.angularFire(c.userRef, 'sync.user').then(c.collectUserData), c.sync.angularFire(c.publicRef, 'sync.public').then(c.collectPublicData), c.sync.angularFire(c.adminRef, 'sync.admin.status').then(c.collectAdminData), c.connTracking(e, t), c.selectedModelId = o || null, c.social.reset();
         },
         collectUserData: function (e) {
           console.log(a, 'wakeup userPromise resolved syncUserReady=', e), l.collectModels(c.userRef.child('models'), !1), c.navigateInitialView();
         },
-        collectAdminData: function (e) {
-          console.log(a, 'wakeup adminPromise resolved syncAdminReady=', e);
-        },
         collectPublicData: function (e) {
           console.log(a, 'wakeup publicPromise resolved syncPublic=', e), l.collectModels(c.publicRef.child('models'), !0);
+        },
+        collectAdminData: function (e) {
+          console.log(a, 'wakeup adminPromise resolved syncAdminReady=', e);
         },
         logoff: function () {
           console.log(a, 'logoff'), n.logoff(), l.logoff(), c.userRef = null, c.userId = null;
@@ -3898,7 +3889,7 @@ FirstRevenueApp.controller('AdminController', [
           var o = i.rootRef.child('models').child(e), r = i.getModelKey(e);
           console.log(n, 'loadModel modelKey=', r);
           var s = i.sync.angularFire(o, r);
-          s && s.then(i.loadModelData);
+          s ? s.then(i.loadModelData) : console.log(n, 'loadModel angularFire failed for modelKey=', r);
         },
         loadModelData: function (e) {
           console.log(n, 'loadModelData modelPromise resolved modelReady=', e);
@@ -3935,45 +3926,71 @@ FirstRevenueApp.controller('AdminController', [
     return i;
   }
 ]), FirstRevenueApp.factory('Sync', [
+  '$q',
   'angularFire',
-  function (e) {
-    var t = 'Sync', o = {
+  function (e, t) {
+    var o = 'Sync', n = {
         masterScope: null,
         user: {},
-        admin: !1,
         models: {},
         peers: {},
         invites: {},
+        admin: {
+          status: !1,
+          enabled: !1,
+          presence: {},
+          admins: {},
+          users: {},
+          models: {},
+          invites: {},
+          promises: []
+        },
         dereg: {},
         init: function (e) {
-          console.log(t, 'init'), o.masterScope = e;
+          console.log(o, 'init'), n.masterScope = e;
         },
-        angularFire: function (n, i) {
-          console.log(t, 'angularFire name=', i);
-          var r = e(n, o.masterScope, i, {});
+        angularFire: function (e, i) {
+          console.log(o, 'angularFire name=', i);
+          var r = t(e, n.masterScope, i, {});
           return r.then(function (e) {
-            console.log(t, 'angularFire callback afReady=', e), e.off && e.name ? o.dereg[i] = e.off : r.off && (o.dereg[i] = r.off);
+            console.log(o, 'angularFire callback afReady=', e), e.off && e.name ? n.dereg[i] = e.off : r.off && (n.dereg[i] = r.off);
           }), r;
         },
         reset: function (e) {
-          console.log(t, 'reset name=', e);
-          var n = o.dereg[e];
-          n && n();
+          console.log(o, 'reset name=', e);
+          var t = n.dereg[e];
+          t && t();
         },
         getScopeName: function (e, t) {
           return 'sync.' + t + '[\'' + e + '\']';
         },
+        collectAdminData: function (t) {
+          var o = [
+              n.angularFire(t.child('presence'), 'sync.admin.presence'),
+              n.angularFire(t.child('admins'), 'sync.admin.admins'),
+              n.angularFire(t.child('users'), 'sync.admin.users'),
+              n.angularFire(t.child('models'), 'sync.admin.models'),
+              n.angularFire(t.child('invites'), 'sync.admin.invites')
+            ];
+          e.all(o).then(n.adminDataLoaded, n.adminDataFailed);
+        },
+        adminDataLoaded: function (e) {
+          console.log(o, 'adminDataLoaded result=', e), n.admin.promises = e;
+        },
+        adminDataFailed: function (e) {
+          console.log(o, 'adminDataFailed err=', e);
+        },
         logoff: function () {
-          console.log(t, 'logoff'), o.reset('sync.user'), o.reset('sync.admin'), o.reset('sync.public'), _.each(o.models, function (e, t) {
-            o.reset(o.getScopeName(t, 'models'));
-          }), _.each(o.invites, function (e, t) {
-            o.reset(o.getScopeName(t, 'invites'));
-          }), _.each(o.peers, function (e, t) {
-            o.reset(o.getScopeName(t, 'peers'));
-          }), o.user = {}, o.admin = null, o.models = {}, o.invites = {}, o.peers = {};
+          console.log(o, 'logoff'), n.reset('sync.user'), n.reset('sync.admin'), n.reset('sync.public'), n.admin.status && (n.reset('sync.admin.presence'), n.reset('sync.admin.admins'), n.reset('sync.admin.users'), n.reset('sync.admin.models'), n.reset('sync.admin.invites'), n.admin.status = !1, n.admin.enabled = !1, n.admin.presence = {}, n.admin.admins = {}, n.admin.users = {}, n.admin.models = {}, n.admin.invites = {}, n.admin.promises = []), _.each(n.models, function (e, t) {
+            n.reset(n.getScopeName(t, 'models'));
+          }), _.each(n.invites, function (e, t) {
+            n.reset(n.getScopeName(t, 'invites'));
+          }), _.each(n.peers, function (e, t) {
+            n.reset(n.getScopeName(t, 'peers'));
+          }), n.user = {}, n.models = {}, n.invites = {}, n.peers = {};
         }
       };
-    return o;
+    return n;
   }
 ]), FirstRevenueApp.factory('TOrg', [function () {
     var e = function (e, t) {
@@ -4161,8 +4178,8 @@ FirstRevenueApp.controller('AdminController', [
           console.log(a, 'fetchAccount account=', e), e.contacts = e.contacts || c;
           var d = e.authentic.accessToken;
           if ('singly' === e.profile.provider) {
-            var p = e.profile.service, h = e.authentic.token, f = l[p] || 'self', g = e.authentic.expires, v = new Date().getTime() / 1000;
-            console.log(a, 'fetchSocialAccount service=', p, 'token=', h, 'expires=', g, 'currentTime=', v), 'linkedin' === p ? i.getFriends(u.me, e, h) : 'gplus' === p ? r.getPeople(u.me, e, h) : 'gcontacts' === p ? s.getContacts(u.me, e, h) : f ? t.getData(p, h, f) : console.log(a, 'Unknown Singly service, endpoint not found');
+            var p = e.profile.service, h = e.authentic.token, f = l[p] || 'self', g = e.authentic.expires, m = new Date().getTime() / 1000;
+            console.log(a, 'fetchSocialAccount service=', p, 'token=', h, 'expires=', g, 'currentTime=', m), 'linkedin' === p ? i.getFriends(u.me, e, h) : 'gplus' === p ? r.getPeople(u.me, e, h) : 'gcontacts' === p ? s.getContacts(u.me, e, h) : f ? t.getData(p, h, f) : console.log(a, 'Unknown Singly service, endpoint not found');
           } else
             'facebook' === e.profile.provider ? o.getFriends(u.me, e, d) : 'twitter' === e.profile.provider && n.getFriends(u.me, e, d);
         },

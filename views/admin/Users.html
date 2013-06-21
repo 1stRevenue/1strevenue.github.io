@@ -1,14 +1,30 @@
-<div class="admin-user-list-header">User list</div>
-<div ng-repeat="(userId, user) in admin.users track by userId"
-     class="user-list-item">
-  <span first-revenue-service-icon="user.profile.service"></span>
-  <img ng-src="{{user.profile.image}}"
-       class="user-icon"
-       ng-show="user.profile.image"
-       title="{{user.profile.name}}" />
-  <img ng-src="images/bbf82395.light_avatar_small.png"
-       class="user-icon"
-       ng-hide="user.profile.image"
-       title="{{user.profile.name}}" />
-  {{user.profile.name}}
+<div class="admin-users">
+  <h2>{{_.size(admin.users)}} users in the database</h2>
+</div>
+<div ng-repeat="(id, user) in admin.users track by id"
+     class="media">
+  <span class="pull-left">
+    <img ng-src="{{user.profile.image}}"
+         class="user-icon"
+         ng-show="user.profile.image"
+         title="{{user.profile.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         class="user-icon"
+         ng-hide="user.profile.image"
+         title="{{user.profile.name}}" />
+  </span>
+  <div class="media-body">
+    <p>Id: {{id}}</p>
+    <p>Name: {{user.profile.name}}</p>
+    <p>
+      Provider: {{user.profile.provider}}
+      <span first-revenue-service-icon="user.profile.provider"></span>
+      {{user.profile.id}}
+    </p>
+    <p>
+      Service: {{user.profile.service}}
+      <span first-revenue-service-icon="user.profile.service"></span>
+      {{user.profile.serviceId}}
+    </p>
+  </div>
 </div>

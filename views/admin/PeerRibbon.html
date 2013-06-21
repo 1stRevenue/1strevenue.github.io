@@ -1,0 +1,22 @@
+<div ng-controller="RibbonController"
+     class="peer-ribbon"
+     ng-init="ribbon = layout.peer"
+     ng-class="{'wide-ribbon': layout.peer.wide}">
+  <div ng-include src="'views/ribbon/Drag.html'"></div>
+
+  <div ng-repeat="userId in getModelUserIds()"
+       class="ribbon-item"
+       ng-class="{'ribbon-item-current': me.isMyself(userId)}">
+    <img ng-src="{{sync.peers[userId].image}}"
+         class="user-icon"
+         ng-show="sync.peers[userId].image"
+         title="{{sync.peers[userId].name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         class="user-icon"
+         ng-hide="sync.peers[userId].image"
+         title="{{sync.peers[userId].name}}" />
+  </div>
+
+  <div ng-include src="'views/ribbon/QRCode.html'"></div>
+  <div ng-include src="'views/ribbon/Signal.html'"></div>
+</div>

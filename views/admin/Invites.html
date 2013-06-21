@@ -1,0 +1,27 @@
+<div class="admin-invites">
+  <h2>{{_.size(admin.invites)}} invites in the database</h2>
+</div>
+<div ng-repeat="(id, invite) in admin.invites track by id"
+     class="media">
+  <span class="pull-left">
+    <img ng-src="{{invite.image}}"
+         class="user-icon"
+         ng-show="invite.image"
+         title="{{invite.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         class="user-icon"
+         ng-hide="invite.image"
+         title="{{invite.name}}" />
+  </span>
+  <div class="media-body">
+    <p>Id: {{id}}</p>
+    <p>Name: {{invite.name}}</p>
+    <p>
+      Service: {{invite.service}}
+      <span first-revenue-service-icon="invite.service"></span>
+      {{invite.serviceId}}
+    </p>
+    <p>Status: {{invite.status}}</p>
+    <p ng-show="invite.userId">User Id: {{invite.userId}}</p>
+  </div>
+</div>

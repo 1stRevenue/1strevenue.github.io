@@ -1,0 +1,17 @@
+<div class="admin-presence">
+  <h2>{{_.size(admin.models)}} models in the database</h2>
+</div>
+<div ng-repeat="(id, model) in admin.models track by id"
+     class="media">
+  <span class="pull-left">
+    <img ng-src="{{model.fields.icon}}"
+         ng-show="model.fields.icon"
+         title="{{model.fields.name}}" />
+  </span>
+  <div class="media-body">
+    <p>Id: {{id}}</p>
+    <p>Name: {{model.fields.name}}</p>
+    <p>Description: {{model.fields.descr}}</p>
+    <p>elevator pitch: {{model.fields.pitch}}</p>
+  </div>
+</div>

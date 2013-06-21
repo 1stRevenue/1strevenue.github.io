@@ -1,0 +1,30 @@
+<div class="admin-presence">
+  <h2>{{_.size(admin.presence)}} users currently online</h2>
+</div>
+<div ng-repeat="(id, value) in admin.presence track by id"
+     class="media">
+  <span class="pull-left">
+    <img ng-src="{{admin.users[id].profile.image}}"
+         class="user-icon"
+         ng-show="admin.users[id].profile.image"
+         title="{{admin.users[id].profile.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         class="user-icon"
+         ng-hide="admin.users[id].profile.image"
+         title="{{admin.users[id].profile.name}}" />
+  </span>
+  <div class="media-body">
+    <p>Id: {{id}}</p>
+    <p>Name: {{admin.users[id].profile.name}}</p>
+    <p>
+      Provider: {{admin.users[id].profile.provider}}
+      <span first-revenue-service-icon="admin.users[id].profile.provider"></span>
+      {{admin.users[id].profile.id}}
+    </p>
+    <p>
+      Service: {{admin.users[id].profile.service}}
+      <span first-revenue-service-icon="admin.users[id].profile.service"></span>
+      {{admin.users[id].profile.serviceId}}
+    </p>
+  </div>
+</div>

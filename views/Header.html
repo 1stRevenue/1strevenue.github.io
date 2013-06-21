@@ -10,7 +10,8 @@
     <!--div class="connection-status">{{firebase.connStatus}}</div-->
 
 
-    <div class="navbar-inner">
+    <div class="navbar-inner"
+         ng-class="{'admin-mode': me.sync.admin.enabled}">
       <a href="http://1stRevenue.com/"
          target="_blank">
         <img class="company-logo"

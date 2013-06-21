@@ -2,11 +2,23 @@
 
 <div class="first-revenue-admin">
   <div ng-switch="layout.view">
+    <div ng-switch-when="summary"
+         ng-include="'views/admin/Summary.html'">
+    </div>
+    <div ng-switch-when="presence"
+         ng-include="'views/admin/Presence.html'">
+    </div>
     <div ng-switch-when="users"
          ng-include="'views/admin/Users.html'">
     </div>
+    <div ng-switch-when="models"
+         ng-include="'views/admin/Models.html'">
+    </div>
+    <div ng-switch-when="invites"
+         ng-include="'views/admin/Invites.html'">
+    </div>
     <div ng-switch-default>
-      Unknown admin page selected
+      <h1>Unknown admin page selected</h1>
     </div>
   </div>
 </div>
