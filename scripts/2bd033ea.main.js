@@ -556,7 +556,7 @@ FirstRevenueApp.controller('AdminController', [
         });
       },
       openComment: function () {
-        e.model.commentId = e.me.userRef.push().name(), e.canvas.model.comments[e.model.commentId] = {
+        e.model.commentId = e.me.userRef.push().name(), e.canvas.model.comments = e.canvas.model.comments || {}, e.canvas.model.comments[e.model.commentId] = {
           id: e.model.commentId,
           author: e.me.userId,
           updated: Date.now(),
