@@ -36,6 +36,14 @@
       Users
     </span>
   </div>
+  <div ng-click="layout.setView('admins'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('admins')}"
+       class="ribbon-item">
+    <i class="icon-user icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Admins
+    </span>
+  </div>
   <div ng-click="layout.setView('models'); layout.guide.wide = true; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('models')}"
        class="ribbon-item">
