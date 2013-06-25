@@ -28,7 +28,7 @@
         <button id="attach-model-icon"
                 ng-hide="canvas.model.fields.icon"
                 class="btn btn-success"
-                ng-click="attachIcon()">
+                ng-click="fp.attachIcon(canvas.model)">
           Attach icon
         </button>
         <label class="control-label"
@@ -37,14 +37,15 @@
         <button id="replace-model-icon"
                 ng-show="canvas.model.fields.icon"
                 class="btn btn-warning btn-small"
-                ng-click="replaceIcon()">
+                ng-click="fp.replaceIcon(canvas.model)">
           Replace icon
         </button>
         <img ng-src="{{canvas.model.fields.icon}}"
+             ng-show="canvas.model.fields.icon"
              class="new-model-icon" />
         <button ng-show="canvas.model.fields.icon"
                 class="btn btn-danger btn-small"
-                ng-click="removeIcon()">
+                ng-click="fp.removeIcon(canvas.model)">
           Remove icon
         </button>
       </div>

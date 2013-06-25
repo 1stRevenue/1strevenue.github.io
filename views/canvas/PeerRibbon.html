@@ -18,6 +18,7 @@
   <div ng-repeat="userId in getModelUserIds()"
        class="ribbon-item"
        ng-class="{'ribbon-item-current': me.isMyself(userId)}">
+    <span class="online-mark" ng-show="me.isOnline(userId)"></span>
     <img ng-src="{{sync.peers[userId].image}}"
          class="user-icon"
          ng-show="sync.peers[userId].image"

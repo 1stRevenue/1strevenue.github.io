@@ -507,10 +507,11 @@ FirstRevenueApp.controller('AdminController', [
   '$location',
   '$timeout',
   'Social',
-  function (e, t, o, n) {
-    var i = 'ModelController';
-    console.log(i, 'started');
-    var r = {
+  'FilePicker',
+  function (e, t, o, n, i) {
+    var r = 'ModelController';
+    console.log(r, 'started');
+    var s = {
         facebook: 'Facebook',
         linkedin: 'LinkedIn',
         gplus: 'Google+',
@@ -518,8 +519,8 @@ FirstRevenueApp.controller('AdminController', [
       };
     angular.extend(e, {
       social: n,
+      fp: i,
       repoList: [],
-      fpFile: null,
       newModelName: '',
       model: {
         editorTab: 0,
@@ -578,20 +579,20 @@ FirstRevenueApp.controller('AdminController', [
         return t;
       },
       tahSubmit: function () {
-        console.log(i, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), e.tahSelection(e.tah.selectedDatum), e.resetSearch();
+        console.log(r, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), e.tahSelection(e.tah.selectedDatum), e.resetSearch();
       },
       deleteInvite: function (t) {
         delete e.canvas.model.invites[t], delete e.sync.user.invites[t];
       },
       tahSelection: function (t) {
-        if (console.log(i, 'tahSelection data=', t), t) {
+        if (console.log(r, 'tahSelection data=', t), t) {
           var o = angular.copy(t), n = e.me.rootRef.child('invitemap').child(o.service).child(o.serviceId);
           n.once('value', function (t) {
-            var r = t.val();
-            if (r) {
-              var s = e.me.rootRef.child('invites').child(r), a = s.child('models').child(e.canvas.modelId);
+            var i = t.val();
+            if (i) {
+              var s = e.me.rootRef.child('invites').child(i), a = s.child('models').child(e.canvas.modelId);
               a.set(!0, function (t) {
-                t ? console.log(i, 'failed to set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t) : console.log(i, 'successfully set model in invite inviteId=', r, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, r);
+                t ? console.log(r, 'failed to set model in invite inviteId=', i, 'modelId=', e.canvas.modelId, 'err=', t) : console.log(r, 'successfully set model in invite inviteId=', i, 'modelId=', e.canvas.modelId, 'err=', t), e.updateModelInvite(o, i);
               });
             } else
               e.createModelInvite(o, n, o.account);
@@ -599,7 +600,7 @@ FirstRevenueApp.controller('AdminController', [
         }
       },
       createModelInvite: function (t, o) {
-        console.log(i, 'createModelInvite data=', t);
+        console.log(r, 'createModelInvite data=', t);
         var n = {
             creator: e.me.userId,
             service: t.service,
@@ -610,15 +611,15 @@ FirstRevenueApp.controller('AdminController', [
             models: {}
           };
         n.models[e.canvas.modelId] = !0;
-        var r = e.me.rootRef.child('invites'), s = r.push().name();
-        console.log(i, 'createModelInvite inviteId=', s), r.child(s).set(n, function (r) {
-          r ? console.log(i, 'failed to create an invite=', n, 'err=', r) : o.set(s, function () {
+        var i = e.me.rootRef.child('invites'), s = i.push().name();
+        console.log(r, 'createModelInvite inviteId=', s), i.child(s).set(n, function (i) {
+          i ? console.log(r, 'failed to create an invite=', n, 'err=', i) : o.set(s, function () {
             e.updateModelInvite(t, s);
           });
         });
       },
       updateModelInvite: function (t, n) {
-        console.log(i, 'updateModelInvite data=', t), o(function () {
+        console.log(r, 'updateModelInvite data=', t), o(function () {
           e.canvas.model.invites = e.canvas.model.invites || {}, e.canvas.model.invites[n] = !0, e.sync.user.invites = e.sync.user.invites || {}, e.sync.user.invites[n] = !0;
           var o = t.account.contacts.partners = t.account.contacts.partners || {};
           o[t.serviceId] || (o[t.serviceId] = {
@@ -636,7 +637,7 @@ FirstRevenueApp.controller('AdminController', [
         return e;
       },
       'delete': function () {
-        console.log(i, 'model delete remove model ref from user modelId=', e.canvas.modelId), delete e.sync.user.models[e.canvas.modelId], console.log(i, 'model delete set model to null modelId=', e.canvas.modelId), e.sync.models[e.canvas.modelId] = null, console.log(i, 'model delete done models[id]=', e.sync.models[e.canvas.modelId]), e.modal.model = !1, t.path('/repo');
+        console.log(r, 'model delete remove model ref from user modelId=', e.canvas.modelId), delete e.sync.user.models[e.canvas.modelId], console.log(r, 'model delete set model to null modelId=', e.canvas.modelId), e.sync.models[e.canvas.modelId] = null, console.log(r, 'model delete done models[id]=', e.sync.models[e.canvas.modelId]), e.modal.model = !1, t.path('/repo');
       },
       finish: function () {
         e.layout.setView('canvas');
@@ -661,22 +662,6 @@ FirstRevenueApp.controller('AdminController', [
       },
       addUser: function () {
       },
-      attachIcon: function () {
-        this.fpicker();
-      },
-      replaceIcon: function () {
-        this.removeIcon(), this.fpicker();
-      },
-      removeIcon: function () {
-        filepicker.remove(e.fpFile), e.fpFile = null, e.canvas.model.fields.icon = null;
-      },
-      fpicker: function () {
-        return filepicker.setKey(CONFIG_1ST_REVENUE.filepickerKey), filepicker.pickAndStore({ maxSize: 1048576 }, { location: 'S3' }, function (t) {
-          console.log(i, 'filepicker', t), e.fpFile = t, e.canvas.model.fields.icon = t[0].url, e.$apply();
-        }, function (e) {
-          console.log(i, 'filepicker error', '' + e);
-        }), !1;
-      },
       getUserTypeahead: function () {
         var t = [];
         return _.each(e.sync.user.accounts, function (e) {
@@ -695,7 +680,7 @@ FirstRevenueApp.controller('AdminController', [
         }), t;
       },
       header: function (e) {
-        return console.log(i, 'header data=', e), '<div class="tt-header">' + e.name + ' partners (' + e.count + ')</div';
+        return console.log(r, 'header data=', e), '<div class="tt-header">' + e.name + ' partners (' + e.count + ')</div';
       },
       template: function (e) {
         return '<img src="' + (e.image ? e.image : 'images/bbf82395.light_avatar_small.png') + '" />' + '<div class="tt-name">' + e.name + '</div>' + '<div class="tt-user-id">' + e.serviceId + '</div>';
@@ -706,20 +691,20 @@ FirstRevenueApp.controller('AdminController', [
         });
       },
       createDataset: function (t, o, n) {
-        var s = r[n.profile.service] || 'Unknown', a = {
+        var i = s[n.profile.service] || 'Unknown', a = {
             name: n.profile.service + '-' + t,
             count: n.contacts.total,
             template: e.template,
-            header: '<div class="tt-header">' + s + ' ' + t + ' (' + _.size(o) + ')</div>',
+            header: '<div class="tt-header">' + i + ' ' + t + ' (' + _.size(o) + ')</div>',
             local: o
           };
-        return console.log(i, 'createDataset ' + t + ' dataset=', a), a;
+        return console.log(r, 'createDataset ' + t + ' dataset=', a), a;
       },
       buildDatasetItem: function (e) {
         return function (t, o) {
           var n = t.name.split(' ');
           n.push('*');
-          var r = {
+          var i = {
               account: e,
               provider: e.profile.provider,
               service: e.profile.service,
@@ -729,27 +714,27 @@ FirstRevenueApp.controller('AdminController', [
               tokens: n,
               image: t.image
             };
-          return console.log(i, 'buildDatasets partners partnerData=', t, 'key=', o, 'partner=', r), r;
+          return console.log(r, 'buildDatasets partners partnerData=', t, 'key=', o, 'partner=', i), i;
         };
       },
       buildDatasets: function () {
-        console.log(i, 'buildDatasets');
+        console.log(r, 'buildDatasets');
         var t = [];
         _.each(e.sync.user.accounts, function (o) {
-          if (console.log(i, 'buildDatasets account=', o), o.contacts) {
+          if (console.log(r, 'buildDatasets account=', o), o.contacts) {
             if (o.contacts.partners = o.contacts.partners || {}, e.tah.partners[o.profile.service]) {
               var n = _.map(o.contacts.partners, e.buildDatasetItem(o));
               _.size(n) > 0 && t.push(e.createDataset('partners', n, o));
             }
             if (e.social.loaded[o.profile.service] && e.tah.social[o.profile.service]) {
-              var r = _.map(e.social.contacts[o.profile.service], e.buildDatasetItem(o)), s = _.filter(r, function (e) {
+              var i = _.map(e.social.contacts[o.profile.service], e.buildDatasetItem(o)), s = _.filter(i, function (e) {
                   return !o.contacts.partners[e.serviceId];
                 });
               _.size(s) > 0 && t.push(e.createDataset('friends', s, o));
             }
           }
         }), 0 === _.size(t) && t.push(e.emptyDataset), o(function () {
-          console.log(i, 'buildDatasets tah.dataset=', t), e.tah.dataset = t;
+          console.log(r, 'buildDatasets tah.dataset=', t), e.tah.dataset = t;
         });
       },
       loadAccount: function (t) {
@@ -1326,8 +1311,8 @@ FirstRevenueApp.controller('AdminController', [
             return e.$root.draggingActive = !1, e.layout.tooltips = !0, o.opop.removeClass('drag-area'), o.st.removeClass('st-dragged'), o.opop.unbind('mousemove', o.dragged), $(window).unbind('mouseup', o.dropped), (!o.touchHandled || o.touchMoved) && o.savePosition(), !1;
           },
           savePosition: function () {
-            var t = o.st.offset(), n = o.st.width(), i = o.opop.width() - n, r = o.op.height(), s = 0 === i ? 0 : 100 * (t.left - o.opop.offset().left) / i, a = 0 === r ? 0 : 100 * (t.top - o.op.offset().top) / r, l = Math.max(0, Math.min(Math.round(100 * s) / 100, 100)), c = Math.max(0, Math.min(Math.round(100 * a) / 100, 100));
-            console.log('first-revenue-drag xPerc=', l, 'yPerc=', c, 'sticker=', e.sticker), o.st.css({
+            var t = o.st.offset(), n = o.st.width(), i = o.opop.width() - n, r = o.op.height(), s = 0 === i ? 0 : 100 * (t.left - o.op.offset().left) / i, a = 0 === r ? 0 : 100 * (t.top - o.op.offset().top) / r, l = Math.max(0, Math.min(Math.round(100 * s) / 100, 100)), c = Math.max(0, Math.min(Math.round(100 * a) / 100, 100));
+            console.log('first-revenue-drag xPerc=', l, 'yPerc=', c, 'sticker=', e.sticker, 'sto=', t, 'dh.opop.offset()=', o.opop.offset(), 'dh.op.offset()=', o.op.offset()), o.st.css({
               position: 'absolute',
               top: c + '%',
               left: l + '%'
@@ -1781,7 +1766,7 @@ FirstRevenueApp.controller('AdminController', [
           return 'grid' === this.view ? 'pane-grid' : 'list' === this.view ? 'pane-list' : '';
         },
         getAbs: function (e) {
-          return 'free' === n.view && e && e.x && e.y || !1;
+          return 'free' === n.view && e && angular.isNumber(e.x) && angular.isNumber(e.y) || !1;
         },
         getPosition: function (e) {
           return n.getAbs(e) ? 'left: ' + e.x + '%; top: ' + e.y + '%;' : '';
@@ -1812,7 +1797,39 @@ FirstRevenueApp.controller('AdminController', [
         return o = o || t + '.com', '//' + o + '/favicon.ico';
       }
     };
-  }]), FirstRevenueApp.factory('Firebase', [
+  }]), FirstRevenueApp.factory('FilePicker', [
+  '$timeout',
+  function (e) {
+    var t = 'FilePicker', o = {
+        fpFile: null,
+        attachIcon: function (e) {
+          o.fpicker(e);
+        },
+        replaceIcon: function (e) {
+          o.removeIcon(e), o.fpicker(e);
+        },
+        removeIcon: function (n) {
+          filepicker.setKey(CONFIG_1ST_REVENUE.filepickerKey), filepicker.remove(n.fields.icon, function () {
+            console.log(t, 'removeIcon icon removed'), e(function () {
+              o.fpFile = null, n.fields.icon = null;
+            });
+          }, function (e) {
+            console.log(t, 'removeIcon FPError=', e);
+          });
+        },
+        fpicker: function (n) {
+          return filepicker.setKey(CONFIG_1ST_REVENUE.filepickerKey), filepicker.pickAndStore({ maxSize: 1048576 }, { location: 'S3' }, function (i) {
+            console.log(t, 'filepicker', i), e(function () {
+              o.fpFile = i, n.fields.icon = i[0].url;
+            });
+          }, function (e) {
+            console.log(t, 'filepicker error', '' + e);
+          }), !1;
+        }
+      };
+    return o;
+  }
+]), FirstRevenueApp.factory('Firebase', [
   '$rootScope',
   '$timeout',
   '$location',
@@ -3628,7 +3645,7 @@ FirstRevenueApp.controller('AdminController', [
           console.log(a, 'wakeup adminPromise resolved syncAdminReady=', e);
         },
         logoff: function () {
-          console.log(a, 'logoff'), n.logoff(), l.logoff(), c.userRef = null, c.userId = null;
+          console.log(a, 'logoff'), l.logoff(), n.logoff(), c.userRef = null, c.userId = null;
         },
         authError: function (e) {
           console.log(a, 'authError error=', e), c.authenticated = !1, c.authFailed = !0, e && e.code && (c.error = e);
@@ -3654,11 +3671,14 @@ FirstRevenueApp.controller('AdminController', [
         isMyself: function (e) {
           return e === c.userId;
         },
+        isOnline: function (e) {
+          return -1 > c.sync.peerPresence[e];
+        },
         connTracking: function (e, o) {
           var n = e.child('presence').child(o), i = e.child('.info/connected');
           i.on('value', function (e) {
             c.connected = e.val(), c.connected && t(function () {
-              n.set(!0), n.onDisconnect().remove();
+              n.onDisconnect().set(Firebase.ServerValue.TIMESTAMP), n.set(-Date.now());
             }), console.log(a, 'connTracking connRef .info/connected connRef=', i, 'me.connected=', c.connected, 'me.connStatus=', c.connStatus());
           });
         },
@@ -3909,6 +3929,10 @@ FirstRevenueApp.controller('AdminController', [
             s && s.then(function (e) {
               console.log(n, 'processModelUsers resolved peer=', e);
             });
+            var a = 'sync.peerPresence[\'' + t + '\']', l = i.rootRef.child('presence').child(t), c = i.sync.angularFire(l, a, -1);
+            c && c.then(function (e) {
+              console.log(n, 'processModelUsers resolved presence=', e);
+            });
           }
         },
         processModelInvites: function (e) {
@@ -3933,8 +3957,9 @@ FirstRevenueApp.controller('AdminController', [
         masterScope: null,
         user: {},
         models: {},
-        peers: {},
         invites: {},
+        peers: {},
+        peerPresence: {},
         admin: {
           status: !1,
           enabled: !1,
@@ -3949,12 +3974,12 @@ FirstRevenueApp.controller('AdminController', [
         init: function (e) {
           console.log(o, 'init'), n.masterScope = e;
         },
-        angularFire: function (e, i) {
-          console.log(o, 'angularFire name=', i);
-          var r = t(e, n.masterScope, i, {});
-          return r.then(function (e) {
-            console.log(o, 'angularFire callback afReady=', e), e.off && e.name ? n.dereg[i] = e.off : r.off && (n.dereg[i] = r.off);
-          }), r;
+        angularFire: function (e, i, r) {
+          console.log(o, 'angularFire name=', i, r), r = angular.isUndefined(r) ? {} : r;
+          var s = t(e, n.masterScope, i, r);
+          return s.then(function (e) {
+            console.log(o, 'angularFire callback afReady=', e), e.off && e.name ? n.dereg[i] = e.off : s.off && (n.dereg[i] = s.off);
+          }), s;
         },
         reset: function (e) {
           console.log(o, 'reset name=', e);
@@ -3981,13 +4006,13 @@ FirstRevenueApp.controller('AdminController', [
           console.log(o, 'adminDataFailed err=', e);
         },
         logoff: function () {
-          console.log(o, 'logoff'), n.reset('sync.user'), n.reset('sync.admin'), n.reset('sync.public'), n.admin.status && (n.reset('sync.admin.presence'), n.reset('sync.admin.admins'), n.reset('sync.admin.users'), n.reset('sync.admin.models'), n.reset('sync.admin.invites'), n.admin.status = !1, n.admin.enabled = !1, n.admin.presence = {}, n.admin.admins = {}, n.admin.users = {}, n.admin.models = {}, n.admin.invites = {}, n.admin.promises = []), _.each(n.models, function (e, t) {
+          console.log(o, 'logoff'), n.reset('sync.user'), n.reset('sync.public'), n.admin.status && (n.reset('sync.admin.presence'), n.reset('sync.admin.admins'), n.reset('sync.admin.users'), n.reset('sync.admin.models'), n.reset('sync.admin.invites'), n.admin.status = !1, n.admin.enabled = !1, n.admin.presence = {}, n.admin.admins = {}, n.admin.users = {}, n.admin.models = {}, n.admin.invites = {}, n.admin.promises = []), _.each(n.models, function (e, t) {
             n.reset(n.getScopeName(t, 'models'));
           }), _.each(n.invites, function (e, t) {
             n.reset(n.getScopeName(t, 'invites'));
           }), _.each(n.peers, function (e, t) {
             n.reset(n.getScopeName(t, 'peers'));
-          }), n.user = {}, n.models = {}, n.invites = {}, n.peers = {};
+          }), n.user = {}, n.models = {}, n.invites = {}, n.peers = {}, n.peerPresence = {};
         }
       };
     return n;
