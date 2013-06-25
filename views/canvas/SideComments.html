@@ -1,0 +1,74 @@
+<div class="canvas-side-comments"
+     ng-controller="CommentController"
+     ng-show="layout.isView('comment')">
+  <div class="media comment-editor">
+    <span class="pull-left">
+      <img ng-src="{{me.sync.user.profile.image}}"
+           class="user-icon"
+           ng-show="me.sync.user.profile.image"
+           title="{{me.sync.user.profile.name}}" />
+      <img ng-src="images/bbf82395.light_avatar_small.png"
+           class="user-icon"
+           ng-hide="me.sync.user.profile.image"
+           title="{{me.sync.user.profile.name}}" />
+    </span>
+    <div class="media-body">
+      <span class="pull-right">
+        <button class="btn btn-success btn-small"
+                ng-show="comment.id"
+                ng-click="closeComment()">
+          Done
+        </button>
+        <button class="btn btn-primary btn-small"
+                ng-hide="comment.id"
+                ng-click="openComment()">
+          Comment
+        </button>
+      </span>
+
+      <textarea class="comment-input"
+                ng-show="comment.id"
+                ng-model="canvas.model.comments[comment.id].text">
+      </textarea>
+    </div>
+  </div>
+
+  <div class="comment-count">
+    {{_.size(getComments())}} comments
+  </div>
+
+  <div class="comment-list">
+    <div ng-repeat="c in getComments()"
+         class="media">
+      <span class="pull-left">
+        <img ng-src="{{sync.peers[c.author].image}}"
+             class="user-icon"
+             ng-show="sync.peers[c.author].image"
+             title="{{sync.peers[c.author].name}}" />
+        <img ng-src="images/bbf82395.light_avatar_small.png"
+             class="user-icon"
+             ng-hide="sync.peers[c.author].image"
+             title="{{sync.peers[c.author].name}}" />
+      </span>
+      <div class="media-body"
+           ng-class="{'comment-editing': c.id == comment.id}">
+        <button class="btn btn-small pull-right"
+                ng-show="c.author == me.userId && c.id != comment.id"
+                ng-click="modifyComment(c)">
+          Modify
+        </button>
+        <div class="media-heading">
+          <span first-revenue-service-icon="sync.peers[c.author].service"></span>
+          <small>{{sync.peers[c.author].name}}</small>
+        </div>
+        <div class="comment-text">{{c.text}}</div>
+        <div>
+          <small ng-show="c.updated != c.created" class="pull-right">
+            Updated: {{getCommentLatency(c.updated)}}
+          </small>
+          <small>{{getCommentLatency(c.created)}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

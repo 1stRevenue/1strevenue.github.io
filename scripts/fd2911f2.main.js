@@ -171,6 +171,49 @@ FirstRevenueApp.controller('AdminController', [
       }
     }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.layout.qrCode = !1, e.canvas.modelId = a, e.canvas.model = e.me.sync.models[a] || null, e.canvas.model && (e.menu.title = e.canvas.model.fields ? e.canvas.model.fields.name : null, console.log(s, 'menu.title=', e.menu.title, 'canvas.model.fields=', e.canvas.model.fields), a !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', a), e.canvas.lastModelId = a)));
   }
+]), FirstRevenueApp.controller('CommentController', [
+  '$scope',
+  function (e) {
+    var t = 'CommentController';
+    console.log(t, 'started'), angular.extend(e, {
+      comment: {
+        id: null,
+        sort: '-updated'
+      },
+      getComments: function () {
+        return _.sortBy(e.canvas.model.comments, function (e) {
+          return -e.updated;
+        });
+      },
+      openComment: function () {
+        e.comment.id = e.me.userRef.push().name(), e.canvas.model.comments = e.canvas.model.comments || {}, e.canvas.model.comments[e.comment.id] = {
+          id: e.comment.id,
+          author: e.me.userId,
+          updated: Date.now(),
+          text: ''
+        };
+      },
+      closeComment: function () {
+        var t = e.canvas.model.comments[e.comment.id];
+        t.updated = Date.now(), t.created || (t.created = t.updated), e.comment.id = null;
+      },
+      modifyComment: function (t) {
+        e.comment.id = t.id;
+      },
+      getDateUpdated: function (t) {
+        return t.updated ? e.getLatency(new Date(t.updated), Date.now()) : null;
+      },
+      getDateCreated: function (t) {
+        return t.created ? e.getLatency(new Date(t.created), Date.now()) : null;
+      },
+      getCommentLatency: function (t) {
+        return t ? e.getLatency(new Date(t), Date.now()) : null;
+      },
+      getRefreshLatency: function (t) {
+        return e.timeStamp = Date.now(), t ? e.getLatency(t, e.timeStamp) : '';
+      }
+    });
+  }
 ]), FirstRevenueApp.controller('ContactController', [
   '$scope',
   '$timeout',
@@ -1934,7 +1977,7 @@ FirstRevenueApp.controller('AdminController', [
           });
         },
         openSession: function (t, o, n) {
-          console.log(a, 'openSession userId=', t, 'fbUser=', o), i.wakeup(l.rootRef, t, n), console.log(a, 'openSession resolving launch promise'), e.deferredLaunch.resolve(), analytics.identify(t, {
+          console.log(a, 'openSession userId=', t, 'fbUser=', o, 'modelId=', n), i.wakeup(l.rootRef, t, n), console.log(a, 'openSession resolving launch promise'), e.deferredLaunch.resolve(), analytics.identify(t, {
             id: o.id,
             provider: o.provider,
             name: o.name
@@ -2130,7 +2173,17 @@ FirstRevenueApp.controller('AdminController', [
   'FullScreen',
   'Menu',
   function (e, t, o, n, i) {
-    var r = {
+    var r = [
+        'canvas',
+        'zoom',
+        'comment',
+        'stream',
+        'list'
+      ], s = [
+        'comment',
+        'stream',
+        'list'
+      ], a = {
         title: '',
         colorValue: 100,
         view: '',
@@ -2151,12 +2204,18 @@ FirstRevenueApp.controller('AdminController', [
         isView: function (e) {
           return this.view === e;
         },
+        showCanvas: function () {
+          return _.contains(_.union(r, s), a.view);
+        },
+        showSideView: function () {
+          return _.contains(s, a.view);
+        },
         reset: function () {
-          t.reset(), o.reset(), r.view = '', r.guide.wide = !0, r.peer.wide = !1;
+          t.reset(), o.reset(), a.view = '', a.guide.wide = !0, a.peer.wide = !1;
         },
         getLayoutClasses: function () {
-          var e = [o.getZoomClass(r.isView('canvas') ? 0 : null)];
-          return r.editor.sticker && e.push('edit-sticker'), e;
+          var e = [o.getZoomClass(a.isView('canvas') ? 0 : null)];
+          return a.editor.sticker && e.push('edit-sticker'), e;
         },
         isFullScreen: function () {
           return e.navigator.standalone;
@@ -2165,7 +2224,7 @@ FirstRevenueApp.controller('AdminController', [
           return 'canvas' === i.selected;
         }
       };
-    return r;
+    return a;
   }
 ]), FirstRevenueApp.factory('MasterScope', [function () {
     return {
