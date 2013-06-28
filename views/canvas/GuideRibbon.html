@@ -68,6 +68,15 @@
     </span>
   </div>
 
+  <div ng-click="layout.setView('list'); layout.guide.wide = false; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('list')}"
+       class="ribbon-item ribbon-item-blue">
+    <i class="icon-list icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Sticker list
+    </span>
+  </div>
+
   <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
 </div>

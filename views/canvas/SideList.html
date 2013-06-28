@@ -1,102 +1,29 @@
 <div class="canvas-side-list"
+     ng-controller="StickerListController"
      ng-show="layout.isView('list')">
-  <div class="media comment-editor">
-    <span class="pull-left">
-      <img ng-src="{{me.sync.user.profile.image}}"
-           class="user-icon"
-           ng-show="me.sync.user.profile.image"
-           title="{{me.sync.user.profile.name}}" />
-      <img ng-src="images/bbf82395.light_avatar_small.png"
-           class="user-icon"
-           ng-hide="me.sync.user.profile.image"
-           title="{{me.sync.user.profile.name}}" />
-    </span>
-    <div class="media-body">
-      <span class="pull-right">
-        <button class="btn btn-success btn-small"
-                ng-show="model.commentId"
-                ng-click="closeComment()">
-          Done
-        </button>
-        <button class="btn btn-primary btn-small"
-                ng-hide="model.commentId"
-                ng-click="openComment()">
-          Comment
-        </button>
-      </span>
-
-      <textarea class="comment-input"
-                ng-show="model.commentId"
-                ng-model="canvas.model.comments[model.commentId].text">
-      </textarea>
-    </div>
-  </div>
-   <!--div ng-repeat="comment in canvas.model.comments | orderBy:'updated':'true'"
-       class="row-fluid">
-    <div class="span1">
-      <img ng-src="{{sync.peers[comment.author].image}}"
-           class="user-icon"
-           ng-show="sync.peers[comment.author].image"
-           title="{{sync.peers[comment.author].name}}" />
-      <img ng-src="images/bbf82395.light_avatar_small.png"
-           class="user-icon"
-           ng-hide="sync.peers[comment.author].image"
-           title="{{sync.peers[comment.author].name}}" />
-    </div>
-    <div class="span11">
-      <div>
-        <button class="btn btn-small pull-right"
-                ng-show="comment.author == me.userId"
-                mg-click="modifyComment(comment)">
-          Modify
-        </button>
-        <span first-revenue-service-icon="sync.peers[comment.author].service"></span>
-        <small>{{sync.peers[comment.author].name}}</small>
-        <small>{{comment.created}}</small>
-        <small mg-show="comment.updated != comment.created">
-          Updated: {{comment.updated}}
-        </small>
-      </div>
-      <div>
-        {{comment.text}}
-      </div>
-    </div>
-  </div-->
-  <!--div ng-repeat="comment in canvas.model.comments | orderBy:'-id'"   -->
-
-  <div class="comment-count">
-    {{_.size(getComments())}} comments
+  <div class="sticker-count">
+    {{_.size(sync.models[canvas.modelId].stickers)}} stickers
   </div>
 
-  <div class="comment-list">
-    <div ng-repeat="comment in getComments()"
+  <div class="sticker-list"
+       ng-repeat="(blockId, block) in getBlocks()">
+    <div class="pane-name">
+      <div class="app-icon-24 icon-{{block.iconId}}"></div>
+      {{block.name}}
+    </div>
+    <div ng-repeat="(stickerId, sticker) in getStickers(blockId)"
          class="media">
-      <span class="pull-left">
-        <img ng-src="{{sync.peers[comment.author].image}}"
-             class="user-icon"
-             ng-show="sync.peers[comment.author].image"
-             title="{{sync.peers[comment.author].name}}" />
-        <img ng-src="images/bbf82395.light_avatar_small.png"
-             class="user-icon"
-             ng-hide="sync.peers[comment.author].image"
-             title="{{sync.peers[comment.author].name}}" />
+      <span class="pull-left sticker-block"
+            style="background-color: #{{rainbow.brighten(sticker.color)}}">
+        {{sticker.block}}
       </span>
-      <div class="media-body"
-           ng-class="{'comment-editing': comment.id == model.commentId}">
+      <div class="media-body">
         <button class="btn btn-small pull-right"
-                ng-show="comment.author == me.userId && comment.id != model.commentId"
-                ng-click="modifyComment(comment)">
+                ng-click="modifySticker(sticker)">
           Modify
         </button>
-        <p class="media-heading">
-          <span first-revenue-service-icon="sync.peers[comment.author].service"></span>
-          <small>{{sync.peers[comment.author].name}}</small>
-          <small>{{getCommentLatency(comment.created)}}</small>
-          <small ng-show="comment.updated != comment.created">
-            Updated: {{getCommentLatency(comment.updated)}}
-          </small>
-        </p>
-        <p class="comment-text">{{comment.text}}</p>
+        <h4 class="media-header">{{sticker.title}}</h4>
+        <div><small>{{sticker.notes}}</small></div>
       </div>
     </div>
   </div>

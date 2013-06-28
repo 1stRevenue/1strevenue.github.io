@@ -13,6 +13,16 @@
       Manage contacts
     </span>
   </div>
+
+  <div ng-click="layout.setView('projects')"
+       ng-class="{'ribbon-item-current': layout.isView('projects')}"
+       class="ribbon-item">
+    <i class="icon-briefcase icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Projects
+    </span>
+  </div>
+
   <div zzz-ng-click="modal.model=true; modal.newModel=true"
        ng-click="layout.lastRepoView = layout.view; layout.setView('new')"
        ng-class="{'ribbon-item-current': layout.isView('new')}"

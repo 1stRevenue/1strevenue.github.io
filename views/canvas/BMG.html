@@ -1,0 +1,19 @@
+<div class="block-purpose">
+  <div ng-repeat="q in purpose.q"
+       class="purpose-question">
+    {{ q }}
+  </div>
+  <div ng-repeat="c in purpose.c"
+       class="purpose-comment">
+    <div class="purpose-title">{{ c.t }}</div>
+    <div ng-repeat="l in c.l">
+      <div class="purpose-line">{{ l }}</div>
+    </div>
+    <div ng-repeat="p in c.p">
+      <div class="purpose-point">
+        <span class="purpose-point-title">{{ p.n }}. {{ p.t }}: </span>
+        <span class="purpose-point-question">{{ p.q }}</span>
+      </div>
+    </div>
+  </div>
+</div>
