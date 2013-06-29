@@ -828,9 +828,247 @@ FirstRevenueApp.controller('AdminController', [
   }
 ]), FirstRevenueApp.controller('ProjectListController', [
   '$scope',
-  function (e) {
-    var t = 'ProjectListController';
-    console.log(t, 'invoked'), angular.extend(e, {}), e.menu.setTitle('Projects');
+  'Renderer',
+  function (e, t) {
+    var o = 'ProjectListController', n = {
+        branch: '#b2b19d',
+        code: 'orange',
+        doc: '#922E00',
+        demo: '#a7af00'
+      };
+    console.log(o, 'invoked'), angular.extend(e, {
+      getProjectDemoData: function () {
+        return e.demoData;
+      },
+      getProjectData: function () {
+        var t = {
+            nodes: {},
+            edges: {}
+          }, o = e.sync.user.profile.name;
+        return t.nodes[o] = {
+          color: 'blue',
+          shape: 'dot',
+          alpha: 1
+        }, t.edges[o] = {}, _.each(e.sync.user.models, function (n, r) {
+          var i = e.sync.models[r];
+          t.nodes[i.fields.name] = {
+            color: 'red',
+            alpha: 1
+          }, t.edges[o][i.fields.name] = { length: 1 }, t.edges[i.fields.name] = {}, _.each(i.stickers, function (e) {
+            t.nodes[e.title] = {
+              color: e.color,
+              shape: 'square',
+              alpha: 1
+            }, t.edges[i.fields.name][e.title] = {};
+          });
+        }), t;
+      },
+      demoData: {
+        nodes: {
+          '1R Model': {
+            color: 'red',
+            shape: 'dot',
+            alpha: 1
+          },
+          MetaData: {
+            color: n.branch,
+            shape: 'dot',
+            alpha: 1
+          },
+          Pitch: {
+            color: n.demo,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12589021'
+          },
+          Web: {
+            color: n.demo,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12589147'
+          },
+          Description: {
+            color: n.demo,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12589125'
+          },
+          Team: {
+            color: n.branch,
+            shape: 'dot',
+            alpha: 1
+          },
+          Terje: {
+            color: n.doc,
+            alpha: 1,
+            link: 'https://podio.com/users/573093'
+          },
+          Edmundas: {
+            color: n.doc,
+            alpha: 1,
+            link: 'https://podio.com/users/639605'
+          },
+          MarketTrends: {
+            color: n.branch,
+            shape: 'dot',
+            alpha: 1
+          },
+          'Focus on Business Model Generation': {
+            color: n.doc,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12827502'
+          },
+          Article2: {
+            color: n.doc,
+            alpha: 1,
+            link: 'https://podio.com/users/639605'
+          },
+          Competitors: {
+            color: n.branch,
+            shape: 'dot',
+            alpha: 1
+          },
+          LeanLaunchLab: {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11364419'
+          },
+          'Business Model Toolbox (iPad app)': {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11364415'
+          },
+          Strategyzr: {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11364417'
+          },
+          CustSegm: {
+            color: n.branch,
+            shape: 'dot',
+            alpha: 1
+          },
+          Users: {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          Mentors: {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          Incubators: {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          Forskningsparken: {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11365132'
+          },
+          'Kjeller Innovasjon': {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11365125'
+          },
+          'BTO (Bergen Technology Transfer Office)': {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11365051'
+          },
+          SegmChan: {
+            color: n.branch,
+            shape: 'dot',
+            alpha: 1
+          },
+          'Social media': {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          'Traditional sales': {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          Twitter: {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          Facebook: {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          'Sales meetings': {
+            color: n.code,
+            shape: 'dot',
+            alpha: 1
+          },
+          'Educational institutions': {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/6163425'
+          },
+          'BMG Consulting companies': {
+            color: n.code,
+            alpha: 1,
+            link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/6163083'
+          }
+        },
+        edges: {
+          '1R Model': {
+            MetaData: { length: 0.8 },
+            Team: { length: 0.8 },
+            MarketTrends: { length: 0.8 },
+            Competitors: { length: 0.8 },
+            SegmChan: { length: 0.8 },
+            CustSegm: { length: 0.8 }
+          },
+          MetaData: {
+            Pitch: {},
+            Web: {},
+            Description: {}
+          },
+          Team: {
+            Terje: {},
+            Edmundas: {}
+          },
+          MarketTrends: {
+            'Focus on Business Model Generation': {},
+            Article2: {}
+          },
+          Competitors: {
+            'Business Model Toolbox (iPad app)': {},
+            Strategyzr: {},
+            LeanLaunchLab: {}
+          },
+          CustSegm: {
+            Users: {},
+            Mentors: {},
+            Incubators: {}
+          },
+          SegmChan: {
+            'Social media': {},
+            'Traditional sales': {}
+          },
+          'Social media': {
+            Twitter: {},
+            Facebook: {}
+          },
+          'Traditional sales': { 'Sales meetings': {} },
+          'Sales meetings': {
+            'Educational institutions': {},
+            'BMG Consulting companies': {}
+          },
+          Incubators: {
+            Forskningsparken: {},
+            'Kjeller Innovasjon': {},
+            'BTO (Bergen Technology Transfer Office)': {}
+          }
+        }
+      }
+    }), e.menu.setTitle('Projects'), t.render('#project-map', e.getProjectData());
   }
 ]), FirstRevenueApp.controller('RegisterController', [
   '$scope',
@@ -1946,43 +2184,6 @@ FirstRevenueApp.controller('AdminController', [
             }));
           }), s;
         },
-        saveSticker: function (e) {
-          var t = l.getStickerPath(e);
-          console.log(a, 'saveSticker stPath=', t, 'st=', e);
-          var o = l.rootRef.child(t);
-          e.notes = e.notes || '';
-          var n = {
-              title: e.title,
-              notes: e.notes,
-              color: e.color.name
-            };
-          e.position && (e.position.x && (n.x = e.position.x), e.position.y && (n.y = e.position.y)), o.update(n, function (o, r) {
-            console.log(a, 'saveSticker sticker saved stPath=', t, 'stUpdate=', n, 'st=', e, 'error=', o, 'dummy=', r), e.saved = !o, l.log({
-              op: 'saveSticker',
-              path: t,
-              sticker: n
-            });
-          });
-        },
-        createSticker: function (e) {
-          var t = l.getModelPath(e);
-          console.log(a, 'createSticker modelPath=', t, 'st=', e);
-          var o = l.rootRef.child(t + '/stickers'), n = o.push();
-          e.notes = e.notes || '';
-          var r = {
-              title: e.title,
-              notes: e.notes,
-              block: e.block,
-              color: e.color.name
-            };
-          e.position && (e.position.x && (r.x = e.position.x), e.position.y && (r.y = e.position.y)), console.log(a, 'createSticker sticker before set modelPath=', t, 'stUpdate=', r), n.set(r, function (o, i) {
-            console.log(a, 'createSticker sticker created modelPath=', t, 'stUpdate=', r, 'st=', e, 'error=', o, 'dummy=', i), e.saved = !o, l.log({
-              op: 'saveSticker',
-              path: t + '/stickers/' + n.name(),
-              sticker: r
-            });
-          });
-        },
         getStickerPath: function (e) {
           return '/models/' + e.modelId + '/stickers/' + e.id;
         },
@@ -2761,7 +2962,142 @@ FirstRevenueApp.controller('AdminController', [
       };
     return r;
   }
-]), FirstRevenueApp.factory('StickerEditor', [
+]), FirstRevenueApp.factory('Renderer', [function () {
+    var e = 'Renderer', t = [
+        '1R Model',
+        'Competitors',
+        'CustSegm',
+        'Team',
+        'MarketTrends',
+        'MetaData',
+        'Incubators',
+        'SegmChan'
+      ], o = {
+        render: function (e, t) {
+          var n = arbor.ParticleSystem();
+          n.parameters({
+            stiffness: 900,
+            repulsion: 2000,
+            gravity: !0,
+            dt: 0.015
+          }), n.renderer = o.create(e), n.graft(t);
+        },
+        create: function (o) {
+          var n = $(o), r = n.get(0), i = r.getContext('2d'), s = arbor.Graphics(r), a = null, l = null, c = null, u = null, d = null, p = {
+              init: function (t) {
+                console.log(e, 'init pSystem=', t), a = t, a.screen({
+                  size: {
+                    width: n.width(),
+                    height: n.height()
+                  },
+                  padding: [
+                    36,
+                    60,
+                    36,
+                    60
+                  ]
+                }), $(window).resize(p.resize), p.resize(), p._initMouseHandling();
+              },
+              resize: function () {
+                console.log(e, 'resize'), r.width = $(window).width() - 250, r.height = $(window).height() - 150, console.log(e, 'resize width=', r.width, 'height=', r.height), a.screen({
+                  size: {
+                    width: r.width,
+                    height: r.height
+                  }
+                }), l = null, p.redraw();
+              },
+              redraw: function () {
+                s.clear(), a.eachEdge(function (e, t, o) {
+                  0 !== e.source.data.alpha * e.target.data.alpha && s.line(t, o, {
+                    stroke: '#b2b19d',
+                    width: 2,
+                    alpha: e.target.data.alpha
+                  });
+                }), a.eachNode(function (e, t) {
+                  var o = Math.max(20, 20 + s.textWidth(e.name));
+                  0 !== e.data.alpha && ('dot' === e.data.shape && (s.oval(t.x - o / 2, t.y - o / 2, o, o, {
+                    fill: e.data.color,
+                    alpha: e.data.alpha
+                  }), p._drawName(e, t, 7), p._drawName(e, t, 7)), 'square' === e.data.shape ? (s.rect(t.x - o / 2, t.y - o / 2, o, o, 4, {
+                    fill: e.data.color,
+                    alpha: e.data.alpha
+                  }), p._drawName(e, t, 9, 'black'), p._drawName(e, t, 9, 'black')) : (s.rect(t.x - o / 2, t.y - 8, o, 20, 4, {
+                    fill: e.data.color,
+                    alpha: e.data.alpha
+                  }), p._drawName(e, t, 9), p._drawName(e, t, 9)));
+                }), p._drawVignette();
+              },
+              _drawName: function (e, t, o, n) {
+                s.text(e.name, t.x, t.y + o, {
+                  color: n ? n : 'white',
+                  align: 'center',
+                  font: 'Arial',
+                  size: 12
+                });
+              },
+              _drawVignette: function () {
+                var e = r.width, t = r.height, o = 20;
+                if (!l) {
+                  var n = i.createLinearGradient(0, 0, 0, o);
+                  n.addColorStop(0, '#e0e0e0'), n.addColorStop(0.7, 'rgba(255,255,255,0)');
+                  var s = i.createLinearGradient(0, t - o, 0, t);
+                  s.addColorStop(0, 'rgba(255,255,255,0)'), s.addColorStop(1, 'white'), l = {
+                    top: n,
+                    bot: s
+                  };
+                }
+                i.fillStyle = l.top, i.fillRect(0, 0, e, o), i.fillStyle = l.bot, i.fillRect(0, t - o, e, o);
+              },
+              switchSection: function (e) {
+                var t = a.getEdgesFrom(e)[0].source, o = $.map(a.getEdgesFrom(e), function (e) {
+                    return e.target;
+                  });
+                a.eachNode(function (e) {
+                  var n = $.inArray(e, o) >= 0, r = n ? 1 : 0;
+                  1 === r && (e.p.x = t.p.x + 0.05 * Math.random() - 0.025, e.p.y = t.p.y + 0.05 * Math.random() - 0.025, e.tempMass = 0.001);
+                });
+              },
+              _initMouseHandling: function () {
+                c = null, u = null;
+                var o = null, i = null, s = {
+                    moved: function (e) {
+                      var o = $(r).offset();
+                      return d = arbor.Point(e.pageX - o.left, e.pageY - o.top), u = a.nearest(d), u && u.node ? ('dot' !== u.node.data.shape ? (c = 50 > u.distance ? u : null, c ? (n.addClass('linkable'), window.status = c.node.data.link.replace(/^\//, 'http://' + window.location.host + '/').replace(/^#/, '')) : (n.removeClass('linkable'), window.status = '')) : $.inArray(u.node.name, t) >= 0 && (u.node.name !== i && (i = u.node.name, p.switchSection(i)), n.removeClass('linkable'), window.status = ''), !1) : !1;
+                    },
+                    clicked: function (t) {
+                      console.log(e, 'clicked sys=', a, 'e=', t);
+                      var n = $(r).offset();
+                      if (d = arbor.Point(t.pageX - n.left, t.pageY - n.top), u = o = a.nearest(d), u && c && u.node === c.node) {
+                        var i = c.node.data.link;
+                        return i.match(/^#/) ? $(p).trigger({
+                          type: 'navigate',
+                          path: i.substr(1)
+                        }) : window.location = i, !1;
+                      }
+                      return o && null !== o.node && (o.node.fixed = !0), $(r).unbind('mousemove', s.moved), $(r).bind('mousemove', s.dragged), $(window).bind('mouseup', s.dropped), !1;
+                    },
+                    dragged: function (e) {
+                      var t = $(r).offset(), n = arbor.Point(e.pageX - t.left, e.pageY - t.top);
+                      if (u) {
+                        if (null !== o && null !== o.node) {
+                          var i = a.fromScreen(n);
+                          o.node.p = i;
+                        }
+                        return !1;
+                      }
+                    },
+                    dropped: function () {
+                      return null !== o && void 0 !== o.node ? (null !== o.node && (o.node.fixed = !1), o.node.tempMass = 1000, o = null, $(r).unbind('mousemove', s.dragged), $(window).unbind('mouseup', s.dropped), $(r).bind('mousemove', s.moved), d = null, !1) : void 0;
+                    }
+                  };
+                $(r).mousedown(s.clicked), $(r).mousemove(s.moved);
+              }
+            };
+          return p;
+        }
+      };
+    return o;
+  }]), FirstRevenueApp.factory('StickerEditor', [
   '$window',
   '$log',
   'Layout',

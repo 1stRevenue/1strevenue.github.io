@@ -9,7 +9,7 @@ var Opentip, firstAdapter, i, mouseMoved, mousePosition, mousePositionObservers,
   }, __hasProp = {}.hasOwnProperty;
 for (Opentip = function () {
     function e(t, n, o, i) {
-      var r, s, a, l, c, u, d, h, p, g, f, m, v, y, w = this;
+      var r, s, a, l, c, u, d, h, p, g, f, m, v, y, b = this;
       if (this.id = ++e.lastId, this.debug('Creating Opentip.'), e.tips.push(this), this.adapter = e.adapter, r = this.adapter.data(t, 'opentips') || [], r.push(this), this.adapter.data(t, 'opentips', r), this.triggerElement = this.adapter.wrap(t), this.triggerElement.length > 1)
         throw Error('You can\'t call Opentip on multiple elements.');
       if (1 > this.triggerElement.length)
@@ -55,11 +55,11 @@ for (Opentip = function () {
         ], h = 0, g = v.length; g > h; h++)
         a = v[h], this.bound[a] = function (e) {
           return function () {
-            return w[e].apply(w, arguments);
+            return b[e].apply(b, arguments);
           };
         }(a);
       this.adapter.domReady(function () {
-        return w.activate(), 'creation' === w.options.showOn ? w.prepareToShow() : void 0;
+        return b.activate(), 'creation' === b.options.showOn ? b.prepareToShow() : void 0;
       });
     }
     return e.prototype.STICKS_OUT_TOP = 1, e.prototype.STICKS_OUT_BOTTOM = 2, e.prototype.STICKS_OUT_LEFT = 1, e.prototype.STICKS_OUT_RIGHT = 2, e.prototype['class'] = {
@@ -250,7 +250,7 @@ for (Opentip = function () {
         !1
       ], 0 > t[0] ? o[0] = this.STICKS_OUT_LEFT : t[0] + this.dimensions.width > i.width && (o[0] = this.STICKS_OUT_RIGHT), 0 > t[1] ? o[1] = this.STICKS_OUT_TOP : t[1] + this.dimensions.height > i.height && (o[1] = this.STICKS_OUT_BOTTOM), o;
     }, e.prototype._draw = function () {
-      var t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, m, v, y, w, b = this;
+      var t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, m, v, y, b, w = this;
       if (this.backgroundCanvas && this.redraw) {
         if (this.debug('Drawing background.'), this.redraw = !1, this.currentStem) {
           for (v = [
@@ -282,43 +282,43 @@ for (Opentip = function () {
           right: 0,
           top: 0,
           bottom: 0
-        }, this.currentStem && (this.currentStem.left ? n.left = this.options.stemLength : this.currentStem.right && (n.right = this.options.stemLength), this.currentStem.top ? n.top = this.options.stemLength : this.currentStem.bottom && (n.bottom = this.options.stemLength)), r && (r.left ? n.left = Math.max(n.left, a[0]) : r.right && (n.right = Math.max(n.right, a[0])), r.top ? n.top = Math.max(n.top, a[1]) : r.bottom && (n.bottom = Math.max(n.bottom, a[1]))), o.width += n.left + n.right, o.height += n.top + n.bottom, i[0] -= n.left, i[1] -= n.top, this.currentStem && this.options.borderWidth && (w = this._getPathStemMeasures(this.options.stemBase, this.options.stemLength, this.options.borderWidth), g = w.stemLength, p = w.stemBase), t = this.adapter.unwrap(this.backgroundCanvas), t.width = o.width, t.height = o.height, this.adapter.css(this.backgroundCanvas, {
+        }, this.currentStem && (this.currentStem.left ? n.left = this.options.stemLength : this.currentStem.right && (n.right = this.options.stemLength), this.currentStem.top ? n.top = this.options.stemLength : this.currentStem.bottom && (n.bottom = this.options.stemLength)), r && (r.left ? n.left = Math.max(n.left, a[0]) : r.right && (n.right = Math.max(n.right, a[0])), r.top ? n.top = Math.max(n.top, a[1]) : r.bottom && (n.bottom = Math.max(n.bottom, a[1]))), o.width += n.left + n.right, o.height += n.top + n.bottom, i[0] -= n.left, i[1] -= n.top, this.currentStem && this.options.borderWidth && (b = this._getPathStemMeasures(this.options.stemBase, this.options.stemLength, this.options.borderWidth), g = b.stemLength, p = b.stemBase), t = this.adapter.unwrap(this.backgroundCanvas), t.width = o.width, t.height = o.height, this.adapter.css(this.backgroundCanvas, {
           width: '' + t.width + 'px',
           height: '' + t.height + 'px',
           left: '' + i[0] + 'px',
           top: '' + i[1] + 'px'
         }), l = t.getContext('2d'), l.setTransform(1, 0, 0, 1, 0, 0), l.clearRect(0, 0, t.width, t.height), l.beginPath(), l.fillStyle = this._getColor(l, this.dimensions, this.options.background, this.options.backgroundGradientHorizontal), l.lineJoin = 'miter', l.miterLimit = 500, d = this.options.borderWidth / 2, this.options.borderWidth ? (l.strokeStyle = this.options.borderColor, l.lineWidth = this.options.borderWidth) : (g = this.options.stemLength, p = this.options.stemBase), null == p && (p = 0), u = function (e, t, n) {
-          return n && l.moveTo(Math.max(p, b.options.borderRadius, s[0]) + 1 - d, -d), t ? (l.lineTo(e / 2 - p / 2, -d), l.lineTo(e / 2, -g - d), l.lineTo(e / 2 + p / 2, -d)) : void 0;
+          return n && l.moveTo(Math.max(p, w.options.borderRadius, s[0]) + 1 - d, -d), t ? (l.lineTo(e / 2 - p / 2, -d), l.lineTo(e / 2, -g - d), l.lineTo(e / 2 + p / 2, -d)) : void 0;
         }, c = function (e, t, n) {
           var o, i, r, a;
-          return e ? (l.lineTo(-p + d, 0 - d), l.lineTo(g + d, -g - d), l.lineTo(d, p - d)) : t ? (a = b.options.closeButtonOffset, r = s[0], 0 !== n % 2 && (a = [
+          return e ? (l.lineTo(-p + d, 0 - d), l.lineTo(g + d, -g - d), l.lineTo(d, p - d)) : t ? (a = w.options.closeButtonOffset, r = s[0], 0 !== n % 2 && (a = [
             a[1],
             a[0]
-          ], r = s[1]), o = Math.acos(a[1] / b.options.closeButtonRadius), i = Math.acos(a[0] / b.options.closeButtonRadius), l.lineTo(-r + d, -d), l.arc(d - a[0], -d + a[1], b.options.closeButtonRadius, -(Math.PI / 2 + o), i, !1)) : (l.lineTo(-b.options.borderRadius + d, -d), l.quadraticCurveTo(d, -d, d, b.options.borderRadius - d));
+          ], r = s[1]), o = Math.acos(a[1] / w.options.closeButtonRadius), i = Math.acos(a[0] / w.options.closeButtonRadius), l.lineTo(-r + d, -d), l.arc(d - a[0], -d + a[1], w.options.closeButtonRadius, -(Math.PI / 2 + o), i, !1)) : (l.lineTo(-w.options.borderRadius + d, -d), l.quadraticCurveTo(d, -d, d, w.options.borderRadius - d));
         }, l.translate(-i[0], -i[1]), l.save(), function () {
           var t, n, o, i, s, a, d, h, p, g, f;
           for (f = [], n = p = 0, g = e.positions.length / 2; g >= 0 ? g > p : p > g; n = g >= 0 ? ++p : --p)
-            s = 2 * n, a = 0 === n || 3 === n ? 0 : b.dimensions.width, d = 2 > n ? 0 : b.dimensions.height, h = Math.PI / 2 * n, o = 0 === n % 2 ? b.dimensions.width : b.dimensions.height, i = new e.Joint(e.positions[s]), t = new e.Joint(e.positions[s + 1]), l.save(), l.translate(a, d), l.rotate(h), u(o, i.eql(b.currentStem), 0 === n), l.translate(o, 0), c(t.eql(b.currentStem), t.eql(r), n), f.push(l.restore());
+            s = 2 * n, a = 0 === n || 3 === n ? 0 : w.dimensions.width, d = 2 > n ? 0 : w.dimensions.height, h = Math.PI / 2 * n, o = 0 === n % 2 ? w.dimensions.width : w.dimensions.height, i = new e.Joint(e.positions[s]), t = new e.Joint(e.positions[s + 1]), l.save(), l.translate(a, d), l.rotate(h), u(o, i.eql(w.currentStem), 0 === n), l.translate(o, 0), c(t.eql(w.currentStem), t.eql(r), n), f.push(l.restore());
           return f;
         }(), l.closePath(), l.save(), this.options.shadow && (l.shadowColor = this.options.shadowColor, l.shadowBlur = this.options.shadowBlur, l.shadowOffsetX = this.options.shadowOffset[0], l.shadowOffsetY = this.options.shadowOffset[1]), l.fill(), l.restore(), this.options.borderWidth && l.stroke(), l.restore(), r ? function () {
           var e, t, n, o, i;
-          return n = t = 2 * b.options.closeButtonRadius, 'top right' == r + '' ? (i = [
-            b.dimensions.width - b.options.closeButtonOffset[0],
-            b.options.closeButtonOffset[1]
+          return n = t = 2 * w.options.closeButtonRadius, 'top right' == r + '' ? (i = [
+            w.dimensions.width - w.options.closeButtonOffset[0],
+            w.options.closeButtonOffset[1]
           ], e = [
             i[0] + d,
             i[1] - d
           ]) : (i = [
-            b.options.closeButtonOffset[0],
-            b.options.closeButtonOffset[1]
+            w.options.closeButtonOffset[0],
+            w.options.closeButtonOffset[1]
           ], e = [
             i[0] - d,
             i[1] - d
-          ]), l.translate(e[0], e[1]), o = b.options.closeButtonCrossSize / 2, l.save(), l.beginPath(), l.strokeStyle = b.options.closeButtonCrossColor, l.lineWidth = b.options.closeButtonCrossLineWidth, l.lineCap = 'round', l.moveTo(-o, -o), l.lineTo(o, o), l.stroke(), l.beginPath(), l.moveTo(o, -o), l.lineTo(-o, o), l.stroke(), l.restore(), b.adapter.css(b.closeButtonElement, {
-            left: '' + (i[0] - o - b.options.closeButtonLinkOverscan) + 'px',
-            top: '' + (i[1] - o - b.options.closeButtonLinkOverscan) + 'px',
-            width: '' + (b.options.closeButtonCrossSize + 2 * b.options.closeButtonLinkOverscan) + 'px',
-            height: '' + (b.options.closeButtonCrossSize + 2 * b.options.closeButtonLinkOverscan) + 'px'
+          ]), l.translate(e[0], e[1]), o = w.options.closeButtonCrossSize / 2, l.save(), l.beginPath(), l.strokeStyle = w.options.closeButtonCrossColor, l.lineWidth = w.options.closeButtonCrossLineWidth, l.lineCap = 'round', l.moveTo(-o, -o), l.lineTo(o, o), l.stroke(), l.beginPath(), l.moveTo(o, -o), l.lineTo(-o, o), l.stroke(), l.restore(), w.adapter.css(w.closeButtonElement, {
+            left: '' + (i[0] - o - w.options.closeButtonLinkOverscan) + 'px',
+            top: '' + (i[1] - o - w.options.closeButtonLinkOverscan) + 'px',
+            width: '' + (w.options.closeButtonCrossSize + 2 * w.options.closeButtonLinkOverscan) + 'px',
+            height: '' + (w.options.closeButtonCrossSize + 2 * w.options.closeButtonLinkOverscan) + 'px'
           });
         }() : void 0;
       }
@@ -2210,10 +2210,10 @@ var FirebaseIndex;
           return;
         d[g][a] = !0;
         for (var m = u.groupedData, v = 0; t.length > v; v++) {
-          var y = t[v], w = p.filter(function (e) {
+          var y = t[v], b = p.filter(function (e) {
               return e.field == y;
-            })[0], b = c.evalProperty(f, y);
-          b = b ? '' + b : 'null', m[b] || (m[b] = {}), m[r] || (m[r] = y), m[s] || (m[s] = v), m[l] || (m[l] = w), m = m[b];
+            })[0], w = c.evalProperty(f, y);
+          w = w ? '' + w : 'null', m[w] || (m[w] = {}), m[r] || (m[r] = y), m[s] || (m[s] = v), m[l] || (m[l] = b), m = m[w];
         }
         m.values || (m.values = []), m.values.push(d[g]);
       }
@@ -2266,8 +2266,8 @@ var FirebaseIndex;
           if (null == y)
             return !1;
           if ('function' == typeof v) {
-            var w = '' + v('object' == typeof y ? r(y, f.field) : y, m[1]);
-            a = l.regex.test(w);
+            var b = '' + v('object' == typeof y ? r(y, f.field) : y, m[1]);
+            a = l.regex.test(b);
           } else
             a = l.regex.test('object' == typeof y ? '' + r(y, f.field) : '' + y);
           if (!y || !a)
@@ -3452,7 +3452,7 @@ var FirebaseIndex;
   }());
 }(window.jQuery), function (e) {
   function t(e, t, n) {
-    var u, d, h, b, C, S, T, R = t.version, k = t.errorCorrection, I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
+    var u, d, h, w, C, S, T, k = t.version, R = t.errorCorrection, I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
     switch (t.encodeMode) {
     case t.ENCODE_MODE.NUMERIC:
       var x = 0;
@@ -3470,27 +3470,27 @@ var FirebaseIndex;
         break;
       default:
       }
-      if (R > 0)
-        R >= 1 && 9 >= R ? S = 10 : R >= 10 && 26 >= R ? S = 12 : R >= 27 && 40 >= R && (S = 14);
+      if (k > 0)
+        k >= 1 && 9 >= k ? S = 10 : k >= 10 && 26 >= k ? S = 12 : k >= 27 && 40 >= k && (S = 14);
       else {
-        if (T = o(E + 4 + 10, k), !(T > 0))
+        if (T = o(E + 4 + 10, R), !(T > 0))
           throw new RangeError('Too much data.');
-        if (Math.abs(R) > T && (T = Math.abs(R)), T >= 1 && 9 >= T)
+        if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
           S = 10;
         else {
-          if (T = o(E + 4 + 12, k), !(T > 0))
+          if (T = o(E + 4 + 12, R), !(T > 0))
             throw new RangeError('Too much data.');
-          if (Math.abs(R) > T && (T = Math.abs(R)), T >= 10 && 26 >= T)
+          if (Math.abs(k) > T && (T = Math.abs(k)), T >= 10 && 26 >= T)
             S = 12;
           else {
-            if (T = o(E + 4 + 14, k), !(T > 0))
+            if (T = o(E + 4 + 14, R), !(T > 0))
               throw new RangeError('Too much data.');
-            if (Math.abs(R) > T && (T = Math.abs(R)), !(T >= 27 && 40 >= T))
+            if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 27 && 40 >= T))
               throw new RangeError('Bug in version detection.');
             S = 14;
           }
         }
-        R = T;
+        k = T;
       }
       break;
     case t.ENCODE_MODE.ALPHA_NUMERIC:
@@ -3551,27 +3551,27 @@ var FirebaseIndex;
           throw Error('Character not supported in ALPHA_NUMERIC encoding mode.');
         E = a(I, E, i(A, 6));
       }
-      if (R > 0)
-        R >= 1 && 9 >= R ? S = 9 : R >= 10 && 26 >= R ? S = 11 : R >= 27 && 40 >= R && (S = 13);
+      if (k > 0)
+        k >= 1 && 9 >= k ? S = 9 : k >= 10 && 26 >= k ? S = 11 : k >= 27 && 40 >= k && (S = 13);
       else {
-        if (T = o(E + 4 + 9, k), !(T > 0))
+        if (T = o(E + 4 + 9, R), !(T > 0))
           throw new RangeError('Too much data.');
-        if (Math.abs(R) > T && (T = Math.abs(R)), T >= 1 && 9 >= T)
+        if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
           S = 9;
         else {
-          if (T = o(E + 4 + 11, k), !(T > 0))
+          if (T = o(E + 4 + 11, R), !(T > 0))
             throw new RangeError('Too much data.');
-          if (Math.abs(R) > T && (T = Math.abs(R)), T >= 10 && 26 >= T)
+          if (Math.abs(k) > T && (T = Math.abs(k)), T >= 10 && 26 >= T)
             S = 11;
           else {
-            if (T = o(E + 4 + 13, k), !(T > 0))
+            if (T = o(E + 4 + 13, R), !(T > 0))
               throw new RangeError('Too much data.');
-            if (Math.abs(R) > T && (T = Math.abs(R)), !(T >= 27 && 40 >= T))
+            if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 27 && 40 >= T))
               throw new RangeError('Bug in version detection.');
             S = 13;
           }
         }
-        R = T;
+        k = T;
       }
       break;
     case t.ENCODE_MODE.BYTE:
@@ -3579,21 +3579,21 @@ var FirebaseIndex;
     case t.ENCODE_MODE.UTF8_SIGNATURE:
       for (u = 0; e.length > u; u++)
         E = a(I, E, i(e[u], 8));
-      if (R > 0)
-        R >= 0 && 9 >= R ? S = 8 : R >= 10 && 40 >= R && (S = 16);
+      if (k > 0)
+        k >= 0 && 9 >= k ? S = 8 : k >= 10 && 40 >= k && (S = 16);
       else {
-        if (T = o(E + 4 + 8, k), !(T > 0))
+        if (T = o(E + 4 + 8, R), !(T > 0))
           throw new RangeError('Too much data.');
-        if (Math.abs(R) > T && (T = Math.abs(R)), T >= 1 && 9 >= T)
+        if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
           S = 8;
         else {
-          if (T = o(E + 4 + 16, k), !(T > 0))
+          if (T = o(E + 4 + 16, R), !(T > 0))
             throw new RangeError('Too much data.');
-          if (Math.abs(R) > T && (T = Math.abs(R)), !(T >= 10 && 40 >= T))
+          if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 10 && 40 >= T))
             throw new RangeError('Bug in version detection.');
           S = 16;
         }
-        R = T;
+        k = T;
       }
       break;
     case t.ENCODE_MODE.KANJI:
@@ -3602,9 +3602,9 @@ var FirebaseIndex;
       throw Error('Unsupported encoding mode.');
     }
     if (n)
-      return R;
+      return k;
     I = i(15 & t.encodeMode, 4).concat(i(e.length, S)).concat(I), E += 4 + S;
-    var P = g[R][p.TOTAL_BYTES] - g[R][p.ECC_BYTES][k] << 3;
+    var P = g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][R] << 3;
     if (E > P)
       throw new RangeError('Too much data for the selected version.');
     var D = P - E;
@@ -3628,16 +3628,16 @@ var FirebaseIndex;
         0,
         0
       ]);
-    var L = Math.floor((g[R][p.TOTAL_BYTES] - g[R][p.ECC_BYTES][k]) / (g[R][p.EC_BLOCKS][k][0] + g[R][p.EC_BLOCKS][k][1])), F = Math.floor(g[R][p.ECC_BYTES][k] / (g[R][p.EC_BLOCKS][k][0] + g[R][p.EC_BLOCKS][k][1])), O = [], $ = [];
-    for (u = 0, C = g[R][p.EC_BLOCKS][k][0]; C > u; u++) {
-      for ($ = [], d = 0; L > d; d++)
-        $.push(r(I.splice(0, 8)));
-      O.push($);
+    var L = Math.floor((g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][R]) / (g[k][p.EC_BLOCKS][R][0] + g[k][p.EC_BLOCKS][R][1])), F = Math.floor(g[k][p.ECC_BYTES][R] / (g[k][p.EC_BLOCKS][R][0] + g[k][p.EC_BLOCKS][R][1])), $ = [], O = [];
+    for (u = 0, C = g[k][p.EC_BLOCKS][R][0]; C > u; u++) {
+      for (O = [], d = 0; L > d; d++)
+        O.push(r(I.splice(0, 8)));
+      $.push(O);
     }
-    for (u = 0, C = g[R][p.EC_BLOCKS][k][1]; C > u; u++) {
-      for ($ = [], d = 0; L >= d; d++)
-        $.push(r(I.splice(0, 8)));
-      O.push($);
+    for (u = 0, C = g[k][p.EC_BLOCKS][R][1]; C > u; u++) {
+      for (O = [], d = 0; L >= d; d++)
+        O.push(r(I.splice(0, 8)));
+      $.push(O);
     }
     var N = [], U = [];
     for (d = 1, u = 0; 255 > u; u++)
@@ -3652,54 +3652,54 @@ var FirebaseIndex;
     for (u = j.length - 1; u >= 0; u--)
       H.push(j[u]);
     var B = [];
-    for (d = 0; O.length > d; d++) {
-      B[d] = [].concat(O[d]).concat(s(F, 0));
-      for (var V; B[d].length >= H.length;) {
-        for (V = B[d][0], u = 0; H.length > u; u++)
-          B[d][u] ^= N[(U[H[u]] + U[V]) % 255];
+    for (d = 0; $.length > d; d++) {
+      B[d] = [].concat($[d]).concat(s(F, 0));
+      for (var G; B[d].length >= H.length;) {
+        for (G = B[d][0], u = 0; H.length > u; u++)
+          B[d][u] ^= N[(U[H[u]] + U[G]) % 255];
         if (0 !== B[d].shift())
           throw Error('Bug while generating the ECC');
       }
     }
     for (I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; L >= u; u++)
-      for (d = 0; O.length > d; d++)
-        O[d].length > u && (E = a(I, E, i(O[d][u], 8)));
+      for (d = 0; $.length > d; d++)
+        $[d].length > u && (E = a(I, E, i($[d][u], 8)));
     for (u = 0; F > u; u++)
       for (d = 0; B.length > d; d++)
         B[d].length > u && (E = a(I, E, i(B[d][u], 8)));
-    var G = 17 + (R << 2), K = Array(G);
-    for (u = 0; G > u; u++)
-      K[u] = s(G, 0);
-    for (l(K, 0, 0, m, w.FINDER), l(K, 0, G - 7, m, w.FINDER), l(K, G - 7, 0, m, w.FINDER), u = 0; 8 > u; u++)
-      K[u][7] = w.SEPARATOR, K[7][u] = w.SEPARATOR, K[u][G - 8] = w.SEPARATOR, K[7][G - 1 - u] = w.SEPARATOR, K[G - 1 - u][7] = w.SEPARATOR, K[G - 8][u] = w.SEPARATOR;
-    for (u = 8; G - 8 > u; u++)
-      K[u][6] = w.TIMING | (u + 1) % 2, K[6][u] = w.TIMING | (u + 1) % 2;
-    if (R > 1) {
-      var q = g[R][p.ALIGNMENT_PATTERN_POSITION_OFFSET], z = 4 * R + 10;
-      for (b = z;;) {
-        for (h = z; 6 === h && 6 === b || 6 === h && b === G - 7 || h === G - 7 && 6 === b || l(K, h - 2, b - 2, v, w.ALIGNMENT), 6 !== h;)
-          h -= q, 18 > h && (h = 6);
-        if (6 === b)
+    var V = 17 + (k << 2), K = Array(V);
+    for (u = 0; V > u; u++)
+      K[u] = s(V, 0);
+    for (l(K, 0, 0, m, b.FINDER), l(K, 0, V - 7, m, b.FINDER), l(K, V - 7, 0, m, b.FINDER), u = 0; 8 > u; u++)
+      K[u][7] = b.SEPARATOR, K[7][u] = b.SEPARATOR, K[u][V - 8] = b.SEPARATOR, K[7][V - 1 - u] = b.SEPARATOR, K[V - 1 - u][7] = b.SEPARATOR, K[V - 8][u] = b.SEPARATOR;
+    for (u = 8; V - 8 > u; u++)
+      K[u][6] = b.TIMING | (u + 1) % 2, K[6][u] = b.TIMING | (u + 1) % 2;
+    if (k > 1) {
+      var z = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * k + 10;
+      for (w = q;;) {
+        for (h = q; 6 === h && 6 === w || 6 === h && w === V - 7 || h === V - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
+          h -= z, 18 > h && (h = 6);
+        if (6 === w)
           break;
-        b -= q, 18 > b && (b = 6);
+        w -= z, 18 > w && (w = 6);
       }
     }
-    if (R >= 7) {
-      var W = g[R][p.VERSION_PATTERN];
+    if (k >= 7) {
+      var W = g[k][p.VERSION_PATTERN];
       for (u = 0; 6 > u; u++)
         for (d = 0; 3 > d; d++)
-          K[G - 11 + d][u] = w.VERSION | 1 & W, K[u][G - 11 + d] = w.VERSION | 1 & W, W >>= 1;
+          K[V - 11 + d][u] = b.VERSION | 1 & W, K[u][V - 11 + d] = b.VERSION | 1 & W, W >>= 1;
     }
     for (u = 0; 8 > u; u++)
-      K[G - 1 - u][8] = 0 | w.FORMAT, K[8][G - 1 - u] = 0 | w.FORMAT, 6 !== u && (K[8][u] = 0 | w.FORMAT, K[u][8] = 0 | w.FORMAT);
-    K[8][8] = 0 | w.FORMAT, K[G - 8][8] = 1 | w.FORMAT;
+      K[V - 1 - u][8] = 0 | b.FORMAT, K[8][V - 1 - u] = 0 | b.FORMAT, 6 !== u && (K[8][u] = 0 | b.FORMAT, K[u][8] = 0 | b.FORMAT);
+    K[8][8] = 0 | b.FORMAT, K[V - 8][8] = 1 | b.FORMAT;
     var Y = -1;
-    for (h = b = G - 1, u = 0; E > u; u++) {
-      K[b][h] = w.DATA | I[u];
+    for (h = w = V - 1, u = 0; E > u; u++) {
+      K[w][h] = b.DATA | I[u];
       do
         if (h > 6 && 0 === (1 & h) || 6 > h && 1 === (1 & h))
           h--;
-        else if (-1 === Y && 0 === b || 1 === Y && b === G - 1) {
+        else if (-1 === Y && 0 === w || 1 === Y && w === V - 1) {
           if (0 === h) {
             if (E - 1 > u)
               throw new RangeError('Too much data while writing the symbol.');
@@ -3707,26 +3707,26 @@ var FirebaseIndex;
           }
           Y = -Y, h--, 6 === h && h--;
         } else
-          b += Y, h++;
-      while (0 !== K[b][h]);
+          w += Y, h++;
+      while (0 !== K[w][h]);
     }
     var J, X = [];
     for (u = 0; y.length > u; u++) {
-      for (X[u] = [], b = 0; G > b; b++)
-        for (X[u][b] = [], h = 0; G > h; h++)
-          X[u][b][h] = K[b][h] & w.DATA ? 1 & (K[b][h] ^ y[u](h, b)) : 1 & K[b][h];
-      J = i(f[k][u], 15), X[u][G - 1][8] = X[u][8][0] = J[0], X[u][G - 2][8] = X[u][8][1] = J[1], X[u][G - 3][8] = X[u][8][2] = J[2], X[u][G - 4][8] = X[u][8][3] = J[3], X[u][G - 5][8] = X[u][8][4] = J[4], X[u][G - 6][8] = X[u][8][5] = J[5], X[u][G - 7][8] = X[u][8][7] = J[6], X[u][8][G - 8] = X[u][8][8] = J[7], X[u][8][G - 7] = X[u][7][8] = J[8], X[u][8][G - 6] = X[u][5][8] = J[9], X[u][8][G - 5] = X[u][4][8] = J[10], X[u][8][G - 4] = X[u][3][8] = J[11], X[u][8][G - 3] = X[u][2][8] = J[12], X[u][8][G - 2] = X[u][1][8] = J[13], X[u][8][G - 1] = X[u][0][8] = J[14];
+      for (X[u] = [], w = 0; V > w; w++)
+        for (X[u][w] = [], h = 0; V > h; h++)
+          X[u][w][h] = K[w][h] & b.DATA ? 1 & (K[w][h] ^ y[u](h, w)) : 1 & K[w][h];
+      J = i(f[R][u], 15), X[u][V - 1][8] = X[u][8][0] = J[0], X[u][V - 2][8] = X[u][8][1] = J[1], X[u][V - 3][8] = X[u][8][2] = J[2], X[u][V - 4][8] = X[u][8][3] = J[3], X[u][V - 5][8] = X[u][8][4] = J[4], X[u][V - 6][8] = X[u][8][5] = J[5], X[u][V - 7][8] = X[u][8][7] = J[6], X[u][8][V - 8] = X[u][8][8] = J[7], X[u][8][V - 7] = X[u][7][8] = J[8], X[u][8][V - 6] = X[u][5][8] = J[9], X[u][8][V - 5] = X[u][4][8] = J[10], X[u][8][V - 4] = X[u][3][8] = J[11], X[u][8][V - 3] = X[u][2][8] = J[12], X[u][8][V - 2] = X[u][1][8] = J[13], X[u][8][V - 1] = X[u][0][8] = J[14];
     }
     var Q, Z, et, tt, nt, ot = 0, it = 4294967295;
     for (u = 0; y.length > u; u++) {
-      for (Q = Z = et = tt = nt = 0, b = 0; G > b; b++)
-        for (h = 0; G > h; h++)
-          h >= 6 && (1 === (X[u][b][h - 6] & X[u][b][h - 5] & X[u][b][h - 4] & X[u][b][h - 3] & X[u][b][h - 2] & X[u][b][h - 1] & X[u][b][h]) || 0 === (X[u][b][h - 6] | X[u][b][h - 5] | X[u][b][h - 4] | X[u][b][h - 3] | X[u][b][h - 2] | X[u][b][h - 1] | X[u][b][h])) && Q++, b >= 6 && (1 === (X[u][b - 6][h] & X[u][b - 5][h] & X[u][b - 4][h] & X[u][b - 3][h] & X[u][b - 2][h] & X[u][b - 1][h] & X[u][b][h]) || 0 === (X[u][b - 6][h] | X[u][b - 5][h] | X[u][b - 4][h] | X[u][b - 3][h] | X[u][b - 2][h] | X[u][b - 1][h] | X[u][b][h])) && Q++, h > 0 && b > 0 && (1 === (X[u][b][h] & X[u][b][h - 1] & X[u][b - 1][h] & X[u][b - 1][h - 1]) || 0 === (X[u][b][h] | X[u][b][h - 1] | X[u][b - 1][h] | X[u][b - 1][h - 1])) && Z++, h >= 6 && 1 === X[u][b][h - 6] && 0 === X[u][b][h - 5] && 1 === X[u][b][h - 4] && 1 === X[u][b][h - 3] && 1 === X[u][b][h - 2] && 0 === X[u][b][h - 1] && 1 === X[u][b][h] && et++, b >= 6 && 1 === X[u][b - 6][h] && 0 === X[u][b - 5][h] && 1 === X[u][b - 4][h] && 1 === X[u][b - 3][h] && 1 === X[u][b - 2][h] && 0 === X[u][b - 1][h] && 1 === X[u][b][h] && et++, tt += X[u][b][h];
-      tt = Math.abs(100 * tt / (G * G) - 50) / 5, nt = 3 * Q + 3 * Z + 40 * et + 10 * tt, it > nt && (it = nt, ot = u);
+      for (Q = Z = et = tt = nt = 0, w = 0; V > w; w++)
+        for (h = 0; V > h; h++)
+          h >= 6 && (1 === (X[u][w][h - 6] & X[u][w][h - 5] & X[u][w][h - 4] & X[u][w][h - 3] & X[u][w][h - 2] & X[u][w][h - 1] & X[u][w][h]) || 0 === (X[u][w][h - 6] | X[u][w][h - 5] | X[u][w][h - 4] | X[u][w][h - 3] | X[u][w][h - 2] | X[u][w][h - 1] | X[u][w][h])) && Q++, w >= 6 && (1 === (X[u][w - 6][h] & X[u][w - 5][h] & X[u][w - 4][h] & X[u][w - 3][h] & X[u][w - 2][h] & X[u][w - 1][h] & X[u][w][h]) || 0 === (X[u][w - 6][h] | X[u][w - 5][h] | X[u][w - 4][h] | X[u][w - 3][h] | X[u][w - 2][h] | X[u][w - 1][h] | X[u][w][h])) && Q++, h > 0 && w > 0 && (1 === (X[u][w][h] & X[u][w][h - 1] & X[u][w - 1][h] & X[u][w - 1][h - 1]) || 0 === (X[u][w][h] | X[u][w][h - 1] | X[u][w - 1][h] | X[u][w - 1][h - 1])) && Z++, h >= 6 && 1 === X[u][w][h - 6] && 0 === X[u][w][h - 5] && 1 === X[u][w][h - 4] && 1 === X[u][w][h - 3] && 1 === X[u][w][h - 2] && 0 === X[u][w][h - 1] && 1 === X[u][w][h] && et++, w >= 6 && 1 === X[u][w - 6][h] && 0 === X[u][w - 5][h] && 1 === X[u][w - 4][h] && 1 === X[u][w - 3][h] && 1 === X[u][w - 2][h] && 0 === X[u][w - 1][h] && 1 === X[u][w][h] && et++, tt += X[u][w][h];
+      tt = Math.abs(100 * tt / (V * V) - 50) / 5, nt = 3 * Q + 3 * Z + 40 * et + 10 * tt, it > nt && (it = nt, ot = u);
     }
-    for (b = 0; G > b; b++)
-      for (h = 0; G > h; h++)
-        K[b][h] = K[b][h] & (w.DATA | w.FORMAT) ? X[ot][b][h] : 1 & K[b][h];
+    for (w = 0; V > w; w++)
+      for (h = 0; V > h; h++)
+        K[w][h] = K[w][h] & (b.DATA | b.FORMAT) ? X[ot][w][h] : 1 & K[w][h];
     return K;
   }
   function n(t, n) {
@@ -5683,7 +5683,7 @@ var FirebaseIndex;
       function (e, t) {
         return 0 === (t * e % 3 + (t + e) % 2) % 2;
       }
-    ], w = {
+    ], b = {
       FINDER: 2,
       SEPARATOR: 4,
       TIMING: 8,
