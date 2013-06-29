@@ -3062,17 +3062,17 @@ FirstRevenueApp.controller('AdminController', [
                 var o = null, i = null, s = {
                     moved: function (e) {
                       var o = $(r).offset();
-                      return d = arbor.Point(e.pageX - o.left, e.pageY - o.top), u = a.nearest(d), u && u.node ? ('dot' !== u.node.data.shape ? (c = 50 > u.distance ? u : null, c ? (n.addClass('linkable'), window.status = c.node.data.link.replace(/^\//, 'http://' + window.location.host + '/').replace(/^#/, '')) : (n.removeClass('linkable'), window.status = '')) : $.inArray(u.node.name, t) >= 0 && (u.node.name !== i && (i = u.node.name, p.switchSection(i)), n.removeClass('linkable'), window.status = ''), !1) : !1;
+                      return d = arbor.Point(e.pageX - o.left, e.pageY - o.top), u = a.nearest(d), u && u.node ? ('dot' !== u.node.data.shape ? (c = 50 > u.distance ? u : null, c ? (n.addClass('linkable'), c.node.data && c.node.data.link && (window.status = c.node.data.link.replace(/^\//, 'http://' + window.location.host + '/').replace(/^#/, ''))) : (n.removeClass('linkable'), window.status = '')) : $.inArray(u.node.name, t) >= 0 && (u.node.name !== i && (i = u.node.name, p.switchSection(i)), n.removeClass('linkable'), window.status = ''), !1) : !1;
                     },
                     clicked: function (t) {
                       console.log(e, 'clicked sys=', a, 'e=', t);
                       var n = $(r).offset();
                       if (d = arbor.Point(t.pageX - n.left, t.pageY - n.top), u = o = a.nearest(d), u && c && u.node === c.node) {
                         var i = c.node.data.link;
-                        return i.match(/^#/) ? $(p).trigger({
+                        return i && (i.match(/^#/) ? $(p).trigger({
                           type: 'navigate',
                           path: i.substr(1)
-                        }) : window.location = i, !1;
+                        }) : window.location = i), !1;
                       }
                       return o && null !== o.node && (o.node.fixed = !0), $(r).unbind('mousemove', s.moved), $(r).bind('mousemove', s.dragged), $(window).bind('mouseup', s.dropped), !1;
                     },
