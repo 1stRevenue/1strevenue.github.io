@@ -9,7 +9,7 @@ var Opentip, firstAdapter, i, mouseMoved, mousePosition, mousePositionObservers,
   }, __hasProp = {}.hasOwnProperty;
 for (Opentip = function () {
     function e(t, n, o, i) {
-      var r, s, a, l, c, u, d, h, p, g, f, m, v, y, b = this;
+      var r, s, a, l, c, u, d, h, p, g, f, m, v, b, y = this;
       if (this.id = ++e.lastId, this.debug('Creating Opentip.'), e.tips.push(this), this.adapter = e.adapter, r = this.adapter.data(t, 'opentips') || [], r.push(this), this.adapter.data(t, 'opentips', r), this.triggerElement = this.adapter.wrap(t), this.triggerElement.length > 1)
         throw Error('You can\'t call Opentip on multiple elements.');
       if (1 > this.triggerElement.length)
@@ -25,10 +25,10 @@ for (Opentip = function () {
           visible: !1,
           hiding: !1,
           hidden: !1
-        }, i = this.adapter.clone(i), 'object' == typeof n ? (i = n, n = o = void 0) : 'object' == typeof o && (i = o, o = void 0), null != o && (i.title = o), null != n && this.setContent(n), null == i['extends'] && (i['extends'] = null != i.style ? i.style : e.defaultStyle), l = [i], y = i; y['extends'];) {
-        if (u = y['extends'], y = e.styles[u], null == y)
+        }, i = this.adapter.clone(i), 'object' == typeof n ? (i = n, n = o = void 0) : 'object' == typeof o && (i = o, o = void 0), null != o && (i.title = o), null != n && this.setContent(n), null == i['extends'] && (i['extends'] = null != i.style ? i.style : e.defaultStyle), l = [i], b = i; b['extends'];) {
+        if (u = b['extends'], b = e.styles[u], null == b)
           throw Error('Invalid style: ' + u);
-        l.unshift(y), null == y['extends'] && 'standard' !== u && (y['extends'] = 'standard');
+        l.unshift(b), null == b['extends'] && 'standard' !== u && (b['extends'] = 'standard');
       }
       for (i = (f = this.adapter).extend.apply(f, [{}].concat(__slice.call(l))), i.hideTriggers = function () {
           var e, t, n, o;
@@ -55,11 +55,11 @@ for (Opentip = function () {
         ], h = 0, g = v.length; g > h; h++)
         a = v[h], this.bound[a] = function (e) {
           return function () {
-            return b[e].apply(b, arguments);
+            return y[e].apply(y, arguments);
           };
         }(a);
       this.adapter.domReady(function () {
-        return b.activate(), 'creation' === b.options.showOn ? b.prepareToShow() : void 0;
+        return y.activate(), 'creation' === y.options.showOn ? y.prepareToShow() : void 0;
       });
     }
     return e.prototype.STICKS_OUT_TOP = 1, e.prototype.STICKS_OUT_BOTTOM = 2, e.prototype.STICKS_OUT_LEFT = 1, e.prototype.STICKS_OUT_RIGHT = 2, e.prototype['class'] = {
@@ -250,7 +250,7 @@ for (Opentip = function () {
         !1
       ], 0 > t[0] ? o[0] = this.STICKS_OUT_LEFT : t[0] + this.dimensions.width > i.width && (o[0] = this.STICKS_OUT_RIGHT), 0 > t[1] ? o[1] = this.STICKS_OUT_TOP : t[1] + this.dimensions.height > i.height && (o[1] = this.STICKS_OUT_BOTTOM), o;
     }, e.prototype._draw = function () {
-      var t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, m, v, y, b, w = this;
+      var t, n, o, i, r, s, a, l, c, u, d, h, p, g, f, m, v, b, y, w = this;
       if (this.backgroundCanvas && this.redraw) {
         if (this.debug('Drawing background.'), this.redraw = !1, this.currentStem) {
           for (v = [
@@ -268,7 +268,7 @@ for (Opentip = function () {
         ], a = [
           0,
           0
-        ], __indexOf.call(this.options.hideTriggers, 'closeButton') >= 0 && (r = new e.Joint('top right' === (null != (y = this.currentStem) ? y + '' : void 0) ? 'top left' : 'top right'), s = [
+        ], __indexOf.call(this.options.hideTriggers, 'closeButton') >= 0 && (r = new e.Joint('top right' === (null != (b = this.currentStem) ? b + '' : void 0) ? 'top left' : 'top right'), s = [
           this.options.closeButtonRadius + this.options.closeButtonOffset[0],
           this.options.closeButtonRadius + this.options.closeButtonOffset[1]
         ], a = [
@@ -282,7 +282,7 @@ for (Opentip = function () {
           right: 0,
           top: 0,
           bottom: 0
-        }, this.currentStem && (this.currentStem.left ? n.left = this.options.stemLength : this.currentStem.right && (n.right = this.options.stemLength), this.currentStem.top ? n.top = this.options.stemLength : this.currentStem.bottom && (n.bottom = this.options.stemLength)), r && (r.left ? n.left = Math.max(n.left, a[0]) : r.right && (n.right = Math.max(n.right, a[0])), r.top ? n.top = Math.max(n.top, a[1]) : r.bottom && (n.bottom = Math.max(n.bottom, a[1]))), o.width += n.left + n.right, o.height += n.top + n.bottom, i[0] -= n.left, i[1] -= n.top, this.currentStem && this.options.borderWidth && (b = this._getPathStemMeasures(this.options.stemBase, this.options.stemLength, this.options.borderWidth), g = b.stemLength, p = b.stemBase), t = this.adapter.unwrap(this.backgroundCanvas), t.width = o.width, t.height = o.height, this.adapter.css(this.backgroundCanvas, {
+        }, this.currentStem && (this.currentStem.left ? n.left = this.options.stemLength : this.currentStem.right && (n.right = this.options.stemLength), this.currentStem.top ? n.top = this.options.stemLength : this.currentStem.bottom && (n.bottom = this.options.stemLength)), r && (r.left ? n.left = Math.max(n.left, a[0]) : r.right && (n.right = Math.max(n.right, a[0])), r.top ? n.top = Math.max(n.top, a[1]) : r.bottom && (n.bottom = Math.max(n.bottom, a[1]))), o.width += n.left + n.right, o.height += n.top + n.bottom, i[0] -= n.left, i[1] -= n.top, this.currentStem && this.options.borderWidth && (y = this._getPathStemMeasures(this.options.stemBase, this.options.stemLength, this.options.borderWidth), g = y.stemLength, p = y.stemBase), t = this.adapter.unwrap(this.backgroundCanvas), t.width = o.width, t.height = o.height, this.adapter.css(this.backgroundCanvas, {
           width: '' + t.width + 'px',
           height: '' + t.height + 'px',
           left: '' + i[0] + 'px',
@@ -1136,8 +1136,8 @@ var FirebaseIndex;
       }, t.href = 'javascript:void(0);', t.innerHTML = this._options.prevLabel, f = document.createElement('a'), f.className = 'introjs-button introjs-skipbutton', f.href = 'javascript:void(0);', f.innerHTML = this._options.skipLabel, f.onclick = function () {
         i.call(a, a._targetElement);
       };
-      var y = v.querySelector('.introjs-tooltipbuttons');
-      y.appendChild(f), y.appendChild(t), y.appendChild(m), r.call(a, e.element, v, c);
+      var b = v.querySelector('.introjs-tooltipbuttons');
+      b.appendChild(f), b.appendChild(t), b.appendChild(m), r.call(a, e.element, v, c);
     }
     for (0 == this._currentStep ? (t.className = 'introjs-button introjs-prevbutton introjs-disabled', m.className = 'introjs-button introjs-nextbutton', f.innerHTML = this._options.skipLabel) : this._introItems.length - 1 == this._currentStep ? (f.innerHTML = this._options.doneLabel, t.className = 'introjs-button introjs-prevbutton', m.className = 'introjs-button introjs-nextbutton introjs-disabled') : (t.className = 'introjs-button introjs-prevbutton', m.className = 'introjs-button introjs-nextbutton', f.innerHTML = this._options.skipLabel), m.focus(), e.element.className += ' introjs-showElement', f = l(e.element, 'position'), 'absolute' !== f && 'relative' !== f && (e.element.className += ' introjs-relativePosition'), f = e.element.parentNode; null != f && 'body' !== f.tagName.toLowerCase();)
       t = l(f, 'z-index'), /[0-9]+/.test(t) && (f.className += ' introjs-fixParent'), f = f.parentNode;
@@ -2210,10 +2210,10 @@ var FirebaseIndex;
           return;
         d[g][a] = !0;
         for (var m = u.groupedData, v = 0; t.length > v; v++) {
-          var y = t[v], b = p.filter(function (e) {
-              return e.field == y;
-            })[0], w = c.evalProperty(f, y);
-          w = w ? '' + w : 'null', m[w] || (m[w] = {}), m[r] || (m[r] = y), m[s] || (m[s] = v), m[l] || (m[l] = b), m = m[w];
+          var b = t[v], y = p.filter(function (e) {
+              return e.field == b;
+            })[0], w = c.evalProperty(f, b);
+          w = w ? '' + w : 'null', m[w] || (m[w] = {}), m[r] || (m[r] = b), m[s] || (m[s] = v), m[l] || (m[l] = y), m = m[w];
         }
         m.values || (m.values = []), m.values.push(d[g]);
       }
@@ -2262,15 +2262,15 @@ var FirebaseIndex;
           var f = o.fieldMap[l.columnDisplay];
           if (!f)
             return !1;
-          var m = f.cellFilter.split(':'), v = f.cellFilter ? n(m[0]) : null, y = e[l.column] || e[f.field.split('.')[0]];
-          if (null == y)
+          var m = f.cellFilter.split(':'), v = f.cellFilter ? n(m[0]) : null, b = e[l.column] || e[f.field.split('.')[0]];
+          if (null == b)
             return !1;
           if ('function' == typeof v) {
-            var b = '' + v('object' == typeof y ? r(y, f.field) : y, m[1]);
-            a = l.regex.test(b);
+            var y = '' + v('object' == typeof b ? r(b, f.field) : b, m[1]);
+            a = l.regex.test(y);
           } else
-            a = l.regex.test('object' == typeof y ? '' + r(y, f.field) : '' + y);
-          if (!y || !a)
+            a = l.regex.test('object' == typeof b ? '' + r(b, f.field) : '' + b);
+          if (!b || !a)
             return !1;
         }
         return !0;
@@ -3670,14 +3670,14 @@ var FirebaseIndex;
     var V = 17 + (k << 2), K = Array(V);
     for (u = 0; V > u; u++)
       K[u] = s(V, 0);
-    for (l(K, 0, 0, m, b.FINDER), l(K, 0, V - 7, m, b.FINDER), l(K, V - 7, 0, m, b.FINDER), u = 0; 8 > u; u++)
-      K[u][7] = b.SEPARATOR, K[7][u] = b.SEPARATOR, K[u][V - 8] = b.SEPARATOR, K[7][V - 1 - u] = b.SEPARATOR, K[V - 1 - u][7] = b.SEPARATOR, K[V - 8][u] = b.SEPARATOR;
+    for (l(K, 0, 0, m, y.FINDER), l(K, 0, V - 7, m, y.FINDER), l(K, V - 7, 0, m, y.FINDER), u = 0; 8 > u; u++)
+      K[u][7] = y.SEPARATOR, K[7][u] = y.SEPARATOR, K[u][V - 8] = y.SEPARATOR, K[7][V - 1 - u] = y.SEPARATOR, K[V - 1 - u][7] = y.SEPARATOR, K[V - 8][u] = y.SEPARATOR;
     for (u = 8; V - 8 > u; u++)
-      K[u][6] = b.TIMING | (u + 1) % 2, K[6][u] = b.TIMING | (u + 1) % 2;
+      K[u][6] = y.TIMING | (u + 1) % 2, K[6][u] = y.TIMING | (u + 1) % 2;
     if (k > 1) {
       var z = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * k + 10;
       for (w = q;;) {
-        for (h = q; 6 === h && 6 === w || 6 === h && w === V - 7 || h === V - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
+        for (h = q; 6 === h && 6 === w || 6 === h && w === V - 7 || h === V - 7 && 6 === w || l(K, h - 2, w - 2, v, y.ALIGNMENT), 6 !== h;)
           h -= z, 18 > h && (h = 6);
         if (6 === w)
           break;
@@ -3688,14 +3688,14 @@ var FirebaseIndex;
       var W = g[k][p.VERSION_PATTERN];
       for (u = 0; 6 > u; u++)
         for (d = 0; 3 > d; d++)
-          K[V - 11 + d][u] = b.VERSION | 1 & W, K[u][V - 11 + d] = b.VERSION | 1 & W, W >>= 1;
+          K[V - 11 + d][u] = y.VERSION | 1 & W, K[u][V - 11 + d] = y.VERSION | 1 & W, W >>= 1;
     }
     for (u = 0; 8 > u; u++)
-      K[V - 1 - u][8] = 0 | b.FORMAT, K[8][V - 1 - u] = 0 | b.FORMAT, 6 !== u && (K[8][u] = 0 | b.FORMAT, K[u][8] = 0 | b.FORMAT);
-    K[8][8] = 0 | b.FORMAT, K[V - 8][8] = 1 | b.FORMAT;
+      K[V - 1 - u][8] = 0 | y.FORMAT, K[8][V - 1 - u] = 0 | y.FORMAT, 6 !== u && (K[8][u] = 0 | y.FORMAT, K[u][8] = 0 | y.FORMAT);
+    K[8][8] = 0 | y.FORMAT, K[V - 8][8] = 1 | y.FORMAT;
     var Y = -1;
     for (h = w = V - 1, u = 0; E > u; u++) {
-      K[w][h] = b.DATA | I[u];
+      K[w][h] = y.DATA | I[u];
       do
         if (h > 6 && 0 === (1 & h) || 6 > h && 1 === (1 & h))
           h--;
@@ -3711,14 +3711,14 @@ var FirebaseIndex;
       while (0 !== K[w][h]);
     }
     var J, X = [];
-    for (u = 0; y.length > u; u++) {
+    for (u = 0; b.length > u; u++) {
       for (X[u] = [], w = 0; V > w; w++)
         for (X[u][w] = [], h = 0; V > h; h++)
-          X[u][w][h] = K[w][h] & b.DATA ? 1 & (K[w][h] ^ y[u](h, w)) : 1 & K[w][h];
+          X[u][w][h] = K[w][h] & y.DATA ? 1 & (K[w][h] ^ b[u](h, w)) : 1 & K[w][h];
       J = i(f[R][u], 15), X[u][V - 1][8] = X[u][8][0] = J[0], X[u][V - 2][8] = X[u][8][1] = J[1], X[u][V - 3][8] = X[u][8][2] = J[2], X[u][V - 4][8] = X[u][8][3] = J[3], X[u][V - 5][8] = X[u][8][4] = J[4], X[u][V - 6][8] = X[u][8][5] = J[5], X[u][V - 7][8] = X[u][8][7] = J[6], X[u][8][V - 8] = X[u][8][8] = J[7], X[u][8][V - 7] = X[u][7][8] = J[8], X[u][8][V - 6] = X[u][5][8] = J[9], X[u][8][V - 5] = X[u][4][8] = J[10], X[u][8][V - 4] = X[u][3][8] = J[11], X[u][8][V - 3] = X[u][2][8] = J[12], X[u][8][V - 2] = X[u][1][8] = J[13], X[u][8][V - 1] = X[u][0][8] = J[14];
     }
     var Q, Z, et, tt, nt, ot = 0, it = 4294967295;
-    for (u = 0; y.length > u; u++) {
+    for (u = 0; b.length > u; u++) {
       for (Q = Z = et = tt = nt = 0, w = 0; V > w; w++)
         for (h = 0; V > h; h++)
           h >= 6 && (1 === (X[u][w][h - 6] & X[u][w][h - 5] & X[u][w][h - 4] & X[u][w][h - 3] & X[u][w][h - 2] & X[u][w][h - 1] & X[u][w][h]) || 0 === (X[u][w][h - 6] | X[u][w][h - 5] | X[u][w][h - 4] | X[u][w][h - 3] | X[u][w][h - 2] | X[u][w][h - 1] | X[u][w][h])) && Q++, w >= 6 && (1 === (X[u][w - 6][h] & X[u][w - 5][h] & X[u][w - 4][h] & X[u][w - 3][h] & X[u][w - 2][h] & X[u][w - 1][h] & X[u][w][h]) || 0 === (X[u][w - 6][h] | X[u][w - 5][h] | X[u][w - 4][h] | X[u][w - 3][h] | X[u][w - 2][h] | X[u][w - 1][h] | X[u][w][h])) && Q++, h > 0 && w > 0 && (1 === (X[u][w][h] & X[u][w][h - 1] & X[u][w - 1][h] & X[u][w - 1][h - 1]) || 0 === (X[u][w][h] | X[u][w][h - 1] | X[u][w - 1][h] | X[u][w - 1][h - 1])) && Z++, h >= 6 && 1 === X[u][w][h - 6] && 0 === X[u][w][h - 5] && 1 === X[u][w][h - 4] && 1 === X[u][w][h - 3] && 1 === X[u][w][h - 2] && 0 === X[u][w][h - 1] && 1 === X[u][w][h] && et++, w >= 6 && 1 === X[u][w - 6][h] && 0 === X[u][w - 5][h] && 1 === X[u][w - 4][h] && 1 === X[u][w - 3][h] && 1 === X[u][w - 2][h] && 0 === X[u][w - 1][h] && 1 === X[u][w][h] && et++, tt += X[u][w][h];
@@ -3726,7 +3726,7 @@ var FirebaseIndex;
     }
     for (w = 0; V > w; w++)
       for (h = 0; V > h; h++)
-        K[w][h] = K[w][h] & (b.DATA | b.FORMAT) ? X[ot][w][h] : 1 & K[w][h];
+        K[w][h] = K[w][h] & (y.DATA | y.FORMAT) ? X[ot][w][h] : 1 & K[w][h];
     return K;
   }
   function n(t, n) {
@@ -5658,7 +5658,7 @@ var FirebaseIndex;
         1,
         1
       ]
-    ], y = [
+    ], b = [
       function (e, t) {
         return 0 === (t + e) % 2;
       },
@@ -5683,7 +5683,7 @@ var FirebaseIndex;
       function (e, t) {
         return 0 === (t * e % 3 + (t + e) % 2) % 2;
       }
-    ], b = {
+    ], y = {
       FINDER: 2,
       SEPARATOR: 4,
       TIMING: 8,

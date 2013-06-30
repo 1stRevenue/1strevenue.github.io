@@ -829,14 +829,15 @@ FirstRevenueApp.controller('AdminController', [
 ]), FirstRevenueApp.controller('ProjectListController', [
   '$scope',
   'Renderer',
-  function (e, t) {
-    var o = 'ProjectListController', n = {
+  'Rainbow',
+  function (e, t, o) {
+    var n = 'ProjectListController', r = {
         branch: '#b2b19d',
         code: 'orange',
         doc: '#922E00',
         demo: '#a7af00'
       };
-    console.log(o, 'invoked'), angular.extend(e, {
+    console.log(n, 'invoked'), angular.extend(e, {
       getProjectDemoData: function () {
         return e.demoData;
       },
@@ -844,22 +845,22 @@ FirstRevenueApp.controller('AdminController', [
         var t = {
             nodes: {},
             edges: {}
-          }, o = e.sync.user.profile.name;
-        return t.nodes[o] = {
+          }, n = e.sync.user.profile.name;
+        return t.nodes[n] = {
           color: 'blue',
           shape: 'dot',
           alpha: 1
-        }, t.edges[o] = {}, _.each(e.sync.user.models, function (n, r) {
-          var i = e.sync.models[r];
-          t.nodes[i.fields.name] = {
+        }, t.edges[n] = {}, _.each(e.sync.user.models, function (r, i) {
+          var s = e.sync.models[i];
+          t.nodes[s.fields.name] = {
             color: 'red',
             alpha: 1
-          }, t.edges[o][i.fields.name] = { length: 1 }, t.edges[i.fields.name] = {}, _.each(i.stickers, function (e) {
+          }, t.edges[n][s.fields.name] = { length: 1 }, t.edges[s.fields.name] = {}, _.each(s.stickers, function (e) {
             t.nodes[e.title] = {
-              color: e.color,
+              color: '#' + o.brighten(e.color),
               shape: 'square',
               alpha: 1
-            }, t.edges[i.fields.name][e.title] = {};
+            }, t.edges[s.fields.name][e.title] = {};
           });
         }), t;
       },
@@ -871,147 +872,147 @@ FirstRevenueApp.controller('AdminController', [
             alpha: 1
           },
           MetaData: {
-            color: n.branch,
+            color: r.branch,
             shape: 'dot',
             alpha: 1
           },
           Pitch: {
-            color: n.demo,
+            color: r.demo,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12589021'
           },
           Web: {
-            color: n.demo,
+            color: r.demo,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12589147'
           },
           Description: {
-            color: n.demo,
+            color: r.demo,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12589125'
           },
           Team: {
-            color: n.branch,
+            color: r.branch,
             shape: 'dot',
             alpha: 1
           },
           Terje: {
-            color: n.doc,
+            color: r.doc,
             alpha: 1,
             link: 'https://podio.com/users/573093'
           },
           Edmundas: {
-            color: n.doc,
+            color: r.doc,
             alpha: 1,
             link: 'https://podio.com/users/639605'
           },
           MarketTrends: {
-            color: n.branch,
+            color: r.branch,
             shape: 'dot',
             alpha: 1
           },
           'Focus on Business Model Generation': {
-            color: n.doc,
+            color: r.doc,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/12827502'
           },
           Article2: {
-            color: n.doc,
+            color: r.doc,
             alpha: 1,
             link: 'https://podio.com/users/639605'
           },
           Competitors: {
-            color: n.branch,
+            color: r.branch,
             shape: 'dot',
             alpha: 1
           },
           LeanLaunchLab: {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11364419'
           },
           'Business Model Toolbox (iPad app)': {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11364415'
           },
           Strategyzr: {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11364417'
           },
           CustSegm: {
-            color: n.branch,
+            color: r.branch,
             shape: 'dot',
             alpha: 1
           },
           Users: {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           Mentors: {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           Incubators: {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           Forskningsparken: {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11365132'
           },
           'Kjeller Innovasjon': {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11365125'
           },
           'BTO (Bergen Technology Transfer Office)': {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/11365051'
           },
           SegmChan: {
-            color: n.branch,
+            color: r.branch,
             shape: 'dot',
             alpha: 1
           },
           'Social media': {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           'Traditional sales': {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           Twitter: {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           Facebook: {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           'Sales meetings': {
-            color: n.code,
+            color: r.code,
             shape: 'dot',
             alpha: 1
           },
           'Educational institutions': {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/6163425'
           },
           'BMG Consulting companies': {
-            color: n.code,
+            color: r.code,
             alpha: 1,
             link: 'https://netbmgrepository.podio.com/netbmg-business-model/item/6163083'
           }
@@ -3059,38 +3060,37 @@ FirstRevenueApp.controller('AdminController', [
               },
               _initMouseHandling: function () {
                 c = null, u = null;
-                var o = null, i = null, s = {
+                var e = null, o = null, i = {
                     moved: function (e) {
-                      var o = $(r).offset();
-                      return d = arbor.Point(e.pageX - o.left, e.pageY - o.top), u = a.nearest(d), u && u.node ? ('dot' !== u.node.data.shape ? (c = 50 > u.distance ? u : null, c ? (n.addClass('linkable'), c.node.data && c.node.data.link && (window.status = c.node.data.link.replace(/^\//, 'http://' + window.location.host + '/').replace(/^#/, ''))) : (n.removeClass('linkable'), window.status = '')) : $.inArray(u.node.name, t) >= 0 && (u.node.name !== i && (i = u.node.name, p.switchSection(i)), n.removeClass('linkable'), window.status = ''), !1) : !1;
+                      var i = $(r).offset();
+                      return d = arbor.Point(e.pageX - i.left, e.pageY - i.top), u = a.nearest(d), u && u.node ? ('dot' !== u.node.data.shape ? (c = 50 > u.distance ? u : null, c ? (n.addClass('linkable'), c.node.data && c.node.data.link && (window.status = c.node.data.link.replace(/^\//, 'http://' + window.location.host + '/').replace(/^#/, ''))) : (n.removeClass('linkable'), window.status = '')) : $.inArray(u.node.name, t) >= 0 && (u.node.name !== o && (o = u.node.name, p.switchSection(o)), n.removeClass('linkable'), window.status = ''), !1) : !1;
                     },
                     clicked: function (t) {
-                      console.log(e, 'clicked sys=', a, 'e=', t);
-                      var n = $(r).offset();
-                      if (d = arbor.Point(t.pageX - n.left, t.pageY - n.top), u = o = a.nearest(d), u && c && u.node === c.node) {
-                        var i = c.node.data.link;
-                        return i && (i.match(/^#/) ? $(p).trigger({
+                      var o = $(r).offset();
+                      if (d = arbor.Point(t.pageX - o.left, t.pageY - o.top), u = e = a.nearest(d), u && c && u.node === c.node) {
+                        var n = c.node.data.link;
+                        return n && (n.match(/^#/) ? $(p).trigger({
                           type: 'navigate',
-                          path: i.substr(1)
-                        }) : window.location = i), !1;
+                          path: n.substr(1)
+                        }) : window.location = n), !1;
                       }
-                      return o && null !== o.node && (o.node.fixed = !0), $(r).unbind('mousemove', s.moved), $(r).bind('mousemove', s.dragged), $(window).bind('mouseup', s.dropped), !1;
+                      return e && null !== e.node && (e.node.fixed = !0), $(r).unbind('mousemove', i.moved), $(r).bind('mousemove', i.dragged), $(window).bind('mouseup', i.dropped), !1;
                     },
-                    dragged: function (e) {
-                      var t = $(r).offset(), n = arbor.Point(e.pageX - t.left, e.pageY - t.top);
+                    dragged: function (t) {
+                      var o = $(r).offset(), n = arbor.Point(t.pageX - o.left, t.pageY - o.top);
                       if (u) {
-                        if (null !== o && null !== o.node) {
+                        if (null !== e && null !== e.node) {
                           var i = a.fromScreen(n);
-                          o.node.p = i;
+                          e.node.p = i;
                         }
                         return !1;
                       }
                     },
                     dropped: function () {
-                      return null !== o && void 0 !== o.node ? (null !== o.node && (o.node.fixed = !1), o.node.tempMass = 1000, o = null, $(r).unbind('mousemove', s.dragged), $(window).unbind('mouseup', s.dropped), $(r).bind('mousemove', s.moved), d = null, !1) : void 0;
+                      return null !== e && void 0 !== e.node ? (null !== e.node && (e.node.fixed = !1), e.node.tempMass = 1000, e = null, $(r).unbind('mousemove', i.dragged), $(window).unbind('mouseup', i.dropped), $(r).bind('mousemove', i.moved), d = null, !1) : void 0;
                     }
                   };
-                $(r).mousedown(s.clicked), $(r).mousemove(s.moved);
+                $(r).mousedown(i.clicked), $(r).mousemove(i.moved);
               }
             };
           return p;
