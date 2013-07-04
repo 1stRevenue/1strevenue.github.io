@@ -3654,9 +3654,9 @@ var FirebaseIndex;
     var B = [];
     for (d = 0; $.length > d; d++) {
       B[d] = [].concat($[d]).concat(s(F, 0));
-      for (var G; B[d].length >= H.length;) {
-        for (G = B[d][0], u = 0; H.length > u; u++)
-          B[d][u] ^= N[(U[H[u]] + U[G]) % 255];
+      for (var V; B[d].length >= H.length;) {
+        for (V = B[d][0], u = 0; H.length > u; u++)
+          B[d][u] ^= N[(U[H[u]] + U[V]) % 255];
         if (0 !== B[d].shift())
           throw Error('Bug while generating the ECC');
       }
@@ -3667,17 +3667,17 @@ var FirebaseIndex;
     for (u = 0; F > u; u++)
       for (d = 0; B.length > d; d++)
         B[d].length > u && (E = a(I, E, i(B[d][u], 8)));
-    var V = 17 + (k << 2), K = Array(V);
-    for (u = 0; V > u; u++)
-      K[u] = s(V, 0);
-    for (l(K, 0, 0, m, b.FINDER), l(K, 0, V - 7, m, b.FINDER), l(K, V - 7, 0, m, b.FINDER), u = 0; 8 > u; u++)
-      K[u][7] = b.SEPARATOR, K[7][u] = b.SEPARATOR, K[u][V - 8] = b.SEPARATOR, K[7][V - 1 - u] = b.SEPARATOR, K[V - 1 - u][7] = b.SEPARATOR, K[V - 8][u] = b.SEPARATOR;
-    for (u = 8; V - 8 > u; u++)
+    var G = 17 + (k << 2), K = Array(G);
+    for (u = 0; G > u; u++)
+      K[u] = s(G, 0);
+    for (l(K, 0, 0, m, b.FINDER), l(K, 0, G - 7, m, b.FINDER), l(K, G - 7, 0, m, b.FINDER), u = 0; 8 > u; u++)
+      K[u][7] = b.SEPARATOR, K[7][u] = b.SEPARATOR, K[u][G - 8] = b.SEPARATOR, K[7][G - 1 - u] = b.SEPARATOR, K[G - 1 - u][7] = b.SEPARATOR, K[G - 8][u] = b.SEPARATOR;
+    for (u = 8; G - 8 > u; u++)
       K[u][6] = b.TIMING | (u + 1) % 2, K[6][u] = b.TIMING | (u + 1) % 2;
     if (k > 1) {
       var z = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * k + 10;
       for (w = q;;) {
-        for (h = q; 6 === h && 6 === w || 6 === h && w === V - 7 || h === V - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
+        for (h = q; 6 === h && 6 === w || 6 === h && w === G - 7 || h === G - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
           h -= z, 18 > h && (h = 6);
         if (6 === w)
           break;
@@ -3688,18 +3688,18 @@ var FirebaseIndex;
       var W = g[k][p.VERSION_PATTERN];
       for (u = 0; 6 > u; u++)
         for (d = 0; 3 > d; d++)
-          K[V - 11 + d][u] = b.VERSION | 1 & W, K[u][V - 11 + d] = b.VERSION | 1 & W, W >>= 1;
+          K[G - 11 + d][u] = b.VERSION | 1 & W, K[u][G - 11 + d] = b.VERSION | 1 & W, W >>= 1;
     }
     for (u = 0; 8 > u; u++)
-      K[V - 1 - u][8] = 0 | b.FORMAT, K[8][V - 1 - u] = 0 | b.FORMAT, 6 !== u && (K[8][u] = 0 | b.FORMAT, K[u][8] = 0 | b.FORMAT);
-    K[8][8] = 0 | b.FORMAT, K[V - 8][8] = 1 | b.FORMAT;
+      K[G - 1 - u][8] = 0 | b.FORMAT, K[8][G - 1 - u] = 0 | b.FORMAT, 6 !== u && (K[8][u] = 0 | b.FORMAT, K[u][8] = 0 | b.FORMAT);
+    K[8][8] = 0 | b.FORMAT, K[G - 8][8] = 1 | b.FORMAT;
     var Y = -1;
-    for (h = w = V - 1, u = 0; E > u; u++) {
+    for (h = w = G - 1, u = 0; E > u; u++) {
       K[w][h] = b.DATA | I[u];
       do
         if (h > 6 && 0 === (1 & h) || 6 > h && 1 === (1 & h))
           h--;
-        else if (-1 === Y && 0 === w || 1 === Y && w === V - 1) {
+        else if (-1 === Y && 0 === w || 1 === Y && w === G - 1) {
           if (0 === h) {
             if (E - 1 > u)
               throw new RangeError('Too much data while writing the symbol.');
@@ -3712,20 +3712,20 @@ var FirebaseIndex;
     }
     var J, X = [];
     for (u = 0; y.length > u; u++) {
-      for (X[u] = [], w = 0; V > w; w++)
-        for (X[u][w] = [], h = 0; V > h; h++)
+      for (X[u] = [], w = 0; G > w; w++)
+        for (X[u][w] = [], h = 0; G > h; h++)
           X[u][w][h] = K[w][h] & b.DATA ? 1 & (K[w][h] ^ y[u](h, w)) : 1 & K[w][h];
-      J = i(f[R][u], 15), X[u][V - 1][8] = X[u][8][0] = J[0], X[u][V - 2][8] = X[u][8][1] = J[1], X[u][V - 3][8] = X[u][8][2] = J[2], X[u][V - 4][8] = X[u][8][3] = J[3], X[u][V - 5][8] = X[u][8][4] = J[4], X[u][V - 6][8] = X[u][8][5] = J[5], X[u][V - 7][8] = X[u][8][7] = J[6], X[u][8][V - 8] = X[u][8][8] = J[7], X[u][8][V - 7] = X[u][7][8] = J[8], X[u][8][V - 6] = X[u][5][8] = J[9], X[u][8][V - 5] = X[u][4][8] = J[10], X[u][8][V - 4] = X[u][3][8] = J[11], X[u][8][V - 3] = X[u][2][8] = J[12], X[u][8][V - 2] = X[u][1][8] = J[13], X[u][8][V - 1] = X[u][0][8] = J[14];
+      J = i(f[R][u], 15), X[u][G - 1][8] = X[u][8][0] = J[0], X[u][G - 2][8] = X[u][8][1] = J[1], X[u][G - 3][8] = X[u][8][2] = J[2], X[u][G - 4][8] = X[u][8][3] = J[3], X[u][G - 5][8] = X[u][8][4] = J[4], X[u][G - 6][8] = X[u][8][5] = J[5], X[u][G - 7][8] = X[u][8][7] = J[6], X[u][8][G - 8] = X[u][8][8] = J[7], X[u][8][G - 7] = X[u][7][8] = J[8], X[u][8][G - 6] = X[u][5][8] = J[9], X[u][8][G - 5] = X[u][4][8] = J[10], X[u][8][G - 4] = X[u][3][8] = J[11], X[u][8][G - 3] = X[u][2][8] = J[12], X[u][8][G - 2] = X[u][1][8] = J[13], X[u][8][G - 1] = X[u][0][8] = J[14];
     }
     var Q, Z, et, tt, nt, ot = 0, it = 4294967295;
     for (u = 0; y.length > u; u++) {
-      for (Q = Z = et = tt = nt = 0, w = 0; V > w; w++)
-        for (h = 0; V > h; h++)
+      for (Q = Z = et = tt = nt = 0, w = 0; G > w; w++)
+        for (h = 0; G > h; h++)
           h >= 6 && (1 === (X[u][w][h - 6] & X[u][w][h - 5] & X[u][w][h - 4] & X[u][w][h - 3] & X[u][w][h - 2] & X[u][w][h - 1] & X[u][w][h]) || 0 === (X[u][w][h - 6] | X[u][w][h - 5] | X[u][w][h - 4] | X[u][w][h - 3] | X[u][w][h - 2] | X[u][w][h - 1] | X[u][w][h])) && Q++, w >= 6 && (1 === (X[u][w - 6][h] & X[u][w - 5][h] & X[u][w - 4][h] & X[u][w - 3][h] & X[u][w - 2][h] & X[u][w - 1][h] & X[u][w][h]) || 0 === (X[u][w - 6][h] | X[u][w - 5][h] | X[u][w - 4][h] | X[u][w - 3][h] | X[u][w - 2][h] | X[u][w - 1][h] | X[u][w][h])) && Q++, h > 0 && w > 0 && (1 === (X[u][w][h] & X[u][w][h - 1] & X[u][w - 1][h] & X[u][w - 1][h - 1]) || 0 === (X[u][w][h] | X[u][w][h - 1] | X[u][w - 1][h] | X[u][w - 1][h - 1])) && Z++, h >= 6 && 1 === X[u][w][h - 6] && 0 === X[u][w][h - 5] && 1 === X[u][w][h - 4] && 1 === X[u][w][h - 3] && 1 === X[u][w][h - 2] && 0 === X[u][w][h - 1] && 1 === X[u][w][h] && et++, w >= 6 && 1 === X[u][w - 6][h] && 0 === X[u][w - 5][h] && 1 === X[u][w - 4][h] && 1 === X[u][w - 3][h] && 1 === X[u][w - 2][h] && 0 === X[u][w - 1][h] && 1 === X[u][w][h] && et++, tt += X[u][w][h];
-      tt = Math.abs(100 * tt / (V * V) - 50) / 5, nt = 3 * Q + 3 * Z + 40 * et + 10 * tt, it > nt && (it = nt, ot = u);
+      tt = Math.abs(100 * tt / (G * G) - 50) / 5, nt = 3 * Q + 3 * Z + 40 * et + 10 * tt, it > nt && (it = nt, ot = u);
     }
-    for (w = 0; V > w; w++)
-      for (h = 0; V > h; h++)
+    for (w = 0; G > w; w++)
+      for (h = 0; G > h; h++)
         K[w][h] = K[w][h] & (b.DATA | b.FORMAT) ? X[ot][w][h] : 1 & K[w][h];
     return K;
   }

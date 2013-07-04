@@ -19,20 +19,51 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
     '$strap.directives',
     'firebase'
   ]).config([
+    '$httpProvider',
     '$routeProvider',
-    function (e) {
-      e.when('/impress/:modelId', {
-        templateUrl: 'views/impress/Impress.html',
-        controller: 'ImpressController'
-      }).when('/', {
-        templateUrl: 'views/impress/Impress.html',
-        controller: 'ImpressController'
+    '$rootScopeProvider',
+    function (e, t) {
+      delete e.defaults.headers.common['X-Requested-With'], t.when('/', {
+        templateUrl: 'views/routes/Repo.html',
+        controller: 'RepoController'
+      }).when('/entry', {
+        templateUrl: 'views/routes/Entry.html',
+        controller: 'EntryController'
+      }).when('/home', {
+        templateUrl: 'views/routes/Home.html',
+        controller: 'HomeTabsController'
+      }).when('/repo', {
+        templateUrl: 'views/routes/Repo.html',
+        controller: 'RepoController'
+      }).when('/canvas', {
+        templateUrl: 'views/routes/Canvas.html',
+        controller: 'CanvasController'
+      }).when('/canvas/:modelId', {
+        templateUrl: 'views/routes/Canvas.html',
+        controller: 'CanvasController'
+      }).when('/people', {
+        templateUrl: 'views/routes/People.html',
+        controller: 'PeopleController'
+      }).when('/invite/:inviteId', {
+        templateUrl: 'views/routes/Invite.html',
+        controller: 'InviteController'
+      }).when('/admin', {
+        templateUrl: 'views/routes/Admin.html',
+        controller: 'AdminController'
       }).otherwise({ redirectTo: '/' });
     }
   ]).run([
-    '$route',
-    function (e) {
-      e.reload();
+    '$rootScope',
+    '$location',
+    '$q',
+    'Myself',
+    'RrrrRrrr',
+    function (e, t, o, n, i) {
+      console.log('app.run set up $routeChangeStart $on event watcher'), e.deferredLaunch = o.defer(), e.$on('$routeChangeStart', function (t, o, r) {
+        i.launching = !1, console.log('app.run $routeChangeStart current=', r, 'next=', o, 'Myself=', n), !n.authenticated && o.$$route.controller && 'InviteController' !== o.$$route.controller && 'EntryController' !== o.$$route.controller && (o.$$route.resolve = o.$$route.resolve || {}, o.$$route.resolve.Launch = o.$$route.resolve.Launch = function () {
+          return e.deferredLaunch.promise;
+        });
+      });
     }
   ]);
 FirstRevenueApp.controller('AdminController', [
@@ -457,20 +488,6 @@ FirstRevenueApp.controller('AdminController', [
         }), o;
       }
     }), e.modelId = t.current.params.modelId, console.log(o, '$route=', t, 'modelId=', e.modelId), e.modelId && e.im.loadModel(e.modelId);
-  }
-]), FirstRevenueApp.controller('ImpressMasterController', [
-  '$scope',
-  '$route',
-  '$routeParams',
-  '$window',
-  'Canvas',
-  'ImpressModel',
-  function (e, t, o, n, i, r) {
-    var s = 'ImpressMasterController';
-    console.log(s, 'launched'), e.$root._ = window._, angular.extend(e, {
-      canvas: i,
-      im: r
-    }), e.rootRef = new Firebase(CONFIG_1ST_REVENUE.firebaseEndpoint), n.document.title = '1st Revenue Presentation', r.init(e.rootRef, e), console.log(s, '$route=', t, 'modelId=', e.modelId, '$routeParams=', o), analytics.track('Impress launch');
   }
 ]), FirstRevenueApp.controller('InviteController', [
   '$scope',
@@ -3198,12 +3215,12 @@ FirstRevenueApp.controller('AdminController', [
         e && this.placeCaretAtEnd(e);
       },
       placeCaretAtEnd: function (t) {
-        if (t.focus(), e.getSelection !== void 0 && e.document.createRange !== void 0) {
+        if (t.focus(), void 0 !== e.getSelection && void 0 !== e.document.createRange) {
           var o = e.document.createRange();
           o.selectNodeContents(t), o.collapse(!1);
           var n = e.getSelection();
           n.removeAllRanges(), n.addRange(o);
-        } else if (e.document.body.createTextRange !== void 0) {
+        } else if (void 0 !== e.document.body.createTextRange) {
           var i = e.document.body.createTextRange();
           i.moveToElementText(t), i.collapse(!1), i.select();
         }
@@ -4649,7 +4666,7 @@ FirstRevenueApp.controller('AdminController', [
         updateInvite: function (e) {
           console.log(a, 'inviteId=', e);
           var t = u.me.rootRef.child('invites').child(e), o = u.findPartner(e);
-          console.log(a, 'updateInvite partner=', o), u.serviceInvite(o, function (e, n) {
+          o.inviteId = e, console.log(a, 'updateInvite partner=', o), u.serviceInvite(o, function (e, n) {
             e ? console.log(a, 'invite error=', e, 'partner=', o) : n && (console.log(a, 'invite sent partner=', o), t.update({ status: 'sent' }, function (e) {
               u.inviteCallback(e, o, 'sent');
             }));
@@ -4692,7 +4709,7 @@ FirstRevenueApp.controller('AdminController', [
               if (e.contacts)
                 if (e.contacts.partners) {
                   var n = e.contacts.partners[t.serviceId];
-                  n ? _.extend(n, o) : e.contacts.partners[t.serviceId] = o;
+                  n ? o = _.extend(n, o) : e.contacts.partners[t.serviceId] = o;
                 } else
                   e.contacts.partners = {}, e.contacts.partners[t.serviceId] = o;
               else
@@ -4912,7 +4929,7 @@ FirstRevenueApp.controller('AdminController', [
         sendMessage: function (t, o, r) {
           i.token = o, console.log('LinkedIn sendMessage token=', o);
           var s = window.location.origin || window.location.protocol + '//' + window.location.host, a = s + window.location.pathname + '#invite/', l = e(n, { token: o }), c = new l({
-              recipients: { values: [{ person: { _path: '/people/qptylQNe7G' } }] },
+              recipients: { values: [{ person: { _path: '/people/' + t.serviceId } }] },
               subject: 'Join 1stRevenue.com',
               body: 'Join 1stRevenue.com and collaborate with us on business modeling. Use your LinkedIn account to sign to the application. The original sender of the invitation will be notified when you log on to the 1st Revenue. Create your account at ' + a + t.inviteId
             }), u = r || i.processMessage;
@@ -4981,40 +4998,5 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return n;
-  }
-]), FirstRevenueApp.factory('ImpressModel', [
-  '$timeout',
-  '$window',
-  'Canvas',
-  'angularFire',
-  function (e, t, o, n) {
-    var i = 'ImpressModel';
-    console.log(i, 'service launched');
-    var r = {
-        rootRef: null,
-        masterScope: null,
-        dereg: {},
-        init: function (e, t) {
-          console.log(i, 'init'), r.rootRef = e, r.masterScope = t;
-        },
-        angularFire: function (e, t, o) {
-          console.log(i, 'angularFire name=', t, o), o = angular.isUndefined(o) ? {} : o;
-          var s = n(e, r.masterScope, t, o);
-          return s.then(function (e) {
-            console.log(i, 'angularFire callback afReady=', e), e.off && e.name ? r.dereg = e.off : s.off && (r.dereg = s.off);
-          }), s;
-        },
-        loadModel: function (e) {
-          console.log(i, 'loadModel modelId=', e);
-          var t = r.rootRef.child('models').child(e), o = r.angularFire(t, 'canvas.model');
-          o ? o.then(r.loadModelData) : console.log(i, 'loadModel angularFire failed for modelId', e);
-        },
-        loadModelData: function (n) {
-          console.log(i, 'loadModelData modelPromise resolved modelReady=', n), e(function () {
-            t.document.title = o.model.fields.name + ' - 1st Revenue Presentation', impress().init();
-          });
-        }
-      };
-    return r;
   }
 ]);
