@@ -23,6 +23,15 @@
     </span>
   </div>
 
+  <div ng-click="layout.setView('impress')"
+       ng-class="{'ribbon-item-current': layout.isView('impress')}"
+       class="ribbon-item">
+    <i class="icon-play-circle icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Presentation
+    </span>
+  </div>
+
   <div zzz-ng-click="modal.model=true; modal.newModel=true"
        ng-click="layout.lastRepoView = layout.view; layout.setView('new')"
        ng-class="{'ribbon-item-current': layout.isView('new')}"
