@@ -1,0 +1,55 @@
+<div class="modal-data-form">
+  <fieldset class="model-data-fields container-fluid">
+    <div class="row-fluid">
+      <div class="control-group span6">
+        <div>Model name</div>
+        <div>{{ canvas.model.fields.name }}</div>
+      </div>
+      <div class="control-group span6">
+        <div>Model icon</div>
+        <div>
+          <img ng-src="{{canvas.model.fields.icon}}"
+               ng-show="canvas.model.fields.icon"
+               class="new-model-icon" />
+          <small ng-hide="canvas.model.fields.icon">(No icon)</small>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="control-group span6">
+        <div>Description</div>
+        <div ng-show="canvas.model.fields.descr">{{ canvas.model.fields.descr }}</div>
+        <div ng-hide="canvas.model.fields.descr">
+          <small>(No description)</small>
+        </div>
+      </div>
+      <div class="control-group span6">
+        <div>Elevator pitch</div>
+        <div ng-show="canvas.model.fields.pitch">{{ canvas.model.fields.pitch }}</div>
+        <div ng-hide="canvas.model.fields.pitch">
+          <small>(No elevator pitch)</small>
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span6">
+        <label class="control-label">Model users</label>
+        <div class="controls">
+          <span ng-repeat="(userId, userValue) in canvas.model.users track by userId">
+            <img ng-src="{{sync.peers[userId].image}}"
+                 class="user-icon"
+                 ng-show="sync.peers[userId].image"
+                 title="{{sync.peers[userId].name}}" />
+            <img ng-src="images/bbf82395.light_avatar_small.png"
+                 class="user-icon"
+                 ng-hide="sync.peers[userId].image"
+                 title="{{sync.peers[userId].name}}" />
+          </span>
+          <div ng-hide="_.size(canvas.model.users) > 0">
+            <small>(No users)</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</div>

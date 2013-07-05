@@ -23,7 +23,10 @@
              ng-show="_.size(getStickers(blockId)) == 0">
         </div>
 
-        <div ng-include="'views/canvas/Block.html'"></div>
+        <div ng-if="!canvas.readOnly"
+             ng-include="'views/canvas/Block.html'"></div>
+        <div ng-if="canvas.readOnly"
+             ng-include="'views/canvas/PublicBlock.html'"></div>
       </div>
     </div>
     <div ng-switch-default>
@@ -34,7 +37,10 @@
            class="pane {{blockId}} {{canvas.getGridClass()}}"
            ng-click="canvas.switchBlock({icon: blockId})">
 
-        <div ng-include="'views/canvas/Block.html'"></div>
+        <div ng-if="!isPublic()"
+             ng-include="'views/canvas/Block.html'"></div>
+        <div ng-if="isPublic()"
+             ng-include="'views/canvas/PublicBlock.html'"></div>
 
         <div ng-include="'views/canvas/BMG.html'"
              onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
@@ -58,6 +64,8 @@
     </div>
   </div>
 </div>
+
+<div ng-include="'views/canvas/ManageUsers.html'"></div>
 
 <div ng-include="'views/canvas/SideComments.html'"></div>
 <div ng-include="'views/canvas/SideStream.html'"></div>

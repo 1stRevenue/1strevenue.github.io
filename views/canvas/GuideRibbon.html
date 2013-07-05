@@ -15,7 +15,8 @@
   <!--div ng-click="modal.model=true;modal.newModel=false;"
         ng-class="{'ribbon-item-current': modal.model}"
         class="ribbon-item" -->
-  <div ng-click="layout.setView('model'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-hide="canvas.readOnly"
+       ng-click="layout.setView('model'); layout.guide.wide = true; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('model')}"
        class="ribbon-item">
     <i class="icon-list-alt icon-2x"></i>
@@ -23,7 +24,16 @@
       Edit model
     </span>
   </div>
-  <div ng-click="layout.setView('users'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-show="canvas.readOnly"
+       ng-click="layout.setView('data'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('data')}"
+       class="ribbon-item">
+    <i class="icon-list-alt icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Model data
+    </span>
+  </div>
+  <!--div ng-click="layout.setView('users'); layout.guide.wide = true; layout.peer.wide = false;"
        zzz-ng-hide="layout.isView('canvas') || layout.isView('zoom')"
        ng-class="{'ribbon-item-current': layout.isView('users')}"
        class="ribbon-item">
@@ -31,7 +41,7 @@
     <span ng-show="layout.guide.wide">
       Model users
     </span>
-  </div>
+  </div-->
   <!--div ng-click="layout.setView('friends'); layout.guide.wide = true; layout.peer.wide = true;"
        ng-hide="layout.isView('canvas')"
        ng-class="{'ribbon-item-current': layout.isView('friends')}"

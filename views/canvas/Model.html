@@ -1,12 +1,10 @@
 <div ng-controller="ModelController"
      ng-hide="layout.isView('canvas')"
      class="first-revenue-model">
+  <div ng-include="'views/canvas/ModelData.html'"
+       ng-show="layout.isView('data')"></div>
   <div ng-include="'views/canvas/ModelEditor.html'"
        ng-show="layout.isView('model')"></div>
-  <div ng-include="'views/canvas/ModelUsers.html'"
-       ng-show="layout.isView('users')"></div>
-  <!--div ng-include="'views/canvas/ModelFriends.html'"
-       ng-show="layout.isView('friends')"></div>
-  <div ng-include="'views/canvas/ModelComments.html'"
-       ng-show="layout.isView('comment')"></div-->
+  <!--div ng-include="'views/canvas/ModelUsers.html'"
+       ng-show="layout.isView('users')"></div-->
 </div>

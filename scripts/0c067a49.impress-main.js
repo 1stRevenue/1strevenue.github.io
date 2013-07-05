@@ -137,8 +137,14 @@ FirstRevenueApp.controller('AdminController', [
       },
       getSticker: function (t) {
         return e.me.sync.models[a].stickers[t];
+      },
+      isPublic: function () {
+        return e.sync.public.models && !!e.sync.public.models[a];
+      },
+      isReadOnly: function () {
+        return e.isPublic() && !e.sync.user.models[a];
       }
-    }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.layout.qrCode = !1, e.canvas.modelId = a, e.canvas.model = e.me.sync.models[a] || null, e.canvas.model && (e.menu.setTitle(e.canvas.model.fields ? e.canvas.model.fields.name : null), console.log(s, 'menu.title=', e.menu.title, 'canvas.model.fields=', e.canvas.model.fields), a !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', a), e.canvas.lastModelId = a)));
+    }), e.layout.tooltips = !0, e.layout.setView('canvas'), e.layout.guide.wide = !1, e.menu.selected = 'canvas', e.layout.qrCode = !1, e.canvas.modelId = a, e.canvas.model = e.me.sync.models[a] || null, e.canvas.model && (e.menu.setTitle(e.canvas.model.fields ? e.canvas.model.fields.name : null), console.log(s, 'menu.title=', e.menu.title, 'canvas.model.fields=', e.canvas.model.fields), a !== e.canvas.lastModelId && (e.canvas.loaded || (console.log(s, 'firebase.loadCanvas modelId=', a), e.canvas.lastModelId = a)), e.canvas.readOnly = e.isReadOnly(a));
   }
 ]), FirstRevenueApp.controller('CommentController', [
   '$scope',
@@ -1184,6 +1190,9 @@ FirstRevenueApp.controller('AdminController', [
       getModelUserIds: function () {
         return _.keys(e.canvas.model && e.canvas.model.users || {});
       },
+      toggleShare: function () {
+        e.layout.share = !e.layout.share, e.layout.share;
+      },
       toggleQRCode: function () {
         if (e.layout.qrCode = !e.layout.qrCode, e.layout.qrCode) {
           var t = o.location.origin || o.location.protocol + '//' + o.location.host, n = t + o.location.pathname, i = n + '#/canvas' + e.canvas.modelId, r = new JSQR(), s = new r.Code();
@@ -1994,14 +2003,13 @@ FirstRevenueApp.controller('AdminController', [
       };
     return o;
   }]), FirstRevenueApp.factory('Canvas', [
-  '$rootScope',
   'Menu',
   'BMG',
-  function (e, t, o) {
-    var n = 'Canvas';
-    console.log(n, 'service launched');
-    var i = {
-        bmg: o,
+  function (e, t) {
+    var o = 'Canvas';
+    console.log(o, 'service launched');
+    var n = {
+        bmg: t,
         view: 'free',
         loaded: !1,
         modelId: 0,
@@ -2009,17 +2017,18 @@ FirstRevenueApp.controller('AdminController', [
         model: null,
         singleBlock: null,
         showBlockInitials: !1,
+        readOnly: !1,
         reset: function () {
           this.loaded = !1, this.model = null, this.singleBlock = null;
         },
         setView: function (e) {
-          i.view = e;
+          n.view = e;
         },
         toggleView: function () {
-          i.view = 'free' === i.view ? 'grid' : 'free';
+          n.view = 'free' === n.view ? 'grid' : 'free';
         },
         peerCount: function () {
-          return i.model ? _.size(i.model.users) : 0;
+          return n.model ? _.size(n.model.users) : 0;
         },
         getStyle: function () {
           return 'st-list-style4';
@@ -2035,24 +2044,24 @@ FirstRevenueApp.controller('AdminController', [
           return 'grid' === this.view ? 'pane-grid' : 'list' === this.view ? 'pane-list' : '';
         },
         getAbs: function (e) {
-          return 'free' === i.view && e && angular.isNumber(e.x) && angular.isNumber(e.y) || !1;
+          return 'free' === n.view && e && angular.isNumber(e.x) && angular.isNumber(e.y) || !1;
         },
         getPosition: function (e) {
-          return i.getAbs(e) ? 'left: ' + e.x + '%; top: ' + e.y + '%;' : '';
+          return n.getAbs(e) ? 'left: ' + e.x + '%; top: ' + e.y + '%;' : '';
         },
         switchBlock: function (e) {
-          console.log(n, 'switchBlock pane=', e, 'this.model.blocks=', i.model.blocks), i.singleBlock = _.find(i.model.blocks, function (t) {
-            return console.log(n, 'switchBlock findingBlock b=', t), t.paneClass === e.icon;
+          console.log(o, 'switchBlock pane=', e, 'this.model.blocks=', n.model.blocks), n.singleBlock = _.find(n.model.blocks, function (t) {
+            return console.log(o, 'switchBlock findingBlock b=', t), t.paneClass === e.icon;
           });
         },
-        loadBlocks: function (e, o) {
-          console.log(n, 'loadBlocks model=', e), i.modelId !== i.lastModelId && (t.setTitle(e.name), 1 > _.size(e.blocks) && (console.log(n, 'loadBlocks modelId=', i.modelId), o(i.modelId), i.lastModelId = i.modelId), i.blocks = e.blocks, i.model = e, i.loaded = !0);
+        loadBlocks: function (t, i) {
+          console.log(o, 'loadBlocks model=', t), n.modelId !== n.lastModelId && (e.setTitle(t.name), 1 > _.size(t.blocks) && (console.log(o, 'loadBlocks modelId=', n.modelId), i(n.modelId), n.lastModelId = n.modelId), n.blocks = t.blocks, n.model = t, n.loaded = !0);
         },
         getBackgroundImageURL: function () {
           return 'images/DemoCanvasModelIcon.png';
         }
       };
-    return i;
+    return n;
   }
 ]), FirstRevenueApp.factory('Favicon', [function () {
     var e = {
@@ -2544,7 +2553,10 @@ FirstRevenueApp.controller('AdminController', [
           return t.sync.public.models && !!t.sync.public.models[e];
         },
         isShared: function (e) {
-          return !(n.isPublic(e) || n.isMine(e));
+          return !!t.sync.user.models[e] && !n.isMine(e);
+        },
+        isReadOnly: function (e) {
+          return n.isPublic(e) && !t.sync.user.models[e];
         },
         getModelsNew3: function (e) {
           var o = {};
