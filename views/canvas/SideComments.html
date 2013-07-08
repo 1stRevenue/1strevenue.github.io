@@ -1,6 +1,6 @@
 <div class="canvas-side-comments"
-     ng-controller="CommentController"
-     ng-show="layout.isView('comment')">
+     ng-class="{'canvas-side-hidden': '!layout.isView(\'comment\')'}"
+     ng-controller="CommentController">
   <div class="media comment-editor">
     <span class="pull-left">
       <img ng-src="{{me.sync.user.profile.image}}"

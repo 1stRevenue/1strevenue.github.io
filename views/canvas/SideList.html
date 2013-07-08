@@ -1,4 +1,5 @@
 <div class="canvas-side-list"
+     ng-class="{'canvas-side-hidden': '!layout.isView(\'list\')'}"
      ng-controller="StickerListController"
      ng-show="layout.isView('list')">
   <div class="sticker-count">

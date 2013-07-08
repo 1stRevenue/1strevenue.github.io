@@ -19,51 +19,20 @@ var FirstRevenueApp = angular.module('FirstRevenueApp', [
     '$strap.directives',
     'firebase'
   ]).config([
-    '$httpProvider',
     '$routeProvider',
-    '$rootScopeProvider',
-    function (e, t) {
-      delete e.defaults.headers.common['X-Requested-With'], t.when('/', {
-        templateUrl: 'views/routes/Repo.html',
-        controller: 'RepoController'
-      }).when('/entry', {
-        templateUrl: 'views/routes/Entry.html',
-        controller: 'EntryController'
-      }).when('/home', {
-        templateUrl: 'views/routes/Home.html',
-        controller: 'HomeTabsController'
-      }).when('/repo', {
-        templateUrl: 'views/routes/Repo.html',
-        controller: 'RepoController'
-      }).when('/canvas', {
-        templateUrl: 'views/routes/Canvas.html',
-        controller: 'CanvasController'
-      }).when('/canvas/:modelId', {
-        templateUrl: 'views/routes/Canvas.html',
-        controller: 'CanvasController'
-      }).when('/people', {
-        templateUrl: 'views/routes/People.html',
-        controller: 'PeopleController'
-      }).when('/invite/:inviteId', {
-        templateUrl: 'views/routes/Invite.html',
-        controller: 'InviteController'
-      }).when('/admin', {
-        templateUrl: 'views/routes/Admin.html',
-        controller: 'AdminController'
+    function (e) {
+      e.when('/impress/:modelId', {
+        templateUrl: 'views/impress/Impress.html',
+        controller: 'ImpressController'
+      }).when('/', {
+        templateUrl: 'views/impress/Impress.html',
+        controller: 'ImpressController'
       }).otherwise({ redirectTo: '/' });
     }
   ]).run([
-    '$rootScope',
-    '$location',
-    '$q',
-    'Myself',
-    'RrrrRrrr',
-    function (e, t, o, n, i) {
-      console.log('app.run set up $routeChangeStart $on event watcher'), e.deferredLaunch = o.defer(), e.$on('$routeChangeStart', function (t, o, r) {
-        i.launching = !1, console.log('app.run $routeChangeStart current=', r, 'next=', o, 'Myself=', n), !n.authenticated && o.$$route.controller && 'InviteController' !== o.$$route.controller && 'EntryController' !== o.$$route.controller && (o.$$route.resolve = o.$$route.resolve || {}, o.$$route.resolve.Launch = o.$$route.resolve.Launch = function () {
-          return e.deferredLaunch.promise;
-        });
-      });
+    '$route',
+    function (e) {
+      e.reload();
     }
   ]);
 FirstRevenueApp.controller('AdminController', [
@@ -495,39 +464,66 @@ FirstRevenueApp.controller('AdminController', [
       }
     }), e.modelId = t.current.params.modelId, console.log(o, '$route=', t, 'modelId=', e.modelId), e.modelId && e.im.loadModel(e.modelId);
   }
+]), FirstRevenueApp.controller('ImpressMasterController', [
+  '$scope',
+  '$route',
+  '$routeParams',
+  '$window',
+  'Canvas',
+  'ImpressModel',
+  function (e, t, o, n, i, r) {
+    var s = 'ImpressMasterController';
+    console.log(s, 'launched'), e.$root._ = window._, angular.extend(e, {
+      canvas: i,
+      im: r
+    }), e.rootRef = new Firebase(CONFIG_1ST_REVENUE.firebaseEndpoint), n.document.title = '1st Revenue Presentation', r.init(e.rootRef, e), console.log(s, '$route=', t, 'modelId=', e.modelId, '$routeParams=', o), analytics.track('Impress launch');
+  }
 ]), FirstRevenueApp.controller('InviteController', [
   '$scope',
+  '$location',
   '$timeout',
   '$route',
+  '$q',
   'Firebase',
   'Invite',
-  function (e, t, o, n, i) {
-    var r = 'InviteController';
+  function (e, t, o, n, i, r, s) {
+    var a = 'InviteController', l = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
     angular.extend(e, {
-      invite: i,
+      invite: s,
       inviteId: null,
       service: null,
-      openAuthServiceOnly: function () {
-        e.inviteId = o.current.params.inviteId, console.log(r, 'openAuth $scope=', e, 'inviteId=', e.inviteId), n.rootRef.child('invites').child(e.inviteId).child('service').once('value', function (o) {
-          t(function () {
-            e.service = o.val(), console.log(r, 'service=', e.service);
+      loaded: !1,
+      creator: null,
+      openAuth: function () {
+        var t = e.inviteId = n.current.params.inviteId, l = i.defer();
+        console.log(a, 'openAuth $scope=', e, 'inviteId=', t), s.inviteRef = r.rootRef.child('invites').child(t), s.inviteRef.once('value', function (t) {
+          var n = t.val();
+          console.log(a, 'openAuth inviteValue=', n), o(function () {
+            e.invite.loaded = !0, e.me.sessionFound && (e.me.mp.wasCurrentUserInvited(n) ? (n.current = !0, l.resolve(n)) : l.resolve(n)), l.resolve(n), e.service = n ? n.service : null, e.me.sessionFound && e.loadCreator(n), console.log(a, 'invite value=', n);
           });
         }, function (e) {
-          console.log('Invite error=', e);
+          console.log('Invite error=', e), l.reject(e);
+        }), s.setInvite(t, l.promise);
+      },
+      loadCreator: function (e) {
+        s.creatorRef = r.rootRef.child('users').child(e.creator).child('profile'), s.creatorRef.once('value', function (e) {
+          o(function () {
+            s.creator = e.val();
+          });
         });
       },
-      openAuth: function () {
-        var s = e.inviteId = o.current.params.inviteId;
-        console.log(r, 'openAuth $scope=', e, 'inviteId=', s), i.inviteRef = n.rootRef.child('invites').child(s), i.inviteRef.once('value', function (o) {
-          var n = o.val();
-          console.log(r, 'openAuth inviteValue=', n), t(function () {
-            i.setInvite(s, n), e.service = n ? n.service : null, console.log(r, 'invite value=', n);
-          });
-        }, function (e) {
-          console.log('Invite error=', e);
-        });
+      extractTimeStamp: function (e) {
+        for (var t = e.substr(0, 8), o = 0, n = 0; 8 > n; n++)
+          o = 64 * o + l.indexOf(t.charAt(n));
+        return o;
+      },
+      getInviteDate: function (t) {
+        return new Date(e.extractTimeStamp(t)).toLocaleString();
+      },
+      signIn: function () {
+        t.path('/entry');
       }
-    }), e.openAuth();
+    }), e.invite.loaded = !1, e.invite.creator = null, e.openAuth();
   }
 ]), FirstRevenueApp.controller('MasterController', [
   '$scope',
@@ -2140,8 +2136,6 @@ FirstRevenueApp.controller('AdminController', [
         nowRemote: null,
         rootRef: null,
         authClient: null,
-        connected: !1,
-        connStatus: 'Offline',
         notif: s,
         providers: {
           facebook: {
@@ -3227,12 +3221,12 @@ FirstRevenueApp.controller('AdminController', [
         e && this.placeCaretAtEnd(e);
       },
       placeCaretAtEnd: function (t) {
-        if (t.focus(), void 0 !== e.getSelection && void 0 !== e.document.createRange) {
+        if (t.focus(), e.getSelection !== void 0 && e.document.createRange !== void 0) {
           var o = e.document.createRange();
           o.selectNodeContents(t), o.collapse(!1);
           var n = e.getSelection();
           n.removeAllRanges(), n.addRange(o);
-        } else if (void 0 !== e.document.body.createTextRange) {
+        } else if (e.document.body.createTextRange !== void 0) {
           var i = e.document.body.createTextRange();
           i.moveToElementText(t), i.collapse(!1), i.select();
         }
@@ -3500,7 +3494,9 @@ FirstRevenueApp.controller('AdminController', [
         inviteValue: null,
         inviteRef: null,
         setInvite: function (e, t) {
-          console.log(a, 'setInvite id=', e, 'value=', t), u.inviteId = e, u.inviteValue = t;
+          console.log(a, 'setInvite id=', e), u.inviteId = e, t.then(function (t) {
+            console.log(a, 'setInvite then id=', e, 'v=', t), u.inviteValue = t;
+          });
         },
         ignoreInvite: function () {
           console.log(a, 'ignoreInvite'), i.generalAuth(null, s.getLastUser());
@@ -3690,7 +3686,7 @@ FirstRevenueApp.controller('AdminController', [
         },
         inviteFailed: function (t) {
           console.log(a, 'inviteFailed error=', t), e(function () {
-            u.error = t;
+            u.error = { message: t };
           });
         }
       };
@@ -4175,6 +4171,15 @@ FirstRevenueApp.controller('AdminController', [
           var o = n.lastUser ? new t(n.lastUser) : null;
           return o && o.service === e;
         },
+        getService: function () {
+          return 'singly' === n.lastUser.provider ? n.lastUser.service : n.lastUser.provider;
+        },
+        getServiceId: function () {
+          return 'singly' === n.lastUser.provider ? n.lastUser.services[n.lastUser.service].id : n.lastUser.id;
+        },
+        wasCurrentUserInvited: function (e) {
+          return e.service === n.getService() && e.serviceId === n.getServiceId();
+        },
         buildServiceCredentials: function (i) {
           if (i.provider) {
             console.log(o, 'buildServiceCredentials', 'user added to credentials');
@@ -4557,13 +4562,13 @@ FirstRevenueApp.controller('AdminController', [
         });
       switch (t.key = t.provider + '-' + t.id, e.provider) {
       case 'facebook':
-        t.image = '//graph.facebook.com/' + e.username + '/picture';
+        t.link = e.link, t.image = '//graph.facebook.com/' + e.username + '/picture';
         break;
       case 'twitter':
-        t.image = e.profile_image_url;
+        t.link = '//twitter.com/' + e.username, t.image = e.profile_image_url;
         break;
       case 'github':
-        t.image = e.avatar_url;
+        t.link = e.profileUrl, t.image = e.avatar_url;
         break;
       case 'persona':
         t.image = '//www.gravatar.com/avatar/' + t.hash;
@@ -4572,7 +4577,7 @@ FirstRevenueApp.controller('AdminController', [
         t.image = '//www.gravatar.com/avatar/' + t.hash;
         break;
       case 'singly':
-        t.image = e.thumbnail_url;
+        t.link = e.url, t.image = e.thumbnail_url;
         break;
       default:
         t.image = null;
@@ -5010,5 +5015,40 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return n;
+  }
+]), FirstRevenueApp.factory('ImpressModel', [
+  '$timeout',
+  '$window',
+  'Canvas',
+  'angularFire',
+  function (e, t, o, n) {
+    var i = 'ImpressModel';
+    console.log(i, 'service launched');
+    var r = {
+        rootRef: null,
+        masterScope: null,
+        dereg: {},
+        init: function (e, t) {
+          console.log(i, 'init'), r.rootRef = e, r.masterScope = t;
+        },
+        angularFire: function (e, t, o) {
+          console.log(i, 'angularFire name=', t, o), o = angular.isUndefined(o) ? {} : o;
+          var s = n(e, r.masterScope, t, o);
+          return s.then(function (e) {
+            console.log(i, 'angularFire callback afReady=', e), e.off && e.name ? r.dereg = e.off : s.off && (r.dereg = s.off);
+          }), s;
+        },
+        loadModel: function (e) {
+          console.log(i, 'loadModel modelId=', e);
+          var t = r.rootRef.child('models').child(e), o = r.angularFire(t, 'canvas.model');
+          o ? o.then(r.loadModelData) : console.log(i, 'loadModel angularFire failed for modelId', e);
+        },
+        loadModelData: function (n) {
+          console.log(i, 'loadModelData modelPromise resolved modelReady=', n), e(function () {
+            t.document.title = o.model.fields.name + ' - 1st Revenue Presentation', impress().init();
+          });
+        }
+      };
+    return r;
   }
 ]);
