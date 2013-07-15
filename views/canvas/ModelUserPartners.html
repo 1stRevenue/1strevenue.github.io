@@ -1,0 +1,35 @@
+<div class="picker-header"
+     ng-click="pickGroup('partners')">
+  <i ng-show="isPickVisible('partners')"
+     class="icon-chevron-sign-down"></i>
+  <i ng-hide="isPickVisible('partners')"
+     class="icon-chevron-sign-right"></i>
+  Partners ({{ _.size(sync.user.partners) }})
+</div>
+
+<div class="picker-body"
+     zzz-ng-class="{'picker-collapsed': !isPickVisible('partners')}"
+     ng-show="isPickVisible('partners')">
+  <!--div ng-repeat="(partnerId, partner) in sync.user.partners track by partnerId | filter:prefixFilter"   -->
+  <div ng-repeat="partner in getPartners() | filter:prefixFilter"
+       class="picker-item"
+       ng-class="{'picker-inactive': wasInvited(partner)}">
+    <span first-revenue-service-icon="partner.service"></span>
+    <img ng-src="{{partner.image}}"
+         class="user-icon"
+         ng-show="partner.image"
+         title="{{partner.name}}" />
+    <img ng-src="images/bbf82395.light_avatar_small.png"
+         class="user-icon"
+         ng-hide="partner.image"
+         title="{{partner.name}}" />
+      <span class="user-name">
+        {{partner.name}}
+      </span>
+    <button class="btn btn-warning btn-small select-button"
+            ng-hide="wasInvited(partner)"
+            ng-click="social.addModelInvite(canvas, partner)">
+      <i class="icon-chevron-right"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<input type="submit"
+       style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+
+<div class="typeahead-search"
+     ng-show="partnersLoaded()">
+  <button class="btn btn-small left-button"
+          ng-disabled="!tah.userTypeAhead"
+          ng-class="{'btn-danger': tah.userTypeAhead}"
+          ng-click="resetSearch()"
+          title="Clear filter">
+    <i class="icon-remove"></i>
+<!--    &times;   -->
+  </button>
+  <input type="text"
+         id="user-typeahead"
+         class="input-xlarge"
+         placeholder="Type to search contacts"
+         ng-model="tah.userTypeAhead"
+         zzz-first-revenue-typeahead="tah.dataset"
+         data-selection="tahSelection" />
+  <button class="btn btn-small right-button"
+          ng-disabled="!massInviteAllowed()"
+          ng-class="{'btn-warning': massInviteAllowed()}"
+          zzz-ng-click="tahSubmit()">
+    <i class="icon-double-angle-right"></i>
+<!--    +    -->
+  </button>
+</div>

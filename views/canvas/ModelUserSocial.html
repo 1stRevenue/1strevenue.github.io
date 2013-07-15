@@ -1,0 +1,46 @@
+<div class="picker-header"
+     ng-click="pickGroup('social')">
+  <i ng-show="isPickVisible('social')"
+     class="icon-chevron-sign-down"></i>
+  <i ng-hide="isPickVisible('social')"
+     class="icon-chevron-sign-right"></i>
+  Social accounts
+</div>
+
+<div class="picker-body"
+     ng-show="isPickVisible('social')">
+
+  <div ng-repeat="account in sync.user.accounts"
+       class="picker-item">
+    <!--input type="checkbox"
+           ng-click="refreshFriendDataset(account)"
+           ng-class="{'hidden-button': !social.loaded[account.profile.service]}"
+           ng-disabled="!social.loaded[account.profile.service]"
+           ng-model="tah.social[account.profile.service]" /-->
+    <span first-revenue-service-icon="account.profile.service"></span>
+
+    <button class="btn btn-small btn-warning"
+            ng-click="loadAccount(account)"
+            ng-hide="social.loaded[account.profile.service]">
+      Load {{account.contacts.total}} contacts
+    </button>
+    <small class="latency-note"
+           ng-show="!social.loaded[account.profile.service] && account.contacts.refreshed">
+      <small>Seen {{getRefreshLatency(account.contacts.refreshed)}}</small>
+    </small>
+
+    <button class="btn btn-small"
+            ng-disabled="true"
+            ng-click="refreshAccount(account)"
+            ng-show="social.loaded[account.profile.service]">
+      Loaded {{account.contacts.total}} contacts
+    </button>
+    <small class="latency-note"
+           ng-show="social.loaded[account.profile.service]">
+      <small>
+        {{getRefreshLatency(account.contacts.refreshed)}}
+      </small>
+    </small>
+
+  </div>
+</div>

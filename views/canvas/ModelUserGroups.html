@@ -1,0 +1,25 @@
+<div class="picker-header"
+     ng-click="pickGroup('groups')">
+  <i ng-show="isPickVisible('groups')"
+     class="icon-chevron-sign-down"></i>
+  <i ng-hide="isPickVisible('groups')"
+     class="icon-chevron-sign-right"></i>
+  Groups
+</div>
+
+<div class="picker-body"
+     zzz-ng-class="{'picker-collapsed': !isPickVisible('groups')}"
+     ng-show="isPickVisible('groups')">
+  <div class="picker-item">
+    Group-alpha
+  </div>
+  <div class="picker-item">
+    Group beta
+  </div>
+  <div class="picker-item">
+    Group gamma
+  </div>
+  <div class="picker-item">
+    Group delta
+  </div>
+</div>

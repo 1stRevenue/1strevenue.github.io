@@ -161,6 +161,19 @@ a:focus {
   display: none;
 }
 
+.impress-enabled {
+  -webkit-perspective: 800;
+  -webkit-perspective-origin: 50% 200px;
+}
+.impress-enabled #impress {
+  position: relative;
+  margin: 0 auto;
+  height: 400px;
+  width: 400px;
+  -webkit-transition: -webkit-transform 2s linear;
+  -webkit-transform-style: preserve-3d;
+}
+
 /*
     Now let's style the presentation steps.
 

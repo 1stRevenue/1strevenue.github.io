@@ -1,19 +1,39 @@
-<div class="user-list-header">Users</div>
-<div ng-repeat="(userId, userValue) in canvas.model.users track by userId"
-     class="user-list-item">
-  <button class="btn btn-small delete-button"
-          ng-class="{'hidden-button': userId === me.userId}"
-          ng-click="deletePeer(userId)">
-    &times;
-  </button>
-  <span first-revenue-service-icon="sync.peers[userId].service"></span>
-  <img ng-src="{{sync.peers[userId].image}}"
-       class="user-icon"
-       ng-show="sync.peers[userId].image"
-       title="{{sync.peers[userId].name}}" />
-  <img ng-src="images/bbf82395.light_avatar_small.png"
-       class="user-icon"
-       ng-hide="sync.peers[userId].image"
-       title="{{sync.peers[userId].name}}" />
-  {{sync.peers[userId].name}}
+<div class="user-list-users">
+  <div class="user-list-header"
+       ng-click="pickGroup('users')">
+    <i ng-show="isPickVisible('users')"
+       class="icon-chevron-sign-down"></i>
+    <i ng-hide="isPickVisible('users')"
+       class="icon-chevron-sign-right"></i>
+    Users ({{ _.size(canvas.model.users) }})
+  </div>
+
+  <div class="user-list-body"
+       ng-show="isPickVisible('users')">
+    <div ng-repeat="(userId, userValue) in sync.models[canvas.modelId].users track by userId"
+         class="user-list-item">
+      <button class="btn btn-small delete-button"
+              ng-class="{'hidden-button': userId === me.userId}"
+              ng-click="deletePeer(userId)">
+        <i class="icon-remove"></i>
+      </button>
+      <span first-revenue-service-icon="sync.peers[userId].service"></span>
+      <img ng-src="{{sync.peers[userId].image}}"
+           class="user-icon"
+           ng-show="sync.peers[userId].image"
+           title="{{sync.peers[userId].name}}" />
+      <img ng-src="images/bbf82395.light_avatar_small.png"
+           class="user-icon"
+           ng-hide="sync.peers[userId].image"
+           title="{{sync.peers[userId].name}}" />
+      <span class="user-name">
+        {{sync.peers[userId].name}}
+      </span>
+      <button class="btn btn-small invite-button"
+              ng-click="social.notifyUser(userId, canvas.modelId)"
+              ng-if="">
+        Notify
+      </button>
+    </div>
+  </div>
 </div>

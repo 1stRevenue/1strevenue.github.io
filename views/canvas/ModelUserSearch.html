@@ -1,71 +1,15 @@
-<input type="submit"
-       style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
-<div class="typeahead-search">
-  <button class="btn btn-small left-button"
-          ng-disabled="!tah.userTypeAhead"
-          ng-class="{'btn-danger': tah.userTypeAhead}"
-          ng-click="resetSearch()">
-    &times;
-  </button>
-  <input type="text"
-         id="user-typeahead"
-         class="input-xlarge zzz-search-query"
-         placeholder="Search and add users"
-         ng-model="tah.userTypeAhead"
-         first-revenue-typeahead="tah.dataset"
-         data-selection="tahSelection" />
-  <button class="btn btn-small right-button"
-          ng-disabled="!testSelection()"
-          ng-class="{'btn-success': testSelection()}"
-          ng-click="tahSubmit()">
-    +
-  </button>
-</div>
-
-<div class="search-header">
-  Search partners
-</div>
-<div ng-repeat="account in sync.user.accounts"
-     class="model-editor-service-load">
-  <input type="checkbox"
-         ng-click="refreshPartnerDataset(account)"
-         ng-model="tah.partners[account.profile.service]" />
-  <span first-revenue-service-icon="account.profile.service"></span>
-  <span>{{_.size(account.contacts.partners)}} {{account.profile.service}} partners</span>
-</div>
-
-<div class="search-header">
-  Search social friends
-</div>
-<div ng-repeat="account in sync.user.accounts"
-     class="model-editor-service-load">
-  <input type="checkbox"
-         ng-click="refreshFriendDataset(account)"
-         ng-class="{'hidden-button': !social.loaded[account.profile.service]}"
-         ng-disabled="!social.loaded[account.profile.service]"
-         ng-model="tah.social[account.profile.service]" />
-  <span first-revenue-service-icon="account.profile.service"></span>
-
-  <button class="btn btn-small btn-primary"
-          ng-click="loadAccount(account)"
-          ng-hide="social.loaded[account.profile.service]">
-    Load {{account.contacts.total}} friends
-  </button>
-  <small class="latency-note"
-        ng-show="!social.loaded[account.profile.service] && account.contacts.refreshed">
-    <small>Seen {{getRefreshLatency(account.contacts.refreshed)}}</small>
-  </small>
-
-  <button class="btn btn-small"
-          ng-disabled="true"
-          ng-click="refreshAccount(account)"
-          ng-show="social.loaded[account.profile.service]">
-    Loaded {{account.contacts.total}} friends
-  </button>
-  <small class="latency-note"
-        ng-show="social.loaded[account.profile.service]">
-    <small>
-      {{getRefreshLatency(account.contacts.refreshed)}}
-    </small>
-  </small>
+<div class='picker'>
+  <div class="picker-group">
+    <div class="alert alert-picker"
+         ng-if="!partnersLoaded()">
+      You have not selected your partners yet.
+      Please load friends and connections from one or more of your social accounts.
+    </div>
+    <div ng-if="!_.isEmpty(sync.user.groups)"
+         ng-include="'views/canvas/ModelUserGroups.html'"></div>
+    <div ng-if="!_.isEmpty(sync.user.partners)"
+         ng-include="'views/canvas/ModelUserPartners.html'"></div>
+    <div ng-include="'views/canvas/ModelUserSocial.html'"></div>
+    <div ng-include="'views/canvas/ModelUserServices.html'"></div>
+  </div>
 </div>

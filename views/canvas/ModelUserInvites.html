@@ -1,51 +1,64 @@
-<div class="user-list-header">Invites</div>
-<div ng-repeat="(inviteId, inviteValue) in canvas.model.invites track by inviteId"
-     ng-show="sync.invites[inviteId].status!=='accepted'"
-     class="user-list-item">
-  <button class="btn btn-small delete-button"
-        ng-click="deleteInvite(inviteId)">
-    &times;
-  </button>
-  <span first-revenue-service-icon="sync.invites[inviteId].service"></span>
-  <img ng-src="{{sync.invites[inviteId].image}}"
-       class="user-icon"
-       ng-show="sync.invites[inviteId].image"
-       title="{{sync.invites[inviteId].name}}" />
-  <img ng-src="images/bbf82395.light_avatar_small.png"
-       class="user-icon"
-       ng-hide="sync.invites[inviteId].image"
-       title="{{sync.invites[inviteId].name}}" />
-  <span class="invite-name">
-    {{sync.invites[inviteId].name}}
-  </span>
+<div class="user-list-invites">
+  <div class="user-list-header"
+       ng-click="pickGroup('invites')">
+    <i ng-show="isPickVisible('invites')"
+       class="icon-chevron-sign-down"></i>
+    <i ng-hide="isPickVisible('invites')"
+       class="icon-chevron-sign-right"></i>
+    Invites ({{ _.size(canvas.model.invites) }})
+  </div>
 
-  <button class="btn btn-success btn-small invite-button"
-          ng-click="social.updateInvite(inviteId)"
-          ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service!='gplus'">
-    Invite
-  </button>
-  <!--button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
-          class="btn btn-success btn-small invite-button">
-    Invite
-  </button-->
+  <div class="user-list-body"
+       ng-show="isPickVisible('invites')">
+    <div ng-repeat="(inviteId, inviteValue) in sync.models[canvas.modelId].invites track by inviteId"
+         ng-show="sync.invites[inviteId].status!=='accepted'"
+         class="user-list-item">
+      <button class="btn btn-small delete-button"
+              ng-click="deleteInvite(inviteId)">
+        <i class="icon-remove"></i>
+      </button>
+      <span first-revenue-service-icon="sync.invites[inviteId].service"></span>
+      <img ng-src="{{sync.invites[inviteId].image}}"
+           class="user-icon"
+           ng-show="sync.invites[inviteId].image"
+           title="{{sync.invites[inviteId].name}}" />
+      <img ng-src="images/bbf82395.light_avatar_small.png"
+           class="user-icon"
+           ng-hide="sync.invites[inviteId].image"
+           title="{{sync.invites[inviteId].name}}" />
+    <span class="invite-name">
+      {{sync.invites[inviteId].name}}
+    </span>
 
-  <!--button class="g-interactivepost btn btn-success btn-small invite-button"
-          ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service=='gplus'"
-          data-contenturl="GooglePlusInvitation.html"
-          data-contentdeeplinkid="{{inviteId}}"
-          data-clientid="{{googleClientId}}"
-          data-cookiepolicy="single_host_origin"
-          data-prefilltext="Join 1st Revenue to collaborate on model {{canvas.model.fields.name}}"
-          data-calltoactionlabel="INVITE"
-          data-calltoactionurl="{{callToActionURL}}{{inviteId}}"
-          data-calltoactiondeeplinkid="{{inviteId}}"
-          data-recipients="{{sync.invites[inviteId].serviceId}}">
-    Invite
-  </button-->
+      <button class="btn btn-success btn-small invite-button"
+              ng-click="social.updateInvite(inviteId)"
+              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service!='gplus'">
+        Invite
+      </button>
+      <!--button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
+              class="btn btn-success btn-small invite-button">
+        Invite
+      </button-->
 
-  <button class="btn btn-small invite-button"
-          ng-disabled="true"
-          ng-if="sync.invites[inviteId].status=='sent'">
-    Invited
-  </button>
+      <!--button class="g-interactivepost btn btn-success btn-small invite-button"
+              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service=='gplus'"
+              data-contenturl="GooglePlusInvitation.html"
+              data-contentdeeplinkid="{{inviteId}}"
+              data-clientid="{{googleClientId}}"
+              data-cookiepolicy="single_host_origin"
+              data-prefilltext="Join 1st Revenue to collaborate on model {{canvas.model.fields.name}}"
+              data-calltoactionlabel="INVITE"
+              data-calltoactionurl="{{callToActionURL}}{{inviteId}}"
+              data-calltoactiondeeplinkid="{{inviteId}}"
+              data-recipients="{{sync.invites[inviteId].serviceId}}">
+        Invite
+      </button-->
+
+      <button class="btn btn-small invite-button"
+              ng-disabled="true"
+              ng-if="sync.invites[inviteId].status=='sent'">
+        Invited
+      </button>
+    </div>
+  </div>
 </div>

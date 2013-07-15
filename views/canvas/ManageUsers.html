@@ -1,16 +1,20 @@
-<div class="model-manage-users"
-     ng-class="{'manage-users-hidden': !layout.share}"
-     ng-controller="ModelController"
-     zzz-ng-show="layout.share">
+<div class="model-user-panel"
+     ng-class="{'model-user-panel-hidden': !layout.share}"
+     ng-controller="ModelController">
   <form class="modal-editor-form form-search"
-        ng-submit="tahSubmit()">
-    <div class="model-editor-search-panel"
-         ng-include="'views/canvas/ModelUserSearch.html'"></div>
-    <div class="model-editor-user-panel">
-      <div ng-hide="_.isEmpty(canvas.model.users)"
-           ng-include="'views/canvas/ModelUserList.html'"></div>
-      <div ng-hide="_.isEmpty(canvas.model.invites)"
-           ng-include="'views/canvas/ModelUserInvites.html'"></div>
+        zzz-ng-submit="tahSubmit()">
+    <div class="model-editor-search-side">
+      <div ng-include="'views/canvas/ModelUserTypeahead.html'"></div>
+      <div ng-include="'views/canvas/ModelUserSearch.html'"></div>
+    </div>
+
+    <div class="model-user-list-side">
+      <div class="invites-and-users">
+        <div ng-if="!_.isEmpty(canvas.model.invites)"
+             ng-include="'views/canvas/ModelUserInvites.html'"></div>
+        <div ng-if="!_.isEmpty(canvas.model.users)"
+             ng-include="'views/canvas/ModelUserList.html'"></div>
+      </div>
     </div>
   </form>
 </div>

@@ -656,12 +656,14 @@ FirstRevenueApp.controller('AdminController', [
         commentSort: '-updated'
       },
       tah: {
-        userTypeAhead: null,
+        empty: !0,
+        userTypeAhead: '',
         selectedDatum: null,
         dataset: null,
         social: {},
         partners: {}
       },
+      selectedUsers: {},
       nameError: !1,
       emptyDataset: {
         name: 'empty',
@@ -669,6 +671,13 @@ FirstRevenueApp.controller('AdminController', [
         template: e.template,
         header: '<div class="tt-header">No users found</div>',
         local: []
+      },
+      picks: {
+        social: !0,
+        users: !0,
+        invites: !0,
+        groups: !0,
+        partners: !0
       },
       getComments: function () {
         return _.sortBy(e.canvas.model.comments, function (e) {
@@ -702,15 +711,16 @@ FirstRevenueApp.controller('AdminController', [
       resetSearch: function () {
         e.tah.userTypeAhead = '', e.tah.selectedDatum = null;
       },
-      testSelection: function () {
-        var t = !!e.tah.selectedDatum;
-        return t;
+      massInviteAllowed: function () {
+        return !1;
       },
       tahSubmit: function () {
         console.log(i, 'tahSubmit tah.userTypeAhead=', e.tah.userTypeAhead), n.addModelInvite(e.canvas, e.tah.selectedDatum), e.resetSearch();
       },
       deleteInvite: function (t) {
-        delete e.canvas.model.invites[t], delete e.sync.user.invites[t];
+        console.log(i, 'deleteInvite inviteId=', t);
+        var o = e.canvas.modelId;
+        delete e.sync.models[o].invites[t], delete e.sync.user.invites[t].models[o];
       },
       getRefreshLatency: function (t) {
         return e.timeStamp = Date.now(), t ? e.getLatency(t, e.timeStamp) : '';
@@ -777,6 +787,8 @@ FirstRevenueApp.controller('AdminController', [
         var r = s[n.profile.service] || 'Unknown', a = {
             name: n.profile.service + '-' + t,
             count: n.contacts.total,
+            service: n.profile.service,
+            serviceTitle: r,
             template: e.template,
             header: '<div class="tt-header">' + r + ' ' + t + ' (' + _.size(o) + ')</div>',
             local: o
@@ -816,15 +828,42 @@ FirstRevenueApp.controller('AdminController', [
               _.size(s) > 0 && t.push(e.createDataset('friends', s, o));
             }
           }
-        }), 0 === _.size(t) && t.push(e.emptyDataset), o(function () {
+        }), e.tah.empty = 0 === _.size(t), e.tah.empty && t.push(e.emptyDataset), o(function () {
           console.log(i, 'buildDatasets tah.dataset=', t), e.tah.dataset = t;
         });
       },
       loadAccount: function (t) {
-        e.social.fetchAccount(e.me, t.profile.service), e.tah.social[t.profile.service] = !0;
+        e.social.fetchAccount(e.me, t.profile.service), e.tah.social[t.profile.service] = !0, e.picks[t.profile.service] = !0;
       },
       refreshAccount: function (t) {
         e.social.fetchAccount(e.me, t.profile.service);
+      },
+      getPartners: function () {
+        return _.toArray(e.sync.user.partners);
+      },
+      prefixFilter: function (t) {
+        for (var o = e.tah.userTypeAhead.toLowerCase(), n = o.length, r = t.name.toLowerCase().split(' '), i = 0; r.length > i; i++)
+          if (r[i].slice(0, n) === o)
+            return !0;
+        return !1;
+      },
+      pickGroup: function (t) {
+        e.picks[t] = !e.picks[t];
+      },
+      isPickVisible: function (t) {
+        return !!e.picks[t];
+      },
+      partnersLoaded: function () {
+        return !(_.isEmpty(e.sync.user.groups) && _.isEmpty(e.sync.user.partners) && e.tah.empty);
+      },
+      wasInvited: function (t) {
+        var o, n;
+        return n = _.find(e.sync.models[e.canvas.modelId].users, function (o, n) {
+          var r = e.sync.peers[n];
+          return t.service === r.service && t.serviceId === r.serviceId;
+        }), _.isUndefined(n) && (o = _.find(e.sync.models[e.canvas.modelId].invites, function (o, n) {
+          return t.service === e.sync.invites[n].service && t.serviceId === e.sync.invites[n].serviceId;
+        })), !(_.isUndefined(n) && _.isUndefined(o));
       }
     }), e.menu.selected = 'canvas', e.social.me = e.me, e.preparePartnerMarks(), e.buildDatasets(), e.$watch('sync.user.accounts', e.buildDatasets, !0), e.$watch('social.contacts', e.buildDatasets, !0);
   }
@@ -1711,7 +1750,7 @@ FirstRevenueApp.controller('AdminController', [
           c = t(s.firstRevenueTypeahead)(a), console.log(o, '$watch tah.dataset=', c), i.typeahead('destroy'), i.typeahead(c), r(i);
         }, !0), i.on('typeahead:selected typeahead:autocompleted', function (t, r) {
           console.log(o, 'event $e=', t, 'data=', r), e(function () {
-            n.tah.selectedDatum = r;
+            n.tah.selectedDatum = r, n.selectedUsers[r.service + '-' + r.serviceId] = r;
           });
         });
       }
@@ -2083,9 +2122,6 @@ FirstRevenueApp.controller('AdminController', [
           console.log(o, 'switchBlock pane=', e, 'this.model.blocks=', n.model.blocks), n.singleBlock = _.find(n.model.blocks, function (t) {
             return console.log(o, 'switchBlock findingBlock b=', t), t.paneClass === e.icon;
           });
-        },
-        loadBlocks: function (t, r) {
-          console.log(o, 'loadBlocks model=', t), n.modelId !== n.lastModelId && (e.setTitle(t.name), 1 > _.size(t.blocks) && (console.log(o, 'loadBlocks modelId=', n.modelId), r(n.modelId), n.lastModelId = n.modelId), n.blocks = t.blocks, n.model = t, n.loaded = !0);
         },
         getBackgroundImageURL: function () {
           return 'images/DemoCanvasModelIcon.png';
@@ -4610,10 +4646,11 @@ FirstRevenueApp.controller('AdminController', [
   'LinkedIn',
   'GPlus',
   'GContacts',
-  function (e, t, o, n, r, i, s) {
-    var a = 'Social';
-    console.log(a, 'service launched');
-    var l = {
+  'JWT',
+  function (e, t, o, n, r, i, s, a) {
+    var l = 'Social';
+    console.log(l, 'service launched');
+    var c = {
         gmail: 'contacts',
         gcontacts: 'contacts',
         google: 'self',
@@ -4624,53 +4661,91 @@ FirstRevenueApp.controller('AdminController', [
         github: 'following',
         yammer: 'users',
         meetup: 'groups'
-      }, c = {
+      }, u = {
         partners: {},
         refreshed: 0,
         total: 0
-      }, u = {
+      }, d = {
         me: null,
         account: null,
-        selectedItems: [],
+        selectedUsers: {},
         loaded: {},
         loading: {},
         contacts: {},
         reset: function () {
-          u.selectedItems = [], u.loaded = {}, u.loading = {}, u.contacts = {};
+          d.selectedUsers = {}, d.loaded = {}, d.loading = {}, d.contacts = {};
         },
         fetchAccount: function (e, t) {
-          u.me = e;
-          var o = u.findAccount(t);
-          u.fetchSocialAccount(o);
+          d.me = e;
+          var o = d.findAccount(t);
+          d.fetchSocialAccount(o);
         },
         fetchSocialAccount: function (e) {
-          console.log(a, 'fetchAccount account=', e), e.contacts = e.contacts || c;
-          var d = e.authentic.accessToken;
+          console.log(l, 'fetchAccount account=', e), e.contacts = e.contacts || u;
+          var a = e.authentic.accessToken;
           if ('singly' === e.profile.provider) {
-            var p = e.profile.service, h = e.authentic.token, f = l[p] || 'self', g = e.authentic.expires, m = new Date().getTime() / 1000;
-            console.log(a, 'fetchSocialAccount service=', p, 'token=', h, 'expires=', g, 'currentTime=', m), 'linkedin' === p ? r.getFriends(u.me, e, h) : 'gplus' === p ? i.getPeople(u.me, e, h) : 'gcontacts' === p ? s.getContacts(u.me, e, h) : f ? t.getData(p, h, f) : console.log(a, 'Unknown Singly service, endpoint not found');
+            var p = e.profile.service, h = e.authentic.token, f = c[p] || 'self', g = e.authentic.expires, m = new Date().getTime() / 1000;
+            console.log(l, 'fetchSocialAccount service=', p, 'token=', h, 'expires=', g, 'currentTime=', m), 'linkedin' === p ? r.getFriends(d.me, e, h) : 'gplus' === p ? t.launchAuth('gplus', d.me.rootRef, function (t, o) {
+              console.log(l, 'fetchSocialAccount gplus err=', t, 'acc=', o), d.me.sync.user.accounts['singly-' + o.id].authentic = o, i.getPeople(d.me, e, o.token);
+            }) : 'gcontacts' === p ? s.getContacts(d.me, e, h) : f ? t.getData(p, h, f) : console.log(l, 'Unknown Singly service, endpoint not found');
           } else
-            'facebook' === e.profile.provider ? o.getFriends(u.me, e, d) : 'twitter' === e.profile.provider && n.getFriends(u.me, e, d);
+            'facebook' === e.profile.provider ? o.getFriends(d.me, e, a) : 'twitter' === e.profile.provider && n.getFriends(d.me, e, a);
         },
         addModelInvite: function (e, t) {
-          if (console.log(a, 'addModelInvite data=', t), t) {
-            var o = angular.copy(t), n = u.me.rootRef.child('invitemap').child(o.service).child(o.serviceId);
+          if (console.log(l, 'addModelInvite data=', t), t) {
+            var o = angular.copy(t), n = d.me.rootRef.child('usermap').child(o.service).child(o.serviceId);
             n.once('value', function (t) {
-              var r = t.val();
-              if (r) {
-                var i = u.me.rootRef.child('invites').child(r), s = i.child('models').child(e.modelId);
-                s.set(!0, function (t) {
-                  t ? console.log(a, 'failed to set model in invite inviteId=', r, 'modelId=', e.modelId, 'err=', t) : console.log(a, 'successfully set model in invite inviteId=', r, 'modelId=', e.modelId, 'err=', t), u.updateModelInvite(e, o, r);
-                });
-              } else
-                u.createModelInvite(e, o, n, o.account);
+              var n = t.val();
+              console.log(l, 'addModelInvite usermap value userId=', n), n ? d.attachModelToUser(e, o, n) : d.verifyInviteMap(e, o), d.addPartner(o, n);
             });
           }
         },
+        addPartner: function (e, t) {
+          var o = d.me.sync.user.partners = d.me.sync.user.partners || {}, n = _.find(o, function (t) {
+              return t.service === e.service && t.serviceId === e.serviceId;
+            });
+          if (!n) {
+            var r = d.me.rootRef.push().name();
+            n = o[r] = {
+              name: e.name,
+              service: e.service,
+              serviceId: e.serviceId,
+              image: e.image
+            }, t && (n.userId = t);
+          }
+        },
+        attachModelToUser: function (e, t, o) {
+          console.log(l, 'attachModelToUser userId=', o, 'modelId=', e.modelId);
+          var n = d.me.rootRef.child('users').child(o), r = n.child('models').child(e.modelId);
+          r.set(!0, function (n) {
+            console.log(l, 'attachModelToUser set completed err=', n), n || d.attachUserToModel(e, t, o);
+          });
+        },
+        attachUserToModel: function (e, t, o) {
+          console.log(l, 'attachUserToModel canvas=', e);
+          var n = d.me.rootRef.child('models').child(e.modelId), r = n.child('users').child(o);
+          r.set(!0, function (e) {
+            console.log(l, 'attachUserToModel set completed err=', e);
+          });
+        },
+        verifyInviteMap: function (e, t) {
+          console.log(l, 'verifyInviteMap data=', t);
+          var o = d.me.rootRef.child('invitemap').child(t.service).child(t.serviceId);
+          o.once('value', function (n) {
+            var r = n.val();
+            if (r) {
+              var i = d.me.rootRef.child('invites').child(r), s = i.child('models').child(e.modelId);
+              s.set(!0, function (o) {
+                o ? console.log(l, 'failed to set model in invite inviteId=', r, 'modelId=', e.modelId, 'err=', o) : console.log(l, 'successfully set model in invite inviteId=', r, 'modelId=', e.modelId, 'err=', o), d.updateModelInvite(e, t, r);
+              });
+            } else
+              d.createModelInvite(e, t, o, t.account);
+          });
+        },
         createModelInvite: function (e, t, o) {
-          console.log(a, 'createModelInvite data=', t);
+          console.log(l, 'createModelInvite data=', t);
           var n = {
-              creator: u.me.userId,
+              creator: d.me.userId,
               service: t.service,
               serviceId: t.serviceId,
               name: t.name,
@@ -4679,39 +4754,33 @@ FirstRevenueApp.controller('AdminController', [
               models: {}
             };
           n.models[e.modelId] = !0;
-          var r = u.me.rootRef.child('invites'), i = r.push().name();
-          console.log(a, 'createModelInvite inviteId=', i), r.child(i).set(n, function (r) {
-            r ? console.log(a, 'failed to create an invite=', n, 'err=', r) : o.set(i, function () {
-              u.updateModelInvite(e, t, i);
+          var r = d.me.rootRef.child('invites'), i = r.push().name();
+          console.log(l, 'createModelInvite inviteId=', i), r.child(i).set(n, function (r) {
+            r ? console.log(l, 'failed to create an invite=', n, 'err=', r) : o.set(i, function () {
+              d.updateModelInvite(e, t, i);
             });
           });
         },
         updateModelInvite: function (t, o, n) {
-          console.log(a, 'updateModelInvite data=', o), e(function () {
-            t.model.invites = t.model.invites || {}, t.model.invites[n] = !0, u.me.sync.user.invites = u.me.sync.user.invites || {}, u.me.sync.user.invites[n] = !0;
-            var e = o.account.contacts.partners = o.account.contacts.partners || {};
-            e[o.serviceId] || (e[o.serviceId] = {
-              name: o.name,
-              image: o.image,
-              favorite: !0
-            });
+          console.log(l, 'updateModelInvite data=', o), e(function () {
+            t.model.invites = t.model.invites || {}, t.model.invites[n] = !0, d.me.sync.user.invites = d.me.sync.user.invites || {}, d.me.sync.user.invites[n] = !0;
           });
         },
         updateInvite: function (e) {
-          console.log(a, 'inviteId=', e);
-          var t = u.me.rootRef.child('invites').child(e), o = u.findPartner(e);
-          o.inviteId = e, console.log(a, 'updateInvite partner=', o), u.serviceInvite(o, function (e, n) {
-            e ? console.log(a, 'invite error=', e, 'partner=', o) : n && (console.log(a, 'invite sent partner=', o), t.update({ status: 'sent' }, function (e) {
-              u.inviteCallback(e, o, 'sent');
+          console.log(l, 'inviteId=', e);
+          var t = d.me.rootRef.child('invites').child(e), o = d.findPartner(e);
+          o.inviteId = e, console.log(l, 'updateInvite partner=', o), d.serviceInvite(o, function (e, n) {
+            e ? console.log(l, 'invite error=', e, 'partner=', o) : n && (console.log(l, 'invite sent partner=', o), t.update({ status: 'sent' }, function (e) {
+              d.inviteCallback(e, o, 'sent');
             }));
           });
         },
         inviteCallback: function (e, t, o) {
-          e ? (console.log(a, 'invite global status cannot be set to', o, 'error=', e), t.inviteFailed = !0) : (console.log(a, 'invite global status set to', o), 'created' === o ? t.inviteCreated = !0 : 'sent' === o && (t.inviteSent = !0));
+          e ? (console.log(l, 'invite global status cannot be set to', o, 'error=', e), t.inviteFailed = !0) : (console.log(l, 'invite global status set to', o), 'created' === o ? t.inviteCreated = !0 : 'sent' === o && (t.inviteSent = !0));
         },
         serviceInvite: function (e, t) {
-          var n = u.findAccount(e.service);
-          switch (console.log(a, 'serviceInvite contact=', e, 'account=', n), e.service) {
+          var n = d.findAccount(e.service);
+          switch (console.log(l, 'serviceInvite contact=', e, 'account=', n), e.service) {
           case 'facebook':
             o.sendMessage(e, t);
             break;
@@ -4722,40 +4791,29 @@ FirstRevenueApp.controller('AdminController', [
             i.sendMessage(e, n.authentic.token, t);
             break;
           default:
-            console.log(a, 'invite does not have sendMessage function for service=', e.service);
+            console.log(l, 'invite does not have sendMessage function for service=', e.service);
           }
         },
         findAccount: function (e) {
-          return _.find(u.me.sync.user.accounts, function (t) {
+          return _.find(d.me.sync.user.accounts, function (t) {
             return t.profile.service === e;
           });
         },
         findPartner: function (e) {
-          var t = u.me.sync.invites[e];
-          console.log(a, 'findPartner inviteId=', e, 'invite=', t);
-          var o = {
-              service: t.service,
-              serviceId: t.serviceId,
-              inviteId: t.inviteId
-            };
-          return _.each(u.me.sync.user.accounts, function (e) {
-            if (e.profile.service === t.service && e.profile.serviceId === t.serviceId)
-              if (e.contacts)
-                if (e.contacts.partners) {
-                  var n = e.contacts.partners[t.serviceId];
-                  n ? o = _.extend(n, o) : e.contacts.partners[t.serviceId] = o;
-                } else
-                  e.contacts.partners = {}, e.contacts.partners[t.serviceId] = o;
-              else
-                e.contacts = {
-                  partners: {},
-                  refreshed: Date.now(),
-                  total: 1
-                }, e.contacts.partners[t.serviceId] = o;
-          }), o;
+          var t = d.me.sync.invites[e];
+          return _.find(d.me.sync.user.partners, function (e) {
+            return e.service === t.service && e.serviceId === t.serviceId;
+          });
+        },
+        verifyExpiration: function (e, o) {
+          console.log(l, 'verifyExpiration token=', e);
+          var n = a.decodeJWT(e), r = n[1].exp;
+          console.log(l, 'verifyExpiration token=', e, 'tokenArray=', n, 'expires=', r), Math.floor(Date.now()) > r ? (console.log(l, 'verifyExpiration token has expired'), t.launchAuth('gplus', d.me.rootRef, function (e, t) {
+            console.log(l, 'verifyExpiration err=', e, 'acc=', t), d.me.sync.user.accounts['singly-' + t.id].authentic = t, o(t.token);
+          })) : (console.log(l, 'verifyExpiration token not expired'), o(e));
         }
       };
-    return u;
+    return d;
   }
 ]), FirstRevenueApp.factory('Facebook', [
   '$resource',
@@ -4878,61 +4936,56 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$http',
   '$timeout',
-  'JWT',
-  function (e, t, o, n) {
-    var r = 'GPlus', i = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', s = 'https://www.googleapis.com/plus/v1/people/me', a = 'https://www.googleapis.com/plus/v1/people/me/people/visible', l = {
+  function (e, t, o) {
+    var n = 'GPlus', r = 'https://api.singly.com/profiles/gplus?auth=true&access_token=:token', i = 'https://api.singly.com/proxy/google/plus/v1/people/me', s = 'https://api.singly.com/proxy/google/plus/v1/people/me/people/visible', a = {
         me: null,
         account: null,
         total: 0,
         people: null,
         token: null,
-        getPeople: function (t, o, n) {
-          if (l.me = t, l.account = o, l.token = n, l.me.social.loaded.gplus = !1, !t.social.loading.gplus) {
+        getPeople: function (t, o, i) {
+          if (console.log(n, 'getPeople account=', o, 'token=', i), a.me = t, a.account = o, a.token = i, a.me.social.loaded.gplus = !1, !t.social.loading.gplus) {
             t.social.loading.gplus = !0;
-            var r = e(i, { token: n });
-            l.profile = r.get(l.processProfile, l.requestError);
+            var s = e(r, { token: i });
+            a.profile = s.get(a.processProfile, a.requestError);
           }
         },
         processProfile: function (e) {
-          console.log(r, 'processProfile profile=', e), t({
+          console.log(n, 'processProfile profile=', e), t({
             method: 'GET',
-            url: s,
+            url: i,
             params: { key: CONFIG_1ST_REVENUE.gplusAPIKey },
-            headers: { Authorization: 'Bearer ' + e.auth.accessToken }
-          }).success(l.processGPlusProfile).error(l.requestError), l.total = 0, l.account.contacts = l.account.contacts || { refreshed: Date.now() }, l.bearerToken = e.auth.accessToken, l.sendPeopleRequest();
-        },
-        verifyExpiration: function (e) {
-          var t = n.decodeJWT(e), o = t[1].exp;
-          Math.floor(Date.now()) > o;
+            headers: {}
+          }).success(a.processGPlusProfile).error(a.requestError), a.total = 0, a.account.contacts = a.account.contacts || { refreshed: Date.now() }, a.bearerToken = e.auth.accessToken, a.sendPeopleRequest();
         },
         sendPeopleRequest: function (e) {
           t({
             method: 'GET',
-            url: a,
+            url: s,
             params: {
               key: CONFIG_1ST_REVENUE.gplusAPIKey,
               pageToken: e || null
             },
-            headers: { Authorization: 'Bearer ' + l.bearerToken }
-          }).success(l.processGPlusPeople).error(l.requestError);
+            headers: {}
+          }).success(a.processGPlusPeople).error(a.requestError);
         },
         processGPlusProfile: function (e) {
           console.log('GPlus processGPlusProfile gprofile=', e);
         },
         processGPlusPeople: function (e) {
-          console.log('GPlus processGPlusPeople people=', e), l.me.social.contacts.gplus = l.me.social.contacts.gplus || {}, o(function () {
-            if (_.each(e.items, l.processPerson), e.nextPageToken)
-              l.sendPeopleRequest(e.nextPageToken);
+          console.log('GPlus processGPlusPeople people=', e), a.me.social.contacts.gplus = a.me.social.contacts.gplus || {}, o(function () {
+            if (_.each(e.items, a.processPerson), e.nextPageToken)
+              a.sendPeopleRequest(e.nextPageToken);
             else {
-              var t = l.account.profile.key, o = l.me.sync.user.accounts[t], n = o.contacts;
-              n.refreshed = Date.now(), n.total = l.total, l.me.social.loaded.gplus = !0, l.me.social.loading.gplus = !1;
+              var t = a.account.profile.key, o = a.me.sync.user.accounts[t], n = o.contacts;
+              n.refreshed = Date.now(), n.total = a.total, a.me.social.loaded.gplus = !0, a.me.social.loading.gplus = !1;
             }
           });
         },
         processPerson: function (e) {
           console.log('GPlus processPerson person=', e);
-          var t = l.account.contacts.partners, o = l.me.social.contacts.gplus[e.id] = {
-              profileKey: l.account.profile.key,
+          var t = a.account.contacts.partners, o = a.me.social.contacts.gplus[e.id] = {
+              profileKey: a.account.profile.key,
               provider: 'singly',
               service: 'gplus',
               type: e.objectType,
@@ -4941,13 +4994,13 @@ FirstRevenueApp.controller('AdminController', [
               id: e.id,
               serviceId: e.id
             };
-          t && t[e.id] && (o.partner = t[e.id]), l.total += 1, console.log('GPlus processPerson c=', o);
+          t && t[e.id] && (o.partner = t[e.id]), a.total += 1, console.log('GPlus processPerson c=', o);
         },
         requestError: function (e) {
           console.log('GPlus requestError error=', e);
         }
       };
-    return l;
+    return a;
   }
 ]), FirstRevenueApp.factory('LinkedIn', [
   '$resource',

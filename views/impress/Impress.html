@@ -9,7 +9,13 @@
       <q>Aren't you just <b>bored</b> with all those slides-based presentations?</q>
     </div-->
 
-    <div class="step slide first-revenue-entry" data-x="0" data-y="-1500">
+    <div class="step slide first-revenue-entry"
+         data-scale="5"
+         data-x="-2560"
+         data-y="0"
+         data-z="-2560"
+         data-rotate="-90"
+         data-rotate-y="-90">
       <div class="hero-unit">
         <button ng-click=""
                 class="btn btn-success pull-right">
@@ -22,24 +28,59 @@
       </div>
     </div>
 
-    <div class="step slide" data-x="0" data-y="-700">
+    <div class="step slide"
+         data-scale="5"
+         data-rotate-x="90"
+         data-rotate="0"
+         data-x="0"
+         data-y="-1920"
+         data-z="-2560">
+      <div>
+        <img class="model-logotype pull-right"
+             ng-src="{{canvas.model.fields.icon}}"
+             ng-style="canvas.getLogoStyle()" />
+        <h1>{{ canvas.model.fields.name }}</h1>
+      </div>
+    </div>
+
+    <div class="step slide"
+         data-scale="2"
+         data-rotate-x="90"
+         data-rotate="0"
+         data-x="-1280"
+         data-y="-1920"
+         data-z="-1920">
       <div>
         <img class="model-logotype"
              ng-src="{{canvas.model.fields.icon}}"
              ng-style="canvas.getLogoStyle()" />
-        <h1>{{ canvas.model.fields.name }}</h1>
+        <h2>Description</h2>
         <p>{{ canvas.model.fields.descr }}</p>
+      </div>
+    </div>
+
+    <div class="step slide"
+         data-scale="2"
+         data-rotate-x="90"
+         data-rotate="0"
+         data-x="1280"
+         data-y="-1920"
+         data-z="-1920">
+      <div>
+        <img class="model-logotype"
+             ng-src="{{canvas.model.fields.icon}}"
+             ng-style="canvas.getLogoStyle()" />
+        <h2>Elevator pitch</h2>
         <p>{{ canvas.model.fields.pitch }}</p>
       </div>
     </div>
 
     <!-- 3D needs GPU support chrome://gpu/ -->
     <div class="step slide impress-canvas"
-         data-x="2000"
-         data-y="-1000"
-         data-z="1000"
-         data-scale="4"
-         data-rotate-y="90">
+         data-x="0"
+         data-y="0"
+         data-z="0"
+         data-scale="5">
       <div class="canvas"
            ng-class="layout.getLayoutClasses()">
         <img class="model-logotype"
@@ -60,7 +101,11 @@
       </div>
     </div>
 
-    <div id="impress-CS" class="step" data-x="1000" data-y="-2500" data-rotate="-90">
+    <div id="impress-CS"
+         class="step"
+         data-x="2400"
+         data-y="-960"
+         data-z="1">
       Sticker
     </div>
 
@@ -106,11 +151,22 @@
       <span class="footnote">* beat that, prezi ;)</span>
     </div-->
 
-    <div id="bye" class="slide step" data-x="0" data-y="100">
+    <div id="bye"
+         class="slide step"
+         data-scale="5"
+         data-x="2560"
+         data-y="0"
+         data-z="-2560"
+         data-rotate="0"
+         data-rotate-y="90">
       Visit <a href="http://1strevenue.com">1st Revenue</a>
     </div>
 
-    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    <div id="overview"
+         class="step"
+         data-x="0"
+         data-y="0"
+         data-scale="10">
     </div>
   </div>
 

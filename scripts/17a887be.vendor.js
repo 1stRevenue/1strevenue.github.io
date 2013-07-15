@@ -3675,13 +3675,13 @@ var FirebaseIndex;
     for (u = 8; G - 8 > u; u++)
       K[u][6] = b.TIMING | (u + 1) % 2, K[6][u] = b.TIMING | (u + 1) % 2;
     if (k > 1) {
-      var z = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], q = 4 * k + 10;
-      for (w = q;;) {
-        for (h = q; 6 === h && 6 === w || 6 === h && w === G - 7 || h === G - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
-          h -= z, 18 > h && (h = 6);
+      var q = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], z = 4 * k + 10;
+      for (w = z;;) {
+        for (h = z; 6 === h && 6 === w || 6 === h && w === G - 7 || h === G - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
+          h -= q, 18 > h && (h = 6);
         if (6 === w)
           break;
-        w -= z, 18 > w && (w = 6);
+        w -= q, 18 > w && (w = 6);
       }
     }
     if (k >= 7) {
