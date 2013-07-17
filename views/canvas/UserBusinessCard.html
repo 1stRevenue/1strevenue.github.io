@@ -1,0 +1,29 @@
+<div class="model-user-business-card {{ businessCard.type }}-business-card">
+  <div class="business-card-edge"></div>
+
+  <div class="business-card-body">
+    <img class="business-card-image"
+         ng-src="{{ businessCard.image }}">
+    <div class="user-name">{{ businessCard.name }}</div>
+    <div class="business-card-text">
+      <p>
+        Service: <strong>{{ businessCard.serviceTitle }}</strong>
+        Id: <strong>{{ businessCard.serviceId }}</strong>
+      </p>
+      <p ng-show="businessCard.description">
+        Description: <strong>{{ businessCard.description }}</strong>
+      </p>
+      <p ng-show="businessCard.work">
+        Work: <strong>{{ businessCard.work }}</strong>
+      </p>
+      <p ng-show="businessCard.location">
+        Location: <strong>{{ businessCard.location }}</strong>
+      </p>
+      <p ng-show="businessCard.email">
+        E-mail: <strong>{{ businessCard.email }}</strong>
+      </p>
+    </div>
+    <i class="icon-remove icon-2x close-button"
+       ng-click="hideBusinessCard()"></i>
+  </div>
+</div>

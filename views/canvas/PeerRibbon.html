@@ -23,7 +23,8 @@
       Share model
     </span>
   </div-->
-  <div ng-include src="'views/ribbon/Share.html'"></div>
+  <div class="ribbon-item"
+       ng-include src="'views/ribbon/Share.html'"></div>
   <div ng-repeat="userId in getModelUserIds()"
        class="ribbon-item"
        ng-class="{'ribbon-item-current': me.isMyself(userId)}">

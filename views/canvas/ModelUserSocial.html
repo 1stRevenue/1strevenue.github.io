@@ -1,10 +1,28 @@
-<div class="picker-header"
+<div class="picker-header">
+  <div class="section-title"
      ng-click="pickGroup('social')">
-  <i ng-show="isPickVisible('social')"
-     class="icon-chevron-sign-down"></i>
-  <i ng-hide="isPickVisible('social')"
-     class="icon-chevron-sign-right"></i>
-  Social accounts
+    <i ng-show="isPickVisible('social')"
+       class="icon-chevron-sign-down"></i>
+    <i ng-hide="isPickVisible('social')"
+       class="icon-chevron-sign-right"></i>
+    Social accounts ({{ _.size(sync.user.accounts) }})
+  </div>
+  <div class="section-help"
+       ng-click="toggleHelp('social')">
+    <i class="icon-question-sign"></i>
+  </div>
+</div>
+
+<div class="help-text"
+     ng-show="showHelp('social')">
+  <p>
+    A list of your social accounts allows to fetch full list of your contacts from each social network.
+    Click the button to load the contacts for the duration of the current 1st Revenue session.
+  </p>
+  <p>
+    Once accounts were loaded they will be shown in a separate list for each social network and
+    they can be filtered by typing the first few letters of name.
+  </p>
 </div>
 
 <div class="picker-body"

@@ -1,10 +1,18 @@
 <div class="picker-header"
      ng-click="pickGroup('groups')">
+  <i class="icon-question-sign pull-right"
+     ng-click="toggleHelp('groups')"></i>
   <i ng-show="isPickVisible('groups')"
      class="icon-chevron-sign-down"></i>
   <i ng-hide="isPickVisible('groups')"
      class="icon-chevron-sign-right"></i>
   Groups
+</div>
+
+<div class="help-text"
+     ng-show="showHelp('groups')">
+  You can create a groups of people that you collaborate with most often and
+  use one click to share models with the members of group.
 </div>
 
 <div class="picker-body"

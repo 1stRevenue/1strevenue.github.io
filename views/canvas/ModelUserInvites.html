@@ -1,11 +1,29 @@
 <div class="user-list-invites">
-  <div class="user-list-header"
-       ng-click="pickGroup('invites')">
-    <i ng-show="isPickVisible('invites')"
-       class="icon-chevron-sign-down"></i>
-    <i ng-hide="isPickVisible('invites')"
-       class="icon-chevron-sign-right"></i>
-    Invites ({{ _.size(canvas.model.invites) }})
+  <div class="user-list-header">
+    <div class="section-title"
+         ng-click="pickGroup('invites')">
+      <i ng-show="isPickVisible('invites')"
+         class="icon-chevron-sign-down"></i>
+      <i ng-hide="isPickVisible('invites')"
+         class="icon-chevron-sign-right"></i>
+      Invites ({{ _.size(canvas.model.invites) }})
+    </div>
+    <div class="section-help"
+         ng-click="toggleHelp('invites')">
+      <i class="icon-question-sign"></i>
+    </div>
+  </div>
+
+  <div class="help-text"
+       ng-show="showHelp('invites')">
+    <p>List of people who have been invited to collaborate on the current model,
+      but do not have 1st Revenue account yet.</p>
+    <p>Click on the "Invite" button to send a message to invited user
+      via the associated social network messaging.</p>
+    <p>The message will contain a link to 1st Revenue registration page
+      and reference to the shared model.</p>
+    <p>After invited users create new user account in 1st Revenue by clicking on the link,
+      they will be directed to the shared model</p>
   </div>
 
   <div class="user-list-body"
@@ -18,17 +36,20 @@
         <i class="icon-remove"></i>
       </button>
       <span first-revenue-service-icon="sync.invites[inviteId].service"></span>
-      <img ng-src="{{sync.invites[inviteId].image}}"
-           class="user-icon"
-           ng-show="sync.invites[inviteId].image"
-           title="{{sync.invites[inviteId].name}}" />
-      <img ng-src="images/bbf82395.light_avatar_small.png"
-           class="user-icon"
-           ng-hide="sync.invites[inviteId].image"
-           title="{{sync.invites[inviteId].name}}" />
-    <span class="invite-name">
-      {{sync.invites[inviteId].name}}
-    </span>
+      <span class="user-photo"
+            ng-click="showBusinessCard('invite', sync.invites[inviteId])">
+        <img ng-src="{{sync.invites[inviteId].image}}"
+             class="user-icon"
+             ng-show="sync.invites[inviteId].image"
+             title="{{sync.invites[inviteId].name}}" />
+        <img ng-src="images/bbf82395.light_avatar_small.png"
+             class="user-icon"
+             ng-hide="sync.invites[inviteId].image"
+             title="{{sync.invites[inviteId].name}}" />
+      </span>
+      <span class="invite-name">
+        {{sync.invites[inviteId].name}}
+      </span>
 
       <button class="btn btn-success btn-small invite-button"
               ng-click="social.updateInvite(inviteId)"

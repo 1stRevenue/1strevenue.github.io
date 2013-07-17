@@ -1,11 +1,25 @@
 <div class="user-list-users">
-  <div class="user-list-header"
-       ng-click="pickGroup('users')">
-    <i ng-show="isPickVisible('users')"
-       class="icon-chevron-sign-down"></i>
-    <i ng-hide="isPickVisible('users')"
-       class="icon-chevron-sign-right"></i>
-    Users ({{ _.size(canvas.model.users) }})
+  <div class="user-list-header">
+    <div class="section-title"
+         ng-click="pickGroup('users')">
+      <i ng-show="isPickVisible('users')"
+         class="icon-chevron-sign-down"></i>
+      <i ng-hide="isPickVisible('users')"
+         class="icon-chevron-sign-right"></i>
+      Users ({{ _.size(canvas.model.users) }})
+    </div>
+    <div class="section-help"
+         ng-click="toggleHelp('users')">
+      <i class="icon-question-sign"></i>
+    </div>
+  </div>
+
+  <div class="help-text"
+       ng-show="showHelp('users')">
+    <p>List of people who collaborate on the current model.</p>
+    <p>They already have active accounts with 1st Revenue.</p>
+    <p>Shared models appear instantly in their repository and
+    they can see the changes as soon as they are made by other users.</p>
   </div>
 
   <div class="user-list-body"
@@ -18,14 +32,17 @@
         <i class="icon-remove"></i>
       </button>
       <span first-revenue-service-icon="sync.peers[userId].service"></span>
-      <img ng-src="{{sync.peers[userId].image}}"
-           class="user-icon"
-           ng-show="sync.peers[userId].image"
-           title="{{sync.peers[userId].name}}" />
-      <img ng-src="images/bbf82395.light_avatar_small.png"
-           class="user-icon"
-           ng-hide="sync.peers[userId].image"
-           title="{{sync.peers[userId].name}}" />
+      <span class="user-photo"
+            ng-click="showBusinessCard('user', sync.peers[userId])">
+        <img ng-src="{{sync.peers[userId].image}}"
+             class="user-icon"
+             ng-show="sync.peers[userId].image"
+             title="{{sync.peers[userId].name}}" />
+        <img ng-src="images/bbf82395.light_avatar_small.png"
+             class="user-icon"
+             ng-hide="sync.peers[userId].image"
+             title="{{sync.peers[userId].name}}" />
+      </span>
       <span class="user-name">
         {{sync.peers[userId].name}}
       </span>

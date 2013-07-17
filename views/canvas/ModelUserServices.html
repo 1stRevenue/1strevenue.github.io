@@ -1,33 +1,49 @@
 <div ng-repeat="dataset in tah.dataset"
      class="social-picker"
      ng-show="dataset.count > 0">
-  <div class="picker-header"
+  <div class="picker-header">
+    <div class="section-title"
        ng-click="pickGroup(dataset.service)">
-    <span class="pull-right"
-          first-revenue-service-icon="dataset.service"></span>
-    <i ng-show="isPickVisible(dataset.service)"
-       class="icon-chevron-sign-down"></i>
-    <i ng-hide="isPickVisible(dataset.service)"
-       class="icon-chevron-sign-right"></i>
-    {{ dataset.serviceTitle }} contacts
-    <span ng-show="_.size(dataset.local) > 0">
-      ({{ _.size(dataset.local) }})
-    </span>
+      <span class="pull-right"
+            first-revenue-service-icon="dataset.service"></span>
+      <i ng-show="isPickVisible(dataset.service)"
+         class="icon-chevron-sign-down"></i>
+      <i ng-hide="isPickVisible(dataset.service)"
+         class="icon-chevron-sign-right"></i>
+      {{ dataset.serviceTitle }} contacts
+      <span ng-show="_.size(dataset.local) > 0">
+        ({{ _.size(dataset.local) }})
+      </span>
+    </div>
+    <div class="section-help"
+         ng-click="toggleHelp(dataset.service)">
+      <i class="icon-question-sign"></i>
+    </div>
   </div>
+
+  <div class="help-text"
+       ng-show="showHelp(dataset.service)">
+    <p>A list of contacts loaded from {{ dataset.serviceTitle }}.</p>
+    <p>The contact list is not preserved between the 1st Revenue sessions.</p>
+  </div>
+
   <div class="picker-body"
        ng-show="isPickVisible(dataset.service)">
     <div ng-repeat="friend in dataset.local | filter:prefixFilter"
          class="picker-item"
          ng-class="{'picker-inactive': wasInvited(friend)}">
       <span first-revenue-service-icon="dataset.service"></span>
-      <img ng-src="{{friend.image}}"
-           class="user-icon"
-           ng-show="friend.image"
-           title="{{friend.name}}" />
-      <img ng-src="images/bbf82395.light_avatar_small.png"
-           class="user-icon"
-           ng-hide="friend.image"
-           title="{{friend.name}}" />
+      <span class="user-photo"
+            ng-click="showBusinessCard('picker', friend)">
+        <img ng-src="{{friend.image}}"
+             class="user-icon"
+             ng-show="friend.image"
+             title="{{friend.name}}" />
+        <img ng-src="images/bbf82395.light_avatar_small.png"
+             class="user-icon"
+             ng-hide="friend.image"
+             title="{{friend.name}}" />
+      </span>
       <span class="invite-name">
         {{ friend.name }}
       </span>

@@ -1,20 +1,18 @@
 <div class="model-user-panel"
-     ng-class="{'model-user-panel-hidden': !layout.share}"
+     ng-class="{'model-user-panel-hidden': !layout.share, 'business-card-shown': businessCard}"
      ng-controller="ModelController">
-  <form class="modal-editor-form form-search"
-        zzz-ng-submit="tahSubmit()">
-    <div class="model-editor-search-side">
-      <div ng-include="'views/canvas/ModelUserTypeahead.html'"></div>
-      <div ng-include="'views/canvas/ModelUserSearch.html'"></div>
-    </div>
+  <div class="model-user-search-side">
+    <div ng-include="'views/canvas/ModelUserTypeahead.html'"></div>
+    <div ng-include="'views/canvas/ModelUserSearch.html'"></div>
+  </div>
 
-    <div class="model-user-list-side">
-      <div class="invites-and-users">
-        <div ng-if="!_.isEmpty(canvas.model.invites)"
-             ng-include="'views/canvas/ModelUserInvites.html'"></div>
-        <div ng-if="!_.isEmpty(canvas.model.users)"
-             ng-include="'views/canvas/ModelUserList.html'"></div>
-      </div>
+  <div class="model-user-list-side">
+    <div class="invites-and-users">
+      <div ng-if="!_.isEmpty(canvas.model.invites)"
+           ng-include="'views/canvas/ModelUserInvites.html'"></div>
+      <div ng-if="!_.isEmpty(canvas.model.users)"
+           ng-include="'views/canvas/ModelUserList.html'"></div>
     </div>
-  </form>
+  </div>
+  <div ng-include="'views/canvas/UserBusinessCard.html'"></div>
 </div>
