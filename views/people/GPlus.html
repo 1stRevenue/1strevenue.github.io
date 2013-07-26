@@ -5,64 +5,60 @@
     <div class="table-scroll">
       <table class="contact-table table table-hover">
         <thead>
-        <tr>
-          <td colspan="6">
-            <p>
-              <button class="btn btn-success pull-right"
-                      ng-disabled="social.loading.gplus"
-                      ng-click="social.fetchAccount(me, 'gplus')">
-                Refresh Google+ contacts
-              </button>
-        <span ng-show="getContactCount('gplus')">
-          {{getContactCount('gplus')}} Google+ contacts
-        </span>
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="6">
-            <p ng-show="getRefreshTime('gplus')"
-               title="{{getRefreshTime('gplus')}}">
-              Last seen {{getRefreshLatency('gplus')}}
-            </p>
-          </td>
-        </tr>
-        <tr class="partner-contact">
-          <td colspan="6"
-              ng-show="getPartnerCount('gplus') > 0">
-            <p>
-              <button class="btn btn-primary pull-right"
-                      ng-show="needSavePartners()"
-                      ng-click="savePartners('gplus')">
-                Save changes
-              </button>
-              {{getPartnerCount('gplus')}} partners
-            </p>
-          </td>
-        </tr>
-        <tr>
-          <th></th>
-          <th></th>
-          <th>Name</th>
-          <th>Service</th>
-          <th>ID</th>
-          <th>Flags</th>
-        </tr>
+          <tr>
+            <td colspan="6">
+              <p>
+                <button class="btn btn-success pull-right"
+                        ng-disabled="social.loading.gplus"
+                        ng-click="social.fetchAccount(me, 'gplus')">
+                  Refresh Google+ contacts
+                </button>
+          <span ng-show="getContactCount('gplus')">
+            {{getContactCount('gplus')}} Google+ contacts
+          </span>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <p ng-show="getRefreshTime('gplus')"
+                 title="{{getRefreshTime('gplus')}}">
+                Last seen {{getRefreshLatency('gplus')}}
+              </p>
+            </td>
+          </tr>
+          <tr class="partner-contact">
+            <td colspan="6"
+                ng-show="getPartnerCount('gplus') > 0">
+              <p>
+                <button class="btn btn-primary pull-right"
+                        ng-show="needSavePartners()"
+                        ng-click="savePartners('gplus')">
+                  Save changes
+                </button>
+                {{getPartnerCount('gplus')}} partners
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>Name</th>
+            <th>Service</th>
+            <th>ID</th>
+            <th>Flags</th>
+          </tr>
         </thead>
-        <tbody>
-          <div ng-switch="social.loaded.gplus">
-            <div ng-switch-when="true"
-                 ng-include="'views/people/GPlusLoaded.html'">
-            </div>
-            <div ng-switch-default
-                 ng-include="'views/people/GPlusUnloaded.html'">
-            </div>
-          </div>
+        <tbody ng-if="social.loaded.gplus"
+               ng-include="'views/people/GPlusLoaded.html'">
+        </tbody>
+        <tbody ng-if="!social.loaded.gplus"
+               ng-include="'views/people/GPlusUnloaded.html'">
         </tbody>
         <tfoot>
-        <tr>
-          <th colspan="6">{{getContactCount('gplus')}} contacts found</th>
-        </tr>
+          <tr>
+            <th colspan="6">{{getContactCount('gplus')}} contacts found</th>
+          </tr>
         </tfoot>
       </table>
     </div>

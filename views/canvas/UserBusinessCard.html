@@ -3,7 +3,12 @@
 
   <div class="business-card-body">
     <img class="business-card-image"
+         ng-show="businessCard.image"
          ng-src="{{ businessCard.image }}">
+    <img class="business-card-image"
+         ng-hide="businessCard.image"
+         ng-src="//graph.facebook.com/1/picture?type=large">
+         <!-- ng-src="http://s.c.lnkd.licdn.com/scds/common/u/images/themes/katy/ghosts/person/ghost_person_200x200_v1.png" -->
     <div class="user-name">{{ businessCard.name }}</div>
     <div class="business-card-text">
       <p>
@@ -25,5 +30,31 @@
     </div>
     <i class="icon-remove icon-2x close-button"
        ng-click="hideBusinessCard()"></i>
+    <div class="business-card-buttons">
+      <span ng-show="businessCard.type == 'partner'">
+        <button class="btn btn-primary btn-small invite-button"
+                ng-click="social.notifyUser(userId, canvas.modelId)">
+          Notify
+        </button>
+      </span>
+      <span ng-show="businessCard.type == 'invite'">
+        <button class="btn btn-success btn-small invite-button"
+                ng-click="social.updateInvite(businessCard.inviteId)"
+                ng-if="sync.invites[businessCard.inviteId].status=='created'">
+          Invite
+        </button>
+        <button class="btn btn-success btn-small invite-button"
+                ng-click="social.updateInvite(businessCard.inviteId)"
+                ng-if="sync.invites[businessCard.inviteId].status=='sent'">
+          Resend invite
+        </button>
+      </span>
+      <span ng-show="businessCard.type == 'user'">
+        <button class="btn btn-primary btn-small invite-button"
+                ng-click="social.notifyUser(userId, canvas.modelId)">
+          Notify
+        </button>
+      </span>
+    </div>
   </div>
 </div>

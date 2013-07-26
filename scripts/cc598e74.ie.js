@@ -348,7 +348,7 @@ var log4javascript = function () {
     }
     function AjaxAppender(e) {
       function t(e) {
-        return R ? (handleError('AjaxAppender: configuration option \'' + e + '\' may not be set after the appender has been initialized'), !1) : !0;
+        return k ? (handleError('AjaxAppender: configuration option \'' + e + '\' may not be set after the appender has been initialized'), !1) : !0;
       }
       function n() {
         if (u && enabled) {
@@ -417,7 +417,7 @@ var log4javascript = function () {
         }
       }
       function l() {
-        if (R = !0, y) {
+        if (k = !0, y) {
           var e = window.onbeforeunload;
           window.onbeforeunload = function () {
             return e && e(), o() ? 'Sending log messages' : void 0;
@@ -427,7 +427,7 @@ var log4javascript = function () {
       }
       var c = this, u = !0;
       e || (handleError('AjaxAppender: URL must be specified in constructor'), u = !1);
-      var d = this.defaults.timed, p = this.defaults.waitForResponse, h = this.defaults.batchSize, g = this.defaults.timerInterval, f = this.defaults.requestSuccessCallback, m = this.defaults.failCallback, v = this.defaults.postVarName, y = this.defaults.sendAllOnUnload, b = this.defaults.contentType, w = null, C = [], S = [], T = [], E = !1, R = !1;
+      var d = this.defaults.timed, p = this.defaults.waitForResponse, h = this.defaults.batchSize, g = this.defaults.timerInterval, f = this.defaults.requestSuccessCallback, m = this.defaults.failCallback, v = this.defaults.postVarName, y = this.defaults.sendAllOnUnload, b = this.defaults.contentType, w = null, C = [], S = [], T = [], E = !1, k = !1;
       this.getSessionId = function () {
         return w;
       }, this.setSessionId = function (e) {
@@ -471,7 +471,7 @@ var log4javascript = function () {
         });
       }, this.sendAll = n, this.sendAllRemaining = o, this.append = function (e) {
         if (u) {
-          R || l(), C.push(e);
+          k || l(), C.push(e);
           var t = this.getLayout().allowBatching() ? h : 1;
           if (C.length >= t) {
             for (var o, i = []; o = C.shift();)
@@ -1056,10 +1056,10 @@ var log4javascript = function () {
               p += S >= 3 ? f(t[T], S, S) : m(T + 1, S);
               break;
             case l:
-              var R = T > 0, k = R ? '-' : '+', I = Math.abs(T), A = '' + Math.floor(I / 60);
+              var k = T > 0, I = k ? '-' : '+', R = Math.abs(T), A = '' + Math.floor(R / 60);
               A = g(A, 2);
-              var x = '' + I % 60;
-              x = g(x, 2), p += k + A + x;
+              var x = '' + R % 60;
+              x = g(x, 2), p += I + A + x;
             }
           }
           h = h.substr(d.index + d[0].length);

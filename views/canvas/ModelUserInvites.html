@@ -6,7 +6,7 @@
          class="icon-chevron-sign-down"></i>
       <i ng-hide="isPickVisible('invites')"
          class="icon-chevron-sign-right"></i>
-      Invites ({{ _.size(canvas.model.invites) }})
+      Invites ({{ countInvites() }})
     </div>
     <div class="section-help"
          ng-click="toggleHelp('invites')">
@@ -37,7 +37,7 @@
       </button>
       <span first-revenue-service-icon="sync.invites[inviteId].service"></span>
       <span class="user-photo"
-            ng-click="showBusinessCard('invite', sync.invites[inviteId])">
+            ng-click="showInviteCard(inviteId)">
         <img ng-src="{{sync.invites[inviteId].image}}"
              class="user-icon"
              ng-show="sync.invites[inviteId].image"

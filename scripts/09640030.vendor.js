@@ -3452,38 +3452,38 @@ var FirebaseIndex;
   }());
 }(window.jQuery), function (e) {
   function t(e, t, n) {
-    var u, d, h, w, C, S, T, k = t.version, R = t.errorCorrection, I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
+    var u, d, h, w, C, S, T, k = t.version, I = t.errorCorrection, R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0;
     switch (t.encodeMode) {
     case t.ENCODE_MODE.NUMERIC:
       var x = 0;
       for (u = 0; e.length > u; u++) {
         if (!(e[u] >= 48 && 57 >= e[u]))
           throw new TypeError('Invalid data format.');
-        x = 10 * x + (e[u] - 48), 2 === u % 3 && (E = a(I, E, i(x, 10)), x = 0);
+        x = 10 * x + (e[u] - 48), 2 === u % 3 && (E = a(R, E, i(x, 10)), x = 0);
       }
       switch (u % 3) {
       case 1:
-        E = a(I, E, i(x, 4));
+        E = a(R, E, i(x, 4));
         break;
       case 2:
-        E = a(I, E, i(x, 7));
+        E = a(R, E, i(x, 7));
         break;
       default:
       }
       if (k > 0)
         k >= 1 && 9 >= k ? S = 10 : k >= 10 && 26 >= k ? S = 12 : k >= 27 && 40 >= k && (S = 14);
       else {
-        if (T = o(E + 4 + 10, R), !(T > 0))
+        if (T = o(E + 4 + 10, I), !(T > 0))
           throw new RangeError('Too much data.');
         if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
           S = 10;
         else {
-          if (T = o(E + 4 + 12, R), !(T > 0))
+          if (T = o(E + 4 + 12, I), !(T > 0))
             throw new RangeError('Too much data.');
           if (Math.abs(k) > T && (T = Math.abs(k)), T >= 10 && 26 >= T)
             S = 12;
           else {
-            if (T = o(E + 4 + 14, R), !(T > 0))
+            if (T = o(E + 4 + 14, I), !(T > 0))
               throw new RangeError('Too much data.');
             if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 27 && 40 >= T))
               throw new RangeError('Bug in version detection.');
@@ -3544,27 +3544,27 @@ var FirebaseIndex;
       for (u = 0; e.length - 1 > u; u += 2) {
         if (_ = c(96 === (96 & e[u]) ? 95 & e[u] : e[u], M), A = c(96 === (96 & e[u + 1]) ? 95 & e[u + 1] : e[u + 1], M), -1 === _ || -1 === A)
           throw Error('Character not supported in ALPHA_NUMERIC encoding mode.');
-        E = a(I, E, i(45 * _ + A, 11));
+        E = a(R, E, i(45 * _ + A, 11));
       }
       if (u === e.length - 1) {
         if (_ = c(96 === (96 & e[u]) ? 95 & e[u] : e[u], M), -1 === _)
           throw Error('Character not supported in ALPHA_NUMERIC encoding mode.');
-        E = a(I, E, i(_, 6));
+        E = a(R, E, i(_, 6));
       }
       if (k > 0)
         k >= 1 && 9 >= k ? S = 9 : k >= 10 && 26 >= k ? S = 11 : k >= 27 && 40 >= k && (S = 13);
       else {
-        if (T = o(E + 4 + 9, R), !(T > 0))
+        if (T = o(E + 4 + 9, I), !(T > 0))
           throw new RangeError('Too much data.');
         if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
           S = 9;
         else {
-          if (T = o(E + 4 + 11, R), !(T > 0))
+          if (T = o(E + 4 + 11, I), !(T > 0))
             throw new RangeError('Too much data.');
           if (Math.abs(k) > T && (T = Math.abs(k)), T >= 10 && 26 >= T)
             S = 11;
           else {
-            if (T = o(E + 4 + 13, R), !(T > 0))
+            if (T = o(E + 4 + 13, I), !(T > 0))
               throw new RangeError('Too much data.');
             if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 27 && 40 >= T))
               throw new RangeError('Bug in version detection.');
@@ -3578,16 +3578,16 @@ var FirebaseIndex;
     case t.ENCODE_MODE.UTF8:
     case t.ENCODE_MODE.UTF8_SIGNATURE:
       for (u = 0; e.length > u; u++)
-        E = a(I, E, i(e[u], 8));
+        E = a(R, E, i(e[u], 8));
       if (k > 0)
         k >= 0 && 9 >= k ? S = 8 : k >= 10 && 40 >= k && (S = 16);
       else {
-        if (T = o(E + 4 + 8, R), !(T > 0))
+        if (T = o(E + 4 + 8, I), !(T > 0))
           throw new RangeError('Too much data.');
         if (Math.abs(k) > T && (T = Math.abs(k)), T >= 1 && 9 >= T)
           S = 8;
         else {
-          if (T = o(E + 4 + 16, R), !(T > 0))
+          if (T = o(E + 4 + 16, I), !(T > 0))
             throw new RangeError('Too much data.');
           if (Math.abs(k) > T && (T = Math.abs(k)), !(T >= 10 && 40 >= T))
             throw new RangeError('Bug in version detection.');
@@ -3603,13 +3603,13 @@ var FirebaseIndex;
     }
     if (n)
       return k;
-    I = i(15 & t.encodeMode, 4).concat(i(e.length, S)).concat(I), E += 4 + S;
-    var P = g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][R] << 3;
+    R = i(15 & t.encodeMode, 4).concat(i(e.length, S)).concat(R), E += 4 + S;
+    var P = g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I] << 3;
     if (E > P)
       throw new RangeError('Too much data for the selected version.');
     var D = P - E;
-    for (D > 4 && (D = 4), E = a(I, E, s(D, 0)), E = a(I, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
-      E = a(I, E, 1 & u ? [
+    for (D > 4 && (D = 4), E = a(R, E, s(D, 0)), E = a(R, E, s((8 - E % 8) % 8, 0)), u = 0, C = P - E >>> 3; C > u; u++)
+      E = a(R, E, 1 & u ? [
         0,
         0,
         0,
@@ -3628,15 +3628,15 @@ var FirebaseIndex;
         0,
         0
       ]);
-    var L = Math.floor((g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][R]) / (g[k][p.EC_BLOCKS][R][0] + g[k][p.EC_BLOCKS][R][1])), F = Math.floor(g[k][p.ECC_BYTES][R] / (g[k][p.EC_BLOCKS][R][0] + g[k][p.EC_BLOCKS][R][1])), $ = [], O = [];
-    for (u = 0, C = g[k][p.EC_BLOCKS][R][0]; C > u; u++) {
+    var L = Math.floor((g[k][p.TOTAL_BYTES] - g[k][p.ECC_BYTES][I]) / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), F = Math.floor(g[k][p.ECC_BYTES][I] / (g[k][p.EC_BLOCKS][I][0] + g[k][p.EC_BLOCKS][I][1])), $ = [], O = [];
+    for (u = 0, C = g[k][p.EC_BLOCKS][I][0]; C > u; u++) {
       for (O = [], d = 0; L > d; d++)
-        O.push(r(I.splice(0, 8)));
+        O.push(r(R.splice(0, 8)));
       $.push(O);
     }
-    for (u = 0, C = g[k][p.EC_BLOCKS][R][1]; C > u; u++) {
+    for (u = 0, C = g[k][p.EC_BLOCKS][I][1]; C > u; u++) {
       for (O = [], d = 0; L >= d; d++)
-        O.push(r(I.splice(0, 8)));
+        O.push(r(R.splice(0, 8)));
       $.push(O);
     }
     var N = [], U = [];
@@ -3654,30 +3654,30 @@ var FirebaseIndex;
     var B = [];
     for (d = 0; $.length > d; d++) {
       B[d] = [].concat($[d]).concat(s(F, 0));
-      for (var V; B[d].length >= H.length;) {
-        for (V = B[d][0], u = 0; H.length > u; u++)
-          B[d][u] ^= N[(U[H[u]] + U[V]) % 255];
+      for (var G; B[d].length >= H.length;) {
+        for (G = B[d][0], u = 0; H.length > u; u++)
+          B[d][u] ^= N[(U[H[u]] + U[G]) % 255];
         if (0 !== B[d].shift())
           throw Error('Bug while generating the ECC');
       }
     }
-    for (I = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; L >= u; u++)
+    for (R = Array(8 * g[g.length - 1][p.TOTAL_BYTES]), E = 0, u = 0; L >= u; u++)
       for (d = 0; $.length > d; d++)
-        $[d].length > u && (E = a(I, E, i($[d][u], 8)));
+        $[d].length > u && (E = a(R, E, i($[d][u], 8)));
     for (u = 0; F > u; u++)
       for (d = 0; B.length > d; d++)
-        B[d].length > u && (E = a(I, E, i(B[d][u], 8)));
-    var G = 17 + (k << 2), K = Array(G);
-    for (u = 0; G > u; u++)
-      K[u] = s(G, 0);
-    for (l(K, 0, 0, m, b.FINDER), l(K, 0, G - 7, m, b.FINDER), l(K, G - 7, 0, m, b.FINDER), u = 0; 8 > u; u++)
-      K[u][7] = b.SEPARATOR, K[7][u] = b.SEPARATOR, K[u][G - 8] = b.SEPARATOR, K[7][G - 1 - u] = b.SEPARATOR, K[G - 1 - u][7] = b.SEPARATOR, K[G - 8][u] = b.SEPARATOR;
-    for (u = 8; G - 8 > u; u++)
+        B[d].length > u && (E = a(R, E, i(B[d][u], 8)));
+    var V = 17 + (k << 2), K = Array(V);
+    for (u = 0; V > u; u++)
+      K[u] = s(V, 0);
+    for (l(K, 0, 0, m, b.FINDER), l(K, 0, V - 7, m, b.FINDER), l(K, V - 7, 0, m, b.FINDER), u = 0; 8 > u; u++)
+      K[u][7] = b.SEPARATOR, K[7][u] = b.SEPARATOR, K[u][V - 8] = b.SEPARATOR, K[7][V - 1 - u] = b.SEPARATOR, K[V - 1 - u][7] = b.SEPARATOR, K[V - 8][u] = b.SEPARATOR;
+    for (u = 8; V - 8 > u; u++)
       K[u][6] = b.TIMING | (u + 1) % 2, K[6][u] = b.TIMING | (u + 1) % 2;
     if (k > 1) {
       var q = g[k][p.ALIGNMENT_PATTERN_POSITION_OFFSET], z = 4 * k + 10;
       for (w = z;;) {
-        for (h = z; 6 === h && 6 === w || 6 === h && w === G - 7 || h === G - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
+        for (h = z; 6 === h && 6 === w || 6 === h && w === V - 7 || h === V - 7 && 6 === w || l(K, h - 2, w - 2, v, b.ALIGNMENT), 6 !== h;)
           h -= q, 18 > h && (h = 6);
         if (6 === w)
           break;
@@ -3688,18 +3688,18 @@ var FirebaseIndex;
       var W = g[k][p.VERSION_PATTERN];
       for (u = 0; 6 > u; u++)
         for (d = 0; 3 > d; d++)
-          K[G - 11 + d][u] = b.VERSION | 1 & W, K[u][G - 11 + d] = b.VERSION | 1 & W, W >>= 1;
+          K[V - 11 + d][u] = b.VERSION | 1 & W, K[u][V - 11 + d] = b.VERSION | 1 & W, W >>= 1;
     }
     for (u = 0; 8 > u; u++)
-      K[G - 1 - u][8] = 0 | b.FORMAT, K[8][G - 1 - u] = 0 | b.FORMAT, 6 !== u && (K[8][u] = 0 | b.FORMAT, K[u][8] = 0 | b.FORMAT);
-    K[8][8] = 0 | b.FORMAT, K[G - 8][8] = 1 | b.FORMAT;
+      K[V - 1 - u][8] = 0 | b.FORMAT, K[8][V - 1 - u] = 0 | b.FORMAT, 6 !== u && (K[8][u] = 0 | b.FORMAT, K[u][8] = 0 | b.FORMAT);
+    K[8][8] = 0 | b.FORMAT, K[V - 8][8] = 1 | b.FORMAT;
     var Y = -1;
-    for (h = w = G - 1, u = 0; E > u; u++) {
-      K[w][h] = b.DATA | I[u];
+    for (h = w = V - 1, u = 0; E > u; u++) {
+      K[w][h] = b.DATA | R[u];
       do
         if (h > 6 && 0 === (1 & h) || 6 > h && 1 === (1 & h))
           h--;
-        else if (-1 === Y && 0 === w || 1 === Y && w === G - 1) {
+        else if (-1 === Y && 0 === w || 1 === Y && w === V - 1) {
           if (0 === h) {
             if (E - 1 > u)
               throw new RangeError('Too much data while writing the symbol.');
@@ -3712,20 +3712,20 @@ var FirebaseIndex;
     }
     var J, X = [];
     for (u = 0; y.length > u; u++) {
-      for (X[u] = [], w = 0; G > w; w++)
-        for (X[u][w] = [], h = 0; G > h; h++)
+      for (X[u] = [], w = 0; V > w; w++)
+        for (X[u][w] = [], h = 0; V > h; h++)
           X[u][w][h] = K[w][h] & b.DATA ? 1 & (K[w][h] ^ y[u](h, w)) : 1 & K[w][h];
-      J = i(f[R][u], 15), X[u][G - 1][8] = X[u][8][0] = J[0], X[u][G - 2][8] = X[u][8][1] = J[1], X[u][G - 3][8] = X[u][8][2] = J[2], X[u][G - 4][8] = X[u][8][3] = J[3], X[u][G - 5][8] = X[u][8][4] = J[4], X[u][G - 6][8] = X[u][8][5] = J[5], X[u][G - 7][8] = X[u][8][7] = J[6], X[u][8][G - 8] = X[u][8][8] = J[7], X[u][8][G - 7] = X[u][7][8] = J[8], X[u][8][G - 6] = X[u][5][8] = J[9], X[u][8][G - 5] = X[u][4][8] = J[10], X[u][8][G - 4] = X[u][3][8] = J[11], X[u][8][G - 3] = X[u][2][8] = J[12], X[u][8][G - 2] = X[u][1][8] = J[13], X[u][8][G - 1] = X[u][0][8] = J[14];
+      J = i(f[I][u], 15), X[u][V - 1][8] = X[u][8][0] = J[0], X[u][V - 2][8] = X[u][8][1] = J[1], X[u][V - 3][8] = X[u][8][2] = J[2], X[u][V - 4][8] = X[u][8][3] = J[3], X[u][V - 5][8] = X[u][8][4] = J[4], X[u][V - 6][8] = X[u][8][5] = J[5], X[u][V - 7][8] = X[u][8][7] = J[6], X[u][8][V - 8] = X[u][8][8] = J[7], X[u][8][V - 7] = X[u][7][8] = J[8], X[u][8][V - 6] = X[u][5][8] = J[9], X[u][8][V - 5] = X[u][4][8] = J[10], X[u][8][V - 4] = X[u][3][8] = J[11], X[u][8][V - 3] = X[u][2][8] = J[12], X[u][8][V - 2] = X[u][1][8] = J[13], X[u][8][V - 1] = X[u][0][8] = J[14];
     }
     var Q, Z, et, tt, nt, ot = 0, it = 4294967295;
     for (u = 0; y.length > u; u++) {
-      for (Q = Z = et = tt = nt = 0, w = 0; G > w; w++)
-        for (h = 0; G > h; h++)
+      for (Q = Z = et = tt = nt = 0, w = 0; V > w; w++)
+        for (h = 0; V > h; h++)
           h >= 6 && (1 === (X[u][w][h - 6] & X[u][w][h - 5] & X[u][w][h - 4] & X[u][w][h - 3] & X[u][w][h - 2] & X[u][w][h - 1] & X[u][w][h]) || 0 === (X[u][w][h - 6] | X[u][w][h - 5] | X[u][w][h - 4] | X[u][w][h - 3] | X[u][w][h - 2] | X[u][w][h - 1] | X[u][w][h])) && Q++, w >= 6 && (1 === (X[u][w - 6][h] & X[u][w - 5][h] & X[u][w - 4][h] & X[u][w - 3][h] & X[u][w - 2][h] & X[u][w - 1][h] & X[u][w][h]) || 0 === (X[u][w - 6][h] | X[u][w - 5][h] | X[u][w - 4][h] | X[u][w - 3][h] | X[u][w - 2][h] | X[u][w - 1][h] | X[u][w][h])) && Q++, h > 0 && w > 0 && (1 === (X[u][w][h] & X[u][w][h - 1] & X[u][w - 1][h] & X[u][w - 1][h - 1]) || 0 === (X[u][w][h] | X[u][w][h - 1] | X[u][w - 1][h] | X[u][w - 1][h - 1])) && Z++, h >= 6 && 1 === X[u][w][h - 6] && 0 === X[u][w][h - 5] && 1 === X[u][w][h - 4] && 1 === X[u][w][h - 3] && 1 === X[u][w][h - 2] && 0 === X[u][w][h - 1] && 1 === X[u][w][h] && et++, w >= 6 && 1 === X[u][w - 6][h] && 0 === X[u][w - 5][h] && 1 === X[u][w - 4][h] && 1 === X[u][w - 3][h] && 1 === X[u][w - 2][h] && 0 === X[u][w - 1][h] && 1 === X[u][w][h] && et++, tt += X[u][w][h];
-      tt = Math.abs(100 * tt / (G * G) - 50) / 5, nt = 3 * Q + 3 * Z + 40 * et + 10 * tt, it > nt && (it = nt, ot = u);
+      tt = Math.abs(100 * tt / (V * V) - 50) / 5, nt = 3 * Q + 3 * Z + 40 * et + 10 * tt, it > nt && (it = nt, ot = u);
     }
-    for (w = 0; G > w; w++)
-      for (h = 0; G > h; h++)
+    for (w = 0; V > w; w++)
+      for (h = 0; V > h; h++)
         K[w][h] = K[w][h] & (b.DATA | b.FORMAT) ? X[ot][w][h] : 1 & K[w][h];
     return K;
   }

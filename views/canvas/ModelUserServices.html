@@ -1,10 +1,10 @@
 <div ng-repeat="dataset in tah.dataset"
      class="social-picker"
-     ng-show="dataset.count > 0">
+     ng-show="_.size(dataset.local) > 0">
   <div class="picker-header">
     <div class="section-title"
        ng-click="pickGroup(dataset.service)">
-      <span class="pull-right"
+      <span class="social-service-icon"
             first-revenue-service-icon="dataset.service"></span>
       <i ng-show="isPickVisible(dataset.service)"
          class="icon-chevron-sign-down"></i>
