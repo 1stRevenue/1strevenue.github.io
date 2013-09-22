@@ -1,11 +1,17 @@
-<div class="first-revenue-projects"
-     ng-controller="ProjectListController">
-  <h1>Projects</h1>
-  <div ng-repeat="project in sync.user.projects">
-    <div>Name: {{project.name}}</div>
+<div class="first-revenue-projects container flat-concrete"
+     zzz-ng-controller="ProjectListController">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Projects</h1>
+      <div ng-repeat="project in sync.user.projects">
+        <div>Name: {{project.name}}</div>
+      </div>
+      <div ng-if="_.size(sync.user.projects) == 0">
+        No projects found
+      </div>
+      <p>Projects lets you group all the canvases related to a project into one folder.
+      <p>This is a premium feature.
+      <!--canvas id="project-map" width="800" height="500"></canvas-->
+    </div>
   </div>
-  <div ng-if="_.size(sync.user.projects) == 0">
-    No projects found
-  </div>
-  <canvas id="project-map" width="800" height="500"></canvas>
 </div>

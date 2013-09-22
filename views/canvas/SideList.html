@@ -1,7 +1,6 @@
 <div class="canvas-side-list"
-     ng-class="{'canvas-side-hidden': '!layout.isView(\'list\')'}"
-     ng-controller="StickerListController"
-     ng-show="layout.isView('list')">
+     ng-class="{'canvas-side-hidden': !layout.stickerList}"
+     ng-controller="StickerListController">
   <div class="sticker-count">
     {{_.size(sync.models[canvas.modelId].stickers)}} stickers
   </div>
@@ -19,7 +18,7 @@
         {{sticker.block}}
       </span>
       <div class="media-body">
-        <button class="btn btn-small pull-right"
+        <button class="btn btn-default btn-sm pull-right"
                 ng-click="modifySticker(sticker)">
           Modify
         </button>

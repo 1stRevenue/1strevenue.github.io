@@ -2,9 +2,10 @@
      class="guide-ribbon"
      ng-init="ribbon = layout.guide"
      ng-class="{'wide-ribbon': layout.guide.wide}">
-  <div ng-include src="'views/ribbon/Drag.html'"></div>
+  <div ng-include src="'views/ribbon/Drag.html'"
+       class="ribbon-item"></div>
 
-  <div class="ribbon-item">
+  <div class="ribbon-item flat-pumpkin">
     <a href="#/repo">
       <i class="icon-folder-open icon-2x"></i>
       <span ng-show="layout.guide.wide">
@@ -12,53 +13,58 @@
       </span>
     </a>
   </div>
-  <div ng-click="layout.setView('summary'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('summary')"
        ng-class="{'ribbon-item-current': layout.isView('summary')}"
-       class="ribbon-item">
+       class="ribbon-item flat-wetasphalt">
     <i class="icon-list-alt icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Summary
     </span>
   </div>
-  <div ng-click="layout.setView('presence'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('presence')"
        ng-class="{'ribbon-item-current': layout.isView('presence')}"
-       class="ribbon-item">
+       class="ribbon-item flat-nephritis">
     <i class="icon-user icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Presence
     </span>
+    <span class="model-count">{{ _.size(admin.presence) }}</span>
   </div>
-  <div ng-click="layout.setView('users'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('users')"
        ng-class="{'ribbon-item-current': layout.isView('users')}"
-       class="ribbon-item">
+       class="ribbon-item flat-belizehole">
     <i class="icon-user icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Users
     </span>
+    <span class="model-count">{{ _.size(admin.users) }}</span>
   </div>
-  <div ng-click="layout.setView('admins'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('admins')"
        ng-class="{'ribbon-item-current': layout.isView('admins')}"
-       class="ribbon-item">
+       class="ribbon-item flat-pomegranate">
     <i class="icon-user icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Admins
     </span>
+    <span class="model-count">{{ _.size(admin.admins) }}</span>
   </div>
-  <div ng-click="layout.setView('models'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('models')"
        ng-class="{'ribbon-item-current': layout.isView('models')}"
-       class="ribbon-item">
+       class="ribbon-item flat-wisteria">
     <i class="icon-list-alt icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Models
     </span>
+    <span class="model-count">{{ _.size(admin.models) }}</span>
   </div>
-  <div ng-click="layout.setView('invites'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('invites')"
        ng-class="{'ribbon-item-current': layout.isView('invites')}"
-       class="ribbon-item">
+       class="ribbon-item flat-greensea">
     <i class="icon-list-alt icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Invites
     </span>
+    <span class="model-count">{{ _.size(admin.invites) }}</span>
   </div>
 
   <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>

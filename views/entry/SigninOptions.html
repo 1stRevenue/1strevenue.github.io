@@ -1,0 +1,55 @@
+<div class="alert alert-error alert-block">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <h4>{{me.error.code}}</h4>
+  {{me.error.message}}
+</div>
+
+<h3 class="alert alert-success alert-block">
+  You have the following alternatives to sign in:
+</h3>
+
+<div class="row">
+  <div class="col-xs-2 alert alert-success alert-block">
+    <h1>(A)</h1>
+  </div>
+  <div class="col-xs-10 alert alert-success alert-block">
+    <h4>Create a new 1st Revenue account with the current credentials:</h4>
+    <strong>{{me.error.user.name}}</strong>
+    <div>
+      <button class="btn btn-primary"
+              ng-click="layout.setView('register')">
+        Create
+      </button>
+      1st Revenue account using {{me.error.user.service}}-{{me.error.user.id}}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-2 alert alert-success alert-block">
+    <h1>(B)</h1>
+  </div>
+  <div class="col-xs-10 alert alert-success alert-block">
+    <h4>Choose one or more of your social network IDs to register a new 1stRevenue account:</h4>
+    <button class="btn btn-primary"
+            ng-click="layout.setView('register')">
+      Register
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-2 alert alert-success alert-block">
+    <h1>(C)</h1>
+  </div>
+  <div class="col-xs-10 alert alert-success alert-block">
+    <h4>Switch to a different social network ID:</h4>
+
+    <div>
+      Sign out from chosen social network before trying another ID
+    </div>
+
+    <div ng-include="'views/entry/SigninButtons.html'"></div>
+  </div>
+
+</div>

@@ -24,7 +24,7 @@
 
       <div class="header-title"
            ng-hide="menu.selected == 'canvas'">
-        <div class="brand header-model-name">
+        <div class="navbar-brand header-model-name">
           {{menu.title}}
         </div>
       </div>
@@ -33,7 +33,7 @@
         <img class="header-model-icon"
              ng-show="canvas.model.fields.icon"
              ng-src="{{canvas.model.fields.icon}}" />
-        <div class="brand header-model-name">
+        <div class="navbar-brand header-model-name">
           {{canvas.model.fields.name}}
         </div>
         <img class="canvas-icon"
@@ -41,7 +41,7 @@
              ng-src="icons/zoom/Zoom-{{zoom.choice}}-transp.png"
              zzz-ng-src="icons/zoom/Zoom-0-transp.png"
              ng-click="popup.toggle('zoom')"
-             ng-show="layout.isView('zoom')"
+             ng-show="layout.zoom"
              title="Select Zoom Level" />
       </div>
 
@@ -55,7 +55,7 @@
            style="height: 38px;"
            ng-click="popup.toggle('version')" /-->
 
-      <!--div class="brand pull-right"
+      <!--div class="navbar-brand pull-right"
            ng-show="model"
            style="float: right"
            title="Current Business Model: {{canvas.model.name}}">

@@ -1,0 +1,27 @@
+<div ng-if="!me.mp.wasCurrentUserInvited(invite.inviteValue)">
+  <div class="alert alert-error alert-block">
+    <p>There's a previous 1st Revenue session for this browser
+      with a different account:</p>
+    <p>
+      <strong>{{me.mp.lastUser.name}}</strong>
+      ({{me.mp.getService()}}-{{me.mp.getServiceId()}})
+    </p>
+  </div>
+  <div class="alert alert-info alert-block">
+    <p>
+      Abandon the existing session, sign in as
+      <strong>{{ invite.inviteValue.name }}</strong>
+      and accept the new invite
+    </p>
+    <p>
+      <button class="btn btn-primary"
+              ng-show="service"
+              ng-click="invite.acceptInvite(service)">
+        Accept invite
+      </button>
+    </p>
+    <p>
+      You need to sign out from your current {{ service }} account or launch the invite URL from a different browser
+    </p>
+  </div>
+</div>

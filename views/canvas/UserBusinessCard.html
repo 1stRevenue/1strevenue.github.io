@@ -27,30 +27,100 @@
       <p ng-show="businessCard.email">
         E-mail: <strong>{{ businessCard.email }}</strong>
       </p>
+      <p class="business-card-acl">
+        <span class="acl-button">
+          <button class="btn btn-xs"
+                  ng-click="selectDefaultPermissions(businessCard)">
+            {{ getDefaultPermission(businessCard) }}
+          </button>
+          <!--div class="btn-group btn-group-xs">
+            <button class="btn btn-sm"
+                    ng-class="getACLClass(businessCard)"
+                    data-trigger="popover"
+                    data-html="true"
+                    data-placement="bottom"
+                    data-trigger="click"
+                    data-title="Default permissions for {{ businessCard.name }}"
+                    data-content="{{ getDefaultPopoverContent(businessCard) }}"
+                    data-container=".business-card-acl">
+              {{ getACLType(businessCard) }}
+            </button>
+
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option1"> Option 1
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option2"> Option 2
+              </label>
+              <label class="btn btn-primary">
+                <input type="radio" name="options" id="option3"> Option 3
+              </label>
+            </div>
+
+            <span ng-class="{'btn-default': !aclNone(), 'btn-info': aclNone()}"
+                  class="btn">None</span>
+            <span ng-class="{'btn-default': !aclView(), 'btn-success': aclView()}"
+                  class="btn">View</span>
+            <span ng-class="{'btn-default': !aclEdit(), 'btn-warning': aclEdit()}"
+                  class="btn">Edit</span>
+            <span ng-class="{'btn-default': !aclFull(), 'btn-danger': aclFull()}"
+                  class="btn">Full</span>
+          </div-->
+        </span>
+          Default permissions for {{ businessCard.name }}
+      </p>
+      <p class="btn-group btn-group-xs business-card-acl">
+        <button class="btn btn-xs"
+                ng-click="selectDefaultPermissions(businessCard)">
+          {{ getModelPermission(businessCard) }}
+        </button>
+        <!--span ng-class="{'btn-default': !aclNone(), 'btn-info': aclNone(canvas.modelId)}"
+              class="btn">None</span>
+        <span ng-class="{'btn-default': !aclView(), 'btn-success': aclView(canvas.modelId)}"
+              class="btn">View</span>
+        <span ng-class="{'btn-default': !aclEdit(), 'btn-warning': aclEdit(canvas.modelId)}"
+              class="btn">Edit</span>
+        <span ng-class="{'btn-default': !aclFull(), 'btn-danger': aclFull(canvas.modelId)}"
+              class="btn">Full</span-->
+          Partner permissions for {{ canvas.model.fields.name }}
+      </p>
+      <!--p class="btn-group btn-group-xs business-card-acl">
+        <span ng-class="{'btn-default': !aclNone(), 'btn-info': aclNone(canvas.modelId)}"
+              class="btn">None</span>
+        <span ng-class="{'btn-default': !aclView(), 'btn-success': aclView(canvas.modelId)}"
+              class="btn">View</span>
+        <span ng-class="{'btn-default': !aclEdit(), 'btn-warning': aclEdit(canvas.modelId)}"
+              class="btn">Edit</span>
+        <span ng-class="{'btn-default': !aclFull(), 'btn-danger': aclFull(canvas.modelId)}"
+              class="btn">Full</span>
+          Effective permissions for {{ canvas.model.fields.name }}
+      </p-->
     </div>
     <i class="icon-remove icon-2x close-button"
        ng-click="hideBusinessCard()"></i>
     <div class="business-card-buttons">
       <span ng-show="businessCard.type == 'partner'">
-        <button class="btn btn-primary btn-small invite-button"
+        <button class="btn btn-primary btn-sm invite-button"
                 ng-click="social.notifyUser(userId, canvas.modelId)">
           Notify
         </button>
       </span>
       <span ng-show="businessCard.type == 'invite'">
-        <button class="btn btn-success btn-small invite-button"
+        <button class="btn btn-success btn-sm invite-button"
                 ng-click="social.updateInvite(businessCard.inviteId)"
                 ng-if="sync.invites[businessCard.inviteId].status=='created'">
           Invite
         </button>
-        <button class="btn btn-success btn-small invite-button"
+        <button class="btn btn-primary btn-sm invite-button"
                 ng-click="social.updateInvite(businessCard.inviteId)"
                 ng-if="sync.invites[businessCard.inviteId].status=='sent'">
-          Resend invite
+          Notify
+          <!-- Resend invite -->
         </button>
       </span>
       <span ng-show="businessCard.type == 'user'">
-        <button class="btn btn-primary btn-small invite-button"
+        <button class="btn btn-primary btn-sm invite-button"
                 ng-click="social.notifyUser(userId, canvas.modelId)">
           Notify
         </button>

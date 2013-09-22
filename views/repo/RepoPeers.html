@@ -9,6 +9,7 @@
 <div ng-repeat="(peerKey, peer) in sync.peers"
      class="ribbon-item"
      ng-class="{'ribbon-item-current': me.isMyself(peerKey)}">
+  <span class="online-mark" ng-show="me.isOnline(peerKey)"></span>
   <img ng-src="{{peer.image}}"
        class="user-icon"
        ng-show="peer.image"
@@ -17,4 +18,8 @@
        class="user-icon"
        ng-hide="peer.image"
        title="{{peer.id}}" />
+  <div class="ribbon-text">
+    <span first-revenue-service-icon="peer.service"></span>
+    {{ peer.name }}
+  </div>
 </div>

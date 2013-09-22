@@ -1,12 +1,12 @@
 <div class="first-revenue-repo">
-  <div ng-include="'views/repo/Sort.html'"></div>
+  <div ng-include src="'views/repo/Sort.html'"></div>
 
   <div class="model-grid" title="">
     <div class="model-grid-body">
-      <div class="container-fluid"
+      <div class="container"
            ng-hide="me.modelsLoaded">
-        <div class="row-fluid">
-          <div class="span12">Loading models from the 1st Revenue repository...</div>
+        <div class="row">
+          <div class="col-xs-12">Loading models from the 1st Revenue repository...</div>
           <div>
             <a href="http://rrrrrrrroll.tumblr.com/">
               <img ng-src="{{rrrrImageLink}}" />
@@ -15,14 +15,14 @@
         </div>
       </div>
 
-      <div class="container-fluid"
+      <div class="container"
            ng-show="me.modelsLoaded && me.modelCount() === 0">
-        <div class="row-fluid">
-          <div class="span12">No models found for current user in the 1st Revenue repository</div>
+        <div class="row">
+          <div class="col-xs-12">No models found for current user in the 1st Revenue repository</div>
         </div>
       </div>
 
-      <div ng-include="'views/repo/ModelGrid.html'"></div>
+      <div ng-include src="'views/repo/ModelGrid.html'"></div>
     </div>
 
     <!--div ng-include="'views/repo/Tags.html'"></div-->

@@ -2,23 +2,27 @@
 <ui-modal ng-model="modal.invite"
           data-backdrop="static"
           class="fade">
-  <div class="modal-header">
-    <button class="close"
-            ng-click="modal.invite = false">&times;</button>
-    <h3>Send invite</h3>
-  </div>
-  <div class="modal-body">
-    <h4>Send the following message to your contact at {{modal.contact.service}}</h4>
-    <div>
-      Hello {{nodal.contact.name}},<br/>
-      I invite you to join business model generation service<br/>
-      at {{modal.contact.inviteURL}}
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close"
+                ng-click="modal.invite = false">&times;</button>
+        <h3>Send invite</h3>
+      </div>
+      <div class="modal-body">
+        <h4>Send the following message to your contact at {{modal.contact.service}}</h4>
+        <div>
+          Hello {{nodal.contact.name}},<br/>
+          I invite you to join business model generation service<br/>
+          at {{modal.contact.inviteURL}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+                ng-click="sendInvite()">Send invite</button>
+        <button class="btn btn-success"
+                ng-click="modal.invite = false">Cancel invite</button>
+      </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-danger"
-            ng-click="sendInvite()">Send invite</button>
-    <button class="btn btn-success"
-            ng-click="modal.invite = false">Cancel invite</button>
   </div>
 </ui-modal>

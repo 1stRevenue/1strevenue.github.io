@@ -1,9 +1,9 @@
 <input type="submit"
        style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
 <div class="typeahead-search">
-  <button class="btn btn-small left-button"
+  <button class="btn btn-sm left-button"
           ng-disabled="!tah.userTypeAhead"
-          ng-class="{'btn-danger': tah.userTypeAhead}"
+          ng-class="{'btn-danger': tah.userTypeAhead, 'btn-default': !tah.userTypeAhead}"
           ng-click="resetSearch()">
     &times;
   </button>
@@ -14,9 +14,9 @@
          ng-model="tah.userTypeAhead"
          first-revenue-typeahead="tah.dataset"
          data-selection="tahSelection" />
-  <button class="btn btn-small right-button"
+  <button class="btn btn-sm right-button"
           ng-disabled="!testSelection()"
-          ng-class="{'btn-success': testSelection()}"
+          ng-class="{'btn-success': testSelection(), 'btn-default': !testSelection()}"
           ng-click="tahSubmit()">
     +
   </button>
@@ -46,7 +46,7 @@
          ng-model="tah.social[account.profile.service]" />
   <span first-revenue-service-icon="account.profile.service"></span>
 
-  <button class="btn btn-small btn-primary"
+  <button class="btn btn-default btn-sm btn-primary"
           ng-click="loadAccount(account)"
           ng-hide="social.loaded[account.profile.service]">
     Load {{account.contacts.total}} friends
@@ -56,7 +56,7 @@
     <small>Seen {{getRefreshLatency(account.contacts.refreshed)}}</small>
   </small>
 
-  <button class="btn btn-small"
+  <button class="btn btn-default btn-sm"
           ng-disabled="true"
           ng-click="refreshAccount(account)"
           ng-show="social.loaded[account.profile.service]">

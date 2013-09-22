@@ -1,27 +1,5 @@
 <h2>Invite to collaborate on the 1st Revenue</h2>
-<div class="alert alert-success alert-block">
-  <p>
-    You have opened an invite to collaborate on
-    <strong>1stRevenue.com</strong>
-    sent at <strong>{{ getInviteDate(inviteId) }}</strong>
-    by {{service}} user
-  </p>
-  <p ng-if="invite.creator"
-     class="clearfix">
-    <a href="{{ invite.creator.link }}"
-       target="_blank">
-      <img ng-src="{{ invite.creator.image }}"
-           class="pull-left" />
-      <strong>{{ invite.creator.name }}</strong>
-    </a>
-  </p>
-  <p>The invite code is <strong>{{inviteId}}</strong></p>
-  <p ng-if="invite.inviteValue">
-    This invite was sent to:
-    <strong>{{ invite.inviteValue.name }}</strong>
-    ({{ invite.inviteValue.service }}-{{ invite.inviteValue.serviceId }})
-  </p>
-</div>
+<div ng-include src="'views/invite/InviteSummary.html'"></div>
 
 <div ng-if="!invite.loaded"
      class="alert alert-info alert-block">
@@ -29,134 +7,18 @@
 </div>
 
 <div ng-if="invite.loaded">
-  <div ng-if="!invite.inviteValue"
-       class="alert alert-error alert-block">
-    The invite with code <strong>{{inviteId}}</strong> does not exist anymore
-  </div>
-
-  <div ng-if="invite.inviteValue.status == 'accepted'"
-       class="alert alert-error alert-block">
-    The invite with code <strong>{{inviteId}}</strong> has been already accepted
-    <p>
-      <button class="btn btn-primary"
-              ng-click="signIn()">
-        Sign in
-      </button>
-    </p>
-  </div>
+  <div ng-include src="'views/invite/InviteAccepted.html'"></div>
 
   <div ng-if="invite.inviteValue.status != 'accepted'">
-    <div ng-if="!invite.completed && !me.sessionFound"
-         class="alert alert-success alert-block">
-      <p>
-        Accept the invite if you are
-        <strong>{{ invite.inviteValue.name }}</strong>
-      </p>
-      <p>
-        <button class="btn btn-success"
-                ng-show="service"
-                ng-click="invite.acceptInvite(service)">
-          Accept invite
-        </button>
-      </p>
-    </div>
+    <div ng-include src="'views/invite/InviteAccept.html'"></div>
 
     <div ng-if="!invite.completed && me.sessionFound">
-      <div ng-if="me.mp.wasCurrentUserInvited(invite.inviteValue)">
-        <div class="alert alert-info alert-block">
-          <p>You already have a 1stRevenue account</p>
-        </div>
-
-        <div class="alert alert-success alert-block">
-          <p>Accept the invite and continue</p>
-          <p>
-            <button class="btn btn-success"
-                    ng-show="service"
-                    ng-click="invite.acceptInvite(service)">
-              Accept invite
-            </button>
-          </p>
-        </div>
-      </div>
-
-      <div ng-if="!me.mp.wasCurrentUserInvited(invite.inviteValue)">
-        <div class="alert alert-error alert-block">
-          <p>There's a previous 1st Revenue session for this browser
-            with a different account:</p>
-          <p>
-            <strong>{{me.mp.lastUser.name}}</strong>
-            ({{me.mp.getService()}}-{{me.mp.getServiceId()}})
-          </p>
-        </div>
-        <div class="alert alert-info alert-block">
-          <p>
-            Abandon the existing session, sign in as
-            <strong>{{ invite.inviteValue.name }}</strong>
-            and accept the new invite
-          </p>
-          <p>
-            <button class="btn btn-primary"
-                    ng-show="service"
-                    ng-click="invite.acceptInvite(service)">
-              Accept invite
-            </button>
-          </p>
-          <p>
-            You need to sign out from your current {{ service }} account or launch the invite URL from a different browser
-          </p>
-        </div>
-      </div>
-
-      <div class="alert alert-warning alert-block">
-        <p>
-          Ignore the invite and continue with the previous session as
-          <strong>{{me.mp.lastUser.name}}</strong>
-        </p>
-        <p>
-          <button class="btn btn-warning"
-                  ng-click="invite.ignoreInvite()">
-            Ignore invite
-          </button>
-        </p>
-      </div>
+      <div ng-include src="'views/invite/InviteContinue.html'"></div>
+      <div ng-include src="'views/invite/InviteAbandon.html'"></div>
+      <div ng-include src="'views/invite/InviteIgnore.html'"></div>
     </div>
   </div>
 </div>
-
-<!--div ng-hide="invite.completed"
-     ng-switch="me.sessionFound">
-  <div ng-switch-when="true">
-    <div class="alert alert-error alert-block">
-      <p>There's a previous 1st Revenue session for this browser
-      with the following account:</p>
-      <p>{{me.mp.getService()}}-{{me.mp.getServiceId()}}
-      (<strong>{{me.mp.lastUser.name}}</strong>)</p>
-    </div>
-    <div class="alert alert-warning alert-block">
-      Ignore the invite and continue with the previous session
-      <button class="btn btn-warning"
-              ng-show="service"
-              ng-click="invite.ignoreInvite(service)">
-        Ignore invite
-      </button>
-    </div>
-    <div class="alert alert-info alert-block">
-      Abandon the session and accept the new invite
-      <button class="btn btn-primary"
-              ng-show="service"
-              ng-click="invite.acceptInvite(service)">
-        Accept invite
-      </button>
-    </div>
-  </div>
-  <div ng-switch-when="false">
-    <button class="btn btn-success"
-            ng-show="service"
-            ng-click="invite.acceptInvite(service)">
-      Accept invite
-    </button>
-  </div>
-</div-->
 
 <div ng-show="invite.completed"
      class="alert alert-success alert-block">
@@ -164,16 +26,5 @@
 </div>
 
 <div ng-show="invite.error">
-  <div class="alert alert-error alert-block">
-    <p>{{invite.error.message}}</p>
-  </div>
-  <div class="alert alert-info alert-block">
-    <p>Ignore the invite and create your independent account</p>
-    <p>
-      <button class="btn btn-primary"
-              ng-click="createAccount()">
-        Create 1st Revenue account
-      </button>
-    </p>
-  </div>
+  <div ng-include src="'views/invite/InviteError.html'"></div>
 </div>

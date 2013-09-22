@@ -1,0 +1,15 @@
+<div ng-if="!invite.inviteValue"
+     class="alert alert-error alert-block">
+  The invite with code <strong>{{inviteId}}</strong> does not exist anymore
+</div>
+
+<div ng-if="invite.inviteValue.status == 'accepted'"
+     class="alert alert-error alert-block">
+  The invite with code <strong>{{inviteId}}</strong> has been already accepted
+  <p>
+    <button class="btn btn-primary"
+            ng-click="signIn()">
+      Sign in
+    </button>
+  </p>
+</div>

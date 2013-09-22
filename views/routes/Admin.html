@@ -2,20 +2,23 @@
 
 <div class="first-revenue-admin">
   <div ng-switch="layout.view">
-    <div ng-switch-when="summary"
-         ng-include="'views/admin/Summary.html'">
+    <div ng-switch-when="summary">
+      <div ng-include="'views/admin/Summary.html'"></div>
     </div>
-    <div ng-switch-when="presence"
-         ng-include="'views/admin/Presence.html'">
+    <div ng-switch-when="presence">
+      <div ng-include="'views/admin/Presence.html'"></div>
     </div>
-    <div ng-switch-when="users"
-         ng-include="'views/admin/Users.html'">
+    <div ng-switch-when="users">
+      <div ng-include="'views/admin/Users.html'"></div>
     </div>
-    <div ng-switch-when="models"
-         ng-include="'views/admin/Models.html'">
+    <div ng-switch-when="admins">
+      <div ng-include="'views/admin/Admins.html'"></div>
     </div>
-    <div ng-switch-when="invites"
-         ng-include="'views/admin/Invites.html'">
+    <div ng-switch-when="models">
+      <div ng-include="'views/admin/Models.html'"></div>
+    </div>
+    <div ng-switch-when="invites">
+      <div ng-include="'views/admin/Invites.html'"></div>
     </div>
     <div ng-switch-default>
       <h1>Unknown admin page selected</h1>

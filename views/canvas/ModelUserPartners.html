@@ -26,21 +26,22 @@
        class="picker-item"
        ng-class="{'picker-inactive': wasInvited(partner)}">
     <span first-revenue-service-icon="partner.service"></span>
-    <span class="user-photo"
+    <span class="user-show-card"
           ng-click="showBusinessCard('picker', partner)">
-    <img ng-src="{{partner.image}}"
-         class="user-icon"
-         ng-show="partner.image"
-         title="{{partner.name}}" />
-    <img ng-src="images/bbf82395.light_avatar_small.png"
-         class="user-icon"
-         ng-hide="partner.image"
-         title="{{partner.name}}" />
+      <img ng-src="{{partner.image}}"
+           class="user-icon"
+           ng-show="partner.image"
+           title="{{partner.name}}" />
+      <img ng-src="images/bbf82395.light_avatar_small.png"
+           class="user-icon"
+           ng-hide="partner.image"
+           title="{{partner.name}}" />
       <span class="user-name">
         {{partner.name}}
       </span>
-    <button class="btn btn-warning btn-small select-button"
-            ng-hide="wasInvited(partner)"
+    </span>
+    <button class="btn btn-warning btn-sm select-button"
+            ng-if="showSelectButton(partner)"
             ng-click="social.addModelInvite(canvas, partner)">
       <i class="icon-chevron-right"></i>
     </button>

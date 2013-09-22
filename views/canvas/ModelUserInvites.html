@@ -31,12 +31,13 @@
     <div ng-repeat="(inviteId, inviteValue) in sync.models[canvas.modelId].invites track by inviteId"
          ng-show="sync.invites[inviteId].status!=='accepted'"
          class="user-list-item">
-      <button class="btn btn-small delete-button"
+      <button class="btn btn-default btn-sm delete-button"
+              ng-class="{'hidden-button': !showInviteRemoveButton(inviteId)}"
               ng-click="deleteInvite(inviteId)">
         <i class="icon-remove"></i>
       </button>
       <span first-revenue-service-icon="sync.invites[inviteId].service"></span>
-      <span class="user-photo"
+      <span class="user-show-card"
             ng-click="showInviteCard(inviteId)">
         <img ng-src="{{sync.invites[inviteId].image}}"
              class="user-icon"
@@ -46,39 +47,46 @@
              class="user-icon"
              ng-hide="sync.invites[inviteId].image"
              title="{{sync.invites[inviteId].name}}" />
-      </span>
-      <span class="invite-name">
-        {{sync.invites[inviteId].name}}
+        <span class="invite-name">
+          {{sync.invites[inviteId].name}}
+        </span>
       </span>
 
-      <button class="btn btn-success btn-small invite-button"
+      <button class="btn btn-success btn-sm invite-button"
               ng-click="social.updateInvite(inviteId)"
-              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service!='gplus'">
+              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'facebook'">
         Invite
       </button>
-      <!--button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
-              class="btn btn-success btn-small invite-button">
+      <button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
+              class="btn btn-success btn-sm invite-button"
+              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'gplus'">
         Invite
-      </button-->
-
-      <!--button class="g-interactivepost btn btn-success btn-small invite-button"
-              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service=='gplus'"
-              data-contenturl="GooglePlusInvitation.html"
-              data-contentdeeplinkid="{{inviteId}}"
-              data-clientid="{{googleClientId}}"
-              data-cookiepolicy="single_host_origin"
-              data-prefilltext="Join 1st Revenue to collaborate on model {{canvas.model.fields.name}}"
-              data-calltoactionlabel="INVITE"
-              data-calltoactionurl="{{callToActionURL}}{{inviteId}}"
-              data-calltoactiondeeplinkid="{{inviteId}}"
-              data-recipients="{{sync.invites[inviteId].serviceId}}">
+      </button>
+      <button class="btn btn-success btn-sm invite-button"
+              data-toggle="modal"
+              data-target="#modalLinkedIn"
+              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'linkedin'">
         Invite
-      </button-->
+      </button>
 
-      <button class="btn btn-small invite-button"
-              ng-disabled="true"
-              ng-if="sync.invites[inviteId].status=='sent'">
-        Invited
+      <button class="btn btn-primary btn-sm invite-button"
+            zzz-ng-disabled="true"
+            ng-click="social.updateInvite(inviteId)"
+            ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'facebook'">
+        Notify
+      </button>
+      <button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
+              class="btn btn-primary btn-sm invite-button"
+              zzz-ng-disabled="true"
+              ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'gplus'">
+        Notify
+      </button>
+      <button class="btn btn-primary btn-sm invite-button"
+              zzz-data-toggle="modal"
+              zzz-data-target="#modalLinkedIn"
+              ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
+              ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'linkedin'">
+        Notify
       </button>
     </div>
   </div>

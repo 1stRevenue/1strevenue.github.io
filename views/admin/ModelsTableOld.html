@@ -1,0 +1,40 @@
+<div class="admin-models">
+  <table class="table table-responsive table-striped">
+    <caption>
+      <h2 class="text-center">
+        {{_.size(admin.models)}} models in the database
+      </h2>
+    </caption>
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Elevator pitch</th>
+        <th># stickers</th>
+        <th># users</th>
+        <th># invites</th>
+        <th># comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="(id, model) in admin.models track by id">
+        <td>
+          <img ng-src="{{model.fields.icon}}"
+               ng-show="model.fields.icon"
+               class="admin-model-icon"
+               title="{{model.fields.name}}" />
+        </td>
+        <td>{{id}}</td>
+        <td>{{model.fields.name}}</td>
+        <td>{{model.fields.descr}}</td>
+        <td>{{model.fields.pitch}}</td>
+        <td>{{_.size(model.stickers)}}</td>
+        <td>{{_.size(model.users)}}</td>
+        <td>{{_.size(model.invites)}}</td>
+        <td>{{_.size(model.comments)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

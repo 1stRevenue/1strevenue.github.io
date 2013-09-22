@@ -1,30 +1,39 @@
-<div class="admin-presence">
+<div class="admin-admins flat-pomegranate">
   <h2>{{_.size(admin.admins)}} administrators</h2>
-</div>
-<div ng-repeat="(id, value) in admin.admins track by id"
-     class="media">
-  <span class="pull-left">
-    <img ng-src="{{admin.users[id].profile.image}}"
-         class="user-icon"
-         ng-show="admin.users[id].profile.image"
-         title="{{admin.users[id].profile.name}}" />
-    <img ng-src="images/bbf82395.light_avatar_small.png"
-         class="user-icon"
-         ng-hide="admin.users[id].profile.image"
-         title="{{admin.users[id].profile.name}}" />
-  </span>
-  <div class="media-body">
-    <p>Id: {{id}}</p>
-    <p>Name: {{admin.users[id].profile.name}}</p>
-    <p>
-      Provider: {{admin.users[id].profile.provider}}
-      <span first-revenue-service-icon="admin.users[id].profile.provider"></span>
-      {{admin.users[id].profile.id}}
-    </p>
-    <p>
-      Service: {{admin.users[id].profile.service}}
-      <span first-revenue-service-icon="admin.users[id].profile.service"></span>
-      {{admin.users[id].profile.serviceId}}
-    </p>
+  <div class="row">
+    <div ng-repeat-start="(id, value) in admin.admins track by id"
+         class="col-xs-3">
+      <div class="thumbnail">
+        <span class="pull-left">
+          <img ng-src="{{admin.users[id].profile.image}}"
+               class="user-icon"
+               ng-show="admin.users[id].profile.image"
+               title="{{admin.users[id].profile.name}}" />
+          <img ng-src="images/bbf82395.light_avatar_small.png"
+               class="user-icon"
+               ng-hide="admin.users[id].profile.image"
+               title="{{admin.users[id].profile.name}}" />
+        </span>
+        <h4>{{admin.users[id].profile.name}}</h4>
+        <div>
+          <div>
+            <img src="favicon.ico" />
+            {{id}}
+          </div>
+          <div>
+            <span first-revenue-service-icon="admin.users[id].profile.service"></span>
+            {{admin.users[id].profile.serviceId}}
+          </div>
+          <div ng-if="user.profile.provider == 'singly'">
+            <span first-revenue-service-icon="admin.users[id].profile.provider"></span>
+            {{admin.users[id].profile.id}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-repeat-end
+         class="xs-visible"
+         ng-class="{clearfix: $index % 4 == 3}">
+    </div>
   </div>
 </div>

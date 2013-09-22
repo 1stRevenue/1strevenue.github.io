@@ -1,31 +1,31 @@
-<div ng-controller="AngularController" class="container-fluid">
-  <div class="row-fluid">
-    <div class="span12">
+<div ng-controller="AngularController" class="container">
+  <div class="row">
+    <div class="col-xs-12">
       <h3>1st Revenue Angular dependencies</h3>
     </div>
   </div>
-  <div ng-repeat="el in q" class="row-fluid">
-    <div class="span1">
+  <div ng-repeat="el in q" class="row">
+    <div class="col-xs-1">
       {{$index}}
     </div>
-    <div class="span1">
+    <div class="col-xs-1">
       {{el[0]}}
     </div>
-    <div class="span1">
+    <div class="col-xs-1">
       {{el[1]}}
     </div>
 
     <div ng-switch on="objType(el[2][0])">
       <div ng-switch-when="string">
-        <div class="span9">
+        <div class="col-xs-9">
           <h4>{{el[2][0]}}</h4>
 
           <div ng-switch on="testValue(el[1])">
             <div ng-switch-when="false">
-              <div class="row-fluid">
+              <div class="row">
                 <div ng-repeat="pr in el[2][1]">
                   <div ng-switch on="objType(pr)">
-                    <div ng-switch-when="string" class="span2">
+                    <div ng-switch-when="string" class="col-xs-2">
                       {{pr}}
                     </div>
                   </div>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <div ng-switch-when="object">
-        <h4 class="span9">
+        <h4 class="col-xs-9">
           {{el[2][0][0]}}
         </h4>
       </div>

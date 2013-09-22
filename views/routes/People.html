@@ -1,7 +1,7 @@
 <div ng-include src="'views/people/GuideRibbon.html'"></div>
 
 <div class="first-revenue-people">
-  <div ng-switch="layout.view">
+  <div ng-switch on="layout.view">
     <div ng-switch-when="partners"
          ng-include="'views/people/Partners.html'">
     </div>

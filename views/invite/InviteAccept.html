@@ -1,0 +1,14 @@
+<div ng-if="!invite.completed && !me.sessionFound"
+     class="alert alert-success alert-block">
+  <p>
+    Accept the invite if you are
+    <strong>{{ invite.inviteValue.name }}</strong>
+  </p>
+  <p>
+    <button class="btn btn-success"
+            ng-show="service"
+            ng-click="invite.acceptInvite(service)">
+      Accept invite
+    </button>
+  </p>
+</div>

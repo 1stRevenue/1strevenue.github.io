@@ -33,7 +33,7 @@
          class="picker-item"
          ng-class="{'picker-inactive': wasInvited(friend)}">
       <span first-revenue-service-icon="dataset.service"></span>
-      <span class="user-photo"
+      <span class="user-show-card"
             ng-click="showBusinessCard('picker', friend)">
         <img ng-src="{{friend.image}}"
              class="user-icon"
@@ -43,13 +43,13 @@
              class="user-icon"
              ng-hide="friend.image"
              title="{{friend.name}}" />
-      </span>
-      <span class="invite-name">
-        {{ friend.name }}
+        <span class="invite-name">
+          {{ friend.name }}
+        </span>
       </span>
 
-      <button class="btn btn-warning btn-small select-button"
-              ng-hide="wasInvited(friend)"
+      <button class="btn btn-warning btn-sm select-button"
+              ng-if="showSelectButton(friend)"
               ng-click="social.addModelInvite(canvas, friend)">
         <i class="icon-chevron-right"></i>
       </button>

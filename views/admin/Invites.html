@@ -1,27 +1,44 @@
-<div class="admin-invites">
+<div class="admin-invites flat-greensea">
   <h2>{{_.size(admin.invites)}} invites in the database</h2>
-</div>
-<div ng-repeat="(id, invite) in admin.invites track by id"
-     class="media">
-  <span class="pull-left">
-    <img ng-src="{{invite.image}}"
-         class="user-icon"
-         ng-show="invite.image"
-         title="{{invite.name}}" />
-    <img ng-src="images/bbf82395.light_avatar_small.png"
-         class="user-icon"
-         ng-hide="invite.image"
-         title="{{invite.name}}" />
-  </span>
-  <div class="media-body">
-    <p>Id: {{id}}</p>
-    <p>Name: {{invite.name}}</p>
-    <p>
-      Service: {{invite.service}}
-      <span first-revenue-service-icon="invite.service"></span>
-      {{invite.serviceId}}
-    </p>
-    <p>Status: {{invite.status}}</p>
-    <p ng-show="invite.userId">User Id: {{invite.userId}}</p>
+  <div class="row">
+    <div ng-repeat-start="(id, invite) in admin.invites track by id"
+         class="col-xs-3">
+      <div class="thumbnail">
+        <span class="pull-left">
+          <img ng-src="{{invite.image}}"
+               class="user-icon"
+               ng-show="invite.image"
+               title="{{invite.name}}" />
+          <img ng-src="images/bbf82395.light_avatar_small.png"
+               class="user-icon"
+               ng-hide="invite.image"
+               title="{{invite.name}}" />
+        </span>
+        <h4>{{invite.name}}</h4>
+        <div>
+          <div>
+            <img src="favicon.ico" />
+            {{id}}
+          </div>
+          <div>
+            <span first-revenue-service-icon="invite.service"></span>
+            {{invite.serviceId}}
+          </div>
+          <div>
+            Status: <strong>{{invite.status}}</strong>
+          </div>
+          <div>
+            <span ng-show="invite.userId">
+              User Id:
+              <strong>{{invite.userId}}</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-repeat-end
+         class="xs-visible"
+         ng-class="{clearfix: $index % 4 == 3}">
+    </div>
   </div>
 </div>

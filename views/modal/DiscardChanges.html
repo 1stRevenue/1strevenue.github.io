@@ -2,33 +2,37 @@
 <ui-modal ng-model="modal.dis"
           data-backdrop="static"
           class="fade">
-  <div class="modal-header">
-    <button class="close"
-            ng-click="modal.dis = false">&times;</button>
-    <h3>Discard changes</h3>
-  </div>
-  <div class="modal-body">
-    <h4>Values of the modified fields will be lost:</h4>
-    
-    <div ng-hide="editor.matchTitle()">
-      Title:
-      <strong>"{{modal.sticker.title}}"</strong>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close"
+                ng-click="modal.dis = false">&times;</button>
+        <h3>Discard changes</h3>
+      </div>
+      <div class="modal-body">
+        <h4>Values of the modified fields will be lost:</h4>
+
+        <div ng-hide="editor.matchTitle()">
+          Title:
+          <strong>"{{modal.sticker.title}}"</strong>
+        </div>
+        <div ng-hide="editor.matchNotes()">
+          Notes:
+          <strong>"{{modal.sticker.notes}}"</strong>
+        </div>
+        <div ng-hide="editor.matchColor()">
+          Color:
+          <strong>"{{modal.sticker.colorText}}"</strong>
+        </div>
+
+        <h4>Are you sure?</h4>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger"
+                ng-click="discardStickerChanges()">Discard</button>
+        <button class="btn btn-success"
+                ng-click="keepStickerChanges()">Keep</button>
+      </div>
     </div>
-    <div ng-hide="editor.matchNotes()">
-      Notes:
-      <strong>"{{modal.sticker.notes}}"</strong>
-    </div>
-    <div ng-hide="editor.matchColor()">
-      Color:
-      <strong>"{{modal.sticker.colorText}}"</strong>
-    </div>
-    
-    <h4>Are you sure?</h4>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-danger"
-            ng-click="discardStickerChanges()">Discard</button>
-    <button class="btn btn-success"
-            ng-click="keepStickerChanges()">Keep</button>
   </div>
 </ui-modal>

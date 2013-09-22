@@ -6,62 +6,57 @@
        ng-src="{{canvas.model.fields.icon}}"
        ng-style="canvas.getLogoStyle()" />
   <!--/div-->
-  <div ng-switch on="canvas.singleBlock">
-    <div ng-switch-when="null">
-      <div ng-repeat="(blockId, block) in getBlocks()"
-           zzz-first-revenue-open-tip="{{blockId}}"
-           first-revenue-edit="{{blockId}}"
-           data-label="{{blockId}}"
-           data-id="{{blockId}}"
-           class="pane {{blockId}} {{canvas.getGridClass()}}"
-           ng-class="{'hover-pane': hovering}"
-           ng-mouseenter="hovering = true"
-           ng-mouseleave="hovering = false">
+  <div ng-if="!canvas.singleBlock"
+       class="map-envelope">
+    <div ng-repeat="(blockId, block) in getBlocks()"
+         zzz-first-revenue-open-tip="{{blockId}}"
+         first-revenue-edit="{{blockId}}"
+         data-label="{{blockId}}"
+         data-id="{{blockId}}"
+         class="pane {{blockId}} {{canvas.getGridClass()}}"
+         ng-class="{'hover-pane': hovering && isModelEditable()}"
+         ng-mouseenter="hovering = true"
+         ng-mouseleave="hovering = false">
 
-        <div ng-include="'views/canvas/BMG.html'"
-             onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
-             ng-show="_.size(getStickers(blockId)) == 0">
-        </div>
-
-        <div ng-if="!canvas.readOnly"
-             ng-include="'views/canvas/Block.html'"></div>
-        <div ng-if="canvas.readOnly"
-             ng-include="'views/canvas/PublicBlock.html'"></div>
-      </div>
-    </div>
-    <div ng-switch-default>
-      <div ng-repeat="(block, blockId) in getBlocks()"
-           first-revenue-edit="{{blockId}}"
-           data-label="{{blockId}}"
-           data-id="{{blockId}}"
-           class="pane {{blockId}} {{canvas.getGridClass()}}"
-           ng-click="canvas.switchBlock({icon: blockId})">
-
-        <div ng-if="!isPublic()"
-             ng-include="'views/canvas/Block.html'"></div>
-        <div ng-if="isPublic()"
-             ng-include="'views/canvas/PublicBlock.html'"></div>
-
-        <div ng-include="'views/canvas/BMG.html'"
-             onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
-             ng-show="_.size(getStickers(blockId)) == 0">
-        </div>
+      <div ng-include="'views/canvas/BMG.html'"
+           onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
+           ng-show="_.size(getStickers(blockId)) == 0">
       </div>
 
-      <!--div ng-click="zoom.zoom(0)"
-           class="pane pane-small ALL">
-          <img ng-src="icons/zoom/Zoom-0-transp.png" />
-      </div-->
-
-      <!--div ng-init="block = canvas.singleBlock"
-           first-revenue-open-tip="XXC"
-           first-revenue-edit="XXC"
-           data-label="{{block.paneClass}}"
-           data-id="{{block.id}}"
-           class="pane XXC {{canvas.getGridClass()}}">
-        <div ng-include="'views/canvas/Block.html'"></div>
-      </div-->
+      <div ng-include="'views/canvas/Block.html'"></div>
     </div>
+  </div>
+  <div ng-if="canvas.singleBlock"
+       class="map-envelope">
+    <div ng-repeat="(block, blockId) in getBlocks()"
+         first-revenue-edit="{{blockId}}"
+         data-label="{{blockId}}"
+         data-id="{{blockId}}"
+         class="pane {{blockId}} {{canvas.getGridClass()}}"
+         ng-click="canvas.switchBlock({icon: blockId})">
+
+      <div ng-include="'views/canvas/Block.html'"></div>
+
+      <div ng-include="'views/canvas/BMG.html'"
+           onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
+           ng-show="_.size(getStickers(blockId)) == 0">
+      </div>
+    </div>
+
+    <!--div ng-click="zoom.zoom(0)"
+         class="pane pane-small ALL">
+        <img ng-src="icons/zoom/Zoom-0-transp.png" />
+    </div-->
+
+    <!--div ng-init="block = canvas.singleBlock"
+         first-revenue-open-tip="XXC"
+         first-revenue-edit="XXC"
+         data-label="{{block.paneClass}}"
+         data-id="{{block.id}}"
+         class="pane XXC {{canvas.getGridClass()}}">
+      <div ng-include="'views/canvas/Block.html'"></div>
+    </div-->
+  </div>
   </div>
 </div>
 

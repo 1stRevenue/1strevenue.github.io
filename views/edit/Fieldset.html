@@ -1,15 +1,15 @@
 <!-- Content editable div's -->
-<fieldset class="well" ng-hide="editor.sticker == null"
+<fieldset class="thumbnail" ng-hide="editor.sticker == null"
           style="background-color: #{{rainbow.brighten(editor.sticker.color)}};">
   <legend ng-show="showLegend">E D I T I N G</legend>
-  <div class="row-fluid editor-sticker"
+  <div class="editor-sticker"
        data-id="{{editor.stickerId}}"
        data-bmid="{{editor.sticker.bmId}}"
        data-blockid="{{editor.sticker.blockId}}"
        data-tid="{{editor.sticker.update.tId}}"
        data-nid="{{editor.sticker.update.nId}}"
        data-mode="{{editor.stickerId == 0}}">
-    <div class="row-fluid">
+    <div>
       <label>Title</label>
       <h4 class="field-title"
           ng-class="{modified: !editor.matchTitle(editor.sticker)}"
@@ -19,7 +19,7 @@
       </h4>
     </div>
 
-    <div class="row-fluid">
+    <div>
       <label>Notes</label>
       <div class="field-notes"
            ng-class="{modified: !editor.matchNotes(editor.sticker)}"
@@ -56,7 +56,7 @@
     -->
 
 
-    <div class="row-fluid">
+    <div>
       <label>Colour {{editor.sticker.color}}</label>
       <div class="field-color"
            ng-class="{modified: !editor.matchColor(editor.sticker)}">

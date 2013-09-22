@@ -1,9 +1,9 @@
-<div class="container-fluid"
+<div class="container flat-nephritis"
      ng-show="layout.isView('signin')">
-  <div class="row-fluid">
-    <div class="span1"></div>
+  <div class="row">
+    <div class="col-xs-1"></div>
 
-    <div class="span10">
+    <div class="col-xs-10">
       <!--h2>Sign in to the 1st Revenue</h2-->
 
       <div class="logon">
@@ -11,91 +11,17 @@
           Searching and retrieving the previous session...
         </h3>
         <div ng-show="me.authFailed">
-          <div class="alert alert-error alert-block"
-               ng-show="me.error">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <h4>{{me.error.code}}</h4>
-            {{me.error.message}}
-          </div>
-
-          <div class="alert alert-success alert-block"
-               ng-show="me.error">
-            You have the following alternatives to sign in:
-          </div>
-
           <div ng-show="me.error">
-            <div class="row-fluid">
-              <div class="span2 alert alert-success alert-block">
-                <h1>(A)</h1>
-              </div>
-              <div class="span10 alert alert-success alert-block">
-                <h4>Create a new 1st Revenue account with the current credentials:</h4>
-                <strong>{{me.error.user.name}}</strong>
-                <div>
-                  <button class="btn btn-primary"
-                          ng-click="layout.setView('register')">
-                    Create
-                  </button>
-                  1st Revenue account using {{me.error.user.service}}-{{me.error.user.id}}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div ng-show="me.error">
-            <div class="row-fluid">
-              <div class="span2 alert alert-success alert-block">
-                <h1>(B)</h1>
-              </div>
-              <div class="span10 alert alert-success alert-block">
-                <h4>Choose one or more of your social network IDs to register a new 1stRevenue account:</h4>
-                <button class="btn btn-primary"
-                        ng-click="layout.setView('register')">
-                  Register
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div ng-show="me.error">
-            <div class="row-fluid">
-              <div class="span2 alert alert-success alert-block">
-                <h1>(C)</h1>
-              </div>
-              <div class="span10 alert alert-success alert-block">
-                <h4>Switch to a different social network ID:</h4>
-
-                <div>
-                  Sign out from chosen social network before trying another ID
-                </div>
-
-                <div ng-include="'views/entry/SigninButtons.html'"></div>
-
-                <div>
-                  <label class="checkbox">
-                    <input type="checkbox"
-                           ng-model="auth.rememberMe" />
-                    Remember the selected account
-                  </label>
-                </div>
-              </div>
-
-            </div>
+            <div ng-include="'views/entry/SigninOptions.html'"></div>
           </div>
 
           <div ng-hide="me.error">
             <div ng-include="'views/entry/SigninButtons.html'"></div>
-
-            <label class="checkbox">
-              <input type="checkbox"
-                     ng-model="auth.rememberMe" />
-              Remember the selected account
-            </label>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="span1"></div>
+    <div class="col-xs-1"></div>
   </div>
 </div>

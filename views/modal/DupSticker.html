@@ -2,20 +2,24 @@
 <ui-modal ng-model="modal.dup"
           data-backdrop="static"
           class="fade">
-  <div class="modal-header">
-    <button class="close"
-            ng-click="modal.dup = false">&times;</button>
-    <h3>Create a duplicate</h3>
-  </div>
-  <div class="modal-body">
-    <h4>To create a duplicate sticker please change the sticker title.</h4>
-    <div>
-      Title:
-      <strong>"{{modal.sticker.title}}"</strong>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close"
+                ng-click="modal.dup = false">&times;</button>
+        <h3>Create a duplicate</h3>
+      </div>
+      <div class="modal-body">
+        <h4>To create a duplicate sticker please change the sticker title.</h4>
+        <div>
+          Title:
+          <strong>"{{modal.sticker.title}}"</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"
+                ng-click="modal.dup = false">OK</button>
+      </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary"
-            ng-click="modal.dup = false">OK</button>
   </div>
 </ui-modal>

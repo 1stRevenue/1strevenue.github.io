@@ -1,68 +1,21 @@
 <div class="canvas-side-frame"
+     ng-if="layout.editor.sticker"
      ng-class="{'edit-sticker': layout.editor.sticker}">
   <div ng-controller="StickerEditorController"
        class="postit-editor">
-    <div class="close-button pull-left"
+    <div class="close-button"
          ng-click="confirmCloseEditor()"
          title="Click to Close Sticker Editor">
     </div>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <legend>
-          Sticker Editor
-        </legend>
-      </div>
+    <div class="canvas-block-title">
+      <span class="pull-left block-icon app-icon-24 icon-{{getBlock().iconId}}"></span>
+      <span>{{getBlock().name}}</span>
+    </div>
 
-      <!--div ng-include="'views/edit/Guide.html'"></div-->
-
-      <div ng-switch="editor.sticker !== null">
-        <div ng-switch-when="true">
-          <div class="row-fluid">
-            <div class="span2">
-              <div class="block-icon app-icon-24 icon-{{getBlock().iconId}}">
-              </div>
-            </div>
-            <div class="span8">
-              {{getBlock().name}}
-            </div>
-            <!--div class="span2 block-initials" ng-show="canvas.showBlockInitials">
-              {{getBlock().initials}}
-            </div-->
-          </div>
-
-          <div ng-include="'views/edit/Fieldset.html'"></div>
-
-        <!-- Traditional editing form -->
-        <!--div class="row-fluid">
-          <form class="well form-vertical" style="background-color: #{{sticker.colorCode}}">
-            <fieldset>
-              <div class="control-group">
-                <label>Title</label>
-                <input type="text" placeholder="Sticker title"
-                  value="{{sticker.title}}" />
-              </div>
-              <div class="control-group">
-                <label>Notes</label>
-                <textarea placeholder="Notes">{{sticker.notes}}</textarea>
-              </div>
-              <div class="control-group">
-                <label>Colour {{sticker.colorText}}</label>
-                <div ng-init="colors=['red','yellow','gray','blue','magenta','salmon','cyan','neutral','green']">
-                  <div ng-repeat="color in colors" class="palette-color palette-color-{{color}}" ng-class="{chosen: (color == sticker.colorText.toLowerCase())}" ng-click="setColor(sticker, color)">
-                  </div>
-                </div>
-              </div>
-              <div class="control-group">
-                <button type="submit" class="btn btn-primary">Update</button>
-                <button class="btn">Cancel</button>
-              </div>
-            </fieldset>
-          </form>
-        </div-->
-
-        </div>
-      </div>
+    <div ng-include="'views/edit/Fieldset.html'"></div>
+    <div ng-repeat="purpose in [editor.purpose]">
+      <div ng-include="'views/canvas/BMG.html'"></div>
     </div>
   </div>
 </div>

@@ -1,0 +1,16 @@
+<h3>Peers</h3>
+<div ng-repeat="(peerId, peer) in sync.peers">
+  <img class="user-list-icon"
+       ng-show="peer.image"
+       ng-src="{{peer.image}}" />
+  <img class="user-list-icon"
+       ng-hide="peer.image"
+       ng-src="images/bbf82395.light_avatar_small.png" />
+  <span first-revenue-service-icon="peer.service"></span>
+  <span ng-if="peerId == me.userId">
+    Myself
+  </span>
+  <span ng-if="peerId != me.userId">
+    {{ peer.name }}
+  </span>
+</div>

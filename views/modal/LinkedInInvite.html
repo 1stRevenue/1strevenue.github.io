@@ -1,0 +1,63 @@
+<!-- A dialog box that asks user permission to send an invite -->
+<div id="modalLinkedIn"
+     data-backdrop="static"
+     class="modal fade"
+     tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close"
+                data-dismiss="modal"
+                ng-click="modal.invite = false">&times;</button>
+        <h3>Send LinkedIn invite</h3>
+      </div>
+
+      <div class="modal-body">
+        <h5>Edit and send the following message to your contact at LinkedIn</h5>
+        <div class="linkedin-inbox-item-header">
+          <h3>{{ me.social.linkedinMsg.title }}</h3>
+          <img ng-src="{{ me.social.linkedinMsg.sender.image }}"
+               ng-show="me.social.linkedinMsg.sender.image"
+               alt="{{ me.social.linkedinMsg.sender.name }}"
+               class="photo">
+          <img ng-src="images/00c121df.linkedin_ghost_profile_40x40_v1.png"
+               alt="{{ me.social.linkedinMsg.sender.name }}"
+               ng-hide="me.social.linkedinMsg.sender.image"
+               class="photo">
+          <div class="linkedin-invite-body">
+            <p class="from">
+              <strong>{{ me.social.linkedinMsg.sender.name }}</strong>
+              <span class="headline">{{ me.social.linkedinMsg.sender.title }}</span>
+            </p>
+            <p class="to">
+              <span class="inbox-label">To:</span>
+              {{ me.social.linkedinMsg.recipient.name }}
+            </p>
+            <p class="date">
+              <span class="inbox-label">Date:</span>
+              {{ me.social.linkedinMsg.date }}
+            </p>
+          </div>
+        </div>
+        <div class="linkedin-inbox-item-body">
+          <div contenteditable
+               class="msg-editable"
+               ng-model="me.social.linkedinMsg.text">
+          </div>
+          <div class="msg-link">
+            Visit
+            <span class="link">{{ me.social.linkedinMsg.link }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success"
+                data-dismiss="modal"
+                ng-click="me.social.updateInvite(me.social.inviteId, me.social.linkedinMsg)">Send invite</button>
+        <button class="btn btn-default"
+                data-dismiss="modal"
+                ng-click="modal.invite = false">Cancel invite</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,14 +1,12 @@
-<div class="span2">
+<div class="col-xs-2">
   <span class="btn-group member-sort" ng-show="modelTabName=='models'">
-    <button class="btn"
-            ng-class="{'btn-primary': catalog.sort=='name'}"
+    <button class="btn repo-sort-a-z"
+            ng-class="{'btn-primary': catalog.sort=='name', 'btn-default': catalog.sort!='name'}"
             ng-click="catalog.sortModels('name')"
-            style="font-size: 24px; font-weight: bold; padding: 8px; margin-left: 25px;"
             title="Sort by name">{{catalog.nameSortOrder()}}</button>
-    <button class="btn"
-            ng-class="{'btn-primary': catalog.sort == 'time'}"
+    <button class="btn repo-sort-time"
+            ng-class="{'btn-primary': catalog.sort=='time', 'btn-default': catalog.sort!='time'}"
             ng-click="catalog.sortModels('time')"
-            style="padding: 2px;"
             title="Sort by time">
       <!--img ng-src="icons/clock-32x32-sort{{catalog.timeSortIconSuffix()}}.png" /-->
       <img ng-src="images/icons/83a83dbe.clock-32x32-sort.png"
@@ -21,14 +19,14 @@
            ng-show="catalog.backInTime && catalog.sort == 'time'" />
     </button>
     <!--button class="btn"
-            ng-class="{'btn-primary': catalog.sort=='time'}"
+            ng-class="{'btn-primary': catalog.sort=='time', 'btn-default': catalog.sort!='time'}"
             ng-click="catalog.sortModels('time')"
             title="Sort by time">
       <i class="icon-time"
          ng-class="{'icon-white': catalog.sort=='time'}"></i>
     </button-->
     <!--button class="btn"
-            ng-class="{'btn-primary': catalog.sort=='star'}"
+            ng-class="{'btn-primary': catalog.sort=='star', 'btn-default': catalog.sort!='star'}"
             ng-click="catalog.sortModels('star')"
             title="Sort by rating">
       <i class="icon-star"

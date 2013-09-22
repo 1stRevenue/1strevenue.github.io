@@ -1,18 +1,40 @@
-<div class="admin-summary">
-  <h1>Admin summary</h1>
-</div>
-<div>
-  {{_.size(admin.presence)}} users online
-</div>
-<div>
-  {{_.size(admin.users)}} users total
-</div>
-<div>
-  {{_.size(admin.admins)}} admin users
-</div>
-<div>
-  {{_.size(admin.models)}} models
-</div>
-<div>
-  {{_.size(admin.invites)}} invited
+<div class="admin-summary flat-wetasphalt">
+  <h2>Admin summary</h2>
+  <div class="row">
+    <div class="col-xs-2">
+      <div class="thumbnail flat-nephritis"
+           ng-click="layout.setView('presence')">
+        <h1>{{_.size(admin.presence)}}</h1>
+        users monitored
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="thumbnail flat-belizehole"
+           ng-click="layout.setView('users')">
+        <h1>{{_.size(admin.users)}}</h1>
+        users total
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="thumbnail flat-pomegranate"
+           ng-click="layout.setView('admins')">
+        <h1>{{_.size(admin.admins)}}</h1>
+        admin users
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="thumbnail flat-wisteria"
+           ng-click="layout.setView('models')">
+        <h1>{{_.size(admin.models)}}</h1>
+        models
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="thumbnail flat-greensea"
+           ng-click="layout.setView('invites')">
+        <h1>{{_.size(admin.invites)}}</h1>
+        invited
+      </div>
+    </div>
+  </div>
 </div>

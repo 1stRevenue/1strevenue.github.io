@@ -1,7 +1,7 @@
 <div class="modal-editor-form">
-  <fieldset class="model-editor-fields container-fluid">
-    <div class="row-fluid">
-      <div class="control-group span12"
+  <fieldset class="model-editor-fields container">
+    <div class="row">
+      <div class="control-group col-xs-12"
            ng-class="{error: nameError}">
         <h4>
           <img ng-src="{{canvas.model.fields.icon}}"
@@ -10,9 +10,9 @@
         </h4>
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="zzz-model-editor-users model-editor-user-panel span6">
-        <!--button class="btn btn-success btn-small pull-right"
+    <div class="row">
+      <div class="zzz-model-editor-users model-editor-user-panel col-xs-6">
+        <!--button class="btn btn-success btn-sm pull-right"
                 ng-hide="userPanel"
                 ng-click="userPanel=true;">
           Manage users
@@ -39,42 +39,42 @@
           </span>
         </div>
       </div>
-      <div class="model-editor-friend-panel span6">
-        <div class="row-fluid">
-          <div class="span12">Partners and friends</div>
+      <div class="model-editor-friend-panel col-xs-6">
+        <div class="row">
+          <div class="col-xs-12">Partners and friends</div>
         </div>
-        <div class="row-fluid">
-          <div class="span6">Service</div>
-          <div class="span3">Partners</div>
-          <div class="span3">Friends</div>
+        <div class="row">
+          <div class="col-xs-6">Service</div>
+          <div class="col-xs-3">Partners</div>
+          <div class="col-xs-3">Friends</div>
         </div>
-        <div class="row-fluid">
-          <div class="span6">Facebook</div>
-          <div class="span3">3</div>
-          <div class="span3">321</div>
+        <div class="row">
+          <div class="col-xs-6">Facebook</div>
+          <div class="col-xs-3">3</div>
+          <div class="col-xs-3">321</div>
         </div>
-        <div class="row-fluid">
-          <div class="span6">LinkedIn</div>
-          <div class="span3">1</div>
-          <div class="span3">65</div>
+        <div class="row">
+          <div class="col-xs-6">LinkedIn</div>
+          <div class="col-xs-3">1</div>
+          <div class="col-xs-3">65</div>
         </div>
-        <div class="row-fluid">
-          <div class="span6">Google+</div>
-          <div class="span3">6</div>
-          <div class="span3">1314</div>
+        <div class="row">
+          <div class="col-xs-6">Google+</div>
+          <div class="col-xs-3">6</div>
+          <div class="col-xs-3">1314</div>
         </div>
       </div>
-      <div class="model-editor-friend-panel span6">
+      <div class="model-editor-friend-panel col-xs-6">
         <label class="control-label">Load all friends</label>
-        <button class="btn btn-small"
+        <button class="btn btn-default btn-sm"
                 ng-click="loadFacebookFriends()">
           Facebook (321)
         </button>
-        <button class="btn btn-small"
+        <button class="btn btn-default btn-sm"
                 ng-click="loadLinkedInFriends()">
           LinkedIn (65)
         </button>
-        <button class="btn btn-small"
+        <button class="btn btn-default btn-sm"
                 ng-click="loadGooglePlusFriends()">
           Google+ (1314)
         </button>

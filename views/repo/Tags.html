@@ -31,7 +31,7 @@
 
   <!--div ng-repeat="tag in modelTags" class="model-tag-count">
     <span class="label label-{{tag.type}}">{{tag.text}}</span>
-    <span class="badge badge-{{tag.type}}">{{tag.count}}</span>
+    <span class="badge">{{tag.count}}</span>
   </div-->
   <div ng-repeat="(text, count) in catalog.getTagCloud()"
        class="model-tag-count"

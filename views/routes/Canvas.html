@@ -1,14 +1,20 @@
 <div ng-include src="'views/canvas/GuideRibbon.html'"></div>
 
-<div class="first-revenue-canvas">
-  <div ng-switch="layout.view">
-    <div ng-show="layout.showCanvas()"
-         ng-class="{'canvas-editor': layout.editor.sticker, 'canvas-side': layout.showSideView()}"
-         ng-include="'views/canvas/Layout.html'">
-    </div>
-    <div ng-hide="layout.showCanvas()"
-         ng-include="'views/canvas/Model.html'">
-    </div>
+<div class="first-revenue-canvas"
+     ng-class="{'public-canvas': isPublicModel(), 'read-only-canvas': !isModelEditable()}">
+  <div ng-if="layout.showCanvas()"
+       ng-class="{'canvas-editor': layout.editor.sticker, 'canvas-side': layout.showSideView()}">
+     <div ng-include="'views/canvas/Layout.html'"></div>
+  </div>
+  <div ng-if="!layout.showCanvas()">
+    <div ng-include="'views/canvas/Model.html'"></div>
+  </div>
+  <!-- Load either impress or present page from the same GuideRibbon menu item -->
+  <div ng-if="layout.isView('impress')">
+    <div ng-include src="'views/canvas/Impress.html'"></div>
+  </div>
+  <div ng-if="layout.isView('present')">
+    <div ng-include src="'views/canvas/Presentation.html'"></div>
   </div>
 </div>
 

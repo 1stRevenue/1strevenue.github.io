@@ -66,12 +66,12 @@
         {{contact.id}}
       </td>
       <td>
-        <button class="btn btn-small btn-primary"
+        <button class="btn btn-sm btn-primary"
                 ng-show="contact.favorite && hasNoInvitation(contact)"
                 ng-click="invite(contact)">
           Invite
         </button>
-        <button class="btn btn-small"
+        <button class="btn btn-default btn-sm"
                 ng-disabled="true"
                 ng-show="hasBeenInvited(contact)">
           Invited

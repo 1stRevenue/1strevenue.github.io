@@ -37,21 +37,26 @@
            ng-model="tah.social[account.profile.service]" /-->
     <span first-revenue-service-icon="account.profile.service"></span>
 
-    <button class="btn btn-small btn-warning"
+    <button class="btn btn-sm btn-warning"
+            ng-disabled="social.loading[account.profile.service]"
             ng-click="loadAccount(account)"
             ng-hide="social.loaded[account.profile.service]">
-      Load {{account.contacts.total}} contacts
+      <span ng-hide="social.loading[account.profile.service]">Load</span>
+      <span ng-show="social.loading[account.profile.service]">Loading</span>
+      {{account.contacts.total}} contacts
     </button>
     <small class="latency-note"
            ng-show="!social.loaded[account.profile.service] && account.contacts.refreshed">
       <small>Seen {{getRefreshLatency(account.contacts.refreshed)}}</small>
     </small>
 
-    <button class="btn btn-small"
-            ng-disabled="true"
+    <button class="btn btn-default btn-sm"
+            ng-disabled="social.loading[account.profile.service]"
             ng-click="refreshAccount(account)"
             ng-show="social.loaded[account.profile.service]">
-      Loaded {{account.contacts.total}} contacts
+      <span ng-hide="social.loading[account.profile.service]">Refresh</span>
+      <span ng-show="social.loading[account.profile.service]">Refreshing</span>
+      {{account.contacts.total}} contacts
     </button>
     <small class="latency-note"
            ng-show="social.loaded[account.profile.service]">

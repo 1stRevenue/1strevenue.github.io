@@ -2,7 +2,8 @@
      class="peer-ribbon"
      ng-init="ribbon = layout.peer"
      ng-class="{'wide-ribbon': layout.peer.wide}">
-  <div ng-include src="'views/ribbon/Drag.html'"></div>
+  <div ng-include src="'views/ribbon/Drag.html'"
+       class="ribbon-item"></div>
 
   <!--div class="add-new-peer">
     <div class="add-new-peer-icon"></div>
@@ -24,6 +25,7 @@
     </span>
   </div-->
   <div class="ribbon-item"
+       ng-if="!isReadOnly()"
        ng-include src="'views/ribbon/Share.html'"></div>
   <div ng-repeat="userId in getModelUserIds()"
        class="ribbon-item"
@@ -37,8 +39,15 @@
          class="user-icon"
          ng-hide="sync.peers[userId].image"
          title="{{sync.peers[userId].name}}" />
+    <div class="ribbon-text">
+      <span first-revenue-service-icon="sync.peers[userId].service"></span>
+      {{ sync.peers[userId].name }}
+    </div>
   </div>
 
-  <div ng-include src="'views/ribbon/QRCode.html'"></div>
-  <div ng-include src="'views/ribbon/Signal.html'"></div>
+  <div class="ribbon-bottom">
+    <div ng-include src="'views/ribbon/QRCode.html'"></div>
+    <div ng-include src="'views/ribbon/Signal.html'"></div>
+  </div>
 </div>
+

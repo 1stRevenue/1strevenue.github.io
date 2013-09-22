@@ -2,7 +2,7 @@
       ng-show="layout.showButtons()">
   <!-- 1st impl: two buttons toggle between free and grid -->
   <!--button class="btn pg-view-free"
-          ng-class="{'btn-primary': (canvas.view=='free')}"
+          ng-class="{'btn-primary': (canvas.view=='free'), 'btn-default': (canvas.view!='free')}"
           ng-click="canvas.setView('free')">
     <i class="icon-move"
        ng-class="{'icon-white': (canvas.view=='free')}"
@@ -10,7 +10,7 @@
     </i>
   </button>
   <button class="btn pg-view-grid"
-          ng-class="{'btn-primary': (canvas.view=='grid')}"
+          ng-class="{'btn-primary': (canvas.view=='grid'), 'btn-default': (canvas.view!='grid')}"
           ng-click="canvas.setView('grid')">
     <i class="icon-th"
        ng-class="{'icon-white': (canvas.view=='grid')}"
@@ -19,7 +19,7 @@
   </button-->
   <!-- 2nd impl: one button toggles between free and grid -->
   <button class="btn pg-view-grid"
-          ng-class="{'btn-primary': (canvas.view=='grid')}"
+          ng-class="{'btn-primary': (canvas.view=='grid'), 'btn-default': (canvas.view!='grid')}"
           ng-click="canvas.toggleView()">
     <i class="icon-th"
        ng-class="{'icon-white': (canvas.view=='grid')}"
@@ -33,7 +33,7 @@
       ng-show="layout.showButtons()">
   <!--button class="btn"
           style="margin-left: 5px;"
-          ng-class="{'btn-primary': info.view.user}"
+          ng-class="{'btn-primary': info.view.user), 'btn-default': !info.view.user}"
           ng-click="info.toggle('user')"
           title="Model users">
     <i class="icon-user"
@@ -41,7 +41,7 @@
     </i>
   </button>
   <button class="btn"
-          ng-class="{'btn-primary': info.view.model}"
+          ng-class="{'btn-primary': info.view.model), 'btn-default': !info.view.model}"
           ng-click="info.toggle('model')"
           title="Model editor">
     <i class="icon-list-alt"
@@ -65,7 +65,7 @@
 <!--span class="btn-group" ng-show="layout.showButtons()">
   <button class="btn"
           style="margin-left: 5px;"
-          ng-class="{'btn-primary': fs.active}"
+          ng-class="{'btn-primary': fs.active), 'btn-default': !fs.active}"
           ng-click="fs.toggle()"
           title="Full screen">
     <i class="icon-fullscreen"

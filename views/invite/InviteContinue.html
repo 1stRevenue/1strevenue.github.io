@@ -1,0 +1,16 @@
+<div ng-if="me.mp.wasCurrentUserInvited(invite.inviteValue)">
+  <div class="alert alert-info alert-block">
+    <p>You already have a 1stRevenue account</p>
+  </div>
+
+  <div class="alert alert-success alert-block">
+    <p>Accept the invite and continue</p>
+    <p>
+      <button class="btn btn-success"
+              ng-show="service"
+              ng-click="invite.acceptInvite(service)">
+        Accept invite
+      </button>
+    </p>
+  </div>
+</div>

@@ -1,45 +1,47 @@
-<div class="container-fluid"
+<div class="container"
      ng-controller="ModelsController">
-  <div class="row-fluid">
+  <div class="row">
     <div ng-repeat="mid in catalog.getModelIdList(layout.view)"
          zzz-ng-show="catalog.filterMatch(m.tags)">
-      <div class="span2 well canvas-link model"
-           ng-class="{'model-public': catalog.isPublic(mid), 'model-shared': catalog.isShared(mid)}"
-           title="{{catalog.getFields(mid).name}}">
-        <a ng-href="#/canvas/{{mid}}">
-          <img class="model-icon"
-               ng-hide="catalog.getFields(mid).icon == null"
-               ng-src="{{catalog.getFields(mid).icon}}"
-               title="Open model {{catalog.getFields(mid).name}} for editing
-               
-               {{catalog.getFields(mid).pitch}}" />
-          <img class="model-icon"
-               ng-show="catalog.getFields(mid).icon == null"
-               src="images/2309bece.Canvas-Marker-62x38.png"
-               title="Open model {{catalog.getFields(mid).name}} for editing
-               
-               {{catalog.getFields(mid).pitch}}" />
-        </a>
-        <span class="model-rating-wrap">
-          <span class="zurb general model-rating-high">ccc</span><span class="zurb general model-rating-low">cc</span>
-        </span>
-        <span class="model-count-wrap"
-              xxx-ng-mouseover="catalog.highlightMembers(mid)">
-          <span class="zurb social member-count">x</span>
-          <span class="member-count">{{catalog.getMemberCount(mid)}}</span>
-        </span>
-        <div class="model-name">{{catalog.getFields(mid).name}}</div>
-        <div style="clear: both;">
-          <span ng-repeat="tag in catalog.getTags(mid)">
-            <span class="label"
-                  ng-class="catalog.labelColor(tag.text)">{{tag.text}}</span>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="thumbnail canvas-link model"
+             ng-class="{'model-public': catalog.isPublic(mid), 'model-shared': catalog.isShared(mid)}"
+             title="{{catalog.getFields(mid).name}}">
+          <a ng-href="#/canvas/{{mid}}">
+            <img class="model-icon"
+                 ng-hide="catalog.getFields(mid).icon == null"
+                 ng-src="{{catalog.getFields(mid).icon}}"
+                 title="Open model {{catalog.getFields(mid).name}} for editing
+
+                 {{catalog.getFields(mid).pitch}}" />
+            <img class="model-icon"
+                 ng-show="catalog.getFields(mid).icon == null"
+                 src="images/2309bece.Canvas-Marker-62x38.png"
+                 title="Open model {{catalog.getFields(mid).name}} for editing
+
+                 {{catalog.getFields(mid).pitch}}" />
+          </a>
+          <span class="model-rating-wrap">
+            <span class="zurb general model-rating-high">ccc</span><span class="zurb general model-rating-low">cc</span>
           </span>
+          <span class="model-count-wrap"
+                xxx-ng-mouseover="catalog.highlightMembers(mid)">
+            <span class="zurb social member-count">x</span>
+            <span class="member-count">{{catalog.getMemberCount(mid)}}</span>
+          </span>
+          <div class="model-name">{{catalog.getFields(mid).name}}</div>
+          <div style="clear: both;">
+            <span ng-repeat="tag in catalog.getTags(mid)">
+              <span class="label"
+                    ng-class="catalog.labelColor(tag.text)">{{tag.text}}</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="row-fluid">
-    <div class="span12>">
+  <div class="row">
+    <div class="col-xs-12>">
       <hr />
     </div>
   </div>

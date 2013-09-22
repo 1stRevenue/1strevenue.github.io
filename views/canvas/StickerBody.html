@@ -1,0 +1,15 @@
+<div class="st-pop"
+     data-color="{{sticker.color}}"
+     style="background-color: #{{rainbow.brighten(sticker.color)}}">
+
+  <h4 class="st-head"
+      ng-bind-html-unsafe="sticker.title">
+    {{sticker.title}}
+  </h4>
+
+  <div class="st-notes"
+       ng-bind-html-unsafe="sticker.notes">
+    {{sticker.notes}}
+  </div>
+
+</div>

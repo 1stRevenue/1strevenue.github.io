@@ -2,34 +2,28 @@
      class="guide-ribbon"
      ng-init="ribbon = layout.guide"
      ng-class="{'wide-ribbon': layout.guide.wide}">
-  <div ng-include src="'views/ribbon/Drag.html'"></div>
+  <div ng-include src="'views/canvas/Drag.html'"
+       class="ribbon-item"></div>
 
-  <div class="ribbon-item">
+  <div class="ribbon-item flat-nephritis">
     <a href="#/repo">
       <i class="icon-folder-open icon-2x"></i>
       <span ng-show="layout.guide.wide">
-        Repo
+        Repository
       </span>
     </a>
   </div>
   <!--div ng-click="modal.model=true;modal.newModel=false;"
         ng-class="{'ribbon-item-current': modal.model}"
         class="ribbon-item" -->
-  <div ng-hide="canvas.readOnly"
-       ng-click="layout.setView('model'); layout.guide.wide = true; layout.peer.wide = false;"
+  <div ng-click="layout.setView('model'); layout.guide.wide = true; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('model')}"
-       class="ribbon-item">
+       class="ribbon-item flat-pumpkin">
     <i class="icon-list-alt icon-2x"></i>
-    <span ng-show="layout.guide.wide">
+    <span ng-show="layout.guide.wide && !canvas.readOnly">
       Edit model
     </span>
-  </div>
-  <div ng-show="canvas.readOnly"
-       ng-click="layout.setView('data'); layout.guide.wide = true; layout.peer.wide = false;"
-       ng-class="{'ribbon-item-current': layout.isView('data')}"
-       class="ribbon-item">
-    <i class="icon-list-alt icon-2x"></i>
-    <span ng-show="layout.guide.wide">
+    <span ng-show="layout.guide.wide && canvas.readOnly">
       Model data
     </span>
   </div>
@@ -53,14 +47,24 @@
   </div-->
   <div ng-click="layout.setView('canvas'); layout.guide.wide = false; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('canvas'), 'ribbon-item-dark': layout.editor.sticker}"
-       class="ribbon-item">
+       class="ribbon-item flat-midnightblue">
     <i class="icon-th icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Canvas
     </span>
   </div>
 
-  <div ng-click="layout.setView('zoom'); layout.guide.wide = false; layout.peer.wide = false;"
+  <div ng-click="layout.setView('present')"
+       zzz-ng-class="{'ribbon-item-current': layout.isView('impress')}"
+       ng-class="{'ribbon-item-current': layout.isView('present')}"
+       class="ribbon-item flat-concrete">
+    <i class="icon-play-circle icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Presentation
+    </span>
+  </div>
+
+  <!--div ng-click="layout.setView('zoom'); layout.guide.wide = false; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('zoom'), 'ribbon-item-dark': layout.editor.sticker}"
        class="ribbon-item">
     <i class="icon-zoom-in icon-2x"></i>
@@ -71,7 +75,7 @@
 
   <div ng-click="layout.setView('comment'); layout.guide.wide = false; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('comment')}"
-       class="ribbon-item ribbon-item-green">
+       class="ribbon-item flat-nephritis">
     <i class="icon-comments-alt icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Comment
@@ -80,12 +84,20 @@
 
   <div ng-click="layout.setView('list'); layout.guide.wide = false; layout.peer.wide = false;"
        ng-class="{'ribbon-item-current': layout.isView('list')}"
-       class="ribbon-item ribbon-item-blue">
+       class="ribbon-item flat-belizehole">
     <i class="icon-list icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Sticker list
     </span>
-  </div>
+  </div-->
+  <!--div ng-click="layout.setView('copy'); layout.guide.wide = true; layout.peer.wide = false;"
+       ng-class="{'ribbon-item-current': layout.isView('copy')}"
+       class="ribbon-item flat-orange">
+    <i class="icon-copy icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Copy model
+    </span>
+  </div-->
 
   <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>

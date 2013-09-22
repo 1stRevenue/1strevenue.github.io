@@ -26,13 +26,14 @@
        ng-show="isPickVisible('users')">
     <div ng-repeat="(userId, userValue) in sync.models[canvas.modelId].users track by userId"
          class="user-list-item">
-      <button class="btn btn-small delete-button"
-              ng-class="{'hidden-button': userId === me.userId}"
+      <button class="btn btn-default btn-sm delete-button"
+              zzz-ng-class="{'hidden-button': userId === me.userId}"
+              ng-class="{'hidden-button': !showUserRemoveButton(userId)}"
               ng-click="deletePeer(userId)">
         <i class="icon-remove"></i>
       </button>
       <span first-revenue-service-icon="sync.peers[userId].service"></span>
-      <span class="user-photo"
+      <span class="user-show-card"
             ng-click="showUserCard(userId)">
         <img ng-src="{{sync.peers[userId].image}}"
              class="user-icon"
@@ -42,11 +43,11 @@
              class="user-icon"
              ng-hide="sync.peers[userId].image"
              title="{{sync.peers[userId].name}}" />
+        <span class="user-name">
+          {{sync.peers[userId].name}}
+        </span>
       </span>
-      <span class="user-name">
-        {{sync.peers[userId].name}}
-      </span>
-      <button class="btn btn-small invite-button"
+      <button class="btn btn-default btn-sm invite-button"
               ng-click="social.notifyUser(userId, canvas.modelId)"
               ng-if="">
         Notify

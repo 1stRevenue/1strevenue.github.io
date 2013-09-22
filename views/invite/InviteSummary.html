@@ -1,0 +1,23 @@
+<div class="alert alert-success alert-block">
+  <p>
+    You have opened an invite to collaborate on
+    <strong>1stRevenue.com</strong>
+    sent at <strong>{{ getInviteDate(inviteId) }}</strong>
+    by {{service}} user
+  </p>
+  <p ng-if="invite.creator"
+     class="clearfix">
+    <a href="{{ invite.creator.link }}"
+       target="_blank">
+      <img ng-src="{{ invite.creator.image }}"
+           class="pull-left" />
+      <strong>{{ invite.creator.name }}</strong>
+    </a>
+  </p>
+  <p>The invite code is <strong>{{inviteId}}</strong></p>
+  <p ng-if="invite.inviteValue">
+    This invite was sent to:
+    <strong>{{ invite.inviteValue.name }}</strong>
+    ({{ invite.inviteValue.service }}-{{ invite.inviteValue.serviceId }})
+  </p>
+</div>

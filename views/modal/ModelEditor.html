@@ -1,25 +1,29 @@
 <ui-modal ng-model="modal.model"
           data-backdrop="static"
           class="fade first-revenue-model">
-  <div ng-show="modal.newModel"
-       class="modal-header model-editor-header">
-    <button class="close"
-            ng-click="modal.model=false">&times;</button>
-    <h3>Create new model</h3>
-  </div>
-  <div ng-switch="modal.model">
-    <!-- switch on modal.model is needed to postpone loading of ModelController -->
-    <div ng-switch-when="true"
-         ng-controller="ModelController">
-      <div ng-switch="modal.modelForm">
-        <div ng-show="modal.newModel" ng-include="'views/modal/ModelEditorCreate.html'"></div>
-        <div ng-hide="modal.newModel"
-             bs-tabs
-             data-fade="1"
-             ng-model="modal.modelEditorTab">
-          <div data-title="Edit model"     ng-include="'views/modal/ModelEditorFields.html'"></div>
-          <div data-title="Manage users"   ng-include="'views/modal/ModelEditorUsers.html'"></div>
-          <div data-title="Select friends" ng-include="'views/modal/ModelEditorFriends.html'"></div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div ng-show="modal.newModel"
+           class="modal-header model-editor-header">
+        <button class="close"
+                ng-click="modal.model=false">&times;</button>
+        <h3>Create new model</h3>
+      </div>
+      <div ng-switch="modal.model">
+        <!-- switch on modal.model is needed to postpone loading of ModelController -->
+        <div ng-switch-when="true"
+             ng-controller="ModelController">
+          <div ng-switch="modal.modelForm">
+            <div ng-show="modal.newModel" ng-include="'views/modal/ModelEditorCreate.html'"></div>
+            <div ng-hide="modal.newModel"
+                 bs-tabs
+                 data-fade="1"
+                 ng-model="modal.modelEditorTab">
+              <div data-title="Edit model"     ng-include="'views/modal/ModelEditorFields.html'"></div>
+              <div data-title="Manage users"   ng-include="'views/modal/ModelEditorUsers.html'"></div>
+              <div data-title="Select friends" ng-include="'views/modal/ModelEditorFriends.html'"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

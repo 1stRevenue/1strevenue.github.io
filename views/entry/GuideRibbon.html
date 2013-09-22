@@ -2,7 +2,8 @@
      class="guide-ribbon"
      ng-init="ribbon = layout.guide"
      ng-class="{'wide-ribbon': layout.guide.wide}">
-  <div ng-include src="'views/ribbon/Drag.html'"></div>
+  <div ng-include src="'views/ribbon/Drag.html'"
+       class="ribbon-item"></div>
 
   <div ng-click="layout.setView('welcome')"
        ng-class="{'ribbon-item-current': layout.isView('welcome')}"
@@ -15,7 +16,7 @@
   </div>
   <div ng-click="layout.setView('signin')"
        ng-class="{'ribbon-item-current': layout.isView('signin')}"
-       class="ribbon-item intro-entry ribbon-item-green"
+       class="ribbon-item intro-entry flat-nephritis"
        data-intro="Sign in if you already have an account on 1st Revenue"
        data-position="right"
        data-step="2">
@@ -24,7 +25,7 @@
   </div>
   <div ng-click="layout.setView('register')"
        ng-class="{'ribbon-item-current': layout.isView('register')}"
-       class="ribbon-item intro-entry ribbon-item-blue"
+       class="ribbon-item intro-entry flat-belizehole"
        data-intro="Create or modify an account on 1st Revenue"
        data-position="right"
        data-step="3">
@@ -33,7 +34,7 @@
   </div>
   <!--div ng-click="layout.setView('guest')"
        ng-class="{'ribbon-item-current': layout.isView('guest')}"
-       class="ribbon-item intro-entry ribbon-item-orange"
+       class="ribbon-item intro-entry flat-orange"
        data-intro="Guest access is planned but not implemented yet"
        data-position="right"
        data-step="4">

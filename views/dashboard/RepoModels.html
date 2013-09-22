@@ -1,0 +1,35 @@
+<h3>
+  <a href="#/repo">Models</a>
+</h3>
+<!--div ng-repeat="mid in catalog.getModelIdList('all')">
+  <div class="">
+    <a ng-href="#/canvas/{{mid}}">
+      <img class="model-list-icon"
+           ng-hide="catalog.getFields(mid).icon == null"
+           ng-src="{{catalog.getFields(mid).icon}}" />
+      <img class="model-list-icon"
+           ng-show="catalog.getFields(mid).icon == null"
+           src="images/2309bece.Canvas-Marker-62x38.png" />
+      <span>{{catalog.getFields(mid).name}}</span>
+    </a>
+    <span ng-show="catalog.isMine(mid)">(my)</span>
+    <span ng-show="catalog.isPublic(mid)">(public)</span>
+    <span ng-show="catalog.isShared(mid)">(shared)</span>
+  </div>
+</div-->
+<div ng-repeat="(mid, model) in sync.models">
+  <div class="">
+    <a ng-href="#/canvas/{{mid}}">
+      <img class="model-list-icon"
+           ng-hide="model.fields.icon == null"
+           ng-src="{{model.fields.icon}}" />
+      <img class="model-list-icon"
+           ng-show="model.fields.icon == null"
+           src="images/2309bece.Canvas-Marker-62x38.png" />
+      <span>{{model.fields.name}}</span>
+    </a>
+    <span ng-show="model.owner == me.userId">(my)</span>
+    <span ng-show="sync.public.models[mid]">(public)</span>
+    <span ng-show="model.owner != me.userId && !sync.public.models[mid]">(shared)</span>
+  </div>
+</div>

@@ -106,14 +106,14 @@
                for="attach-model-icon">Icon</label>
         <button id="replace-model-icon"
                 ng-show="model.fields.icon"
-                class="btn btn-warning btn-small"
+                class="btn btn-warning btn-sm"
                 ng-click="replaceIcon()">
           Replace model icon
         </button>
         <img ng-src="{{model.fields.icon}}"
              class="new-model-icon" />
         <button ng-show="model.fields.icon"
-                class="btn btn-danger btn-small"
+                class="btn btn-danger btn-sm"
                 ng-click="removeIcon()">
           Remove model icon
         </button>
@@ -140,7 +140,7 @@
 
       <div class="control-group">
         <div class="controls">
-          <button class="btn"
+          <button class="btn btn-default"
                   ng-click="cancel()">
             Cancel
           </button>

@@ -1,30 +1,37 @@
-<div class="admin-users">
+<div class="admin-users flat-belizehole">
   <h2>{{_.size(admin.users)}} users in the database</h2>
-</div>
-<div ng-repeat="(id, user) in admin.users track by id"
-     class="media">
-  <span class="pull-left">
-    <img ng-src="{{user.profile.image}}"
-         class="user-icon"
-         ng-show="user.profile.image"
-         title="{{user.profile.name}}" />
-    <img ng-src="images/bbf82395.light_avatar_small.png"
-         class="user-icon"
-         ng-hide="user.profile.image"
-         title="{{user.profile.name}}" />
-  </span>
-  <div class="media-body">
-    <p>Id: {{id}}</p>
-    <p>Name: {{user.profile.name}}</p>
-    <p>
-      Provider: {{user.profile.provider}}
-      <span first-revenue-service-icon="user.profile.provider"></span>
-      {{user.profile.id}}
-    </p>
-    <p>
-      Service: {{user.profile.service}}
-      <span first-revenue-service-icon="user.profile.service"></span>
-      {{user.profile.serviceId}}
-    </p>
+  <div class="row">
+    <div ng-repeat-start="(id, user) in admin.users track by id"
+         class="col-xs-3">
+      <div class="thumbnail">
+        <span class="pull-left">
+          <img ng-src="{{user.profile.image}}"
+               class="user-icon"
+               ng-show="user.profile.image"
+               title="{{user.profile.name}}" />
+          <img ng-src="images/bbf82395.light_avatar_small.png"
+               class="user-icon"
+               ng-hide="user.profile.image"
+               title="{{user.profile.name}}" />
+        </span>
+        <h4>{{user.profile.name}}</h4>
+        <div>
+          <img src="favicon.ico" />
+          {{ id }}
+        </div>
+        <div>
+          <span first-revenue-service-icon="user.profile.service"></span>
+          {{user.profile.serviceId}}
+        </div>
+        <div ng-if="user.profile.provider == 'singly'">
+          <span first-revenue-service-icon="user.profile.provider"></span>
+          {{user.profile.id}}
+        </div>
+      </div>
+    </div>
+    <div ng-repeat-end
+         class="xs-visible"
+         ng-class="{clearfix: $index % 4 == 3}">
+    </div>
   </div>
 </div>

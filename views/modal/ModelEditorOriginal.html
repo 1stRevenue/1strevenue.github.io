@@ -1,247 +1,251 @@
 <ui-modal ng-model="modal.model"
           data-backdrop="static"
           class="fade first-revenue-model">
-  <div class="modal-header model-editor-header">
-    <button class="close"
-            ng-click="modal.model=false">&times;</button>
-    <h3 ng-show="modal.newModel">Create new model</h3>
-    <h3 ng-hide="modal.newModel">Edit model</h3>
-  </div>
-  <div ng-switch="modal.model">
-    <!-- switch on modal.model is needed to postpone loading of ModelController -->
-    <div ng-switch-when="true"
-         ng-controller="ModelController"
-         class="zzz-modal-body">
-      <div class="modal-editor-form"
-           ng-hide="userPanel">
-        <fieldset class="model-editor-fields container-fluid"
-                  ng-class="{'model-editor-user-chooser': userPanel}">
-          <div class="row-fluid">
-            <div class="control-group span6"
-                 ng-class="{error: nameError}">
-              <label class="control-label"
-                     for="model-name">
-                <span ng-hide="pitchWordCount() > 100">Model name</span>
-                <span ng-show="pitchWordCount() > 100">Name of the novel</span>
-                <span style="color: red">*</span>
-              </label>
-              <div class="controls">
-                <input type="text"
-                       autofocus
-                       id="new-model-name"
-                       class="input-xlarge"
-                       placeholder="Model name"
-                       ng-show="modal.newModel"
-                       ng-model="newModelName" />
-                <input type="text"
-                       autofocus
-                       id="model-name"
-                       class="input-xlarge"
-                       placeholder="Model name"
-                       ng-hide="modal.newModel"
-                       ng-model="model.fields.name" />
-                <p class="help-block"
-                   ng-show="name==''">Please specify the model name</p>
-              </div>
-            </div>
-            <div class="control-group span6"
-                 ng-hide="modal.newModel">
-              <label class="control-label"
-                     ng-hide="model.fields.icon"
-                     for="attach-model-icon">Icon</label>
-              <button id="attach-model-icon"
-                      ng-hide="model.fields.icon"
-                      class="btn btn-success"
-                      ng-click="attachIcon()">
-                Attach icon
-              </button>
-              <label class="control-label"
-                     ng-show="model.fields.icon"
-                     for="attach-model-icon">Icon</label>
-              <button id="replace-model-icon"
-                      ng-show="model.fields.icon"
-                      class="btn btn-warning btn-small"
-                      ng-click="replaceIcon()">
-                Replace icon
-              </button>
-              <img ng-src="{{model.fields.icon}}"
-                   class="new-model-icon" />
-              <button ng-show="model.fields.icon"
-                      class="btn btn-danger btn-small"
-                      ng-click="removeIcon()">
-                Remove icon
-              </button>
-            </div>
-          </div>
-          <div class="row-fluid"
-               ng-hide="modal.newModel">
-            <div class="control-group span6">
-              <label class="control-label"
-                     for="model-descr">Description</label>
-              <div class="controls">
-                <textarea class="input-xlarge"
-                          id="model-descr"
-                          ng-model="model.fields.descr"
-                          placeholder="Description">
-                </textarea>
-              </div>
-            </div>
-            <div class="control-group span6">
-              <span class='pitch-word-count'>
-                <span ng-show="pitchWordCount() == 1"
-                      style="color: rgb({{pitchRed()}}, {{pitchGreen()}}, 0);">
-                  One word
-                </span>
-                <span ng-show="pitchWordCount() > 1"
-                      style="color: rgb({{pitchRed()}}, {{pitchGreen()}}, 0);">
-                  {{pitchWordCount()}} words
-                </span>
-              </span>
-              <label class="control-label"
-                     for="model-pitch">Elevator pitch</label>
-              <div class="controls">
-                <textarea class="input-xlarge"
-                          id="model-pitch"
-                          ng-model="model.fields.pitch"
-                          placeholder="Elevator pitch in 100 words">
-                </textarea>
-              </div>
-            </div>
-          </div>
-          <div class="row-fluid"
-               ng-hide="modal.newModel">
-            <div class="span6">
-              <button type="submit"
-                      class="btn btn-success pull-right"
-                      ng-click="save()"
-                      ng-disabled="!model.fields.name || model.fields.name == ''">
-                Finish
-              </button>
-              <button class="btn btn-danger"
-                      ng-click="delete()"> <!-- modal.model = false -->
-                Delete
-              </button>
-            </div>
-            <div class='pitch-remarks span6'>
-              <div ng-show="pitchWordCount() === 0">
-                Sum up unique aspects of your service or product in a way that excites others
-              </div>
-              <div ng-show="pitchWordCount() > 0">
-                <div>
-                  <a href="http://www.alumni.hbs.edu/careers/pitch/"
-                     target="_blank">
-                    Elevator Pitch Builder
-                  </a>
-                  from Harvard Business School
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header model-editor-header">
+        <button class="close"
+                ng-click="modal.model=false">&times;</button>
+        <h3 ng-show="modal.newModel">Create new model</h3>
+        <h3 ng-hide="modal.newModel">Edit model</h3>
+      </div>
+      <div ng-switch="modal.model">
+        <!-- switch on modal.model is needed to postpone loading of ModelController -->
+        <div ng-switch-when="true"
+             ng-controller="ModelController"
+             class="zzz-modal-body">
+          <div class="modal-editor-form"
+               ng-hide="userPanel">
+            <fieldset class="model-editor-fields container"
+                      ng-class="{'model-editor-user-chooser': userPanel}">
+              <div class="row">
+                <div class="control-group col-xs-6"
+                     ng-class="{error: nameError}">
+                  <label class="control-label"
+                         for="model-name">
+                    <span ng-hide="pitchWordCount() > 100">Model name</span>
+                    <span ng-show="pitchWordCount() > 100">Name of the novel</span>
+                    <span style="color: red">*</span>
+                  </label>
+                  <div class="controls">
+                    <input type="text"
+                           autofocus
+                           id="new-model-name"
+                           class="input-xlarge"
+                           placeholder="Model name"
+                           ng-show="modal.newModel"
+                           ng-model="newModelName" />
+                    <input type="text"
+                           autofocus
+                           id="model-name"
+                           class="input-xlarge"
+                           placeholder="Model name"
+                           ng-hide="modal.newModel"
+                           ng-model="model.fields.name" />
+                    <p class="help-block"
+                       ng-show="name==''">Please specify the model name</p>
+                  </div>
                 </div>
-                <div>
-                  <a href="http://www.businessweek.com/stories/2007-06-18/the-perfect-elevator-pitchbusinessweek-business-news-stock-market-and-financial-advice"
-                     target="_blank">
-                    The Perfect (Elevator) Pitch
-                  </a>
-                  by Aileen Pincus
+                <div class="control-group col-xs-6"
+                     ng-hide="modal.newModel">
+                  <label class="control-label"
+                         ng-hide="model.fields.icon"
+                         for="attach-model-icon">Icon</label>
+                  <button id="attach-model-icon"
+                          ng-hide="model.fields.icon"
+                          class="btn btn-success"
+                          ng-click="attachIcon()">
+                    Attach icon
+                  </button>
+                  <label class="control-label"
+                         ng-show="model.fields.icon"
+                         for="attach-model-icon">Icon</label>
+                  <button id="replace-model-icon"
+                          ng-show="model.fields.icon"
+                          class="btn btn-warning btn-sm"
+                          ng-click="replaceIcon()">
+                    Replace icon
+                  </button>
+                  <img ng-src="{{model.fields.icon}}"
+                       class="new-model-icon" />
+                  <button ng-show="model.fields.icon"
+                          class="btn btn-danger btn-sm"
+                          ng-click="removeIcon()">
+                    Remove icon
+                  </button>
                 </div>
               </div>
-            </div>
+              <div class="row"
+                   ng-hide="modal.newModel">
+                <div class="control-group col-xs-6">
+                  <label class="control-label"
+                         for="model-descr">Description</label>
+                  <div class="controls">
+                    <textarea class="input-xlarge"
+                              id="model-descr"
+                              ng-model="model.fields.descr"
+                              placeholder="Description">
+                    </textarea>
+                  </div>
+                </div>
+                <div class="control-group col-xs-6">
+                  <span class='pitch-word-count'>
+                    <span ng-show="pitchWordCount() == 1"
+                          style="color: rgb({{pitchRed()}}, {{pitchGreen()}}, 0);">
+                      One word
+                    </span>
+                    <span ng-show="pitchWordCount() > 1"
+                          style="color: rgb({{pitchRed()}}, {{pitchGreen()}}, 0);">
+                      {{pitchWordCount()}} words
+                    </span>
+                  </span>
+                  <label class="control-label"
+                         for="model-pitch">Elevator pitch</label>
+                  <div class="controls">
+                    <textarea class="input-xlarge"
+                              id="model-pitch"
+                              ng-model="model.fields.pitch"
+                              placeholder="Elevator pitch in 100 words">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row"
+                   ng-hide="modal.newModel">
+                <div class="col-xs-6">
+                  <button type="submit"
+                          class="btn btn-success pull-right"
+                          ng-click="save()"
+                          ng-disabled="!model.fields.name || model.fields.name == ''">
+                    Finish
+                  </button>
+                  <button class="btn btn-danger"
+                          ng-click="delete()"> <!-- modal.model = false -->
+                    Delete
+                  </button>
+                </div>
+                <div class='pitch-remarks col-xs-6'>
+                  <div ng-show="pitchWordCount() === 0">
+                    Sum up unique aspects of your service or product in a way that excites others
+                  </div>
+                  <div ng-show="pitchWordCount() > 0">
+                    <div>
+                      <a href="http://www.alumni.hbs.edu/careers/pitch/"
+                         target="_blank">
+                        Elevator Pitch Builder
+                      </a>
+                      from Harvard Business School
+                    </div>
+                    <div>
+                      <a href="http://www.businessweek.com/stories/2007-06-18/the-perfect-elevator-pitchbusinessweek-business-news-stock-market-and-financial-advice"
+                         target="_blank">
+                        The Perfect (Elevator) Pitch
+                      </a>
+                      by Aileen Pincus
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row"
+                   ng-show="modal.newModel">
+                <div class="col-xs-12">
+                  <button type="submit"
+                          class="btn btn-primary pull-right"
+                          ng-click="createModel(newModelName)"
+                          ng-disabled="!newModelName || newModelName.trim() == ''">
+                    <span>Create model</span>
+                  </button>
+                  <button class="btn btn-default"
+                          ng-click="cancel()"> <!-- modal.model = false -->
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              <!--div class="model-editor-favorites">
+                <label class="control-label">Select from favorite partners</label>
+                <div class="controls">
+                  <span ng-repeat="user in model.users">
+                    <img ng-src="{{user.image}}"
+                         class="user-icon"
+                         ng-show="user.image"
+                         title="{{user.name}}" />
+                    <img ng-src="images/bbf82395.light_avatar_small.png"
+                         class="user-icon"
+                         ng-hide="user.image"
+                         title="{{user.name}}" />
+                  </span>
+                </div>
+              </div-->
+              <div class="row"
+                   ng-hide="modal.newModel">
+                <div class="zzz-model-editor-users model-editor-user-panel col-xs-12">
+                  <!--button class="btn btn-success btn-sm pull-right"
+                          ng-hide="userPanel"
+                          ng-click="userPanel=true;">
+                    Manage users
+                  </button-->
+                  <label class="control-label">Model users</label>
+                  <div class="controls">
+                  <span ng-repeat="(userId, userValue) in model.users track by userId">
+                    <img ng-src="{{sync.peers[userId].image}}"
+                         class="user-icon"
+                         ng-show="sync.peers[userId].image"
+                         title="{{sync.peers[userId].name}}" />
+                    <img ng-src="images/bbf82395.light_avatar_small.png"
+                         class="user-icon"
+                         ng-hide="sync.peers[userId].image"
+                         title="{{sync.peers[userId].name}}" />
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
           </div>
-          <div class="row-fluid"
-               ng-show="modal.newModel">
-            <div class="span12">
-              <button type="submit"
-                      class="btn btn-primary pull-right"
-                      ng-click="createModel(newModelName)"
-                      ng-disabled="!newModelName || newModelName.trim() == ''">
-                <span>Create model</span>
-              </button>
-              <button class="btn"
-                      ng-click="cancel()"> <!-- modal.model = false -->
-                Cancel
-              </button>
-            </div>
-          </div>
-          <!--div class="model-editor-favorites">
-            <label class="control-label">Select from favorite partners</label>
-            <div class="controls">
-              <span ng-repeat="user in model.users">
-                <img ng-src="{{user.image}}"
-                     class="user-icon"
-                     ng-show="user.image"
-                     title="{{user.name}}" />
-                <img ng-src="images/bbf82395.light_avatar_small.png"
-                     class="user-icon"
-                     ng-hide="user.image"
-                     title="{{user.name}}" />
-              </span>
+          <!--div class="zzz-model-editor-users model-editor-user-panel container"
+               ng-show="userPanel">
+            <div class="row">
+              <div class="col-xs-12">
+                <h4>{{model.fields.name}}</h4>
+                <button class="btn btn-success btn-sm pull-right"
+                        ng-show="userPanel"
+                        ng-click="userPanel=false;">
+                  Modify model
+                </button>
+                <label class="control-label">Model users</label>
+                <div class="controls">
+                  <span ng-repeat="user in model.users">
+                    <img ng-src="{{user.image}}"
+                         class="user-icon"
+                         ng-show="user.image"
+                         title="{{user.name}}" />
+                    <img ng-src="images/bbf82395.light_avatar_small.png"
+                         class="user-icon"
+                         ng-hide="user.image"
+                         title="{{user.name}}" />
+                  </span>
+                </div>
+              </div>
             </div>
           </div-->
-          <div class="row-fluid"
-               ng-hide="modal.newModel">
-            <div class="zzz-model-editor-users model-editor-user-panel span12">
-              <!--button class="btn btn-success btn-small pull-right"
-                      ng-hide="userPanel"
-                      ng-click="userPanel=true;">
-                Manage users
-              </button-->
-              <label class="control-label">Model users</label>
+          <!--div class="model-editor-submit">
+            <div class="control-group">
               <div class="controls">
-              <span ng-repeat="(userId, userValue) in model.users track by userId">
-                <img ng-src="{{sync.peers[userId].image}}"
-                     class="user-icon"
-                     ng-show="sync.peers[userId].image"
-                     title="{{sync.peers[userId].name}}" />
-                <img ng-src="images/bbf82395.light_avatar_small.png"
-                     class="user-icon"
-                     ng-hide="sync.peers[userId].image"
-                     title="{{sync.peers[userId].name}}" />
-              </span>
+                <button class="btn btn-default"
+                        ng-click="cancel()"> < !- - modal.model = false - - >
+                  Cancel
+                </button>
+                <button type="submit"
+                        class="btn btn-primary"
+                        ng-click="save()"
+                        ng-disabled="!model.fields.name || model.fields.name == ''">
+                  <span ng-show="!model.id">Create model</span>
+                  <span ng-show="model.id">Save changes</span>
+                </button>
               </div>
             </div>
-          </div>
-        </fieldset>
+          </div-->
+        </div>
       </div>
-      <!--div class="zzz-model-editor-users model-editor-user-panel container-fluid"
-           ng-show="userPanel">
-        <div class="row-fluid">
-          <div class="span12">
-            <h4>{{model.fields.name}}</h4>
-            <button class="btn btn-success btn-small pull-right"
-                    ng-show="userPanel"
-                    ng-click="userPanel=false;">
-              Modify model
-            </button>
-            <label class="control-label">Model users</label>
-            <div class="controls">
-              <span ng-repeat="user in model.users">
-                <img ng-src="{{user.image}}"
-                     class="user-icon"
-                     ng-show="user.image"
-                     title="{{user.name}}" />
-                <img ng-src="images/bbf82395.light_avatar_small.png"
-                     class="user-icon"
-                     ng-hide="user.image"
-                     title="{{user.name}}" />
-              </span>
-            </div>
-          </div>
-        </div>
-      </div-->
-      <!--div class="model-editor-submit">
-        <div class="control-group">
-          <div class="controls">
-            <button class="btn"
-                    ng-click="cancel()"> < !- - modal.model = false - - >
-              Cancel
-            </button>
-            <button type="submit"
-                    class="btn btn-primary"
-                    ng-click="save()"
-                    ng-disabled="!model.fields.name || model.fields.name == ''">
-              <span ng-show="!model.id">Create model</span>
-              <span ng-show="model.id">Save changes</span>
-            </button>
-          </div>
-        </div>
-      </div-->
     </div>
   </div>
 </ui-modal>
@@ -250,9 +254,9 @@
      class="first-revenue-model well">
   <form ng-submit=""
         class="model-editor-form">
-    <fieldset class="well zzz-container-fluid">
-      <div class="row-fluid">
-        <div class="control-group span6"
+    <fieldset class="well zzz-container">
+      <div class="row">
+        <div class="control-group col-xs-6"
              ng-class="{error: nameError}">
           <label class="control-label"
                  for="model-name">
@@ -271,7 +275,7 @@
                ng-show="name==''">Please specify the model name</p>
           </div>
         </div>
-        <div class="control-group span6">
+        <div class="control-group col-xs-6">
           <label class="control-label"
                  ng-hide="model.fields.icon"
                  for="attach-model-icon">Icon</label>
@@ -286,21 +290,21 @@
                  for="attach-model-icon">Icon</label>
           <button id="replace-model-icon"
                   ng-show="model.fields.icon"
-                  class="btn btn-warning btn-small"
+                  class="btn btn-warning btn-sm"
                   ng-click="replaceIcon()">
             Replace icon
           </button>
           <img ng-src="{{model.fields.icon}}"
                class="new-model-icon" />
           <button ng-show="model.fields.icon"
-                  class="btn btn-danger btn-small"
+                  class="btn btn-danger btn-sm"
                   ng-click="removeIcon()">
             Remove icon
           </button>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="control-group span6">
+      <div class="row">
+        <div class="control-group col-xs-6">
           <label class="control-label"
                  for="model-descr">Description</label>
           <div class="controls">
@@ -311,7 +315,7 @@
             </textarea>
           </div>
         </div>
-        <div class="control-group span6">
+        <div class="control-group col-xs-6">
           <label class="control-label"
                  for="model-pitch">Elevator pitch</label>
           <div class="controls">
@@ -346,8 +350,8 @@
           </div>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="control-group span12">
+      <div class="row">
+        <div class="control-group col-xs-12">
           <label class="control-label">Users</label>
           <div class="controls">
           <span ng-repeat="user in me.currentModel.users">
@@ -369,7 +373,7 @@
       <div class="model-editor-submit">
         <div class="control-group">
           <div class="controls">
-            <button class="btn"
+            <button class="btn btn-default"
                     ng-click="cancel()">
               Cancel
             </button>

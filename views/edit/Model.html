@@ -2,9 +2,9 @@
      class="first-revenue-model well">
   <form ng-submit=""
         class="model-editor-form">
-    <fieldset class="well zzz-container-fluid">
-      <div class="row-fluid">
-        <div class="control-group span6"
+    <fieldset class="well zzz-container">
+      <div class="row">
+        <div class="control-group form-group col-xs-6"
              ng-class="{error: nameError}">
           <label class="control-label"
                  for="model-name">
@@ -16,14 +16,14 @@
             <input type="text"
                    autofocus
                    id="model-name"
-                   class="input-xlarge"
+                   class="form-control"
                    placeholder="Model name"
                    ng-model="model.fields.name" />
             <p class="help-block"
                ng-show="name==''">Please specify the model name</p>
           </div>
         </div>
-        <div class="control-group span6">
+        <div class="control-group form-group col-xs-6">
           <label class="control-label"
                  ng-hide="model.fields.icon"
                  for="attach-model-icon">Icon</label>
@@ -38,36 +38,36 @@
                  for="attach-model-icon">Icon</label>
           <button id="replace-model-icon"
                   ng-show="model.fields.icon"
-                  class="btn btn-warning btn-small"
+                  class="btn btn-warning btn-sm"
                   ng-click="replaceIcon()">
             Replace icon
           </button>
           <img ng-src="{{model.fields.icon}}"
                class="new-model-icon" />
           <button ng-show="model.fields.icon"
-                  class="btn btn-danger btn-small"
+                  class="btn btn-danger btn-sm"
                   ng-click="removeIcon()">
             Remove icon
           </button>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="control-group span6">
+      <div class="row">
+        <div class="control-group form-group col-xs-6">
           <label class="control-label"
                  for="model-descr">Description</label>
           <div class="controls">
-            <textarea class="input-xlarge"
+            <textarea class="form-control"
                       id="model-descr"
                       ng-model="model.fields.descr"
                       placeholder="Description">
             </textarea>
           </div>
         </div>
-        <div class="control-group span6">
+        <div class="control-group form-group col-xs-6">
           <label class="control-label"
                  for="model-pitch">Elevator pitch</label>
           <div class="controls">
-            <textarea class="input-xlarge"
+            <textarea class="form-control"
                       id="model-pitch"
                       ng-model="model.fields.pitch"
                       placeholder="Elevator pitch in 100 words">
@@ -98,8 +98,8 @@
           </div>
         </div>
       </div>
-      <div class="row-fluid">
-        <div class="control-group span12">
+      <div class="row">
+        <div class="control-group form-group col-xs-12">
           <label class="control-label">Users</label>
           <div class="controls">
           <span ng-repeat="user in me.currentModel.users">
@@ -119,9 +119,9 @@
         </div>
       </div>
       <div class="model-editor-submit">
-        <div class="control-group">
+        <div class="control-group form-group">
           <div class="controls">
-            <button class="btn"
+            <button class="btn btn-default"
                     ng-click="cancel()">
               Cancel
             </button>

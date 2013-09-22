@@ -9,6 +9,9 @@
     </div>
 
     <div class="model-user-list-side">
+      <h4 class="share-title flat-midnightblue">
+        Share {{ canvas.model.fields.name }}
+      </h4>
       <i class="icon-remove icon-2x close-button"
          ng-click="layout.share = false"></i>
       <div class="invites-and-users">
@@ -18,6 +21,7 @@
              ng-include="'views/canvas/ModelUserList.html'"></div>
       </div>
     </div>
-    <div ng-include="'views/canvas/UserBusinessCard.html'"></div>
+    <div ng-if="businessCard"
+         ng-include="'views/canvas/UserBusinessCard.html'"></div>
   </div>
 </div>

@@ -2,20 +2,24 @@
 <ui-modal ng-model="modal.delNoRights"
           data-backdrop="static"
           class="fade">
-  <div class="modal-header">
-    <button class="close"
-            ng-click="modal.delNoRights = false">&times;</button>
-    <h3>Not allowed to delete a sticker</h3>
-  </div>
-  <div class="modal-body">
-    <h4>You have no rights to delete this sticker.</h4>
-    
-    <div>Title:
-      <strong>"{{modal.sticker.title}}"</strong>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close"
+                ng-click="modal.delNoRights = false">&times;</button>
+        <h3>Not allowed to delete a sticker</h3>
+      </div>
+      <div class="modal-body">
+        <h4>You have no rights to delete this sticker.</h4>
+
+        <div>Title:
+          <strong>"{{modal.sticker.title}}"</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary"
+                ng-click="modal.delNoRights = false">OK</button>
+      </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary"
-            ng-click="modal.delNoRights = false">OK</button>
   </div>
 </ui-modal>

@@ -3,13 +3,14 @@
 <div class="pane-name-box">
   <div class="pane-name-cell">
     <div class="pane-name">
-      <div class="app-icon-24 icon-{{block.iconId}}"></div>
+      <div class="pull-left app-icon-24 icon-{{block.iconId}}"></div>
       {{block.name}}
     </div>
   </div>
 </div>
 
 <button class="pane-button btn btn-success"
+        ng-if="isModelEditable()"
         title="New sticker">
   <i class="icon-plus icon-white"></i>
 </button>
@@ -27,46 +28,10 @@
     <li ng-repeat="(stickerId, sticker) in getStickers(blockId)"
         ng-controller="StickerController"
         class="st-item">
-
-      <div first-revenue-edit
-           first-revenue-drag
-           class="st-grad zzz-corner-shadow"
-           ng-class="{pulsate: stickerId == editor.stickerId, 'st-abs': canvas.getAbs(sticker), 'st-rel': !canvas.getAbs(sticker)}"
-           data-id="{{stickerId}}"
-           data-cypherid="{{sticker.position.cypherId}}"
-           open-tip="{{updateOpenTip()}}"
-           style="{{canvas.getPosition(sticker)}}">
-
-        <div class="st-pop"
-             data-color="{{sticker.color}}"
-             style="background-color: #{{rainbow.brighten(sticker.color)}}">
-
-          <h4 class="st-head"
-              ng-bind-html-unsafe="sticker.title">
-            {{sticker.title}}
-          </h4>
-
-          <div class="st-notes"
-               ng-bind-html-unsafe="sticker.notes">
-            {{sticker.notes}}
-          </div>
-
-        </div>
-
-        <button class="btn btn-primary btn-edit-sticker"
-                ng-click="editor.showSticker(canvas.model, sticker.block, stickerId)"
-                title="Edit Sticker">
-          <i class="icon-edit icon-white"></i>
-        </button>
-
-        <button class="btn btn-danger btn-delete-sticker"
-                ng-click="openDeleteStickerDialog()"
-                title="{{titleOfDeleteButton()}}">
-          <i class="icon-trash icon-white"></i>
-        </button>
-
-      </div>
-
+      <div ng-if="!isModelEditable()"
+           ng-include="'views/canvas/StickerReadOnly.html'"></div>
+      <div ng-if="isModelEditable()"
+           ng-include="'views/canvas/StickerEditable.html'"></div>
     </li>
 
   </div>

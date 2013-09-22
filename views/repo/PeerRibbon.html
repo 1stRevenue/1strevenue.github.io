@@ -2,13 +2,17 @@
      class="peer-ribbon"
      ng-init="ribbon = layout.peer"
      ng-class="{'wide-ribbon': layout.peer.wide}">
-  <div ng-include src="'views/ribbon/Drag.html'"></div>
+  <div ng-include src="'views/ribbon/Drag.html'"
+       class="ribbon-item"></div>
 
   <div ng-switch="layout.view">
     <div ng-switch-when="new"></div>
-    <div ng-switch-default
-         ng-include src="'views/repo/RepoPeers.html'"></div>
+    <div ng-switch-default>
+      <div ng-include src="'views/repo/RepoPeers.html'"></div>
+    </div>
   </div>
 
-  <div ng-include src="'views/ribbon/Signal.html'"></div>
+  <div class="ribbon-bottom">
+    <div ng-include src="'views/ribbon/Signal.html'"></div>
+  </div>
 </div>

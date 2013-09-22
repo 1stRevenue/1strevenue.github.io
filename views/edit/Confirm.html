@@ -1,105 +1,64 @@
-<!--div>
-  <div id="modal-duplicate">
-    <div class="modal-header">
-      <button class="close"
-              ng-click="modal.dup = false">&times;</button>
-      <h3>Create a duplicate</h3>
-    </div>
-    <div class="modal-body">
-      To create a duplicate sticker please change the sticker name.
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary"
-              ng-click="modal.dup = false">OK</button>
-    </div>
-  </div>
-
-  <div id="modal-delete">
-    <div class="modal-header">
-      <button class="close"
-              ng-click="modal.del = false">&times;</button>
-      <h3>Delete a sticker</h3>
-    </div>
-    <div class="modal-body">
-      <div>Sticker will be permanently deleted and cannot be recovered.</div>
-      <div>Title: "{{editor.sticker.title}}"</div>
-      <div>Are you sure?</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-danger" ng-click="deleteSticker()">Delete</button>
-      <button class="btn btn-success" ng-click="leaveSticker()">Leave</button>
-    </div>
-  </div>
-
-  <div id="modal-discard">
-    <div class="modal-header">
-      <button class="close"
-              ng-click="modal.dis = false">&times;</button>
-      <h3>Discard changes</h3>
-    </div>
-    <div class="modal-body">
-      <div>Values of the modified fields will be lost:</div>
-      <div ng-hide="editor.matchTitle()">Title: "{{editor.sticker.title}}"</div>
-      <div ng-hide="editor.matchNotes()">Notes: "{{editor.sticker.notes}}"</div>
-      <div ng-hide="editor.matchColor()">Color: "{{editor.sticker.colorText}}"</div>
-      <div>Are you sure?</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-danger" ng-click="discardStickerChanges()">Discard</button>
-      <button class="btn btn-success" ng-click="keepStickerChanges()">Keep</button>
-    </div>
-  </div>
-</div-->
-
 <div ng-controller="ModalController">
   <ui-modal ng-model="modal.dup" class="fade">
-    <div class="modal-header">
-      <button class="close"
-              ng-click="modal.dup = false">&times;</button>
-      <h3>Create a duplicate</h3>
-    </div>
-    <div class="modal-body">
-      To create a duplicate sticker please change the sticker name.
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary"
-              ng-click="modal.dup = false">OK</button>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close"
+                  ng-click="modal.dup = false">&times;</button>
+          <h3>Create a duplicate</h3>
+        </div>
+        <div class="modal-body">
+          To create a duplicate sticker please change the sticker name.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary"
+                  ng-click="modal.dup = false">OK</button>
+        </div>
+      </div>
     </div>
   </ui-modal>
 
   <ui-modal ng-model="modal.del" class="fade">
-    <div class="modal-header">
-      <button class="close"
-              ng-click="modal.del = false">&times;</button>
-      <h3>Delete a sticker</h3>
-    </div>
-    <div class="modal-body">
-      <div>Sticker will be permanently deleted and cannot be recovered.</div>
-      <div>Title: "{{editor.sticker.title}}"</div>
-      <div>Are you sure?</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-danger" ng-click="deleteSticker()">Delete</button>
-      <button class="btn btn-success" ng-click="leaveSticker()">Leave</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-header">
+          <button class="close"
+                  ng-click="modal.del = false">&times;</button>
+          <h3>Delete a sticker</h3>
+        </div>
+        <div class="modal-body">
+          <div>Sticker will be permanently deleted and cannot be recovered.</div>
+          <div>Title: "{{editor.sticker.title}}"</div>
+          <div>Are you sure?</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" ng-click="deleteSticker()">Delete</button>
+          <button class="btn btn-success" ng-click="leaveSticker()">Leave</button>
+        </div>
+      </div>
     </div>
   </ui-modal>
 
   <ui-modal ng-model="modal.dis" class="fade">
-    <div class="modal-header">
-      <button class="close"
-              ng-click="modal.dis = false">&times;</button>
-      <h3>Discard changes</h3>
-    </div>
-    <div class="modal-body">
-      <div>Values of the modified fields will be lost:</div>
-      <div ng-hide="editor.matchTitle()">Title: "{{editor.sticker.title}}"</div>
-      <div ng-hide="editor.matchNotes()">Notes: "{{editor.sticker.notes}}"</div>
-      <div ng-hide="editor.matchColor()">Color: "{{editor.sticker.colorText}}"</div>
-      <div>Are you sure?</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-danger" ng-click="discardStickerChanges()">Discard</button>
-      <button class="btn btn-success" ng-click="keepStickerChanges()">Keep</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-header">
+          <button class="close"
+                  ng-click="modal.dis = false">&times;</button>
+          <h3>Discard changes</h3>
+        </div>
+        <div class="modal-body">
+          <div>Values of the modified fields will be lost:</div>
+          <div ng-hide="editor.matchTitle()">Title: "{{editor.sticker.title}}"</div>
+          <div ng-hide="editor.matchNotes()">Notes: "{{editor.sticker.notes}}"</div>
+          <div ng-hide="editor.matchColor()">Color: "{{editor.sticker.colorText}}"</div>
+          <div>Are you sure?</div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger" ng-click="discardStickerChanges()">Discard</button>
+          <button class="btn btn-success" ng-click="keepStickerChanges()">Keep</button>
+        </div>
+      </div>
     </div>
   </ui-modal>
 </div>

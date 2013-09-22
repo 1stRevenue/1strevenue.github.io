@@ -1,0 +1,20 @@
+<div ng-controller="RibbonController"
+     class="guide-ribbon"
+     ng-init="ribbon = layout.guide"
+     ng-class="{'wide-ribbon': layout.guide.wide}">
+  <div ng-include src="'views/ribbon/Drag.html'"
+       class="ribbon-item"></div>
+
+  <div class="ribbon-item flat-nephritis">
+    <a href="#/repo">
+      <i class="icon-folder-open icon-2x"></i>
+      <span ng-show="layout.guide.wide">
+        Repository
+      </span>
+    </a>
+    <span class="model-count">{{ _.size(catalog.getModelIdList('all')) }}</span>
+  </div>
+
+  <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
+  <div ng-include src="'views/ribbon/Uservoice.html'"></div>
+</div>

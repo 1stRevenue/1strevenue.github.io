@@ -1,17 +1,54 @@
-<div class="admin-presence">
+<div class="admin-models flat-wisteria">
   <h2>{{_.size(admin.models)}} models in the database</h2>
-</div>
-<div ng-repeat="(id, model) in admin.models track by id"
-     class="media">
-  <span class="pull-left">
-    <img ng-src="{{model.fields.icon}}"
-         ng-show="model.fields.icon"
-         title="{{model.fields.name}}" />
-  </span>
-  <div class="media-body">
-    <p>Id: {{id}}</p>
-    <p>Name: {{model.fields.name}}</p>
-    <p>Description: {{model.fields.descr}}</p>
-    <p>elevator pitch: {{model.fields.pitch}}</p>
+  <div class="row">
+    <div ng-repeat-start="(id, model) in admin.models track by id"
+         class="col-xs-4">
+      <div class="thumbnail">
+        <span class="pull-left">
+          <img ng-src="{{model.fields.icon}}"
+               ng-show="model.fields.icon"
+               class="admin-model-icon"
+               title="{{model.fields.name}}" />
+          <img ng-src="images/2309bece.Canvas-Marker-62x38.png"
+               ng-hide="model.fields.icon"
+               class="admin-model-icon"
+               title="{{model.fields.name}}" />
+        </span>
+        <h3 class="clearfix"><strong>{{model.fields.name}}</strong></h3>
+        <div>{{ id }}</div>
+        <dl>
+          <dt>Description</dt>
+          <dd>{{model.fields.descr}}
+            <span ng-hide="model.fields.descr">(none)</span>
+          </dd>
+          <dt>Elevator pitch</dt>
+          <dd>{{model.fields.pitch}}
+            <span ng-hide="model.fields.pitch">(none)</span>
+          </dd>
+        </dl>
+        <div class="row text-center">
+          <div class="col-xs-3">
+            <h1>{{_.size(model.stickers)}}</h1>
+            stickers
+          </div>
+          <div class="col-xs-3">
+            <h1>{{_.size(model.users)}}</h1>
+            users
+          </div>
+          <div class="col-xs-3">
+            <h1>{{_.size(model.invites)}}</h1>
+            invites
+          </div>
+          <div class="col-xs-3">
+            <h1>{{_.size(model.comments)}}</h1>
+            comments
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-repeat-end
+         class="xs-visible"
+         ng-class="{clearfix: $index % 3 == 2}">
+    </div>
   </div>
 </div>

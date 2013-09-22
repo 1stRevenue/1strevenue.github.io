@@ -3,9 +3,8 @@
 
 <div class="typeahead-search"
      ng-show="partnersLoaded()">
-  <button class="btn btn-small left-button"
+  <button class="btn btn-danger btn-xs left-button"
           ng-disabled="!tah.userTypeAhead"
-          ng-class="{'btn-danger': tah.userTypeAhead}"
           ng-click="resetSearch()"
           title="Clear filter">
     <i class="icon-remove"></i>
@@ -18,9 +17,8 @@
          ng-model="tah.userTypeAhead"
          zzz-first-revenue-typeahead="tah.dataset"
          data-selection="tahSelection" />
-  <button class="btn btn-small right-button"
+  <button class="btn btn-warning btn-xs right-button"
           ng-disabled="!massInviteAllowed()"
-          ng-class="{'btn-warning': massInviteAllowed()}"
           zzz-ng-click="tahSubmit()">
     <i class="icon-double-angle-right"></i>
 <!--    +    -->

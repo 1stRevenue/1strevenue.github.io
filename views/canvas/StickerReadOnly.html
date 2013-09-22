@@ -1,0 +1,8 @@
+<div class="st-grad"
+     ng-class="{'st-abs': canvas.getAbs(sticker), 'st-rel': !canvas.getAbs(sticker)}"
+     data-id="{{stickerId}}"
+     data-cypherid="{{sticker.position.cypherId}}"
+     open-tip="{{updateOpenTip()}}"
+     style="{{canvas.getPosition(sticker)}}">
+  <ng-include src="'views/canvas/StickerBody.html'"></ng-include>
+</div>

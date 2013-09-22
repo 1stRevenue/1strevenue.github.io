@@ -1,5 +1,5 @@
 <div ng-controller="RegisterController"
-     class="container-fluid register-page"
+     class="container register-page flat-belizehole"
      ng-show="layout.isView('register')">
 
   <h2 class="text-center"
@@ -24,14 +24,14 @@
     <p ng-show="_.isString(me.error)">{{me.error}}</p>
   </div-->
 
-  <fieldset class="well well-large register-profile container-fluid"
+  <fieldset class="well well-large register-profile container"
        ng-show="me.mp.user.profile.ready">
     <legend class="register-connected">
       Connected identities
     </legend>
     <div ng-repeat="(key, s) in me.mp.services"
-         class="alert alert-success alert-block row-fluid">
-      <div class="span9">
+         class="alert alert-success alert-block row">
+      <div class="col-xs-9">
         <span first-revenue-service-icon="key"></span>
         <img ng-src="{{s.image}}"
              ng-show="s.image"
@@ -41,7 +41,7 @@
              class="user-icon" />
         {{s.name}}
       </div>
-      <button class="btn btn-danger span3"
+      <button class="btn btn-danger col-xs-3"
               ng-click="register.detach(key)">
         <i class="icon-remove"></i>
         Detach
@@ -49,7 +49,7 @@
     </div>
 
     <div>
-      <button class="btn btn-success btn-large"
+      <button class="btn btn-success btn-lg"
               ng-show="me.mp.user.profile.ready"
               ng-click="cr.saveChanges()">
         <i class="icon-save"></i>
@@ -58,19 +58,19 @@
     </div>
   </fieldset>
 
-  <fieldset class="well well-large register-attached container-fluid">
+  <fieldset class="well well-large register-attached container">
     <legend class="register-supported">
       Supported services
     </legend>
     <div ng-repeat="(key, pr) in register.unusedProviders() | orderBy:'seq'"
-         class="alert alert-info alert-block row-fluid">
-      <div class="span9">
+         class="alert alert-info alert-block row">
+      <div class="col-xs-9">
         <span first-revenue-service-icon="key"></span>
         <span>
           {{pr.title}}
         </span>
       </div>
-      <button class="btn btn-primary span3"
+      <button class="col-xs-3 btn btn-primary"
               ng-click="register.attach(key)">
         <i class="icon-plus"></i>
         Attach

@@ -1,0 +1,32 @@
+<img ng-if="provider.icon == 'facebook'"
+     class="user-icon pull-right"
+     ng-src="images/signin/facebook/06161055.Logo-40x40.png" />
+<img ng-if="provider.icon == 'google-plus'"
+     class="user-icon pull-right"
+     ng-src="images/signin/gplus/8250a9db.Logo-40x40.png" />
+<img ng-if="provider.icon == 'linkedin'"
+     class="user-icon pull-right"
+     ng-src="images/signin/linkedin/07838720.Logo-40x40.png" />
+<h3 class="{{ provider.service }}-title-border }}">
+  {{ provider.title }}
+</h3>
+<div class="row">
+  <div class="col-xs-12">
+    <p>
+      <span first-revenue-service-icon="provider.icon"></span>
+      No account attached
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-3">
+    <button class="btn btn-success btn-sm pull-left"
+            ng-click="">
+      Attach
+    </button>
+  </div>
+  <div class="col-xs-9">
+    Attach your {{ provider.title }} account to share models and
+    collaborate with friends and colleagues
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<img ng-if="account.profile.service == 'facebook'"
+     class="user-icon pull-right"
+     ng-src="images/signin/facebook/06161055.Logo-40x40.png" />
+<img ng-if="account.profile.service == 'gplus'"
+     class="user-icon pull-right"
+     ng-src="images/signin/gplus/8250a9db.Logo-40x40.png" />
+<img ng-if="account.profile.service == 'linkedin'"
+     class="user-icon pull-right"
+     ng-src="images/signin/linkedin/07838720.Logo-40x40.png" />
+<h3 class="{{ account.profile.service }}-title-border">
+  {{ firebase.providers[account.profile.service].title }}
+</h3>
+
+<div class="row">
+  <div class="col-xs-3">
+    <img class="user-card-icon"
+         ng-show="account.profile.image"
+         ng-src="{{account.profile.image}}" />
+    <img class="user-icon"
+         ng-hide="account.profile.image"
+         ng-src="images/bbf82395.light_avatar_small.png" />
+  </div>
+  <div class="col-xs-9">
+    <p>
+      <span first-revenue-service-icon="account.profile.service"></span>
+      {{ account.profile.serviceId }}
+    </p>
+    <p>
+      <strong>{{ account.profile.name }}</strong>
+    </p>
+    <p ng-if="account.profile.email">
+      {{ account.profile.email }}
+    </p>
+    <p ng-if="account.contacts.total">
+      {{ account.contacts.total }} contacts
+    </p>
+    <p ng-if="_.size(account.contacts.partners) > 0">
+      {{ _.size(account.contacts.partners) }} partners
+    </p>
+  </div>
+</div>

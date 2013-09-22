@@ -1,9 +1,9 @@
 <div class="member-grid" ng-controller="MembersController">
   <div class="member-grid-body">
-    <div class="container-fluid">
-      <div class="row-fluid">
+    <div class="container">
+      <div class="row">
         <div ng-repeat="(memberId, member) in catalog.getMembers()">
-          <div class="span3 well canvas-link member">
+          <div class="col-xs-3 well canvas-link member">
             <!--a ng-href="#member/{{member.id}}"-->
               <img class="member-icon member-{{member.provider}}" ng-src="{{member.image}}" title="{{member.name}}" alt="{{member.name}}" />
             <!--/a-->
@@ -17,8 +17,8 @@
         </div>
       </div>
 
-      <div class="row-fluid">
-        <div class="span12>">
+      <div class="row">
+        <div class="col-xs-12>">
           <hr />
         </div>
       </div>

@@ -12,12 +12,12 @@
     </span>
     <div class="media-body">
       <span class="pull-right">
-        <button class="btn btn-success btn-small"
+        <button class="btn btn-success btn-sm"
                 ng-show="model.commentId"
                 ng-click="closeComment()">
           Done
         </button>
-        <button class="btn btn-primary btn-small"
+        <button class="btn btn-primary btn-sm"
                 ng-hide="model.commentId"
                 ng-click="openComment()">
           Comment
@@ -31,7 +31,7 @@
     </div>
   </div>
    <!--div ng-repeat="comment in canvas.model.comments | orderBy:'updated':'true'"
-       class="row-fluid">
+       class="row">
     <div class="span1">
       <img ng-src="{{sync.peers[comment.author].image}}"
            class="user-icon"
@@ -44,7 +44,7 @@
     </div>
     <div class="span11">
       <div>
-        <button class="btn btn-small pull-right"
+        <button class="btn btn-default btn-sm pull-right"
                 ng-show="comment.author == me.userId"
                 mg-click="modifyComment(comment)">
           Modify
@@ -82,7 +82,7 @@
       </span>
       <div class="media-body"
            ng-class="{'comment-editing': comment.id == model.commentId}">
-        <button class="btn btn-small pull-right"
+        <button class="btn btn-default btn-sm pull-right"
                 ng-show="comment.author == me.userId && comment.id != model.commentId"
                 ng-click="modifyComment(comment)">
           Modify

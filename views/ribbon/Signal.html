@@ -1,6 +1,12 @@
-<img src="images/06dd3e96.signal-green.png"
-     class="signal-icon"
-     ng-show="me.connected" />
-<img src="images/9b1398fb.signal-red.png"
-     class="signal-icon"
-     ng-hide="me.connected" />
+<div class="ribbon-item">
+  <img src="images/06dd3e96.signal-green.png"
+       class="signal-icon"
+       ng-show="me.connected" />
+  <img src="images/9b1398fb.signal-red.png"
+       class="signal-icon"
+       ng-hide="me.connected" />
+  <div class="ribbon-text">
+    <span ng-show="me.connected">Connected</span>
+    <span ng-hide="me.connected">Disconnected</span>
+  </div>
+</div>

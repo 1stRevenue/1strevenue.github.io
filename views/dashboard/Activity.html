@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h2>Recent activity</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-3">
+    <div class="thumbnail">
+      <h3>Summary</h3>
+      <p>
+        {{ _.size(sync.models) }} models ({{ _.size(sync.public.models) }} public)
+      </p>
+
+      <p>
+        {{ _.size(sync.peers) }} peer users
+      </p>
+
+      <p>
+        {{ _.size(sync.invites) }} invites sent
+      </p>
+    </div>
+  </div>
+  <div class="col-xs-9">
+    <div class="thumbnail">
+      <h3>Frequently used models</h3>
+      <p>
+        Not implemented yet...
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="zzz-drag-button flat-midnightblue">
+  <!--a ng-click="ribbon.wide = !ribbon.wide">&#9776;</a-->
+  <div ng-if="layout.guide.wide"
+       class="flat-silver canvas-drag-menu">
+    <i class="icon-list icon-2x"
+       ng-class="{'flat-belizehole': layout.stickerList}"
+       ng-click="layout.toggleStickerList()"></i>
+    <i class="icon-comments-alt icon-2x"
+       ng-class="{'flat-nephritis': layout.comments}"
+       ng-click="layout.toggleComments()"></i>
+    <i class="icon-zoom-in icon-2x"
+       ng-class="{'flat-carrot': layout.zoom}"
+       ng-click="layout.toggleZoom()"></i>
+  </div>
+  <i ng-click="ribbon.wide = !ribbon.wide"
+     class="icon-reorder icon-2x"></i>
+</div>

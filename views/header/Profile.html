@@ -58,6 +58,8 @@
               <!-- The second click event immediately closes the modal -->
               <!-- unless data-backdrop="static" was specified -->
               <div class="header-menu-line"
+                   data-toggle="modal"
+                   data-target="#modalLogoff"
                    ontouchstart="$(this).trigger('click')"
                    ng-click="logoff()">
                 <i class="icon-off"></i>

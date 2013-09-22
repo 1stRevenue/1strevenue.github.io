@@ -1,5 +1,5 @@
 <div class="canvas-side-comments"
-     ng-class="{'canvas-side-hidden': '!layout.isView(\'comment\')'}"
+     ng-class="{'canvas-side-hidden': !layout.comments}"
      ng-controller="CommentController">
   <div class="media comment-editor">
     <span class="pull-left">
@@ -14,12 +14,12 @@
     </span>
     <div class="media-body">
       <span class="pull-right">
-        <button class="btn btn-success btn-small"
+        <button class="btn btn-success btn-sm"
                 ng-show="comment.id"
                 ng-click="closeComment()">
           Done
         </button>
-        <button class="btn btn-primary btn-small"
+        <button class="btn btn-primary btn-sm"
                 ng-hide="comment.id"
                 ng-click="openComment()">
           Comment
@@ -52,7 +52,7 @@
       </span>
       <div class="media-body"
            ng-class="{'comment-editing': c.id == comment.id}">
-        <button class="btn btn-small pull-right"
+        <button class="btn btn-default btn-sm pull-right"
                 ng-show="c.author == me.userId && c.id != comment.id"
                 ng-click="modifyComment(c)">
           Modify

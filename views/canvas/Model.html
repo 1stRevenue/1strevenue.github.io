@@ -1,10 +1,9 @@
 <div ng-controller="ModelController"
-     ng-hide="layout.isView('canvas')"
      class="first-revenue-model">
   <div ng-include="'views/canvas/ModelData.html'"
-       ng-show="layout.isView('data')"></div>
+       ng-if="layout.isView('data')"></div>
   <div ng-include="'views/canvas/ModelEditor.html'"
-       ng-show="layout.isView('model')"></div>
+       ng-if="layout.isView('model')"></div>
   <!--div ng-include="'views/canvas/ModelUsers.html'"
-       ng-show="layout.isView('users')"></div-->
+       ng-if="layout.isView('users')"></div-->
 </div>

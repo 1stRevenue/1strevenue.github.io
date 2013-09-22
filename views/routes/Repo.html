@@ -1,20 +1,18 @@
 <div ng-include src="'views/repo/GuideRibbon.html'"></div>
 
-<div ng-switch="layout.view">
-  <div ng-switch-when="contacts"
-       ng-include="'views/repo/Contacts.html'">
+<div ng-switch on="layout.view">
+  <div ng-switch-when="contacts">
+    <div ng-include src="'views/repo/Contacts.html'"></div>
   </div>
-  <div ng-switch-when="new"
-       ng-include="'views/repo/NewModel.html'">
+  <div ng-switch-when="new">
+    <div ng-include src="'views/repo/NewModel.html'"></div>
   </div>
-  <div ng-switch-when="projects"
-       ng-include="'views/repo/Projects.html'">
+  <div ng-switch-when="projects">
+    <div ng-include src="'views/repo/Projects.html'"></div>
   </div>
-  <div ng-switch-when="impress"
-       ng-include="'views/repo/Impress.html'">
-  </div>
-  <div ng-switch-default
-       ng-include="'views/repo/Models.html'">
+
+  <div ng-switch-default>
+    <div ng-include src="'views/repo/Models.html'"></div>
   </div>
 </div>
 

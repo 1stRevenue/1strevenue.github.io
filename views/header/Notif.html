@@ -6,22 +6,22 @@
     <i class="icon-remove"></i>
   </button>
   <h3>Notifications</h3>
-  <div class="container-fluid">
+  <div class="container">
     <div ng-repeat="item in notif.list"
-         class="row-fluid notif-item-{{item.type}}">
-      <div class="span1">
+         class="row notif-item-{{item.type}}">
+      <div class="col-xs-1">
         {{item.seq}}
       </div>
-      <div class="span3">
+      <div class="col-xs-3">
         <span>{{item.time | date:'yyyy-MM-dd HH:mm'}}</span>
       </div>
-      <div class="span1">
+      <div class="col-xs-1">
         <i class="icon-info icon-white"/></i>
       </div>
-      <div class="span6">
+      <div class="col-xs-6">
         {{item.text}}
       </div>
-      <div class="span1 close"
+      <div class="col-xs-1 close"
            ng-click="notif.remove(item.seq)">
         &times;
       </div>

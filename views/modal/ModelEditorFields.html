@@ -1,7 +1,7 @@
 <div class="modal-editor-form">
-  <fieldset class="model-editor-fields container-fluid">
-    <div class="row-fluid">
-      <div class="control-group span6"
+  <fieldset class="model-editor-fields container">
+    <div class="row">
+      <div class="control-group col-xs-6"
            ng-class="{error: nameError}">
         <label class="control-label"
                for="model-name">
@@ -21,7 +21,7 @@
              ng-show="name==''">Please specify the model name</p>
         </div>
       </div>
-      <div class="control-group span6">
+      <div class="control-group col-xs-6">
         <label class="control-label"
                ng-hide="canvas.model.fields.icon"
                for="attach-model-icon">Icon</label>
@@ -36,21 +36,21 @@
                for="attach-model-icon">Icon</label>
         <button id="replace-model-icon"
                 ng-show="canvas.model.fields.icon"
-                class="btn btn-warning btn-small"
+                class="btn btn-warning btn-sm"
                 ng-click="replaceIcon()">
           Replace icon
         </button>
         <img ng-src="{{canvas.model.fields.icon}}"
              class="new-model-icon" />
         <button ng-show="canvas.model.fields.icon"
-                class="btn btn-danger btn-small"
+                class="btn btn-danger btn-sm"
                 ng-click="removeIcon()">
           Remove icon
         </button>
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="control-group span6">
+    <div class="row">
+      <div class="control-group col-xs-6">
         <label class="control-label"
                for="model-descr">Description</label>
         <div class="controls">
@@ -62,7 +62,7 @@
           <!-- (document.activeElement.id === 'model-descr')  tests focus on this textarea -->
         </div>
       </div>
-      <div class="control-group span6">
+      <div class="control-group col-xs-6">
         <span class='pitch-word-count'>
           <span ng-show="pitchWordCount() == 1"
                 style="color: rgb({{pitchRed()}}, {{pitchGreen()}}, 0);">
@@ -84,8 +84,8 @@
         </div>
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="span6">
+    <div class="row">
+      <div class="col-xs-6">
         <button type="submit"
                 class="btn btn-success pull-right"
                 ng-click="finish()"
@@ -97,7 +97,7 @@
           Delete
         </button>
       </div>
-      <div class='pitch-remarks span6'>
+      <div class='pitch-remarks col-xs-6'>
         <div ng-show="pitchWordCount() === 0">
           Sum up unique aspects of your service or product in a way that excites others
         </div>
@@ -119,9 +119,9 @@
         </div>
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="zzz-model-editor-users model-editor-user-panel span6">
-        <!--button class="btn btn-success btn-small pull-right"
+    <div class="row">
+      <div class="zzz-model-editor-users model-editor-user-panel col-xs-6">
+        <!--button class="btn btn-success btn-sm pull-right"
                 ng-hide="userPanel"
                 ng-click="userPanel=true;">
           Manage users
