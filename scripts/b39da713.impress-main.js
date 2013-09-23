@@ -14,58 +14,25 @@ $(document).ready(function () {
   $(window).resize(resizeCanvasFont), resizeCanvasFont(), window.navigator.standalone;
 });
 var FirstRevenueApp = angular.module('FirstRevenueApp', [
-    'ngAnimate',
     'ngResource',
-    'ngRoute',
     'bootstrap',
     '$strap.directives',
     'firebase'
   ]).config([
-    '$httpProvider',
     '$routeProvider',
-    '$rootScopeProvider',
-    function (a, b) {
-      delete a.defaults.headers.common['X-Requested-With'], b.when('/', {
-        templateUrl: 'views/routes/Home.html',
-        controller: 'HomeController'
-      }).when('/entry', {
-        templateUrl: 'views/routes/Entry.html',
-        controller: 'EntryController'
-      }).when('/home', {
-        templateUrl: 'views/routes/Home.html',
-        controller: 'HomeController'
-      }).when('/repo', {
-        templateUrl: 'views/routes/Repo.html',
-        controller: 'RepoController'
-      }).when('/canvas', {
-        templateUrl: 'views/routes/Canvas.html',
-        controller: 'CanvasController'
-      }).when('/canvas/:modelId', {
-        templateUrl: 'views/routes/Canvas.html',
-        controller: 'CanvasController'
-      }).when('/people', {
-        templateUrl: 'views/routes/People.html',
-        controller: 'PeopleController'
-      }).when('/invite/:inviteId', {
-        templateUrl: 'views/routes/Invite.html',
-        controller: 'InviteController'
-      }).when('/admin', {
-        templateUrl: 'views/routes/Admin.html',
-        controller: 'AdminController'
+    function (a) {
+      a.when('/impress/:modelId', {
+        templateUrl: 'views/impress/Impress.html',
+        controller: 'ImpressController'
+      }).when('/', {
+        templateUrl: 'views/impress/Impress.html',
+        controller: 'ImpressController'
       }).otherwise({ redirectTo: '/' });
     }
   ]).run([
-    '$rootScope',
-    '$location',
-    '$q',
-    'Myself',
-    'RrrrRrrr',
-    function (a, b, c, d, e) {
-      console.log('app.run set up $routeChangeStart $on event watcher'), a.deferredLaunch = c.defer(), a.$on('$routeChangeStart', function (b, c, f) {
-        e.launching = !1, console.log('app.run $routeChangeStart current=', f, 'next=', c, 'Myself=', d), !d.authenticated && c.$$route.controller && 'InviteController' !== c.$$route.controller && 'EntryController' !== c.$$route.controller && (c.$$route.resolve = c.$$route.resolve || {}, c.$$route.resolve.Launch = function () {
-          return a.deferredLaunch.promise;
-        });
-      });
+    '$route',
+    function (a) {
+      a.reload();
     }
   ]);
 FirstRevenueApp.controller('AdminController', [
@@ -540,6 +507,20 @@ FirstRevenueApp.controller('AdminController', [
       }
     }), a.modelId = b.current.params.modelId, console.log(c, '$route=', b, 'modelId=', a.modelId), a.modelId && a.im.loadModel(a.modelId);
   }
+]), FirstRevenueApp.controller('ImpressMasterController', [
+  '$scope',
+  '$route',
+  '$routeParams',
+  '$window',
+  'Canvas',
+  'ImpressModel',
+  function (a, b, c, d, e, f) {
+    var g = 'ImpressMasterController';
+    console.log(g, 'launched'), a.$root._ = window._, angular.extend(a, {
+      canvas: e,
+      im: f
+    }), a.rootRef = new Firebase(CONFIG_1ST_REVENUE.firebaseEndpoint), d.document.title = a.appName + ' Presentation', f.init(a.rootRef, a), console.log(g, '$route=', b, 'modelId=', a.modelId, '$routeParams=', c), analytics.track('Impress launch');
+  }
 ]), FirstRevenueApp.controller('InviteController', [
   '$scope',
   '$location',
@@ -923,7 +904,6 @@ FirstRevenueApp.controller('AdminController', [
         return !(_.isEmpty(a.sync.user.groups) && _.isEmpty(a.sync.user.partners) && a.tah.empty);
       },
       wasInvited: function (b) {
-        console.log(f, 'wasInvited friend=', b);
         var c, d;
         return d = _.find(a.sync.models[a.canvas.modelId].users, function (c, d) {
           var e = a.sync.peers[d];
@@ -931,7 +911,7 @@ FirstRevenueApp.controller('AdminController', [
         }), _.isUndefined(d) && (c = _.find(a.sync.models[a.canvas.modelId].invites, function (c, d) {
           var e = a.sync.invites[d];
           return e && !e.userId && b.service === e.service && b.serviceId === e.serviceId;
-        })), console.log(f, 'wasInvited friend=', b, 'foundUser=', d, 'foundInvite=', c), !(_.isUndefined(d) && _.isUndefined(c));
+        })), !(_.isUndefined(d) && _.isUndefined(c));
       },
       countInvites: function () {
         var b = a.sync.models[a.canvas.modelId];
@@ -942,7 +922,6 @@ FirstRevenueApp.controller('AdminController', [
         return b + (e && 'accepted' !== e.status ? 1 : 0);
       },
       showSelectButton: function (b) {
-        console.log(f, 'showSelectButton friend=', b);
         var c = a.sync.models[a.canvas.modelId], d = a.me.userId;
         return !a.wasInvited(b) && (c.owner === d || 'full' === c.users[d]);
       },
@@ -1974,7 +1953,7 @@ FirstRevenueApp.controller('AdminController', [
       h(a, b, 'mouseenter', 'mouseover'), h(a, b, 'click', 'click');
     };
   }
-]), FirstRevenueApp.constant('AppName', '1$T REVENUE'), FirstRevenueApp.factory('BMG', [function () {
+]), FirstRevenueApp.factory('BMG', [function () {
     var a = 'BMG';
     console.log(a, 'service launched');
     var b = {
@@ -2255,14 +2234,6 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return d;
-  }
-]), FirstRevenueApp.factory('Detect', [
-  '$window',
-  function (a) {
-    var b = 'Detect';
-    console.log(b, 'service launched');
-    var c = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0, d = 'undefined' != typeof InstallTrigger, e = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0, f = !!a.chrome && !c, g = f && /Chromium/.test(a.navigator.userAgent), h = !1 || document.documentMode, i = h ? 'Internet Explorer' : g ? 'Chromium' : f ? 'Chrome' : e ? 'Safari' : d ? 'Firefox' : c ? 'Opera' : 'Unknown', j = _.copy(a.ui);
-    return j.browserSafe = i, j;
   }
 ]), FirstRevenueApp.factory('Favicon', [function () {
     var a = {
@@ -5304,5 +5275,40 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return d;
+  }
+]), FirstRevenueApp.factory('ImpressModel', [
+  '$timeout',
+  '$window',
+  'Canvas',
+  'angularFire',
+  function (a, b, c, d) {
+    var e = 'ImpressModel';
+    console.log(e, 'service launched');
+    var f = {
+        rootRef: null,
+        masterScope: null,
+        dereg: {},
+        init: function (a, b) {
+          console.log(e, 'init'), f.rootRef = a, f.masterScope = b;
+        },
+        angularFire: function (a, b, c) {
+          console.log(e, 'angularFire name=', b, c), c = angular.isUndefined(c) ? {} : c;
+          var g = d(a, f.masterScope, b, c);
+          return g.then(function (a) {
+            console.log(e, 'angularFire callback afReady=', a), a.off && a.name ? f.dereg = a.off : g.off && (f.dereg = g.off);
+          }), g;
+        },
+        loadModel: function (a) {
+          console.log(e, 'loadModel modelId=', a);
+          var b = f.rootRef.child('models').child(a), c = f.angularFire(b, 'canvas.model');
+          c ? c.then(f.loadModelData) : console.log(e, 'loadModel angularFire failed for modelId', a);
+        },
+        loadModelData: function (d) {
+          console.log(e, 'loadModelData modelPromise resolved modelReady=', d), a(function () {
+            b.document.title = c.model.fields.name + ' - 1st Revenue Presentation', impress().init();
+          });
+        }
+      };
+    return f;
   }
 ]);
