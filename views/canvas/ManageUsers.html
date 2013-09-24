@@ -15,13 +15,16 @@
       <i class="icon-remove icon-2x close-button"
          ng-click="layout.share = false"></i>
       <div class="invites-and-users">
-        <div ng-if="!_.isEmpty(canvas.model.invites)"
-             ng-include="'views/canvas/ModelUserInvites.html'"></div>
-        <div ng-if="!_.isEmpty(canvas.model.users)"
-             ng-include="'views/canvas/ModelUserList.html'"></div>
+        <div ng-if="!_.isEmpty(sync.models[canvas.modelId].invites)">
+          <div ng-include="'views/canvas/ModelUserInvites.html'"></div>
+        </div>
+        <div ng-if="!_.isEmpty(sync.models[canvas.modelId].users)">
+          <div ng-include="'views/canvas/ModelUserList.html'"></div>
+        </div>
       </div>
     </div>
-    <div ng-if="businessCard"
-         ng-include="'views/canvas/UserBusinessCard.html'"></div>
+    <div ng-if="businessCard">
+      <div ng-include="'views/canvas/UserBusinessCard.html'"></div>
+    </div>
   </div>
 </div>
