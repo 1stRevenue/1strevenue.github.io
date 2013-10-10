@@ -4496,7 +4496,7 @@ FirstRevenueApp.controller('AdminController', [
             services: b.services ? b.services : null
           }), d.user.services = d.user.services || {}, _.each(b.services, function (a, b) {
             d.user.services[b] = angular.copy(a);
-          }), console.log(c, 'storeAccount', 'mp.user=', d.user);
+          }), d.user.models = d.user.models || { '*': '*' }, console.log(c, 'storeAccount', 'mp.user=', d.user);
         },
         getCredentials: function () {
           var a = {};
@@ -4566,9 +4566,9 @@ FirstRevenueApp.controller('AdminController', [
               var g = a.ref.child('invites');
               g.on('child_added', e.processModelInvites);
             } else
-              e.sync.user.models[b] && (console.log(d, 'loadModelData user not in model user list, deleting modelId=', b), delete e.sync.user.models[b]);
+              e.sync.user.models && e.sync.user.models[b] && (console.log(d, 'loadModelData user not in model user list, deleting modelId=', b), delete e.sync.user.models[b]);
           else
-            e.sync.user.models[b] && (console.log(d, 'loadModelData model does not exist, deleting modelId=', b), delete e.sync.user.models[b]);
+            e.sync.user.models && e.sync.user.models[b] && (console.log(d, 'loadModelData model does not exist, deleting modelId=', b), delete e.sync.user.models[b]);
         },
         processModelUsers: function (a) {
           var b = a.name();
