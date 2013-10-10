@@ -3,13 +3,11 @@
      ng-init="init('linkedin')">
   <div class="table-wrapper">
     <div class="table-scroll">
-      <div ng-switch="social.loaded.linkedin">
-        <div ng-switch-when="true"
-             ng-include="'views/people/LinkedInLoaded.html'">
-        </div>
-        <div ng-switch-default
-             ng-include="'views/people/LinkedInUnloaded.html'">
-        </div>
+      <div ng-if="social.loaded.linkedin">
+        <div ng-include="'views/people/LinkedInLoaded.html'"></div>
+      </div>
+      <div ng-if="!social.loaded.linkedin">
+        <div ng-include="'views/people/LinkedInUnloaded.html'"></div>
       </div>
     </div>
   </div>

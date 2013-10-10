@@ -1,12 +1,19 @@
 <div ng-include src="'views/entry/GuideRibbon.html'"></div>
 
 <div class="first-revenue-entry">
-  <div ng-include src="'views/entry/Welcome.html'"></div>
-
   <div ng-switch="layout.view">
-    <div ng-switch-when="signin"  ng-include="'views/entry/Signin.html'"></div>
-    <div ng-switch-when="register" ng-include="'views/entry/Register.html'"></div>
-    <div ng-switch-when="guest"  ng-include="'views/entry/Guest.html'"></div>
+    <div ng-switch-when="welcome">
+      <div ng-include src="'views/entry/Welcome.html'"></div>
+    </div>
+    <div ng-switch-when="signin">
+      <div ng-include="'views/entry/Signin.html'"></div>
+    </div>
+    <div ng-switch-when="register">
+      <div ng-include="'views/entry/Register.html'"></div>
+    </div>
+    <div ng-switch-when="guest">
+      <div ng-include="'views/entry/Guest.html'"></div>
+    </div>
   </div>
 </div>
 

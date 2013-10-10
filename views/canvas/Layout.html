@@ -18,9 +18,10 @@
          ng-mouseenter="hovering = true"
          ng-mouseleave="hovering = false">
 
-      <div ng-include="'views/canvas/BMG.html'"
-           onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
-           ng-show="_.size(getStickers(blockId)) == 0">
+      <div ng-show="_.size(getStickers(blockId)) == 0">
+        <div ng-include="'views/canvas/BMG.html'"
+             onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)">
+        </div>
       </div>
 
       <div ng-include="'views/canvas/Block.html'"></div>
@@ -37,9 +38,10 @@
 
       <div ng-include="'views/canvas/Block.html'"></div>
 
-      <div ng-include="'views/canvas/BMG.html'"
-           onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
-           ng-show="_.size(getStickers(blockId)) == 0">
+      <div ng-show="_.size(getStickers(blockId)) == 0">
+        <div ng-include="'views/canvas/BMG.html'"
+             onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)">
+        </div>
       </div>
     </div>
 

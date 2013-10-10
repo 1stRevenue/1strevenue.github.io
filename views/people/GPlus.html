@@ -49,11 +49,11 @@
             <th>Flags</th>
           </tr>
         </thead>
-        <tbody ng-if="social.loaded.gplus"
-               ng-include="'views/people/GPlusLoaded.html'">
+        <tbody ng-if="social.loaded.gplus">
+          <ng-include src="'views/people/GPlusLoaded.html'"></ng-include>
         </tbody>
-        <tbody ng-if="!social.loaded.gplus"
-               ng-include="'views/people/GPlusUnloaded.html'">
+        <tbody ng-if="!social.loaded.gplus">
+          <ng-include src="'views/people/GPlusUnloaded.html'"></ng-include>
         </tbody>
         <tfoot>
           <tr>

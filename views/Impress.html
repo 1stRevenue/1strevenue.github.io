@@ -31,9 +31,10 @@
              data-id="{{blockId}}"
              class="pane {{blockId}} {{canvas.getGridClass()}}">
 
-          <div ng-include="'views/canvas/BMG.html'"
-               onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
-               ng-show="_.size(getStickers(blockId)) == 0">
+          <div ng-show="_.size(getStickers(blockId)) == 0">
+            <div ng-include="'views/canvas/BMG.html'"
+                 onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)">
+            </div>
           </div>
 
           <div ng-include="'views/canvas/Block.html'"></div>

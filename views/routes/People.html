@@ -2,29 +2,29 @@
 
 <div class="first-revenue-people">
   <div ng-switch on="layout.view">
-    <div ng-switch-when="partners"
-         ng-include="'views/people/Partners.html'">
+    <div ng-switch-when="partners">
+      <div ng-include="'views/people/Partners.html'"></div>
     </div>
-    <div ng-switch-when="facebook"
-         ng-include="'views/people/Facebook.html'">
+    <div ng-switch-when="facebook">
+      <div ng-include="'views/people/Facebook.html'"></div>
     </div>
-    <div ng-switch-when="linkedin"
-         ng-include="'views/people/LinkedIn.html'">
+    <div ng-switch-when="linkedin">
+      <div ng-include="'views/people/LinkedIn.html'"></div>
     </div>
-    <div ng-switch-when="gplus"
-         ng-include="'views/people/GPlus.html'">
+    <div ng-switch-when="gplus">
+      <div ng-include="'views/people/GPlus.html'"></div>
     </div>
-    <div ng-switch-when="gcontacts"
-         ng-include="'views/people/GContacts.html'">
+    <div ng-switch-when="gcontacts">
+      <div ng-include="'views/people/GContacts.html'"></div>
     </div>
-    <div ng-switch-when="invited"
-         ng-include="'views/people/Invited.html'">
+    <div ng-switch-when="invited">
+      <div ng-include="'views/people/Invited.html'"></div>
     </div>
-    <div ng-switch-when="public"
-         ng-include="'views/people/Public.html'">
+    <div ng-switch-when="public">
+      <div ng-include="'views/people/Public.html'"></div>
     </div>
-    <!--div ng-switch-when="all"
-         ng-include="'views/people/All.html'">
+    <!--div ng-switch-when="all">
+      <div ng-include="'views/people/All.html'"></div>
     </div-->
     <div ng-switch-default>
       No contacts found for selected provider
