@@ -25,8 +25,9 @@
     </span>
   </div-->
   <div class="ribbon-item"
-       ng-if="!isReadOnly()"
-       ng-include src="'views/ribbon/Share.html'"></div>
+       ng-if="!isReadOnly()">
+    <div ng-include src="'views/ribbon/Share.html'"></div>
+  </div>
   <div ng-repeat="userId in getModelUserIds()"
        class="ribbon-item"
        ng-class="{'ribbon-item-current': me.isMyself(userId)}">

@@ -28,10 +28,12 @@
     <li ng-repeat="(stickerId, sticker) in getStickers(blockId)"
         ng-controller="StickerController"
         class="st-item">
-      <div ng-if="!isModelEditable()"
-           ng-include="'views/canvas/StickerReadOnly.html'"></div>
-      <div ng-if="isModelEditable()"
-           ng-include="'views/canvas/StickerEditable.html'"></div>
+      <div ng-if="!isModelEditable()">
+        <div ng-include="'views/canvas/StickerReadOnly.html'"></div>
+      </div>
+      <div ng-if="isModelEditable()">
+        <div ng-include="'views/canvas/StickerEditable.html'"></div>
+      </div>
     </li>
 
   </div>

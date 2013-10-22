@@ -63,8 +63,9 @@
         Invite
       </button>
       <button class="btn btn-success btn-sm invite-button"
-              data-toggle="modal"
-              data-target="#modalLinkedIn"
+              zzz-data-toggle="modal"
+              zzz-data-target="#modalLinkedIn"
+              ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
               ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'linkedin'">
         Invite
       </button>
@@ -84,6 +85,7 @@
       <button class="btn btn-primary btn-sm invite-button"
               zzz-data-toggle="modal"
               zzz-data-target="#modalLinkedIn"
+              zzz-ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
               ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
               ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'linkedin'">
         Notify

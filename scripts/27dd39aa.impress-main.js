@@ -14,58 +14,25 @@ $(document).ready(function () {
   $(window).resize(resizeCanvasFont), resizeCanvasFont(), window.navigator.standalone;
 });
 var FirstRevenueApp = angular.module('FirstRevenueApp', [
-    'ngAnimate',
     'ngResource',
-    'ngRoute',
     'bootstrap',
     '$strap.directives',
     'firebase'
   ]).config([
-    '$httpProvider',
     '$routeProvider',
-    '$rootScopeProvider',
-    function (a, b) {
-      delete a.defaults.headers.common['X-Requested-With'], b.when('/', {
-        templateUrl: 'views/routes/Home.html',
-        controller: 'HomeController'
-      }).when('/entry', {
-        templateUrl: 'views/routes/Entry.html',
-        controller: 'EntryController'
-      }).when('/home', {
-        templateUrl: 'views/routes/Home.html',
-        controller: 'HomeController'
-      }).when('/repo', {
-        templateUrl: 'views/routes/Repo.html',
-        controller: 'RepoController'
-      }).when('/canvas', {
-        templateUrl: 'views/routes/Canvas.html',
-        controller: 'CanvasController'
-      }).when('/canvas/:modelId', {
-        templateUrl: 'views/routes/Canvas.html',
-        controller: 'CanvasController'
-      }).when('/people', {
-        templateUrl: 'views/routes/People.html',
-        controller: 'PeopleController'
-      }).when('/invite/:inviteId', {
-        templateUrl: 'views/routes/Invite.html',
-        controller: 'InviteController'
-      }).when('/admin', {
-        templateUrl: 'views/routes/Admin.html',
-        controller: 'AdminController'
+    function (a) {
+      a.when('/impress/:modelId', {
+        templateUrl: 'views/impress/Impress.html',
+        controller: 'ImpressController'
+      }).when('/', {
+        templateUrl: 'views/impress/Impress.html',
+        controller: 'ImpressController'
       }).otherwise({ redirectTo: '/' });
     }
   ]).run([
-    '$rootScope',
-    '$location',
-    '$q',
-    'Myself',
-    'RrrrRrrr',
-    function (a, b, c, d, e) {
-      console.log('app.run set up $routeChangeStart $on event watcher'), a.deferredLaunch = c.defer(), a.$on('$routeChangeStart', function (b, c, f) {
-        e.launching = !1, console.log('app.run $routeChangeStart current=', f, 'next=', c, 'Myself=', d), !d.authenticated && c.$$route.controller && 'InviteController' !== c.$$route.controller && 'EntryController' !== c.$$route.controller && (c.$$route.resolve = c.$$route.resolve || {}, c.$$route.resolve.Launch = function () {
-          return a.deferredLaunch.promise;
-        });
-      });
+    '$route',
+    function (a) {
+      a.reload();
     }
   ]);
 FirstRevenueApp.controller('AdminController', [
@@ -544,6 +511,20 @@ FirstRevenueApp.controller('AdminController', [
         }), c;
       }
     }), a.modelId = b.current.params.modelId, console.log(c, '$route=', b, 'modelId=', a.modelId), a.modelId && a.im.loadModel(a.modelId);
+  }
+]), FirstRevenueApp.controller('ImpressMasterController', [
+  '$scope',
+  '$route',
+  '$routeParams',
+  '$window',
+  'Canvas',
+  'ImpressModel',
+  function (a, b, c, d, e, f) {
+    var g = 'ImpressMasterController';
+    console.log(g, 'launched'), a.$root._ = window._, angular.extend(a, {
+      canvas: e,
+      im: f
+    }), a.rootRef = new Firebase(CONFIG_1ST_REVENUE.firebaseEndpoint), d.document.title = a.appName + ' Presentation', f.init(a.rootRef, a), console.log(g, '$route=', b, 'modelId=', a.modelId, '$routeParams=', c), analytics.track('Impress launch');
   }
 ]), FirstRevenueApp.controller('InviteController', [
   '$scope',
@@ -1980,7 +1961,7 @@ FirstRevenueApp.controller('AdminController', [
       h(a, b, 'mouseenter', 'mouseover'), h(a, b, 'click', 'click');
     };
   }
-]), FirstRevenueApp.constant('AppName', '1$T REVENUE'), FirstRevenueApp.factory('BMG', [function () {
+]), FirstRevenueApp.factory('BMG', [function () {
     var a = 'BMG';
     console.log(a, 'service launched');
     var b = {
@@ -2261,14 +2242,6 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return d;
-  }
-]), FirstRevenueApp.factory('Detect', [
-  '$window',
-  function (a) {
-    var b = 'Detect';
-    console.log(b, 'service launched');
-    var c = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0, d = 'undefined' != typeof InstallTrigger, e = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0, f = !!a.chrome && !c, g = f && /Chromium/.test(a.navigator.userAgent), h = !1 || document.documentMode, i = h ? 'Internet Explorer' : g ? 'Chromium' : f ? 'Chrome' : e ? 'Safari' : d ? 'Firefox' : c ? 'Opera' : 'Unknown', j = _.copy(a.ui);
-    return j.browserSafe = i, j;
   }
 ]), FirstRevenueApp.factory('Favicon', [function () {
     var a = {
@@ -3864,15 +3837,15 @@ FirstRevenueApp.controller('AdminController', [
               status: 'accepted',
               userId: k.userId
             };
-          return console.log(h, 'saveSession inviteUpdate=', c, 'cred=', a), k.inviteRef.update(c, function (c) {
-            console.log(h, 'saveSession invite profile stored error=', c), k.rejectResolve(c, b, a);
+          return console.log(h, 'updateInviteRecord inviteUpdate=', c, 'cred=', a), k.inviteRef.update(c, function (c) {
+            console.log(h, 'updateInviteRecord invite profile stored error=', c), k.rejectResolve(c, b, a);
           }), b.promise;
         },
         saveSession: function (a) {
           var b = d.defer();
           console.log(h, 'saveSession cred=', a), console.log(h, 'saveSession user account record created');
           var c = g.mp.user.primary, e = g.mp.user.accounts[c].authentic;
-          return 'singly' === e.provider ? console.log(h, 'saveSession provider singly authUser=', e) : (console.log(h, 'saveSession openSession authUser=', e), k.fb.authClient.saveSession(k.primaryToken, e), g.authenticated = !0, k.inviteValue.models ? console.log(h, 'saveSession models=', k.inviteValue.models) : console.log(h, 'saveSession no models'), b.resolve(null)), console.log(h, 'saveSession returning promise=', b.promise), b.promise;
+          return console.log(h, 'saveSession openSession authUser=', e), k.fb.authClient.saveSession(k.primaryToken, e), g.authenticated = !0, k.inviteValue.models ? console.log(h, 'saveSession models=', k.inviteValue.models) : console.log(h, 'saveSession no models'), b.resolve(null), console.log(h, 'saveSession returning promise=', b.promise), b.promise;
         },
         inviteModels: function () {
           console.log(h, 'inviteModels userId=', k.userId);
@@ -4932,7 +4905,7 @@ FirstRevenueApp.controller('AdminController', [
               service: b.service,
               serviceId: b.serviceId,
               name: b.name,
-              image: b.image,
+              image: b.image || null,
               status: 'created',
               models: {}
             };
@@ -4954,9 +4927,9 @@ FirstRevenueApp.controller('AdminController', [
           console.log(i, 'inviteId=', a);
           var c = l.me.rootRef.child('invites').child(a), d = l.findPartner(a);
           d.inviteId = a, b && (d.inviteMsg = b), console.log(i, 'updateInvite partner=', d), l.serviceInvite(d, function (a, b) {
-            a ? console.log(i, 'invite error=', a, 'partner=', d) : b && (console.log(i, 'invite sent partner=', d), c.update({ status: 'sent' }, function (a) {
+            console.log(i, 'updateInvite sent partner=', d, 'err=', a, 'ack=', b), _.isEmpty(a) ? (console.log(i, 'invite sent partner=', d), c.update({ status: 'sent' }, function (a) {
               l.inviteCallback(a, d, 'sent');
-            }));
+            })) : console.log(i, 'invite error=', a, 'partner=', d);
           });
         },
         inviteCallback: function (a, b, c) {
@@ -5025,20 +4998,30 @@ FirstRevenueApp.controller('AdminController', [
         account: null,
         total: 0,
         friends: null,
-        sendMessage: function (a) {
+        sendMessage: function (a, b) {
           console.log('Facebook sendMessage contact=', a);
-          var b = window.location.origin || window.location.protocol + '//' + window.location.host, c = b + window.location.pathname + 'views/', d = c + 'FacebookInvitation.html', e = a.serviceId, f = {
+          var d = window.location.origin || window.location.protocol + '//' + window.location.host, e = d + window.location.pathname + 'views/', g = e + 'FacebookInvitation.html', h = a.serviceId, i = {
               name: 'Invite to collaborate on model',
               app_id: CONFIG_1ST_REVENUE.facebookClientId,
               method: 'send',
-              to: e,
-              link: d
+              to: h,
+              link: g + '?invite=' + a.inviteId
             };
           FB.getLoginStatus(function (a) {
-            'connected' === a.status ? (console.log('Facebook sendMessage fbParam=', f), FB.ui(f)) : FB.login(function (a) {
-              a.authResponse ? (console.log('Welcome!  Fetching your information.... '), FB.ui(f)) : console.log('User cancelled login or did not fully authorize.');
+            'connected' === a.status ? (console.log(c, 'sendMessage fbParam=', i), FB.ui(i, f.processMessage(b))) : FB.login(function (a) {
+              a.authResponse ? (console.log(c, 'sendMessage response=', a), FB.ui(i, f.processMessage(b))) : (console.log(c, 'User cancelled login or did not fully authorize.'), FB.ui(i, f.processMessageError(b)));
             });
           });
+        },
+        processMessage: function (a) {
+          return function (b) {
+            console.log(c, 'processMessage msgResponse=', b), a(null, b);
+          };
+        },
+        processMessageError: function (a) {
+          return function (b) {
+            console.log(c, 'processMessageError error=', b), a(b);
+          };
         },
         sendMessagePage: function (a, e) {
           console.log('Facebook sendMessage contact=', a);
@@ -5060,16 +5043,25 @@ FirstRevenueApp.controller('AdminController', [
             });
           });
         },
-        getFriends: function (b, c, d) {
-          f.me = b, f.account = c, f.me.social.loaded.facebook = !1, console.log('Facebook getFriends token=', d);
-          var g = a(e, { token: d });
-          f.friends = g.get(f.processFriends, f.queryError);
+        getFriendsNew: function (b, d, g) {
+          f.me = b, f.account = d, f.me.social.loaded.facebook = !1, console.log(c, 'getFriends token=', g);
+          var h = a(e, { token: g });
+          f.friends = h.get(f.processFriends, f.queryError), FB ? FB.getLoginStatus(function (a) {
+            'connected' === a.status ? FB.api('/me/friends?fields=id,name,username,picture,email', function (a) {
+              a.data ? f.processFriends(a) : console.log(c, 'getFriends - No friends returned');
+            }) : console.log(c, 'getFriends - User is not logged in to Facebook response=', a);
+          }) : console.log('The Facebook SDK must be initialised before showing the friend selector');
+        },
+        getFriends: function (b, d, g) {
+          f.me = b, f.account = d, f.me.social.loaded.facebook = !1, console.log(c, 'getFriends token=', g);
+          var h = a(e, { token: g });
+          f.friends = h.get(f.processFriends, f.queryError);
         },
         processFriends: function (a) {
-          console.log('Facebook processFriends friends=', a), f.me.social.contacts.facebook = f.me.social.contacts.facebook || {}, b(function () {
+          console.log(c, 'processFriends friends=', a), f.me.social.contacts.facebook = f.me.social.contacts.facebook || {}, b(function () {
             f.total = 0, f.account.contacts = f.account.contacts || { refreshed: Date.now() }, _.each(a.data, f.processFriend), console.log('Facebook processFriends facebook.total=', f.total);
             var b = f.account.profile.key, c = f.me.sync.user.accounts[b], d = c.contacts;
-            d.refreshed = Date.now(), d.total = f.total, f.me.social.loaded.facebook = !0, console.log('Facebook processFriends contacts=', f.account.contacts, 'facebook.me.social.loaded.facebook=', f.me.social.loaded.facebook, 'facebook.me.sync=', f.me.sync);
+            d.refreshed = Date.now(), d.total = f.total, f.me.social.loaded.facebook = !0, console.log('Facebook processFriends contacts=', f.account.contacts, 'facebook.me.social.loaded.facebook=', f.me.social.loaded.facebook, 'facebook.me.sync=', f.me.sync), a.paging.next;
           });
         },
         processFriend: function (a) {
@@ -5230,62 +5222,103 @@ FirstRevenueApp.controller('AdminController', [
   '$resource',
   '$timeout',
   function (a, b) {
-    var c = 'https://api.singly.com/proxy/linkedin/people/~/connections?format=json&access_token=:token&scope=r_network', d = 'https://api.singly.com/proxy/linkedin/people/~/mailbox?format=json&access_token=:token&scope=w_messages', e = {
+    var c = 'LinkedIn';
+    console.log(c, 'service launched');
+    var d = 'https://api.singly.com/proxy/linkedin/people/~/connections?callback=JSON_CALLBACK&format=json&access_token=:token&scope=r_network', e = 'https://api.singly.com/proxy/linkedin/people/~/mailbox?format=json&access_token=:token&scope=w_messages', f = {
         me: null,
         account: null,
         total: 0,
         friends: null,
         token: null,
         msg: null,
-        sendMessage: function (b, c, f) {
-          e.token = c, console.log('LinkedIn sendMessage token=', c);
-          var g = a(d, { token: c }), h = $('<div>' + b.inviteMsg.text + '</div>').text(), i = new g({
+        sendMessageREST: function (b, d, g) {
+          f.token = d, console.log(c, 'sendMessage token=', d);
+          var h = a(e, { token: d }), i = $('<div>' + b.inviteMsg.text + '</div>').text(), j = new h({
               recipients: { values: [{ person: { _path: '/people/' + b.serviceId } }] },
               subject: 'Join 1stRevenue.com',
-              body: h + ' Visit ' + b.inviteMsg.link
-            }), j = f || e.processMessage;
-          i.$save(function (a) {
-            console.log('LinkedIn processMessage msgResponse=', a), j(null, !0);
-          }, e.requestError);
+              body: i + ' Visit ' + b.inviteMsg.link
+            }), k = g || f.processMessage;
+          j.$save(function (a) {
+            console.log(c, 'processMessage msgResponse=', a), k(null, !0);
+          }, f.requestError);
         },
-        processMessage: function (a, b) {
-          console.log('LinkedIn processMessage err=', a, 'msgResponse=', b);
+        sendMessage: function (a, b, d) {
+          f.token = b, console.log(c, 'sendMessage token=', b), window.CONFIG_1ST_REVENUE.linkedinLoaded && (IN.User.isAuthorized() ? f.sendMessageCallback(a, d)() : IN.User.authorize(f.sendMessageCallback(a, d)));
         },
-        getFriends: function (b, d, f, g) {
-          e.me = b, e.account = d, e.token = f, e.me.social.loaded.linkedin = !1, console.log('LinkedIn getFriends token=', f);
-          var h = a(c, { token: f }), i = g || e.processFriends;
-          e.friends = h.get(i, e.requestError);
+        sendMessageCallback: function (a, b) {
+          return function () {
+            console.log(c, 'sendMessageCallback contact=', a);
+            var d = $('<div>' + a.inviteMsg.text + '</div>').text(), e = {
+                recipients: { values: [{ person: { _path: '/people/' + a.serviceId } }] },
+                subject: 'Join 1stRevenue.com',
+                body: d + ' Visit ' + a.inviteMsg.link
+              };
+            IN.API.Raw('/people/~/mailbox').method('POST').body(JSON.stringify(e)).result(f.processMessage(b)).error(f.processMessageError(b));
+          };
+        },
+        processMessage: function (a) {
+          return function (b) {
+            console.log(c, 'processMessage msgResponse=', b), a(null, b);
+          };
+        },
+        processMessageError: function (a) {
+          return function (b) {
+            console.log(c, 'processMessageError error=', b), a(b);
+          };
+        },
+        getFriendsREST: function (b, e, g, h) {
+          f.me = b, f.account = e, f.token = g, f.me.social.loaded.linkedin = !1, console.log(c, 'getFriends token=', g);
+          var i = a(d, { alt: 'json' }, {
+              get: {
+                method: 'JSONP',
+                params: { token: g },
+                transformResponse: function (a, b) {
+                  console.log(c, 'transformResponse data=', a, b);
+                }
+              }
+            }), j = h || f.processFriends;
+          f.friends = i.get(j, f.requestError);
+        },
+        getFriends: function (a, b, c, d) {
+          f.me = a, f.account = b, f.token = c;
+          var e = d || f.processFriends;
+          window.CONFIG_1ST_REVENUE.linkedinLoaded && (IN.User.isAuthorized() ? f.getFriendsCallback(e)() : IN.User.authorize(f.getFriendsCallback(e)));
+        },
+        getFriendsCallback: function (a) {
+          return function () {
+            console.log(c, 'getFriendsCallback'), IN.API.Connections('me').result(a);
+          };
         },
         processFriends: function (a) {
-          console.log('LinkedIn processFriends friends=', a), e.me.social.contacts.linkedin = e.me.social.contacts.linkedin || {}, b(function () {
-            e.total = 0;
-            var b = e.account.contacts = e.account.contacts || { refreshed: Date.now() };
-            _.each(a.values, e.processFriend), b.refreshed = Date.now(), b.total = e.total, e.me.social.loaded.linkedin = !0, console.log('linkedin processFriends contacts=', b, 'linkedin.me.social.loaded.linkedin=', e.me.social.loaded.linkedin, 'linkedin.me.sync=', e.me.sync);
+          console.log(c, 'processFriends friends=', a), f.me.social.contacts.linkedin = f.me.social.contacts.linkedin || {}, b(function () {
+            f.total = 0;
+            var b = f.account.contacts = f.account.contacts || { refreshed: Date.now() };
+            _.each(a.values, f.processFriend), b.refreshed = Date.now(), b.total = f.total, f.me.social.loaded.linkedin = !0, console.log(c, 'processFriends contacts=', b, 'linkedin.me.social.loaded.linkedin=', f.me.social.loaded.linkedin, 'linkedin.me.sync=', f.me.sync);
           });
         },
         processFriend: function (a) {
-          if (console.log('LinkedIn processFriend friend=', a), 'private' !== a.id) {
-            var b = e.account.contacts.partners, c = e.me.social.contacts.linkedin[a.id] = {
-                profileKey: e.account.profile.key,
+          if (console.log(c, 'processFriend friend=', a), 'private' !== a.id) {
+            var b = f.account.contacts.partners, d = f.me.social.contacts.linkedin[a.id] = {
+                profileKey: f.account.profile.key,
                 provider: 'singly',
                 service: 'linkedin',
-                id: e.account.profile.id,
+                id: f.account.profile.id,
                 serviceId: a.id,
                 name: a.firstName + ' ' + a.lastName,
                 username: null,
                 image: a.pictureUrl || null
               };
-            b && b[a.id] && (c.partner = b[a.id]), console.log('LinkedIn processFriend c=', c), e.total += 1;
+            b && b[a.id] && (d.partner = b[a.id]), console.log(c, 'processFriend c=', d), f.total += 1;
           }
         },
         processProfile: function (a) {
-          console.log('LinkedIn processProfile profile=', a);
+          console.log(c, 'processProfile profile=', a);
         },
         requestError: function (a) {
-          console.log('LinkedIn requestError error=', a);
+          console.log(c, 'requestError error=', a);
         }
       };
-    return e;
+    return f;
   }
 ]), FirstRevenueApp.factory('Twitter', [
   '$resource',
@@ -5311,5 +5344,40 @@ FirstRevenueApp.controller('AdminController', [
         }
       };
     return d;
+  }
+]), FirstRevenueApp.factory('ImpressModel', [
+  '$timeout',
+  '$window',
+  'Canvas',
+  'angularFire',
+  function (a, b, c, d) {
+    var e = 'ImpressModel';
+    console.log(e, 'service launched');
+    var f = {
+        rootRef: null,
+        masterScope: null,
+        dereg: {},
+        init: function (a, b) {
+          console.log(e, 'init'), f.rootRef = a, f.masterScope = b;
+        },
+        angularFire: function (a, b, c) {
+          console.log(e, 'angularFire name=', b, c), c = angular.isUndefined(c) ? {} : c;
+          var g = d(a, f.masterScope, b, c);
+          return g.then(function (a) {
+            console.log(e, 'angularFire callback afReady=', a), a.off && a.name ? f.dereg = a.off : g.off && (f.dereg = g.off);
+          }), g;
+        },
+        loadModel: function (a) {
+          console.log(e, 'loadModel modelId=', a);
+          var b = f.rootRef.child('models').child(a), c = f.angularFire(b, 'canvas.model');
+          c ? c.then(f.loadModelData) : console.log(e, 'loadModel angularFire failed for modelId', a);
+        },
+        loadModelData: function (d) {
+          console.log(e, 'loadModelData modelPromise resolved modelReady=', d), a(function () {
+            b.document.title = c.model.fields.name + ' - 1st Revenue Presentation', impress().init();
+          });
+        }
+      };
+    return f;
   }
 ]);
