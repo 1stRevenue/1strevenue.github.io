@@ -934,7 +934,7 @@ FirstRevenueApp.controller('AdminController', [
         var c, d, e = a.getCurrentModel();
         return d = _.find(e.users, function (c, d) {
           var e = a.sync.peers[d];
-          return b.service === e.service && b.serviceId === e.serviceId;
+          return e && b.service === e.service && b.serviceId === e.serviceId;
         }), _.isUndefined(d) && (c = _.find(e.invites, function (c, d) {
           var e = a.sync.invites[d];
           return e && !e.userId && b.service === e.service && b.serviceId === e.serviceId;
