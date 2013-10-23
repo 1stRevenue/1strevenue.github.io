@@ -1,0 +1,81 @@
+.corner-shadow::before, .corner-shadow::after {
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-ms-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+bottom: 15px;
+-webkit-box-shadow: 0 0px 0px rgba(0,0,0,0);
+-moz-box-shadow: 0 0px 0px rgba(0,0,0,0);
+box-shadow: 0 0px 0px rgba(0,0,0,0);
+
+}
+
+.guide-ribbon,
+.peer-ribbon {
+  background-image: none;
+  background-color: white;
+}
+
+/*
+.guide-ribbon {
+background-image: -webkit-gradient(linear,0 0,100% 0,from(#FFF),to(#FFF));
+background-image: -webkit-linear-gradient(left,#FFF,#FFF);
+background-image: -moz-linear-gradient(left,#FFF,#FFF);
+background-image: -ms-linear-gradient(left,#FFF,#FFF);
+background-image: -o-linear-gradient(left,#FFF,#FFF);
+background-image: linear-gradient(to right,#FFF,#FFF);
+background-repeat: repeat-y;
+filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffffffff', GradientType=0);
+}
+*/
+
+.guide-ribbon .ribbon-item-current::before {
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-ms-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-box-shadow: 0 0px 0px rgba(0,0,0,0);
+-moz-box-shadow: 0 0px 0px rgba(0,0,0,0);
+box-shadow: 0 0px 0px rgba(0,0,0,0);
+}
+
+.guide-ribbon .uservoice-icon-wide,
+.guide-ribbon .uservoice-icon-narrow {
+	background-color: #058E45;
+}
+
+/*
+.peer-ribbon {
+background-image: -webkit-gradient(linear,0 0,100% 0,from(#FFF),to(#FFF));
+background-image: -webkit-linear-gradient(right,#FFF,#FFF);
+background-image: -moz-linear-gradient(right,#FFF,#FFF);
+background-image: -ms-linear-gradient(right,#FFF,#FFF);
+background-image: -o-linear-gradient(right,#FFF,#FFF);
+background-image: linear-gradient(to left,#FFF,#FFF);
+background-repeat: repeat-y;
+filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffffffff', GradientType=0);
+}
+*/
+
+.ribbon-item:hover {
+background-color: whitesmoke;
+}
+
+.flat-nephritis,
+.flat-belizehole,
+.flat-greensea {
+color: #5A5A5A;
+} 
+
+h2 {
+	line-height: 50px;
+}
+
+.navbar-fixed-top.navbar-inverse .navbar-inner {
+  background-color: #0D643B;
+  background-image: none;
+  color: white;
+}
+
