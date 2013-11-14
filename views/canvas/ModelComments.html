@@ -64,7 +64,7 @@
   <!--div ng-repeat="comment in canvas.model.comments | orderBy:'-id'"   -->
 
   <div class="comment-count">
-    {{_.size(getComments())}} comments
+    {{getSize(getComments())}} comments
   </div>
 
   <div class="comment-list">

@@ -2,7 +2,7 @@
   <table class="table table-responsive table-striped">
     <caption>
       <h2 class="text-center">
-        {{_.size(admin.models)}} models in the database
+        {{getSize(admin.models)}} models in the database
       </h2>
     </caption>
     <thead>
@@ -30,10 +30,10 @@
         <td>{{model.fields.name}}</td>
         <td>{{model.fields.descr}}</td>
         <td>{{model.fields.pitch}}</td>
-        <td>{{_.size(model.stickers)}}</td>
-        <td>{{_.size(model.users)}}</td>
-        <td>{{_.size(model.invites)}}</td>
-        <td>{{_.size(model.comments)}}</td>
+        <td>{{getSize(model.stickers)}}</td>
+        <td>{{getSize(model.users)}}</td>
+        <td>{{getSize(model.invites)}}</td>
+        <td>{{getSize(model.comments)}}</td>
       </tr>
     </tbody>
   </table>

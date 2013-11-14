@@ -5,10 +5,10 @@
       You have not selected your partners yet.
       Please load friends and connections from one or more of your social accounts.
     </div>
-    <div ng-if="!_.isEmpty(sync.user.groups)">
+    <div ng-if="getSize(sync.user.groups) > 0">
       <div ng-include="'views/canvas/ModelUserGroups.html'"></div>
     </div>
-    <div ng-if="!_.isEmpty(sync.user.partners)">
+    <div ng-if="getSize(sync.user.partners) > 0">
       <div ng-include="'views/canvas/ModelUserPartners.html'"></div>
     </div>
     <div ng-include="'views/canvas/ModelUserSocial.html'"></div>

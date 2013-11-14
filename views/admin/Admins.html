@@ -1,5 +1,5 @@
 <div class="admin-admins flat-pomegranate">
-  <h2>{{_.size(admin.admins)}} administrators</h2>
+  <h2>{{getSize(admin.admins)}} administrators</h2>
   <div class="row">
     <div ng-repeat-start="(id, value) in admin.admins track by id"
          class="col-xs-3">

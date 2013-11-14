@@ -1,5 +1,5 @@
 <div class="admin-presence flat-nephritis">
-  <h2>{{_.size(admin.presence)}} users monitored</h2>
+  <h2>{{getSize(admin.presence)}} users monitored</h2>
   <div class="row">
     <div ng-repeat-start="(id, value) in admin.presence track by id"
          class="col-xs-3">

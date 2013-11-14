@@ -31,7 +31,7 @@
          ng-click="refreshPartnerDataset(account)"
          ng-model="tah.partners[account.profile.service]" />
   <span first-revenue-service-icon="account.profile.service"></span>
-  <span>{{_.size(account.contacts.partners)}} {{account.profile.service}} partners</span>
+  <span>{{getSize(account.contacts.partners)}} {{account.profile.service}} partners</span>
 </div>
 
 <div class="search-header">

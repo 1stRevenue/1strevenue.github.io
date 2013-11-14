@@ -2,7 +2,7 @@
      ng-class="{'canvas-side-hidden': !layout.stickerList}"
      ng-controller="StickerListController">
   <div class="sticker-count">
-    {{_.size(sync.models[canvas.modelId].stickers)}} stickers
+    {{getSize(sync.models[canvas.modelId].stickers)}} stickers
   </div>
 
   <div class="sticker-list"

@@ -15,10 +15,10 @@
       <i class="icon-remove icon-2x close-button"
          ng-click="layout.share = false"></i>
       <div class="invites-and-users">
-        <div ng-if="!_.isEmpty(sync.models[canvas.modelId].invites)">
+        <div ng-if="getSize(sync.models[canvas.modelId].invites) > 0">
           <div ng-include="'views/canvas/ModelUserInvites.html'"></div>
         </div>
-        <div ng-if="!_.isEmpty(sync.models[canvas.modelId].users)">
+        <div ng-if="getSize(sync.models[canvas.modelId].users) > 0">
           <div ng-include="'views/canvas/ModelUserList.html'"></div>
         </div>
       </div>

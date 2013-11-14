@@ -3,11 +3,11 @@
   <div class="model-editor-search-panel"
        ng-include="'views/canvas/ModelUserSearch.html'"></div>
   <div class="model-editor-user-panel">
-    <div ng-hide="_.isEmpty(social.selectedUsers)"
+    <div ng-hide="getSize(social.selectedUsers) == 0"
          ng-include="'views/canvas/ModelUserSelection.html'"></div>
-    <div ng-hide="_.isEmpty(canvas.model.invites)"
+    <div ng-hide="getSize(canvas.model.invites) == 0"
          ng-include="'views/canvas/ModelUserInvites.html'"></div>
-    <div ng-hide="_.isEmpty(canvas.model.users)"
+    <div ng-hide="getSize(canvas.model.users) == 0"
          ng-include="'views/canvas/ModelUserList.html'"></div>
   </div>
 </form>

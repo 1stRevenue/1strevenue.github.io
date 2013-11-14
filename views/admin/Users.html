@@ -1,5 +1,5 @@
 <div class="admin-users flat-belizehole">
-  <h2>{{_.size(admin.users)}} users in the database</h2>
+  <h2>{{getSize(admin.users)}} users in the database</h2>
   <div class="row">
     <div ng-repeat-start="(id, user) in admin.users track by id"
          class="col-xs-3">

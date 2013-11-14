@@ -6,7 +6,7 @@
          class="icon-chevron-sign-down"></i>
       <i ng-hide="isPickVisible('users')"
          class="icon-chevron-sign-right"></i>
-      Users ({{ _.size(sync.models[canvas.modelId].users) }})
+      Users ({{ getSize(sync.models[canvas.modelId].users) }})
     </div>
     <div class="section-help"
          ng-click="toggleHelp('users')">

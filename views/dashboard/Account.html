@@ -1,12 +1,12 @@
 <img ng-if="account.profile.service == 'facebook'"
      class="user-icon pull-right"
-     ng-src="images/signin/facebook/06161055.Logo-40x40.png" />
+     ng-src="images/signin/facebook/9bffb259.Logo-40x40.png" />
 <img ng-if="account.profile.service == 'gplus'"
      class="user-icon pull-right"
-     ng-src="images/signin/gplus/8250a9db.Logo-40x40.png" />
+     ng-src="images/signin/gplus/9a7e8789.Logo-40x40.png" />
 <img ng-if="account.profile.service == 'linkedin'"
      class="user-icon pull-right"
-     ng-src="images/signin/linkedin/07838720.Logo-40x40.png" />
+     ng-src="images/signin/linkedin/e1c2586b.Logo-40x40.png" />
 <h3 class="{{ account.profile.service }}-title-border">
   {{ firebase.providers[account.profile.service].title }}
 </h3>
@@ -34,8 +34,8 @@
     <p ng-if="account.contacts.total">
       {{ account.contacts.total }} contacts
     </p>
-    <p ng-if="_.size(account.contacts.partners) > 0">
-      {{ _.size(account.contacts.partners) }} partners
+    <p ng-if="getSize(account.contacts.partners) > 0">
+      {{ getSize(account.contacts.partners) }} partners
     </p>
   </div>
 </div>

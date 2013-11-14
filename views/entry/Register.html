@@ -21,7 +21,7 @@
        ng-show="me.error">
     <p ng-show="me.error.code">Code: <strong>{{me.error.code}}</strong></p>
     <p ng-show="me.error.message">{{me.error.message}}</p>
-    <p ng-show="_.isString(me.error)">{{me.error}}</p>
+    <p ng-show="angular.isString(me.error)">{{me.error}}</p>
   </div-->
 
   <fieldset class="well well-large register-profile container"
@@ -77,7 +77,7 @@
       </button>
     </div>
 
-    <div ng-hide="_.size(register.unusedProviders())">
+    <div ng-hide="getSize(register.unusedProviders())">
       All supported services are already connected to the account
     </div>
   </fieldset>

@@ -1,12 +1,12 @@
 <h3>Summary</h3>
 <p>
-  {{ _.size(sync.models) }} models ({{ _.size(sync.public.models) }} public)
+  {{ getSize(sync.models) }} models ({{ getSize(sync.public.models) }} public)
 </p>
 
 <p>
-  {{ _.size(sync.peers) }} peer users
+  {{ getSize(sync.peers) }} peer users
 </p>
 
 <p>
-  {{ _.size(sync.invites) }} invites sent
+  {{ getSize(sync.invites) }} invites sent
 </p>

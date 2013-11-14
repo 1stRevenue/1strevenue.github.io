@@ -45,7 +45,7 @@
                  ng-hide="sync.peers[userId].image"
                  title="{{sync.peers[userId].name}}" />
           </span>
-          <div ng-hide="_.size(canvas.model.users) > 0">
+          <div ng-hide="getSize(canvas.model.users) > 0">
             <small>(No users)</small>
           </div>
         </div>

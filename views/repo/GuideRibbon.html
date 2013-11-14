@@ -8,7 +8,7 @@
   <!--div ng-click="routeTo('people')"
        zzz-ng-click="layout.setView('contacts')"
        ng-class="{'ribbon-item-current': layout.isView('contacts')}"
-       class="ribbon-item flat-silver">
+       class="ribbon-item">
     <i class="icon-user icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Manage contacts
@@ -18,11 +18,8 @@
   <div zzz-ng-click="modal.model=true; modal.newModel=true"
        ng-click="layout.lastRepoView = layout.view; layout.setView('new')"
        ng-class="{'ribbon-item-current': layout.isView('new')}"
-       class="ribbon-item flat-pumpkin">
-    <i class="icon-plus icon-2x"></i>
-    <!--div class="add-new-model">
-      <div class="add-new-model-icon"></div>
-    </div-->
+       class="ribbon-item">
+    <i class="fa-plus icon-2x new-model-icon"></i>
     <span ng-show="layout.guide.wide">
       New model
     </span>
@@ -30,49 +27,49 @@
 
   <div ng-click="layout.setView('my')"
        ng-class="{'ribbon-item-current': layout.isView('my')}"
-       class="ribbon-item flat-belizehole">
-    <i class="icon-list-alt icon-2x"></i>
+       class="ribbon-item">
+    <i class="fa-user icon-2x"></i>
     <span ng-show="layout.guide.wide">
       My models
     </span>
-    <span class="model-count">{{ _.size(catalog.getModelIdList('my')) }}</span>
+    <span class="model-count">{{ getSize(catalog.getModelIdList('my')) }}</span>
   </div>
   <div ng-click="layout.setView('public')"
        ng-class="{'ribbon-item-current': layout.isView('public')}"
-       class="ribbon-item flat-nephritis">
-    <i class="icon-list-alt icon-2x"></i>
+       class="ribbon-item">
+    <i class="fa-users icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Public models
     </span>
-    <span class="model-count">{{ _.size(catalog.getModelIdList('public')) }}</span>
+    <span class="model-count">{{ getSize(catalog.getModelIdList('public')) }}</span>
   </div>
   <div ng-click="layout.setView('shared')"
        ng-class="{'ribbon-item-current': layout.isView('shared')}"
-       class="ribbon-item flat-greensea">
-    <i class="icon-list-alt icon-2x"></i>
+       class="ribbon-item">
+    <i class="fa-chain icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Shared with me
     </span>
-    <span class="model-count">{{ _.size(catalog.getModelIdList('shared')) }}</span>
+    <span class="model-count">{{ getSize(catalog.getModelIdList('shared')) }}</span>
   </div>
   <div ng-click="layout.setView('all')"
        ng-class="{'ribbon-item-current': layout.isView('all')}"
-       class="ribbon-item flat-wetasphalt">
-    <i class="icon-list-alt icon-2x"></i>
+       class="ribbon-item">
+    <i class="fa-th icon-2x"></i>
     <span ng-show="layout.guide.wide">
       All models
     </span>
-    <span class="model-count">{{ _.size(catalog.getModelIdList('all')) }}</span>
+    <span class="model-count">{{ getSize(catalog.getModelIdList('all')) }}</span>
   </div>
 
-  <div ng-click="layout.setView('projects')"
+  <!--div ng-click="layout.setView('projects')"
        ng-class="{'ribbon-item-current': layout.isView('projects')}"
        class="ribbon-item flat-concrete">
-    <i class="icon-briefcase icon-2x"></i>
+    <i class="fa-briefcase icon-2x"></i>
     <span ng-show="layout.guide.wide">
       Projects
     </span>
-  </div>
+  </div-->
 
   <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>

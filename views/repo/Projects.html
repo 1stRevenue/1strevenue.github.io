@@ -6,7 +6,7 @@
       <div ng-repeat="project in sync.user.projects">
         <div>Name: {{project.name}}</div>
       </div>
-      <div ng-if="_.size(sync.user.projects) == 0">
+      <div ng-if="getSize(sync.user.projects) == 0">
         No projects found
       </div>
       <p>Projects lets you group all the canvases related to a project into one folder.

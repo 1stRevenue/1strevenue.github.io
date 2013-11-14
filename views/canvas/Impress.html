@@ -49,7 +49,7 @@
 
           <div ng-include="'views/canvas/BMG.html'"
                onLoad="purpose = canvas.bmg.getBlockPurpose(blockId)"
-               ng-show="_.size(getStickers(blockId)) == 0">
+               ng-show="getSize(getStickers(blockId)) == 0">
           </div>
 
           <div ng-include="'views/canvas/Block.html'"></div>

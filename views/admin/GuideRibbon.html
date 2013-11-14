@@ -28,7 +28,7 @@
     <span ng-show="layout.guide.wide">
       Presence
     </span>
-    <span class="model-count">{{ _.size(admin.presence) }}</span>
+    <span class="model-count">{{ getSize(admin.presence) }}</span>
   </div>
   <div ng-click="layout.setView('users')"
        ng-class="{'ribbon-item-current': layout.isView('users')}"
@@ -37,7 +37,7 @@
     <span ng-show="layout.guide.wide">
       Users
     </span>
-    <span class="model-count">{{ _.size(admin.users) }}</span>
+    <span class="model-count">{{ getSize(admin.users) }}</span>
   </div>
   <div ng-click="layout.setView('admins')"
        ng-class="{'ribbon-item-current': layout.isView('admins')}"
@@ -46,7 +46,7 @@
     <span ng-show="layout.guide.wide">
       Admins
     </span>
-    <span class="model-count">{{ _.size(admin.admins) }}</span>
+    <span class="model-count">{{ getSize(admin.admins) }}</span>
   </div>
   <div ng-click="layout.setView('models')"
        ng-class="{'ribbon-item-current': layout.isView('models')}"
@@ -55,7 +55,7 @@
     <span ng-show="layout.guide.wide">
       Models
     </span>
-    <span class="model-count">{{ _.size(admin.models) }}</span>
+    <span class="model-count">{{ getSize(admin.models) }}</span>
   </div>
   <div ng-click="layout.setView('invites')"
        ng-class="{'ribbon-item-current': layout.isView('invites')}"
@@ -64,7 +64,7 @@
     <span ng-show="layout.guide.wide">
       Invites
     </span>
-    <span class="model-count">{{ _.size(admin.invites) }}</span>
+    <span class="model-count">{{ getSize(admin.invites) }}</span>
   </div>
 
   <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>

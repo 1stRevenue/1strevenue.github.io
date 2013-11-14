@@ -1,20 +1,20 @@
 <div ng-hide="auth.accepted">
-  <h2>Sign in to the 1st Revenue with one of your social accounts:</h2>
+  <h3>Sign in with one of your social accounts:</h3>
   <div class="signin-button">
-    <img ng-src="images/signin/facebook/45d6eb5a.Signin-246x54.png"
-         ng-click="auth.launchLogon('simple', 'facebook')" />
+    <img ng-src="images/signin/facebook/492a1ed4.Signin-246x54.png"
+         ng-click="auth.launchLogonPopup('simple', 'facebook')" />
   </div>
   <div class="signin-button">
-    <img ng-src="images/signin/linkedin/442e6927.Signin-246x54.png"
+    <img ng-src="images/signin/linkedin/ddf6ab2d.Signin-246x54.png"
          ng-click="auth.launchLogon('singly', 'linkedin')" />
   </div>
   <div class="signin-button">
-    <img ng-src="images/signin/gplus/a81dc389.Signin-246x54.png"
+    <img ng-src="images/signin/gplus/bf1d33e9.Signin-246x54.png"
          ng-click="auth.launchLogon('singly', 'gplus')" />
   </div>
 
   <div>
-    <label class="checkbox">
+    <label>
       <input type="checkbox"
              ng-model="auth.rememberMe" />
       Remember the selected account
@@ -28,13 +28,13 @@
 
 <!--div ng-repeat="(key, pr) in register.fb.providers | orderBy:seq"
      class="signin-button">
-  <img ng-src="images/signin/facebook/45d6eb5a.Signin-246x54.png"
+  <img ng-src="images/signin/facebook/492a1ed4.Signin-246x54.png"
        ng-show="key == 'facebook'"
        ng-click="auth.launchLogon('simple', 'facebook')" />
-  <img ng-src="images/signin/linkedin/442e6927.Signin-246x54.png"
+  <img ng-src="images/signin/linkedin/ddf6ab2d.Signin-246x54.png"
        ng-show="key == 'linkedin'"
        ng-click="auth.launchLogon('singly', 'linkedin')" />
-  <img ng-src="images/signin/gplus/a81dc389.Signin-246x54.png"
+  <img ng-src="images/signin/gplus/bf1d33e9.Signin-246x54.png"
        ng-show="key == 'gplus'"
        ng-click="auth.launchLogon('singly', 'gplus')" />
 </div-->

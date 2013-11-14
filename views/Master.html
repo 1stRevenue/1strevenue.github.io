@@ -1,6 +1,11 @@
 <div ng-controller="MasterController"
      ng-class="{'ios-full-screen': layout.isFullScreen(), 'guide-wide': layout.guide.wide, 'peer-wide': layout.peer.wide}">
-  <header ng-include src="'views/Header.html'"></header>
+  <header ng-if="me.authenticated">
+    <div ng-include src="'views/Header.html'"></div>
+  </header>
+  <header ng-if="!me.authenticated">
+    <div ng-include src="'views/entry/Header.html'"></div>
+  </header>
   <div class='first-revenue'>
     <div ng-view class='views'></div>
     <div class="rrrr-image"

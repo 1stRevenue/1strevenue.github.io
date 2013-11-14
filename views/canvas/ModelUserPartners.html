@@ -5,7 +5,7 @@
        class="icon-chevron-sign-down"></i>
     <i ng-hide="isPickVisible('partners')"
        class="icon-chevron-sign-right"></i>
-    Partners ({{ _.size(sync.user.partners) }})
+    Partners ({{ getSize(sync.user.partners) }})
   </div>
   <div class="section-help"
        ng-click="toggleHelp('partners')">

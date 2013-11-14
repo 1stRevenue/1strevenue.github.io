@@ -1,9 +1,9 @@
 <div ng-controller="HeaderController">
-  <div class="navbar navbar-inverse navbar-fixed-top corner-shadow">
+  <div class="navbar navbar-inverse navbar-fixed-top zzz-corner-shadow">
     <!--a href="/#/canvas/new"
        ng-show="menu.selected == 'repo'">
       <img class="canvas-icon pg-create-canvas"
-           ng-src="images/253a5a8a.BMG-Canvas-Plus2-Gray-62x38.png"
+           ng-src="images/9b56da8c.BMG-Canvas-Plus2-Gray-62x38.png"
            title="Create New Model" />
     </a-->
 
@@ -17,7 +17,8 @@
         <img class="company-logo"
              title="Visit the home page of 1st Revenue"
              zzz-ng-src="images/1stRevenue.com-bright.png"
-             ng-src="images/0ba901d6.first-revenue-green-logo.png" />
+             zzz-ng-src="images/first-revenue-green-logo.png"
+             ng-src="images/c81eb6e6.1st-revenue-script-logo-white.png" />
       </a>
 
       <div class="pull-right"
@@ -34,9 +35,21 @@
         <img class="header-model-icon"
              ng-show="canvas.model.fields.icon"
              ng-src="{{canvas.model.fields.icon}}" />
-        <div class="navbar-brand header-model-name">
-          {{canvas.model.fields.name}}
+        <!--div contenteditable="true"
+             class="navbar-brand header-model-name"
+             ng-model="canvas.model.fields.name">
+        </div-->
+        <div class="navbar-brand header-model-name"
+              ng-hide="modelNameEditing"
+              ng-click="modelNameEditing = true; $('input.header-model-name')[0].focus()">
+             {{ canvas.model.fields.name }}
         </div>
+        <input type="text"
+               ng-show="modelNameEditing"
+               size="{{canvas.model.fields.name.length}}"
+               class="header-model-name"
+               ng-blur="modelNameEditing = false"
+               ng-model="canvas.model.fields.name">
         <img class="canvas-icon"
              zzz-style="background-color: lightgray;"
              ng-src="icons/zoom/Zoom-{{zoom.choice}}-transp.png"
@@ -45,36 +58,35 @@
              ng-show="layout.zoom"
              title="Select Zoom Level" />
       </div>
-
     </div>
 
-      <!--span class="corner-menu pull-left">
-        <a ng-click="popup.toggle('slider')">&#9776;</a>
-      </span-->
-      <!--img class="first-revenue-logo"
-           src="images/1R-red-white.png"
-           style="height: 38px;"
-           ng-click="popup.toggle('version')" /-->
+    <!--span class="corner-menu pull-left">
+      <a ng-click="popup.toggle('slider')">&#9776;</a>
+    </span-->
+    <!--img class="first-revenue-logo"
+         src="images/1R-red-white.png"
+         style="height: 38px;"
+         ng-click="popup.toggle('version')" /-->
 
-      <!--div class="navbar-brand pull-right"
-           ng-show="model"
-           style="float: right"
-           title="Current Business Model: {{canvas.model.name}}">
-        {{canvas.model.name}}
-      </div-->
+    <!--div class="navbar-brand pull-right"
+         ng-show="model"
+         style="float: right"
+         title="Current Business Model: {{canvas.model.name}}">
+      {{canvas.model.name}}
+    </div-->
 
-      <!--a href="javascript:UserVoice.showPopupWidget();"
-         title="Open feedback and support dialog (powered by UserVoice)">
-        <img class="first-revenue-feedback"
-             src="images/glyph/glyphicons_346_hand_left_white.png" />
-      </a-->
+    <!--a href="javascript:UserVoice.showPopupWidget();"
+       title="Open feedback and support dialog (powered by UserVoice)">
+      <img class="first-revenue-feedback"
+           src="images/glyph/glyphicons_346_hand_left_white.png" />
+    </a-->
 
-      <!--div class="container header-buttons">
+    <!--div class="container header-buttons">
 
-        <div ng-include="'views/header/Menu.html'"></div>
-        <div ng-include="'views/header/Buttons.html'"></div>
+      <div ng-include="'views/header/Menu.html'"></div>
+      <div ng-include="'views/header/Buttons.html'"></div>
 
-      </div-->
+    </div-->
   </div>
 
   <div ng-include="'views/header/Version.html'"></div>
