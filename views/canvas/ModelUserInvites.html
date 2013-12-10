@@ -29,7 +29,7 @@
   <div class="user-list-body"
        ng-show="isPickVisible('invites')">
     <div ng-repeat="(inviteId, inviteValue) in sync.models[canvas.modelId].invites track by inviteId"
-         ng-show="sync.invites[inviteId].status!=='accepted'"
+         ng-show="sync.invites[inviteId] && sync.invites[inviteId].status!=='accepted'"
          class="user-list-item">
       <button class="btn btn-default btn-sm delete-button"
               ng-class="{'hidden-button': !showInviteRemoveButton(inviteId)}"
@@ -54,40 +54,39 @@
 
       <button class="btn btn-success btn-sm invite-button"
               ng-click="social.updateInvite(inviteId)"
-              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'facebook'">
+              ng-if="isInviteButtonVisible('facebook', inviteId)">
         Invite
       </button>
       <button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
               class="btn btn-success btn-sm invite-button"
-              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'gplus'">
+              ng-if="isInviteButtonVisible('gplus', inviteId)">
         Invite
       </button>
       <button class="btn btn-success btn-sm invite-button"
               zzz-data-toggle="modal"
               zzz-data-target="#modalLinkedIn"
               ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
-              ng-if="sync.invites[inviteId].status=='created' && sync.invites[inviteId].service == 'linkedin'">
+              ng-if="isInviteButtonVisible('linkedin', inviteId)">
         Invite
       </button>
 
-      <button class="btn btn-primary btn-sm invite-button"
+      <button class="btn btn-primary btn-sm notify-button"
             zzz-ng-disabled="true"
             ng-click="social.updateInvite(inviteId)"
-            ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'facebook'">
+            ng-if="isNotifyButtonVisible('facebook', inviteId)">
         Notify
       </button>
       <button first-revenue-gapi-interactive-post="{{sync.invites[inviteId].serviceId}}"
-              class="btn btn-primary btn-sm invite-button"
+              class="btn btn-primary btn-sm notify-button"
               zzz-ng-disabled="true"
-              ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'gplus'">
+              ng-if="isNotifyButtonVisible('gplus', inviteId)">
         Notify
       </button>
-      <button class="btn btn-primary btn-sm invite-button"
+      <button class="btn btn-primary btn-sm notify-button"
               zzz-data-toggle="modal"
               zzz-data-target="#modalLinkedIn"
-              zzz-ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
               ng-click="social.launchLinkedInModal(inviteId, sync.invites[inviteId])"
-              ng-if="sync.invites[inviteId].status=='sent' && sync.invites[inviteId].service == 'linkedin'">
+              ng-if="isNotifyButtonVisible('linkedin', inviteId)">
         Notify
       </button>
     </div>

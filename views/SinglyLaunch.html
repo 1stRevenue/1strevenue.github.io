@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <title>1st Revenue Singly redirect</title>
     <script src="../scripts/vendor/winchan/73acf0c4.winchan.js"></script>
+    <!--- To handle window closing WinChan may need updates from
+          https://github.com/seanmonstar/browserid/commit/1fa1570afa118d64374af12646c076d9aad61f5f -->
   </head>
   <body>
     <script>
@@ -16,8 +18,12 @@
           url += sep + param + '=' + encodeURIComponent(params[param]);
           sep = '&';
         }
+        console.log('SinglyLaunch WinChan.onOpen origin=', origin, 'r=', r, 'url=', url);
 
-        wc.detach();
+//        cb({
+//          WinChan: 'Launching ' + url
+//        });
+        wc.detach(); // needs detach to replace the window.location
         window.location = url;
       });
     </script>

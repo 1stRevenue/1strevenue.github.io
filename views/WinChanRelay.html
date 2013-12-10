@@ -2,6 +2,7 @@
 <html>
   <script>
     function doPost(msg, origin) {
+      console.log('WinChanRelay doPost msg=', msg, 'origin=', origin);
       window.parent.postMessage(msg, origin);
     }
   </script>

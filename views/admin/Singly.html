@@ -1,36 +1,36 @@
-<div class="admin-invites flat-greensea">
-  <h2>{{getSize(admin.invites)}} invites in the database</h2>
+<div class="admin-singly flat-turquoise">
+  <h2>{{getSize(admin.singly)}} Singly accounts in the database</h2>
   <div class="row">
-    <div ng-repeat-start="(id, invite) in admin.invites track by id"
+    <div ng-repeat-start="(id, singlyAccount) in admin.singly track by id"
          class="col-xs-3">
       <div class="thumbnail">
         <span class="pull-left">
-          <img ng-src="{{invite.image}}"
+          <img ng-src="{{singlyAccount.image}}"
                class="user-icon"
-               ng-show="invite.image"
+               ng-show="singlyAccount.image"
                title="{{invite.name}}" />
           <img ng-src="images/bbf82395.light_avatar_small.png"
                class="user-icon"
-               ng-hide="invite.image"
-               title="{{invite.name}}" />
+               ng-hide="singlyAccount.image"
+               title="{{singlyAccount.name}}" />
         </span>
-        <h4>{{invite.name}}</h4>
+        <h4>{{singlyAccount.name}}</h4>
         <div>
           <div>
             <img class="admin-favicon" src="favicon.ico" />
             {{id}}
           </div>
           <div>
-            <span first-revenue-service-icon="invite.service"></span>
-            {{invite.serviceId}}
+            <span first-revenue-service-icon="singlyAccount.service"></span>
+            {{singlyAccount.serviceId}}
           </div>
           <div>
-            Status: <strong>{{invite.status}}</strong>
+            Status: <strong>{{singlyAccount.status}}</strong>
           </div>
           <div>
-            <span ng-show="invite.userId">
+            <span ng-show="singlyAccount.userId">
               User Id:
-              <strong>{{invite.userId}}</strong>
+              <strong>{{singlyAccount.userId}}</strong>
             </span>
           </div>
         </div>

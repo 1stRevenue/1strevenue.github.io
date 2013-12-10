@@ -25,6 +25,7 @@
   <div class="user-list-body"
        ng-show="isPickVisible('users')">
     <div ng-repeat="(userId, userValue) in sync.models[canvas.modelId].users track by userId"
+         ng-show="sync.peers[userId]"
          class="user-list-item">
       <button class="btn btn-default btn-sm delete-button"
               zzz-ng-class="{'hidden-button': userId === me.userId}"

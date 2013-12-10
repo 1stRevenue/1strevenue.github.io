@@ -1,8 +1,17 @@
-<div ng-hide="auth.accepted">
+<div ng-hide="me.authInProgress">
   <h3>Sign in with one of your social accounts:</h3>
+
+  <!--fb:registration redirect_uri={your-redirect-uri} /-->
+  <div class="fb-registration"
+       data-redirect_uri="...."></div>
+  <iframe src="https://www.facebook.com/plugins/registration?client_id=456109224430372&redirect_uri=http://prototype.1strevenue.com/1R/FacebookRedirect.html"
+          width="600"
+          target="_self">
+  </iframe>
+
   <div class="signin-button">
     <img ng-src="images/signin/facebook/492a1ed4.Signin-246x54.png"
-         ng-click="auth.launchLogonPopup('simple', 'facebook')" />
+         ng-click="auth.launchLogon('simple', 'facebook')" />
   </div>
   <div class="signin-button">
     <img ng-src="images/signin/linkedin/ddf6ab2d.Signin-246x54.png"
@@ -11,6 +20,14 @@
   <div class="signin-button">
     <img ng-src="images/signin/gplus/bf1d33e9.Signin-246x54.png"
          ng-click="auth.launchLogon('singly', 'gplus')" />
+  </div>
+
+  <div class="signin-button">
+    <div id="googleSignInButton"
+         class="zzz-g-signin"
+         data-width="wide"
+         data-height="tall"
+         data-theme="dark"></div>
   </div>
 
   <div>
@@ -22,7 +39,7 @@
   </div>
 </div>
 
-<h2 ng-show="auth.accepted">
+<h2 ng-show="me.authInProgress">
   Sign in launched...
 </h2>
 

@@ -6,7 +6,8 @@
       <div ng-include src="'views/entry/Welcome.html'"></div>
     </div>
     <div ng-switch-when="signin">
-      <div ng-include="'views/entry/Signin.html'"></div>
+      <div ng-include="'views/entry/Signin.html'"
+           onload="renderGoogleButton()"></div>
     </div>
     <div ng-switch-when="register">
       <div ng-include="'views/entry/Register.html'"></div>

@@ -1,6 +1,7 @@
 <div ng-include src="'views/canvas/GuideRibbon.html'"></div>
 
 <div class="first-revenue-canvas"
+     ng-if="me.modelsLoaded"
      ng-class="{'public-canvas': isPublicModel(), 'read-only-canvas': !isModelEditable()}">
   <div ng-if="layout.showCanvas()"
        ng-class="{'canvas-editor': layout.editor.sticker, 'canvas-side': layout.showSideView()}">

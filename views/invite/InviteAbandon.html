@@ -1,27 +1,54 @@
 <div ng-if="!me.mp.wasCurrentUserInvited(invite.inviteValue)">
-  <div class="alert alert-error alert-block">
+  <div class="alert alert-danger alert-block">
     <p>There's a previous 1st Revenue session for this browser
       with a different account:</p>
     <p>
       <strong>{{me.mp.lastUser.name}}</strong>
       ({{me.mp.getService()}}-{{me.mp.getServiceId()}})
     </p>
+    <p>
+      <button class="btn btn-danger"
+              ng-show="service"
+              ng-click="invite.abandonSession()">
+        Abandon
+      </button>
+      the existing session
+    </p>
   </div>
   <div class="alert alert-info alert-block">
     <p>
-      Abandon the existing session, sign in as
-      <strong>{{ invite.inviteValue.name }}</strong>
-      and accept the new invite
+      To abandon the existing {{ service }} session, you have to
+      <ul>
+        <li>
+          <button class="btn btn-danger"
+                  ng-show="service"
+                  ng-click="invite.abandonSession()">
+            Abandon
+          </button>
+          the existing 1st Revenue session
+        </li>
+        <li>Sign out as from {{ service }} as <strong>{{ me.mp.lastUser.name }}</strong></li>
+        <li>Sign in to {{ service }} again as <strong>{{ invite.inviteValue.name }}</strong></li>
+        <li>Then
+          <button class="btn btn-danger"
+                  ng-show="service"
+                  ng-click="invite.reloadPage()">
+            Reload
+          </button>
+          the invite URL again
+        </li>
+        <li>And accept the invite as <strong>{{ invite.inviteValue.name }}</strong></li>
+      </ul>
     </p>
-    <p>
+    <!--p>
       <button class="btn btn-primary"
               ng-show="service"
               ng-click="invite.acceptInvite(service)">
         Accept invite
       </button>
-    </p>
-    <p>
+    </p-->
+    <!--p>
       You need to sign out from your current {{ service }} account or launch the invite URL from a different browser
-    </p>
+    </p-->
   </div>
 </div>

@@ -20,6 +20,8 @@
           .split('&')[0]
           .split('=')[1];
 
+        console.log('SinglyRedirect WinChan.onOpen origin=', origin, 'r=', r,
+            'firebase=', firebase, 'access_token=', access_token, 'account=', account);
         cb({
           hash: window.location.hash,
           firebase: firebase,

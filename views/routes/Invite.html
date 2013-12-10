@@ -1,30 +1,63 @@
-<h2>Invite to collaborate on the 1st Revenue</h2>
-<div ng-include src="'views/invite/InviteSummary.html'"></div>
+<div class="scrolling-view">
+  <h2>Invite to collaborate on the 1st Revenue</h2>
+  <div ng-include src="'views/invite/InviteSummary.html'"></div>
 
-<div ng-if="!invite.loaded"
-     class="alert alert-info alert-block">
-  Loading the invite...
-</div>
-
-<div ng-if="invite.loaded">
-  <div ng-include src="'views/invite/InviteAccepted.html'"></div>
-
-  <div ng-if="invite.inviteValue.status != 'accepted'">
-    <div ng-include src="'views/invite/InviteAccept.html'"></div>
-
-    <div ng-if="!invite.completed && me.sessionFound">
-      <div ng-include src="'views/invite/InviteContinue.html'"></div>
-      <div ng-include src="'views/invite/InviteAbandon.html'"></div>
-      <div ng-include src="'views/invite/InviteIgnore.html'"></div>
-    </div>
+  <div ng-if="!invite.loaded"
+       class="alert alert-info alert-block">
+    Loading the invite...
   </div>
-</div>
 
-<div ng-show="invite.completed"
-     class="alert alert-success alert-block">
-  <p>Invite has been completed</p>
-</div>
+  <div ng-if="invite.loaded && !invite.completed">
+    <div ng-if="!invite.inviteValue"
+         class="alert alert-danger alert-block">
+      The invite with code <strong>{{inviteId}}</strong> does not exist anymore
+    </div>
 
-<div ng-show="invite.error">
-  <div ng-include src="'views/invite/InviteError.html'"></div>
+    <div ng-if="invite.inviteValue.status == 'accepted'">
+      <div ng-include src="'views/invite/InviteAccepted.html'"></div>
+    </div>
+
+    <div ng-if="invite.inviteValue.status != 'accepted' && invite.inviteValue.type == 'personal'">
+
+      <div ng-if="me.sessionFound">
+        <div ng-include src="'views/invite/InviteContinue.html'"></div>
+        <div ng-include src="'views/invite/InviteAbandon.html'"></div>
+        <div ng-include src="'views/invite/InviteIgnore.html'"></div>
+      </div>
+
+      <div ng-if="!me.sessionFound">
+        <div ng-include src="'views/invite/InviteAcceptPersonal.html'"></div>
+      </div>
+
+      <!--div ng-if="!me.sessionFound">
+        <div ng-if="invite.inviteValue.type == 'personal'">
+          <div ng-include src="'views/invite/InviteAcceptPersonal.html'"></div>
+        </div>
+        <div ng-if="invite.inviteValue.type == 'open' || invite.inviteValue.type == 'single'">
+          <div ng-include src="'views/invite/InviteAccept.html'"></div>
+        </div>
+      </div-->
+
+    </div>
+
+    <div ng-if="invite.inviteValue.status != 'accepted' && invite.inviteValue.type == 'single' || invite.inviteValue.type == 'open'">
+      <div ng-if="me.sessionFound">
+        <div ng-include src="'views/invite/InviteAccept.html'"></div>
+      </div>
+
+      <div ng-if="!me.sessionFound">
+        <div ng-include src="'views/invite/InviteChooseAccount.html'"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div ng-if="invite.completed"
+       class="alert alert-success alert-block">
+    <p>Invite has been completed</p>
+  </div>
+
+  <div ng-if="invite.error">
+    <div ng-include src="'views/invite/InviteError.html'"></div>
+  </div>
 </div>

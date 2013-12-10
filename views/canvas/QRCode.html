@@ -1,4 +1,11 @@
 <div class="model-qr-code"
-     ng-class="{'model-qr-code-visible': layout.qrCode}"
-     id="qrcode">
+     ng-class="{'model-qr-code-visible': layout.qrCode}">
+  <!--a href="#/canvas/{{ canvas.modelId }}" -->
+  <div class="canvas-link-title">Share link to model:</div>
+  <div class="canvas-link">
+    <a href="{{ getCanvasURL() }}">{{ getCanvasURL() }}</a>
+  </div>
+  <a href="{{ getCanvasURL() }}">
+    <div id="qrcode"></div>
+  </a>
 </div>

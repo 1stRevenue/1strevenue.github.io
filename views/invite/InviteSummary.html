@@ -15,9 +15,12 @@
     </a>
   </p>
   <p>The invite code is <strong>{{inviteId}}</strong></p>
-  <p ng-if="invite.inviteValue">
+  <p ng-if="invite.inviteValue.name">
     This invite was sent to:
     <strong>{{ invite.inviteValue.name }}</strong>
     ({{ invite.inviteValue.service }}-{{ invite.inviteValue.serviceId }})
+  </p>
+  <p ng-if="invite.inviteValue.type == 'open' || invite.inviteValue.type == 'single'">
+    This invite is open to anybody who knows its link
   </p>
 </div>

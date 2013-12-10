@@ -6,7 +6,8 @@
   <header ng-if="!me.authenticated">
     <div ng-include src="'views/entry/Header.html'"></div>
   </header>
-  <div class='first-revenue'>
+  <div class='first-revenue'
+       ng-class="{'first-revenue-entry': !me.authenticated}">
     <div ng-view class='views'></div>
     <div class="rrrr-image"
          ng-show="rrrr.launching">

@@ -11,23 +11,27 @@
        data-mode="{{editor.stickerId == 0}}">
     <div>
       <label>Title</label>
-      <h4 class="field-title"
+      <!--h4 class="field-title"
           ng-class="{modified: !editor.matchTitle(editor.sticker)}"
-          contenteditable="true"
+          zzz-contenteditable="true"
           ng-model="editor.sticker.title"
           style="background-color: #{{rainbow.opaqueField(editor.sticker.color)}}">
-      </h4>
+        {{ editor.sticker.title }}
+      </h4-->
+      <input type="text"
+             class="field-title"
+             style="background-color: #{{rainbow.opaqueField(editor.sticker.color)}}"
+             ng-model="editor.sticker.title">
     </div>
 
     <div>
       <label>Notes</label>
       <div class="field-notes"
            ng-class="{modified: !editor.matchNotes(editor.sticker)}"
-           xx-ng-bind-html-unsafe="editor.sticker.notes"
+           zzz-ng-bind-html="editor.sticker.notes"
            contenteditable="true"
            ng-model="editor.sticker.notes"
-           style="background-color: #{{rainbow.opaqueField(editor.sticker.color)}}">
-      </div>
+           style="background-color: #{{rainbow.opaqueField(editor.sticker.color)}}"></div>
     </div>
 
     <!-- jsFiddle for triangle: http://jsfiddle.net/mohsen/HTMcF/

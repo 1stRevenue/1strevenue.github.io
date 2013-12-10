@@ -17,8 +17,12 @@
           url += sep + param + '=' + encodeURIComponent(params[param]);
           sep = '&';
         }
+        console.log('FacebookLaunch WinChan.onOpen origin=', origin, 'r=', r, 'url=', url);
 
-        wc.detach();
+        cb({
+          WinChan: 'Launching ' + url
+        });
+        wc.detach(); // needs detach to replace the window.location
         window.location = url;
       });
     </script>

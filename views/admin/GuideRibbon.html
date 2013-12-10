@@ -66,6 +66,15 @@
     </span>
     <span class="model-count">{{ getSize(admin.invites) }}</span>
   </div>
+  <div ng-click="layout.setView('singly')"
+       ng-class="{'ribbon-item-current': layout.isView('singly')}"
+       class="ribbon-item flat-turquise">
+    <i class="icon-list-alt icon-2x"></i>
+    <span ng-show="layout.guide.wide">
+      Singly
+    </span>
+    <span class="model-count">{{ getSize(admin.singly) }}</span>
+  </div>
 
   <div ng-include src="'views/ribbon/LicenseIcon.html'"></div>
   <div ng-include src="'views/ribbon/Uservoice.html'"></div>
